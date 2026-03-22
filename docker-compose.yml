@@ -1,0 +1,8 @@
+services:
+  llm-pipeline:
+    build:
+      context: .
+      dockerfile: llm_pipeline/Dockerfile
+    container_name: llm-pipeline
+    working_dir: /app/llm_pipeline
+    command: ["python", "agent.py"]
