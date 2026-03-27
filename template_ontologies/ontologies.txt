@@ -1,0 +1,17 @@
+Linked GTFS ontology github: https://github.com/OpenTransport/linked-gtfs
+You can look at the gtfs.ttl file
+
+
+
+For the iCity ontology, instead of downloading a .ttl or .owl file, you do the following:
+1. Open Protege
+2. Click on File
+3. Click Open from URL
+4. Paste the IRI of the iCity ontology
+
+Now the iCity ontology is a bit more confusing, instead of having just one ontology that you open, there are multiple IRIs.
+The basic ontology: http://ontology.eil.utoronto.ca/icity/OTN/
+The Urban System ontology: http://ontology.eil.utoronto.ca/icity/UrbanSystem/
+The Activity Ontolgy: http://ontology.eil.utoronto.ca/icity/UrbanSystem/
+
+Usually you would load the other ontologies together
