@@ -14,10 +14,10 @@ def route_after_validation(state: PipelineState) -> str:
         return "end"
 
     if state.get("failed_validation"):
-        return "relation_extraction"
+        return "entity_linking"
 
     if state.get("missing_relations"):
-        return "entity_extraction"
+        return "extraction"
 
     if state.get("low_confidence"):
         return "coreference_resolution"

@@ -3,13 +3,13 @@ from __future__ import annotations
 from typing import Dict, List, Literal, TypedDict
 
 from .document import Document, NormalizedDocument, ResolvedDocument
-from .entities import Attribute, CanonicalEntity, Entity, Relation
+from .entities import Triplet
 
 
 RouteTarget = Literal[
     "coreference_resolution",
-    "entity_extraction",
-    "relation_extraction",
+    "extraction",
+    "entity_linking",
     "end",
 ]
 
@@ -18,10 +18,7 @@ class PipelineState(TypedDict, total=False):
     document: Document
     normalized_document: NormalizedDocument
     resolved_document: ResolvedDocument
-    entities: List[Entity]
-    canonical_entities: List[CanonicalEntity]
-    relations: List[Relation]
-    attributes: List[Attribute]
+    triplets: List[Triplet]
     mapped_graph: Dict[str, List[Dict[str, str]]]
     ontology_draft: Dict[str, List[Dict[str, str]]]
     inferred_ontology: Dict[str, List[Dict[str, str]]]

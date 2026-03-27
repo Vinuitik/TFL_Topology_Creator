@@ -20,8 +20,7 @@ metadata = {"source": "demo", "date": "2026-03-20", "domain": "film"}
 
 The agent returns a pipeline state dictionary that aims to produce:
 
-- extracted entities (and canonicalized entities)
-- extracted relations and attributes
+- extracted triplets (subject, predicate, object) via REBEL, with canonicalized entity spans
 - mapped graph representation
 - ontology draft and inferred ontology
 - validated ontology and validation errors
@@ -38,22 +37,20 @@ The graph in `agent.py` connects states in this order:
 1. input_ingestion
 2. text_normalization
 3. coreference_resolution
-4. entity_extraction
+4. extraction
 5. entity_linking
-6. relation_extraction
-7. attribute_extraction
-8. schema_mapping
-9. ontology_construction
-10. reasoning
-11. validation
+6. schema_mapping
+7. ontology_construction
+8. reasoning
+9. validation
 
 After validation, a conditional router decides whether to:
 
 - end the run, or
 - loop back to one of:
   - coreference_resolution
-  - entity_extraction
-  - relation_extraction
+  - extraction
+  - entity_linking
 
 This feedback loop supports iterative refinement when confidence is low, relations are missing, or validation fails.
 
@@ -62,15 +59,13 @@ This feedback loop supports iterative refinement when confidence is low, relatio
 1. `input_ingestion`: start with a document and run counter.
 2. `text_normalization`: clean text and split it for downstream processing.
 3. `coreference_resolution`: replace pronouns with known entities while keeping original spans.
-4. `entity_extraction`: detect entities and assign confidence.
-5. `entity_linking`: merge duplicate mentions into canonical entities.
-6. `relation_extraction`: create links between entities and flag weak/missing links.
-7. `attribute_extraction`: pull datatype-like facts (for example years).
-8. `schema_mapping`: place extracted data into ontology-aligned buckets. Embeddings or RAG to find current relative schema and change or create new one.
-9. `ontology_construction`: convert mapped data into triple-like statements.
-10. `reasoning`: add inferred facts from existing triples.
-11. `validation`: check quality constraints and collect errors.
-12. `feedback_router`: decide whether to finish or rerun selected states.
+4. `extraction`: run REBEL to extract (subject, predicate, object) triplets covering entities, relations, and attributes in one pass.
+5. `entity_linking`: canonicalize entity spans appearing across triplets.
+6. `schema_mapping`: place triplets into ontology-aligned buckets. Embeddings or RAG to find current relative schema and change or create new one.
+7. `ontology_construction`: convert mapped triplets into triple-like statements.
+8. `reasoning`: add inferred facts from existing triples.
+9. `validation`: check quality constraints and collect errors.
+10. `feedback_router`: decide whether to finish or rerun selected states.
 
 ## Scope Note
 
