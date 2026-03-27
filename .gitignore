@@ -1,0 +1,3 @@
+.mcp-debug-tools/
+.venv/
+__pycache__/
