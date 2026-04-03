@@ -1,0 +1,342 @@
+
+
+EU Regulation 1371/2007 on Rail Passengers’ Rights and Obligations (the EU regulation) became law in Great Britain (GB) on 4 December 2009.
+
+Allowable exemptions were put in place for domestic services by the government for 2 periods of 5 years under SI 2009/2970 (PDF, 45KB) and under SI 2014/2793 (PDF, 35KB).
+
+All parts of the EU regulation came into effect from 4 December 2019 when the second, 5 year GB exemption expired for domestic services.
+
+The United Kingdom (UK) left the European Union on 31 January 2020. The EU regulation was assimilated into UK law and modified by The Rail Passengers’ Rights and Obligations (Amendment) (EU Exit) Regulations 2018 (the exit SI). The resulting Regulation (EC) No 1371/2007 of the European Parliament and of the Council of 23 October 2007 on rail passengers’ rights and obligations (Retained EU Legislation) (the regulation) is part of UK domestic law.
+
+This guidance is intended to assist:
+
+    railway undertakings (passenger train operators) including charter train operators
+    station managers
+    rail ticket vendors
+    tour operators (where incorporating relevant rail travel elements in the tour package)
+    passenger representative bodies
+
+Although the regulation is applicable across the UK, these notes relate only to the law in England, Scotland and Wales. In Northern Ireland (NI), the regulation applies subject to NI regulation, as railways are devolved to NI.
+
+It should be noted that only the courts can give a definitive interpretation of the legislation and these notes do not change the obligations or rights created by the regulation itself or any statutory instruments associated with the regulation.
+What the regulation intends to do
+
+The regulation is aimed at enhancing and strengthening the rights of rail passengers particularly in the areas of information and ticketing provision, compensation and assistance, and provides rights for disabled persons and persons with reduced mobility. It also contains provision for the enforcement of those rights.
+Services covered by the regulation
+
+The regulation covers UK passenger services and stations.
+
+The regulation applies to all rail journeys and services throughout the UK provided by ‘railway undertakings’ which hold a licence to run services in GB under regulation 5 of the Railway (Licensing of Railway Undertakings) Regulations 2005 or services in NI under regulation 43 of the Railways Infrastructure (Access, Management and Licensing of Railway Undertakings) Regulations (Northern Ireland) 2016.
+
+A ‘railway undertaking’ includes both public and private entities, such as public and private sector train operating companies, as well as any other entity which seeks to provide transport of goods and/or passengers by rail on the basis that the undertaking must ensure traction. This includes undertakings which provide traction only.
+
+The obligations on ‘station managers’ apply to those station operators who hold a station licence (issued under the Railways Act 1993). It is important to note that, under Regulation 17 of the Rail Passengers’ Rights and Obligations Regulations 2010, operators of rail link stations along the Channel Tunnel Rail Link (for which a licence is not required from the ORR) are also bound by the obligations on ‘station managers’ set out in the regulation.
+
+A full list of all of the types of railway services (including those mentioned above) which are licensed is shown on the Office of Rail and Road website.
+
+There are also obligations on ticket vendors, and tour operators who are selling packages including a rail journey to which the Regulation applies.
+Provisions in the regulation
+
+Listed below are the provisions contained in the regulation:
+
+    articles 1- 3 cover subject matter, scope and definitions
+    article 4: transport contract
+    article 5: bicycles
+    article 6: exclusion of waiver and stipulation of limits
+    article 7: information regarding discontinuance of services
+    article 8: information for passengers
+    article 9: availability of tickets, through tickets and reservations
+    article 10: travel information and reservation systems
+    article 11: liability for passengers and luggage
+    article 12: insurance
+    article 13: advance payments of compensation to those injured or the dependants of those killed in an accident
+    article 14: assistance in seeking compensation from third parties when a railway undertaking contests its own liability for an accident
+    article 15: compensation in the event of delays, missed connections and cancellations
+    article 16: reimbursement and re-routing in the event of delays
+    article 17: compensation of the ticket price (refunds in the case of delays)
+    article 18: assistance to passengers in the event of delays (such as meals, possible alternative transport and hotel accommodation)
+    articles 19 and 20(1): rights of passengers with reduced mobility
+    article 20 (2): rights of passengers with reduced mobility
+    article 21: accessibility of stations and rolling stock
+    article 22: assistance for persons with reduced mobility at stations
+    article 23: assistance for persons with reduced mobility on trains
+    article 24: conditions under which assistance is provided
+    article 25: compensation in respect of mobility equipment – removal of any limits to liability
+    article 26: Personal security of passengers
+    article 27: complaints handling
+    article 28: service quality standards
+    article 29: information to passengers about their rights
+    article 30: enforcement
+
+What you are required to do
+
+You should read the regulation itself and associated annexes and if in doubt over the interpretation, you should seek independent legal advice. However, the following paragraphs set out general guidance about the requirements of the regulation.
+
+The regulation contains an annex (Annex 1) Extract from Uniform Rules concerning the contract for international carriage of passengers and luggage by rail (CIV). It covers:
+
+    conclusion and performance of the contract of carriage
+    carriage of hand luggage, animals, registered luggage and vehicles
+    liability of the carrier
+    liability of the passenger
+    assertion of rights
+    relations between carriers
+
+Transport contract
+
+Article 4 of the regulation means that, except where overridden by the regulation itself, the transport contract, provision of information to passengers and the conditions associated with tickets will be governed by titles II and III of annex I to the regulation. This is an extract from the contract for international carriage of passengers and luggage by rail (CIV) and consists of appendix A of the convention concerning international carriage by rail as modified 3rd June 1999 and normally referred to as COTIF.
+
+Title II covers the contract for carriage for passengers and contains 6 COTIF articles including article:
+
+    6 which refers to the contract of carriage
+    7 which refers to tickets
+    8 which refers to payments for carriage
+    9 which refers to the right to be carried and exclusion from carriage
+    10 which refers to administrative formalities (customs etc)
+    11 which refers to cancellation and late running and missed connections (requirement to certify the circumstances on a ticket)
+
+Title III covers carriage of luggage, animals and vehicles.
+Bicycles
+
+Article 5 explains that railway undertakings must allow passengers to bring bicycles on trains – but only if this does not adversely affect the rail service and if the rolling-stock permits. This could include restrictions during busy times on the service. A charge may be made for carrying the bicycle. Similar requirements are in the National Rail Conditions of Travel (PDF, 1MB).
+
+Annex II of the regulation also says that railway undertakings and/or ticket vendors must provide pre-journey information on accessibility and access conditions for bikes.
+Exclusion of waiver and stipulation of limits
+
+Article 6 means that obligations under the regulation cannot be limited by the transport contract with the passenger but railway undertakings can offer contract conditions more favourable to the passenger than required by the regulation.
+Information regarding discontinuance of services
+
+Article 7 explains that advance notice must be given regarding the discontinuance of services. In GB this is already mandated by the closure process under the Railways Act 2005. Railway closures guidance is available.
+
+There are also timetabling provisions in licences which require operators to participate in the timetabling process so that Network Rail can publish changes to the timetable, and also contractual obligations in National Rail contracts and / or services agreements provide timely information about changes to services.
+Information for passengers
+
+Article 8 places an obligation on railway undertakings and separately, ticket vendors working on their behalf, to provide on request specified information prior to travel. Ticket vendors working on their own account and tour operators must provide the same information where available. The specified information is set out in annex II of the regulation and includes:
+
+    general conditions applicable to the contract
+    time schedules and conditions for the fastest trip
+    time schedules and conditions for the lowest fares
+    accessibility, access and availability of facilities for people with disabilities and people with reduced mobility
+    accessibility and access conditions for bicycles
+    availability of seats in smoking and non-smoking accommodation (not applicable in GB)
+    any activities likely to disrupt/delay services
+    availability of on-board services
+    procedures for reclaiming lost luggage
+    procedures for the submission of complaints
+
+Availability of tickets, through tickets and reservations
+
+Article 9 of the regulation sets out the requirement on railway undertakings and ticket vendors to offer, where available, tickets, through tickets, and reservations. It also sets out a requirement on railway undertakings to make the tickets available through at least 1 of 3 distribution points of sale:
+
+    ticket office or selling machines
+    telephone, the internet or any other widely available information technology
+    on board trains
+
+If the service is operated under public service contracts (such as under a National Rail contract or services agreement agreed with the Department for Transport or devolved administrations) railway undertakings must make tickets available through at least 1 of 2 distribution channels:
+
+    ticket office or selling machines
+    on board trains
+
+Where tickets are not on sale at the station, information must be made available to passengers about how they can purchase their ticket and also about the nearest railway station or place at which ticket offices or selling machines are available.
+
+In most cases it will be obvious which is the nearest station with ticket office or selling machine facilities but in the case of doubt, railway undertakings should consider the station that is likely to be of most help to the passenger (such as most likely to be able to sell the passenger the ticket he or she wants) and the ease of getting to that station. There is no reason why the information provided (most likely to be a poster) cannot give the details of more than one station.
+Travel information and reservation systems
+
+Article 10 mandates the use of a Computerised Information and Reservation System for Rail Transport (CIRSRT).  The technical specification for this is governed by the National Technical Specification Notice (NTSN) relating to the subsystem ‘telematics applications for passenger services’. The NTSN is published by the Secretary of State pursuant to regulation 3B of the Railways (Interoperability) Regulations 2011 setting out the standards, technical specifications and technical rules in use in the UK.
+
+This article limits the ability to disclose personal information on individual bookings to other railway undertakings or ticket vendors (except for statutory disclosure requirements for example to certain law enforcement authorities including the police).
+Liability for passengers and luggage
+
+Annex I to the regulation is an excerpt from the uniform rules concerning the CIV annexed to the COTIF. Article 11 draws elements of the CIV into the standard contract between passengers and railway undertakings.
+
+These CIV provisions set out rules on railway undertakings’ liabilities in the event of a passenger’s death or personal injury and damage to luggage and animals. These introduce in most cases liability rules that are stricter than those normally applying under English or Scottish law. The British courts do not have a ceiling on damages that can be awarded in the event of death or personal injury, and this is not affected, except in certain respects concerning compensation for damage to registered luggage. Limits are excluded where the damage was caused intentionally or recklessly. The regulation also includes special rules about the burden of proof, presumptions, interest and liability for the acts of others.
+
+Several of the changes that affected railway undertakings were implemented through changes to the National Rail Conditions of Travel and the intra-industry Claims Allocation and Handling Agreement (CAHA) in 2009. The latter is a well-established way for passengers to make a claim and to ensure that claims handling is co-ordinated within the industry. Passengers can continue to contact any operator or the CAHA registrar about their claims, which will be dealt with by the appropriate body. The CAHA registrar can be contacted at lesley.stephenson@caharegistrar.co.uk or on telephone 01908 543627.
+Insurance
+
+Article 12 makes provision for insisting on adequate insurance, but does not set an amount. This is a requirement of train operators’ licences. ORR’s guidance (PDF, 514KB) is available.
+Advance payments of compensation to those injured or the dependants of those killed in an accident
+
+Article 13 mandates the provision of immediate financial assistance in the event of an accident. The regulation places responsibility on railway undertakings to offer immediate financial assistance but this can be provided through Network Rail or existing industry arrangements.
+Assistance in seeking compensation from third parties when a railway undertaking contests its own liability for an accident
+
+Article 14 aligns with current GB practice (under CAHA) and mandates that where a railway undertaking contests its own liability for an accident, it will make every effort to assist a passenger in making a claim.
+Compensation in the event of delays, missed connections and cancellations
+
+Article 15 draws CIV provisions from annex 1: chapter II of title IV. It provides that the carrier shall be liable to the passenger for the loss or damage resulting from the fact that the journey cannot be continued on the same day. The damages under this regulation shall comprise the reasonable costs of accommodation and the reasonable cost occasioned by having to notify people expecting the passenger. UK law shall determine whether any further damages shall be due.
+
+There are limitations to liability where the late running, cancellation or missed connection was the result of:
+
+    circumstances not connected with the operation of the railway which the carrier could not avoid
+    fault on the part of the passenger
+    behaviour of a third party (outside the railway industry)
+
+However, there are no limitations on railway undertakings obligations to their passengers in respect of compensation of the ticket price and assistance requirements set out in articles 16 to 18. This means that railway undertakings are obliged to give passengers compensation or assistance even in situations which they consider are outside of their, or the rail industry’s control.
+Reimbursement and re-routing
+
+Article 16 of the regulation means that where there is a reasonable expectation that a delay will lead to arrival at the final destination 60 minutes or more late, passengers may either choose to have a:
+
+    refund of the fare when the journey will no longer serve the passenger’s originally planned purpose. The refund will include the return journey where appropriate
+
+or
+
+    continuation or re-routing under comparable transport conditions to the final destination at the earliest opportunity
+
+or
+
+    continuation or re-routeing under comparable transport conditions to the final destination at a later date at the passenger’s convenience
+
+Compensation of the ticket price (refunds in the case of delays)
+
+Article 17 sets minimum compensation on railway undertakings in the event of delays to the journey (and where the passenger has not been reimbursed under Article 16), these are:
+
+    25% of the ticket price for a delay of 60 to 119 minutes
+    50% for a delay of 120 minutes or more
+
+Where a passenger has a return ticket, the calculation for a delay on one leg will be half the return fare paid.
+
+However, in GB, Delay Repay (DR) compensation schemes are in place in respect of most operators (where they provide passenger railway services pursuant to a national rail contract or services agreement with the Department for Transport) that provide compensation for delays.
+
+Voucher payments are acceptable, but where a passenger requests cash, this must be paid.
+
+The compensation must be paid within a month of the compensation request and no administration or similar fee may be deducted. The regulation allows for a minimum threshold before compensation is paid, but this must not exceed £3.50. At present Delay Repay does not allow for such a minimum threshold.
+
+The passenger will not have a right to compensation when they are informed of the delay before buying their ticket or if the delay is less than 60 minutes due to continuation on a different service or re-routing.
+
+The CIV states at title IV, article 32 that there are limits on liability of railway undertakings for delays, cancellations or re-routing, for instance where the cause of the delay was not in the control of the railway undertaking. However, the provisions of the CIV are specifically subject to the provisions of article 15 in the regulation, which provide lower limits on that liability, and as such the railway undertaking cannot avoid or limit liability in those circumstances.
+
+The European Court of Justice (ECJ) considered this in the context of the EU regulation in 2013 (before the UK left the EU), and ruled that due to the wording of the EU regulation, and the way in which the CIV was incorporated into EU law by the EU regulation, that the EU regulation took precedence over the CIV, and so railway undertakings could not make use of the limits on their liability in the CIV if the journey was covered by the EU regulation instead. Therefore, railway undertakings in the UK were not able to avoid or limit their liability for delays, cancellations or re-routing using the provisions of the CIV. The UK left the European Union on 31 January 2020 and the EU regulation was assimilated into UK law and modified by the exit SI.
+
+In general, the Supreme Court and High Court (acting as an appeals court) will not be bound by any assimilated EU case law. However, this interpretation by the ECJ of the EU regulation may be persuasive to UK courts interpreting the regulation unless there is a reason to depart from the decision. Whilst any final determination is a matter to be considered and decided by UK courts, in each case, the court would need to apply the same approach as when it considers departing from its own caselaw.
+Assistance to passengers in the event of delays (such as meals, possible alternative travel and hotel accommodation)
+
+As set out in article 18, in the event of a delay, passengers must be kept informed of the situation by the railway undertaking or by the station manager including current estimated departure and arrival times as soon as such information is available.
+
+In the case of delays over 60 minutes, the passenger shall be offered free of charge:
+
+    meals and refreshments in reasonable relation to the waiting time if these are available on the train or station or can be reasonably[footnote 1] supplied
+    hotel or other accommodation and transport between the station and the accommodation in cases where a stay of one or more nights becomes necessary, when physically possible
+    transport from the train to the station if the train is blocked on the track, to an alternative departure point or the final destination of the service, where physically possible
+
+Where the railway service cannot be provided, the railway undertakings shall provide alternative transport as soon as possible.
+
+Where there is disruption, the railway undertaking shall certify the same on the ticket when requested by the passenger.
+
+When discharging these duties, the railway undertaking shall pay particular attention to the needs of people with a disability and others with reduced mobility.
+Rights of disabled passengers and passengers with reduced mobility
+
+Article 19 mandates the establishment of non-discriminatory access rules for the transport of disabled persons and persons with reduced mobility for both railway undertakings and stations managers.
+
+GB passenger train operators’ licences and SNRPs include an obligation to have an accessible travel policy (ATP). Compliance with this licence condition will discharge the obligation in article 19(1).
+
+Article 19 also mandates that disabled persons and people with reduced mobility should be offered reservations and tickets at no additional cost and that, other than when this is strictly necessary to comply with the access requirements above, disabled persons and people with reduced mobility should not be required to be accompanied by another person.
+
+Reservations and tickets at ‘no additional cost’ should mean that disabled passengers and passengers with reduced mobility do not pay more than other passengers in order to buy tickets and make reservations.
+
+Article 20(1) states that on request, railway undertakings, ticket vendors and tour operators will be expected to tell potential passengers about the accessibility of trains to be used on services and the facilities on board. Whilst it is accepted that rolling stock may have to be substituted on occasion, passengers should be given the best information available to assist in their travel planning even if this has to include caveats about the limitations of that information as per ATP requirements.
+Information for disabled passengers and passengers with reduced mobility where the right to travel is refused
+
+In these circumstances, where requested, article 20(2) explains that railway undertakings, ticket vendors and tour operators should notify in writing to the disabled passenger or passengers with reduced mobility the reason for refusal to travel.
+Accessibility of stations and rolling stock
+
+Article 21 requires:
+
+1) compliance with the  national technical specifications notices (NTSNs) relating to accessibility (ACC), formerly known as persons with reduced mobility (PRM).
+
+2) that in the absence of accompanying on-train staff or staff at a station, railway undertakings and station operators shall make all reasonable efforts to enable people with reduced mobility or people with disabilities to travel by rail.
+
+In practice station operators and railway undertakings are obliged to comply with the Technical Specification for Interoperability when introducing new facilities or engaging in major refurbishment works. Operators who have received a dispensation for parts of their rolling stock under the TSI must comply with the TSI for those elements for which no dispensation has been given.
+
+With regards to staffing and reasonable efforts to enable passengers with reduced mobility or disabled passengers to travel, train operators and station managers will already have in place an ATP which sets out how they plan to comply with this requirement.
+Assistance for disabled passengers and passengers with reduced mobility at stations
+
+Article 22 of the regulation means that staffed stations the station manager shall provide assistance with boarding or alighting trains for people with reduced mobility or people with disabilities. This assistance shall be provided free of charge.
+
+At unstaffed stations railway undertakings and station managers shall make easily available information regarding the nearest staffed station and directly available assistance for people with reduced mobility and people with disabilities.
+
+Refer to section 4, A2.4.5 of the ORR’s ATP Guidance for Train and Station Operators  which goes further than the requirements of the regulation.
+Assistance for disabled passengers and passengers with reduced mobility on trains
+
+Article 23 requires provision of free of charge assistance whilst:
+
+    on the train
+    boarding or alighting
+
+The railway undertaking must make all reasonable efforts to allow people with reduced mobility and people with disabilities to have independent access to train facilities (catering for example). Again, current ATPs should be consistent with or compliant with this article.
+Conditions under which assistance is provided
+
+Article 24 imposes a duty on railway undertakings, station managers, ticket vendors and tour operators to co-operate to provide assistance. Notification of the need for assistance should be given at least 48 hours before it is needed, but if no such notification is made the railway undertaking and station manager are required to make all reasonable efforts to provide assistance.
+
+Beyond the requirements of the regulation, the ORR’s Accessible Travel Policy guidance at A.1.2 provides that railway undertakings ask for no more than 2 hours’ notice (as of 1 April 2022) in respect of domestic journeys and not more than 48 hours for international journeys.
+
+It should be noted that this guidance goes beyond the requirements contained in the regulation. Passenger train operators and station operators are obliged as part of their licence conditions to establish and comply with an accessible travel policy having regard to the ORR’s accessible travel policy.
+
+Where a ticket permits multiple journeys (for example a season ticket) one notification shall be sufficient to trigger the arrangement of assistance on all relevant journeys provided that the person requiring assistance provides adequate information on the timing of journeys. This may require some railway undertakings to change the way that they deal with regular travellers as it will not be acceptable to insist that a passenger books assistance each time that they require it.
+
+If a disabled person or person with reduced mobility fails to notify the railway undertaking or station provider of their need for assistance, the railway undertaking or station manager is still required to make all reasonable efforts to provide assistance so that they can still travel (PDF, 794KB)..
+
+The station manager should designate a point or points within and outside the station at which people with reduced mobility or people with disabilities can announce their arrival (at least 30 minutes before the published departure time) and, if need be, request assistance. If possible, a time should be agreed with the railway undertaking or station manager providing such assistance not more than 60 minutes before the published departure time or the time at which passengers are asked to check in (PDF, 794KB).
+Compensation in respect of mobility equipment – removal of any limits to liability
+
+Article 25 means that where a railway undertaking is liable for loss of or damage to mobility or other special equipment, there is no cap on the financial compensation payable.
+Personal security of passengers
+
+Article 26 mandates that railway authorities, infrastructure managers and stations managers shall take adequate measures to ensure passengers’ personal security in railway stations and on trains. Provided that the railway authorities, infrastructure managers and stations managers have a current police services agreement, they will be deemed to have discharged their duties in this respect.
+Complaints handling
+
+Article 27 explains that railway undertakings shall set up a complaint handling mechanism for rights and obligations covered by this regulation. They also need to publicise the contact details.
+
+The railway undertaking shall respond within one month – though there is some scope for holding replies should there be good reasons why a response cannot be provided earlier. In that case the date can be extended to 3 months from the date of complaint.
+
+The railway undertaking shall publish in its annual report on service quality the:
+
+    number and categories of received complaints
+    processed complaints
+    response time
+    improvement actions undertaken
+
+Railway undertakings have an obligation to handle passenger complaints, and this is set out in their passenger licence. The passenger licence requires each railway undertaking to have a complaints handling procedure, which sets out how passengers can raise complaints with them. The complaints handling procedures must comply with ORR’s Complaints Code of Practice.
+
+If a passenger believes that a railway undertaking, ticket vendor, station manager, or tour operator has infringed the regulation, they should initially complain to that party. Should this not lead to a satisfactory outcome, the passenger may take their complaint to the Rail Ombudsman, London TravelWatch or Transport Focus, as appropriate.
+Service quality standards
+
+Article 28 means that railway undertakings are required to set out minimum service quality standards (as set out in Annex III) in respect of:
+
+    information and tickets
+    punctuality of services, and general principles to cope with disruptions to services
+    cancellation of services
+    cleanliness of rolling stock and station facilities (air quality in carriages, hygiene of sanitary facilities etc)
+    customer satisfaction survey
+    complaints handling, refunds and compensation for non compliance with service quality standards
+    assistance provided to disabled persons and persons with reduced mobility
+
+In most cases, this information is currently published as part of a passenger train operator’s passenger’s charter, accessible travel policy or in their reports at least annually.
+
+Railway undertakings will have to publish an annual service quality report. This will have to be made available on the railway undertaking’s website. Prior to the exit SI, the annual service quality report also needed to be published on the website of the European Agency for Railways. This is no longer necessary under the regulation.
+
+Guidance produced by the Office of Rail and Road (‘Reference guide for ORR Core Data compliance reporting - April 2025 to March 2026’) (PDF, 852.9KB) sets out the procedure to be followed for publication and notification to the ORR and further detail of what the report should include.
+Information to passengers about their rights
+
+Article 29 mandates the provision of information to passengers about their rights under this regulation. The national rail conditions of travel are an appropriate means of advising passengers of their rights but rail operators, station managers and tour operators will need to ensure that passengers are aware of and have access to copies.
+
+Railway undertakings and station managers must also inform passengers of the contact details of Transport Focus and London TravelWatch. It is expected that this will be done by using the existing system of advising passengers of the complaints handling procedures as currently displayed on trains, at stations and on websites. They should also provide details of the ORR as the enforcer of the regulation.
+Enforcement
+
+As required by article 30 of the regulation, the Office of Rail and Road (ORR) has been designated as the national enforcement body by virtue of SI 2010/1504.
+
+With the exception of article 26, all of the elements will be enforced by ORR through the relevant operators’ licences. For those entities which are not licensed by ORR, such as tour operators and ticket vendors and together with equivalent entities associated with the Channel Tunnel Rail Link, ORR will use enforcement mechanisms which mirror those available for licence enforcement. These mechanisms and ORR’s licence enforcement policy is available.
+
+Article 26 will be enforced using the normal legal processes for failing to comply with a statutory duty. The core test for compliance is the existence of a valid current police services agreement with the British Transport Police Authority.
+
+Some requirements under the regulation sit under existing rail passenger services contracts between passenger train operators and the Secretary of State for Transport, Welsh ministers or Scottish ministers and regulated industry arrangements such as the ticketing and settlement agreement. Those authorities will continue to carry out their monitoring roles as now, liaising with ORR as appropriate.
+
+An impartial independent Rail Ombudsman was established by the industry in November 2018 to investigate and rule on unresolved customer complaints about train companies and rail service providers who participate in the scheme. A passenger should, in the first instance, complain to the service provider but, if dissatisfied with that response, they can then take their case to the Rail Ombudsman. The ombudsman will seek to find a solution that both sides can agree to but, if that’s not possible, can make a decision which is binding on the service provider but not the passenger.
+
+The ORR  modified licence conditions to make it a requirement for passenger train operators and Network Rail to be members of the Rail Ombudsman scheme. The Rail Ombudsman’s remit covers complaints about the quality of service. It cannot look into complaints about industry policies or regulations but will transfer these cases to Transport Focus or London TravelWatch as appropriate.
+
+By virtue of the same statutory instrument (The Rail Passengers’ Rights and Obligations Regulations 2010, Part 3, regulation 18) , Transport Focus and London TravelWatch are designated as the official complaints handling bodies for the purposes of this regulation. They are responsible for handling complaints from passengers about breaches of the rights and obligations set out in the PRO, and will report to ORR on industry-wide and systemic issues.
+
+It should be noted that ticket vendors, railway undertakings, station managers and tour operators are obliged to inform passengers of their rights under this regulation by virtue of article 29. ##Footnotes
+
+    Reasonable will depend on the circumstances. Railway undertakings will be expected to behave with a degree of flexibility in respect of their passenger’s individual circumstances. However, railway undertakings are not expected to behave unreasonably, for example, where disruption is causing delays to a very large number of passengers, it may not be possible to distribute refreshments to a large number of passengers. In such circumstances railway undertakings should put in place reasonable procedures to allow them properly to discharge this duty which may include, for example, a voucher system. ↩
+
+Back to top 

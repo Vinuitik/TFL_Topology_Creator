@@ -1,3 +1,4 @@
 .mcp-debug-tools/
 .venv/
 __pycache__/
+.claude
