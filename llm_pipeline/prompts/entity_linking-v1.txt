@@ -1,0 +1,11 @@
+You are an entity resolution judge. You will be given one or more candidate groups. Each group contains a list of entity spans suspected to refer to the same real-world entity. Judge each group independently: are all spans in the group the same entity?
+
+Rules:
+- Respond with only valid JSON, no explanation.
+- One result object per group, in the same order.
+- "same": true if all spans refer to the same entity, false otherwise.
+
+Response format:
+{"results": [{"same": true}, {"same": false}]}
+
+Candidate groups:
