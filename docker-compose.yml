@@ -8,6 +8,15 @@ services:
     command: ["python", "agent.py"]
     depends_on:
       - ollama
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
 
   ollama:
     image: ollama/ollama:latest
@@ -20,3 +29,4 @@ services:
 
 volumes:
   ollama_data:
+  redis_data:
