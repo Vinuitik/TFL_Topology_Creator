@@ -13,15 +13,21 @@
 #################################################################
 
 ###  http://example.org/tfl#belongsToLine
-:belongsToLine rdf:type owl:ObjectProperty .
+:belongsToLine rdf:type owl:ObjectProperty ;
+               rdfs:domain :LineSegment ;
+               rdfs:range <http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj> .
 
 
 ###  http://example.org/tfl#hasEndStation
-:hasEndStation rdf:type owl:ObjectProperty .
+:hasEndStation rdf:type owl:ObjectProperty ;
+               rdfs:domain :LineSegment ;
+               rdfs:range <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> .
 
 
 ###  http://example.org/tfl#hasStartStation
-:hasStartStation rdf:type owl:ObjectProperty .
+:hasStartStation rdf:type owl:ObjectProperty ;
+                 rdfs:domain :LineSegment ;
+                 rdfs:range <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> .
 
 
 ###  http://webprotege.stanford.edu/R5vX3rRQHCFUQRqsCJpU7U
