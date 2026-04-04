@@ -6,11 +6,23 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#> .
 
-<urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49> rdf:type owl:Ontology .
+<http://example.org/tfl> rdf:type owl:Ontology .
 
 #################################################################
 #    Object Properties
 #################################################################
+
+###  http://example.org/tfl#belongsToLine
+:belongsToLine rdf:type owl:ObjectProperty .
+
+
+###  http://example.org/tfl#hasEndStation
+:hasEndStation rdf:type owl:ObjectProperty .
+
+
+###  http://example.org/tfl#hasStartStation
+:hasStartStation rdf:type owl:ObjectProperty .
+
 
 ###  http://webprotege.stanford.edu/R5vX3rRQHCFUQRqsCJpU7U
 <http://webprotege.stanford.edu/R5vX3rRQHCFUQRqsCJpU7U> rdf:type owl:ObjectProperty ;
@@ -121,6 +133,10 @@
 #################################################################
 #    Classes
 #################################################################
+
+###  http://example.org/tfl#LineSegment
+:LineSegment rdf:type owl:Class .
+
 
 ###  http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg
 <http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg> rdf:type owl:Class ;
