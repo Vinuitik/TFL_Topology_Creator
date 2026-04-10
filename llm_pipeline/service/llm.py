@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import re
+import time
 from pathlib import Path
 from typing import Any
 
@@ -11,8 +13,11 @@ import requests
 log = logging.getLogger(__name__)
 
 _PROMPTS_DIR = Path(__file__).parent.parent / "prompts"
-_OLLAMA_URL = "http://ollama:11434/api/generate"
-_MODEL = "deepseek-r1:7b"
+_OLLAMA_URL = os.getenv("OLLAMA_URL", "http://ollama:11434/api/generate")
+_MODEL = os.getenv("OLLAMA_MODEL", "gemma4:e4b")
+_TIMEOUT_SEC = float(os.getenv("OLLAMA_TIMEOUT_SEC", "45"))
+_MAX_RETRIES = int(os.getenv("OLLAMA_MAX_RETRIES", "2"))
+_BACKOFF_SEC = float(os.getenv("OLLAMA_BACKOFF_SEC", "1.5"))
 
 
 def _find_latest_prompt(state_name: str) -> Path:
@@ -51,17 +56,34 @@ def call_llm(state_name: str, params: str) -> Any:
 
     full_prompt = prompt_path.read_text(encoding="utf-8") + params
 
-    response = requests.post(
-        _OLLAMA_URL,
-        json={
-            "model": _MODEL,
-            "prompt": full_prompt,
-            "stream": False,
-            "options": {"temperature": 0},
-        },
-    )
-    response.raise_for_status()
-    raw = response.json()["response"]
-    log.debug("LLM raw response: %r", raw)
+    payload = {
+        "model": _MODEL,
+        "prompt": full_prompt,
+        "stream": False,
+        "options": {"temperature": 0},
+    }
 
-    return _parse_json(raw)
+    last_exc: Exception | None = None
+    for attempt in range(1, _MAX_RETRIES + 1):
+        try:
+            response = requests.post(_OLLAMA_URL, json=payload, timeout=_TIMEOUT_SEC)
+            response.raise_for_status()
+            raw = response.json().get("response", "")
+            log.debug("LLM raw response: %r", raw)
+            return _parse_json(raw)
+        except (requests.RequestException, ValueError) as exc:
+            last_exc = exc
+            if attempt >= _MAX_RETRIES:
+                break
+            sleep_s = _BACKOFF_SEC * attempt
+            log.warning(
+                "LLM call failed for state=%s attempt=%d/%d: %s; retrying in %.1fs",
+                state_name,
+                attempt,
+                _MAX_RETRIES,
+                exc,
+                sleep_s,
+            )
+            time.sleep(sleep_s)
+
+    raise RuntimeError(f"LLM call failed for state='{state_name}' after {_MAX_RETRIES} attempts") from last_exc

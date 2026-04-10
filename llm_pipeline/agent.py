@@ -50,6 +50,7 @@ def build_graph() -> Any:
             "coreference_resolution": "coreference_resolution",
             "extraction": "extraction",
             "entity_linking": "entity_linking",
+            "schema_mapping": "schema_mapping",
             "end": END,
         },
     )
@@ -57,12 +58,18 @@ def build_graph() -> Any:
     return graph.compile()
 
 
-def run_pipeline(raw_text: str, metadata: Dict[str, str] | None = None) -> PipelineState:
+def run_pipeline(
+    raw_text: str,
+    metadata: Dict[str, str] | None = None,
+    rag_catalog: Dict[str, Any] | None = None,
+) -> PipelineState:
     app = build_graph()
     initial_state: PipelineState = {
         "document": Document(raw_text=raw_text, metadata=metadata or {}),
         "iteration": 0,
     }
+    if rag_catalog:
+        initial_state["rag_catalog"] = rag_catalog
     result = app.invoke(initial_state)
     return result
 

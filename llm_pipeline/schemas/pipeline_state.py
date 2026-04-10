@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Dict, List, Literal, TypedDict
+from typing import Any, Dict, List, Literal, TypedDict
 
 from .document import Document, NormalizedDocument, ResolvedDocument
 from .entities import Triplet
@@ -10,6 +10,7 @@ RouteTarget = Literal[
     "coreference_resolution",
     "extraction",
     "entity_linking",
+    "schema_mapping",
     "end",
 ]
 
@@ -19,11 +20,17 @@ class PipelineState(TypedDict, total=False):
     normalized_document: NormalizedDocument
     resolved_document: ResolvedDocument
     triplets: List[Triplet]
-    mapped_graph: Dict[str, List[Dict[str, str]]]
-    ontology_draft: Dict[str, List[Dict[str, str]]]
-    inferred_ontology: Dict[str, List[Dict[str, str]]]
-    validated_ontology: Dict[str, List[Dict[str, str]]]
+    rag_catalog: Dict[str, Any]
+    mapped_graph: Dict[str, Any]
+    ontology_draft: Dict[str, List[Dict[str, Any]]]
+    inferred_ontology: Dict[str, List[Dict[str, Any]]]
+    validated_ontology: Dict[str, List[Dict[str, Any]]]
     validation_errors: List[str]
+    validation_report: Dict[str, Any]
+    entity_linking_stats: Dict[str, Any]
+    inferred_triples_count: int
+    linking_conflicts: int
+    unmapped_predicates: List[str]
     low_confidence: bool
     missing_relations: bool
     failed_validation: bool

@@ -6,6 +6,16 @@ services:
     container_name: llm-pipeline
     working_dir: /app/llm_pipeline
     command: ["python", "agent.py"]
+    environment:
+      OLLAMA_MODEL: gemma4:e4b
+      OLLAMA_EMBED_MODEL: gemma4:e4b
+      OLLAMA_TIMEOUT_SEC: 45
+      OLLAMA_MAX_RETRIES: 2
+      OLLAMA_BACKOFF_SEC: 2
+      HF_HOME: /app/.hf_cache
+      TRANSFORMERS_CACHE: /app/.hf_cache
+    volumes:
+      - ./:/app
     depends_on:
       - ollama
       - redis
@@ -19,13 +29,14 @@ services:
       - redis_data:/data
 
   ollama:
-    image: ollama/ollama:latest
+    build:
+      context: .
+      dockerfile: ollama/Dockerfile
     container_name: ollama
     ports:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
-    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 5 && ollama pull gemma4:e4b && wait"]
 
 volumes:
   ollama_data:
