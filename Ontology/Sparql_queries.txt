@@ -1,0 +1,48 @@
+
+Which stations are served by a given underground line, and in which transport zones are they located?
+
+SELECT DISTINCT ?station ?zone
+WHERE {
+  ?station a ex:TrainStation .
+  ?station ex:servedByLine ?line .
+  ?station ex:hasZone ?zone .
+
+  FILTER(?line = ex:CentralLine)
+}
+ORDER BY ?station ?zone
+
+Which stations are directly connected to a given station, and on which lines do these
+connections occur?
+
+SELECT DISTINCT ?connectedStation ?route
+WHERE {
+  {
+    ?segment a ex:RouteSegment .
+    ?segment ex:fromStop ?station .
+    ?segment ex:toStop ?connectedStation .
+  }
+  UNION
+  {
+    ?segment a ex:RouteSegment .
+    ?segment ex:toStop ?station .
+    ?segment ex:fromStop ?connectedStation .
+  }
+
+  ?segment ex:partOfRoute ?route .
+
+  FILTER(?station = ex:KingCross)  # replace with station IRI
+}
+ORDER BY ?connectedStation
+
+Which stations are located within a specific transport zone, and what services operate in that
+zone?
+
+SELECT DISTINCT ?station ?service
+WHERE {
+  ?station a ex:TrainStation .
+  ?station ex:hasZone ?zone .
+  ?station ex:servedByLine ?service .
+
+  FILTER(?zone = ex:Zone1)  # replace with your zone IRI
+}
+ORDER BY ?station ?service

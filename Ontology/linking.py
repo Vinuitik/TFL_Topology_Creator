@@ -9,10 +9,7 @@ EXT = Namespace("http://vocab.gtfs.org/terms#")
 g.bind("local", LOCAL)
 g.bind("gtfs", EXT)
 
-g.add((LOCAL.Stop, RDFS.subClassOf, EXT.Stop))
-g.add((LOCAL.TrainStation, RDFS.subClassOf, LOCAL.Stop))
-g.add((LOCAL.BusStop, RDFS.subClassOf, LOCAL.Stop))
-g.add((LOCAL.TrainStation, RDFS.subClassOf, EXT.Station))
+g.add((LOCAL.TransitAccessPoint, RDFS.subClassOf, LOCAL.Stop))
 g.add((LOCAL.Zone, RDFS.equivalentClassOf, EXT.Zone))
 
 g.add((LOCAL.Line, RDFS.subClassOf, EXT.Route))
