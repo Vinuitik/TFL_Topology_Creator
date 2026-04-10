@@ -12,45 +12,27 @@
 #    Object Properties
 #################################################################
 
-###  http://example.org/tfl#belongsToLine
-:belongsToLine rdf:type owl:ObjectProperty ;
-               rdfs:domain :LineSegment ;
-               rdfs:range <http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj> .
-
-
-###  http://example.org/tfl#hasEndStation
-:hasEndStation rdf:type owl:ObjectProperty ;
-               rdfs:domain :LineSegment ;
-               rdfs:range <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> .
-
-
-###  http://example.org/tfl#hasStartStation
-:hasStartStation rdf:type owl:ObjectProperty ;
-                 rdfs:domain :LineSegment ;
-                 rdfs:range <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> .
-
-
 ###  http://webprotege.stanford.edu/R5vX3rRQHCFUQRqsCJpU7U
 <http://webprotege.stanford.edu/R5vX3rRQHCFUQRqsCJpU7U> rdf:type owl:ObjectProperty ;
                                                         rdfs:subPropertyOf owl:topObjectProperty ;
                                                         rdfs:domain <http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj> ,
                                                                     <http://webprotege.stanford.edu/RIfSnBzsdC7fyIHQcX6Erd> ;
                                                         rdfs:range <http://webprotege.stanford.edu/R9TCSglVMKeAj22qlxYUozU> ,
-                                                                   <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> ;
+                                                                   <http://webprotege.stanford.edu/TrainStation> ;
                                                         rdfs:label "hasStop" .
 
 
 ###  http://webprotege.stanford.edu/R71eqrN4K4TdLRHIljaDYrr
 <http://webprotege.stanford.edu/R71eqrN4K4TdLRHIljaDYrr> rdf:type owl:ObjectProperty ;
                                                          rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> ;
+                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
                                                          rdfs:label "isInterchange" .
 
 
 ###  http://webprotege.stanford.edu/R7da28meiu9GbOT1rL0SAxy
 <http://webprotege.stanford.edu/R7da28meiu9GbOT1rL0SAxy> rdf:type owl:ObjectProperty ;
                                                          rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> ;
+                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
                                                          rdfs:range <http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg> ;
                                                          rdfs:label "locatedInZone" .
 
@@ -58,7 +40,7 @@
 ###  http://webprotege.stanford.edu/R7jFYnKUCHBZlrbM3lXqSCf
 <http://webprotege.stanford.edu/R7jFYnKUCHBZlrbM3lXqSCf> rdf:type owl:ObjectProperty ;
                                                          rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> ;
+                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
                                                          rdfs:range <http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj> ;
                                                          rdfs:label "connectionLine" .
 
@@ -80,7 +62,7 @@
 ###  http://webprotege.stanford.edu/RBcEVIqolJplXGnyvK1Sg68
 <http://webprotege.stanford.edu/RBcEVIqolJplXGnyvK1Sg68> rdf:type owl:ObjectProperty ;
                                                          rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> ;
+                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
                                                          rdfs:range <http://webprotege.stanford.edu/R8suZp8urh3QUp7Gjq7I9vS> ;
                                                          rdfs:label "offersAccessibilityFeature" .
 
@@ -88,7 +70,7 @@
 ###  http://webprotege.stanford.edu/RCCYxhe5VfhDbpzKCYZDdJM
 <http://webprotege.stanford.edu/RCCYxhe5VfhDbpzKCYZDdJM> rdf:type owl:ObjectProperty ;
                                                          rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> ;
+                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
                                                          rdfs:range <http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj> ;
                                                          rdfs:label "servedByLine" .
 
@@ -96,15 +78,15 @@
 ###  http://webprotege.stanford.edu/RCMwEsdqyKGYIXWhK3cknWo
 <http://webprotege.stanford.edu/RCMwEsdqyKGYIXWhK3cknWo> rdf:type owl:ObjectProperty ;
                                                          rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> ;
-                                                         rdfs:range <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> ;
+                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
+                                                         rdfs:range <http://webprotege.stanford.edu/TrainStation> ;
                                                          rdfs:label "directlyConnectedTo" .
 
 
 ###  http://webprotege.stanford.edu/RJAwTY1EBQrdbPNMCkPZE0
 <http://webprotege.stanford.edu/RJAwTY1EBQrdbPNMCkPZE0> rdf:type owl:ObjectProperty ;
                                                         rdfs:subPropertyOf owl:topObjectProperty ;
-                                                        rdfs:domain <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> ;
+                                                        rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
                                                         rdfs:label "providesService" .
 
 
@@ -112,7 +94,7 @@
 <http://webprotege.stanford.edu/RObdgWrfvP7lOibVufoCGj> rdf:type owl:ObjectProperty ;
                                                         rdfs:subPropertyOf owl:topObjectProperty ;
                                                         rdfs:domain <http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> ;
-                                                        rdfs:range <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> ;
+                                                        rdfs:range <http://webprotege.stanford.edu/TrainStation> ;
                                                         rdfs:label "startStation" .
 
 
@@ -120,14 +102,32 @@
 <http://webprotege.stanford.edu/Rhira9cILzBTmJrEsO00c5> rdf:type owl:ObjectProperty ;
                                                         rdfs:subPropertyOf owl:topObjectProperty ;
                                                         rdfs:domain <http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> ;
-                                                        rdfs:range <http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> ;
+                                                        rdfs:range <http://webprotege.stanford.edu/TrainStation> ;
                                                         rdfs:label "endStation" .
+
+
+###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#belongsToLine
+:belongsToLine rdf:type owl:ObjectProperty ;
+               rdfs:domain :LineSegment ;
+               rdfs:range <http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj> .
 
 
 ###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#endZone
 :endZone rdf:type owl:ObjectProperty ;
          rdfs:domain <http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> ;
          rdfs:range <http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg> .
+
+
+###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#hasEndStation
+:hasEndStation rdf:type owl:ObjectProperty ;
+               rdfs:domain :LineSegment ;
+               rdfs:range <http://webprotege.stanford.edu/TrainStation> .
+
+
+###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#hasStartStation
+:hasStartStation rdf:type owl:ObjectProperty ;
+                 rdfs:domain :LineSegment ;
+                 rdfs:range <http://webprotege.stanford.edu/TrainStation> .
 
 
 ###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#startZone
@@ -140,8 +140,9 @@
 #    Classes
 #################################################################
 
-###  http://example.org/tfl#LineSegment
-:LineSegment rdf:type owl:Class .
+###  http://example.org/tfl#TransitAccessPoint
+:TransitAccessPoint rdf:type owl:Class ;
+                    rdfs:label "TransitAccessPoint" .
 
 
 ###  http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg
@@ -166,6 +167,7 @@
 
 ###  http://webprotege.stanford.edu/R9TCSglVMKeAj22qlxYUozU
 <http://webprotege.stanford.edu/R9TCSglVMKeAj22qlxYUozU> rdf:type owl:Class ;
+                                                         rdfs:subClassOf :TransitAccessPoint ;
                                                          rdfs:label "BusStop" .
 
 
@@ -179,14 +181,19 @@
                                                         rdfs:label "Fare" .
 
 
-###  http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN
-<http://webprotege.stanford.edu/RH60gvUJBuMF3IQjh76DSN> rdf:type owl:Class ;
-                                                        rdfs:label "Station" .
-
-
 ###  http://webprotege.stanford.edu/RIfSnBzsdC7fyIHQcX6Erd
 <http://webprotege.stanford.edu/RIfSnBzsdC7fyIHQcX6Erd> rdf:type owl:Class ;
                                                         rdfs:label "Route" .
+
+
+###  http://webprotege.stanford.edu/TrainStation
+<http://webprotege.stanford.edu/TrainStation> rdf:type owl:Class ;
+                                              rdfs:subClassOf :TransitAccessPoint ;
+                                              rdfs:label "TrainStation" .
+
+
+###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#LineSegment
+:LineSegment rdf:type owl:Class .
 
 
 ###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
