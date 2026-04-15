@@ -9,6 +9,7 @@ from schemas import PipelineState
 
 _RDF_TYPE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 _RDFS_LABEL = "http://www.w3.org/2000/01/rdf-schema#label"
+_OWL_CLASS = "http://www.w3.org/2002/07/owl#Class"
 _OWL_NAMED_INDIVIDUAL = "http://www.w3.org/2002/07/owl#NamedIndividual"
 _PROV_FROM_TEXT = "http://www.w3.org/ns/prov#value"
 _EX_CONFIDENCE = "http://example.org/pt#confidence"
@@ -33,6 +34,15 @@ def run_ontology_construction(state: PipelineState) -> PipelineState:
 
     triples: List[Dict[str, str]] = []
 
+    # Declare each unique class as owl:Class so Protégé and OWL reasoners recognize it
+    seen_classes: set = set()
+    for node in nodes:
+        class_iri = node["class_iri"]
+        if class_iri not in seen_classes:
+            _add(triples, class_iri, _RDF_TYPE, _OWL_CLASS)
+            _add(triples, class_iri, _RDFS_LABEL, node.get("class_label", ""), is_literal=True)
+            seen_classes.add(class_iri)
+
     for node in nodes:
         _add(triples, node["iri"], _RDF_TYPE, _OWL_NAMED_INDIVIDUAL)
         _add(triples, node["iri"], _RDF_TYPE, node["class_iri"])
@@ -54,7 +64,7 @@ def run_ontology_construction(state: PipelineState) -> PipelineState:
         stmt_iri = f"http://example.org/pt#stmt/{idx}"
         if edge.get("provenance_sentence"):
             _add(triples, stmt_iri, _PROV_FROM_TEXT, edge["provenance_sentence"], is_literal=True)
-        if edge.get("confidence"):
-            _add(triples, stmt_iri, _EX_CONFIDENCE, edge["confidence"], is_literal=True)
+        # if edge.get("confidence"):  # confidence always 0.0 until extraction provides real scores
+        #     _add(triples, stmt_iri, _EX_CONFIDENCE, edge["confidence"], is_literal=True)
 
     return {"ontology_draft": {"triples": triples}}

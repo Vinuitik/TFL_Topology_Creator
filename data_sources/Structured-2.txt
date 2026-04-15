@@ -1,0 +1,8 @@
+Disruption Categories:
+0	"Undefined"
+1	"RealTime"
+2	"PlannedWork"
+3	"Information"
+4	"Event"
+5	"Crowding"
+6	"StatusAlert"

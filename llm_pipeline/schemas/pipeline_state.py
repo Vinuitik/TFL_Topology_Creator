@@ -36,3 +36,5 @@ class PipelineState(TypedDict, total=False):
     failed_validation: bool
     reroute_target: RouteTarget
     iteration: int
+    turtle_output: str
+    owl_output: str

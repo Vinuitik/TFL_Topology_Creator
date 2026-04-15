@@ -15,6 +15,7 @@ from states import (
     run_reasoning,
     run_schema_mapping,
     run_text_normalization,
+    run_turtle_serialization,
     run_validation,
 )
 
@@ -31,6 +32,7 @@ def build_graph() -> Any:
     graph.add_node("ontology_construction", run_ontology_construction)
     graph.add_node("reasoning", run_reasoning)
     graph.add_node("validation", run_validation)
+    graph.add_node("turtle_serialization", run_turtle_serialization)
 
     graph.set_entry_point("input_ingestion")
 
@@ -51,9 +53,10 @@ def build_graph() -> Any:
             "extraction": "extraction",
             "entity_linking": "entity_linking",
             "schema_mapping": "schema_mapping",
-            "end": END,
+            "end": "turtle_serialization",
         },
     )
+    graph.add_edge("turtle_serialization", END)
 
     return graph.compile()
 

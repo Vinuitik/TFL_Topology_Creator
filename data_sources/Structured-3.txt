@@ -1,0 +1,130 @@
+	
+[0…99]	
+0	
+$type	"Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities"
+id	"1"
+name	"1"
+modeName	"bus"
+disruptions	[]
+created	"2026-03-31T11:01:31.293Z"
+modified	"2026-03-31T11:01:31.293Z"
+lineStatuses	[ {…} ]
+routeSections	[]
+serviceTypes	[ {…} ]
+crowding	{ "$type": "Tfl.Api.Presentation.Entities.Crowding, Tfl.Api.Presentation.Entities" }
+1	
+$type	"Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities"
+id	"100"
+name	"100"
+modeName	"bus"
+disruptions	[]
+created	"2026-03-31T11:01:31.31Z"
+modified	"2026-03-31T11:01:31.31Z"
+lineStatuses	[ {…} ]
+routeSections	[]
+serviceTypes	[ {…} ]
+crowding	{ "$type": "Tfl.Api.Presentation.Entities.Crowding, Tfl.Api.Presentation.Entities" }
+2	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "101", name: "101", … }
+3	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "102", name: "102", … }
+4	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "103", name: "103", … }
+5	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "104", name: "104", … }
+6	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "105", name: "105", … }
+7	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "106", name: "106", … }
+8	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "107", name: "107", … }
+9	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "108", name: "108", … }
+10	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "109", name: "109", … }
+11	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "11", name: "11", … }
+12	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "110", name: "110", … }
+13	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "111", name: "111", … }
+14	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "112", name: "112", … }
+15	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "113", name: "113", … }
+16	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "114", name: "114", … }
+17	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "115", name: "115", … }
+18	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "116", name: "116", … }
+19	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "117", name: "117", … }
+20	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "119", name: "119", … }
+21	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "12", name: "12", … }
+22	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "120", name: "120", … }
+23	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "121", name: "121", … }
+24	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "122", name: "122", … }
+25	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "123", name: "123", … }
+26	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "124", name: "124", … }
+27	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "125", name: "125", … }
+28	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "126", name: "126", … }
+29	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "127", name: "127", … }
+30	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "128", name: "128", … }
+31	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "129", name: "129", … }
+32	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "13", name: "13", … }
+33	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "130", name: "130", … }
+34	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "131", name: "131", … }
+35	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "132", name: "132", … }
+36	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "133", name: "133", … }
+37	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "134", name: "134", … }
+38	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "135", name: "135", … }
+39	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "136", name: "136", … }
+40	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "137", name: "137", … }
+41	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "138", name: "138", … }
+42	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "139", name: "139", … }
+43	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "14", name: "14", … }
+44	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "140", name: "140", … }
+45	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "141", name: "141", … }
+46	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "142", name: "142", … }
+47	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "143", name: "143", … }
+48	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "144", name: "144", … }
+49	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "145", name: "145", … }
+50	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "146", name: "146", … }
+51	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "147", name: "147", … }
+52	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "148", name: "148", … }
+53	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "149", name: "149", … }
+54	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "15", name: "15", … }
+55	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "150", name: "150", … }
+56	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "151", name: "151", … }
+57	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "152", name: "152", … }
+58	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "153", name: "153", … }
+59	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "154", name: "154", … }
+60	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "155", name: "155", … }
+61	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "156", name: "156", … }
+62	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "157", name: "157", … }
+63	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "158", name: "158", … }
+64	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "159", name: "159", … }
+65	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "16", name: "16", … }
+66	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "160", name: "160", … }
+67	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "161", name: "161", … }
+68	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "162", name: "162", … }
+69	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "163", name: "163", … }
+70	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "164", name: "164", … }
+71	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "165", name: "165", … }
+72	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "166", name: "166", … }
+73	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "167", name: "167", … }
+74	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "169", name: "169", … }
+75	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "17", name: "17", … }
+76	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "170", name: "170", … }
+77	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "171", name: "171", … }
+78	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "172", name: "172", … }
+79	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "173", name: "173", … }
+80	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "174", name: "174", … }
+81	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "175", name: "175", … }
+82	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "176", name: "176", … }
+83	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "177", name: "177", … }
+84	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "178", name: "178", … }
+85	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "179", name: "179", … }
+86	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "18", name: "18", … }
+87	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "180", name: "180", … }
+88	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "181", name: "181", … }
+89	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "182", name: "182", … }
+90	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "183", name: "183", … }
+91	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "184", name: "184", … }
+92	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "185", name: "185", … }
+93	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "186", name: "186", … }
+94	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "187", name: "187", … }
+95	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "188", name: "188", … }
+96	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "189", name: "189", … }
+97	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "19", name: "19", … }
+98	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "190", name: "190", … }
+99	{ "$type": "Tfl.Api.Presentation.Entities.Line, Tfl.Api.Presentation.Entities", id: "191", name: "191", … }
+[100…199]	
+[200…299]	
+[300…399]	
+[400…499]	
+[500…599]	
+[600…695]	

@@ -7,6 +7,7 @@ from .ontology_construction import run_ontology_construction
 from .reasoning import run_reasoning
 from .schema_mapping import run_schema_mapping
 from .text_normalization import run_text_normalization
+from .turtle_serialization import run_turtle_serialization
 from .validation import run_validation
 
 __all__ = [
@@ -19,5 +20,6 @@ __all__ = [
     "run_ontology_construction",
     "run_reasoning",
     "run_validation",
+    "run_turtle_serialization",
     "route_after_validation",
 ]

@@ -126,7 +126,7 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
             "subject_iri": node_map[t.subject]["iri"],
             "predicate_label": pred_label,
             "predicate_iri": pred_iri,
-            "confidence": str(t.confidence),
+            # "confidence": str(t.confidence),  # always 0.0 until extraction provides real scores
             "provenance_sentence": t.provenance_sentence,
         }
 

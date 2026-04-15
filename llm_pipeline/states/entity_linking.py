@@ -16,7 +16,14 @@ from service.llm import call_llm
 
 log = logging.getLogger(__name__)
 
-_R = redis.from_url(os.getenv("REDIS_URL", "redis://redis:6379"), decode_responses=True)
+_R: redis.Redis | None = None
+
+
+def _get_redis() -> redis.Redis:
+    global _R
+    if _R is None:
+        _R = redis.from_url(os.getenv("REDIS_URL", "redis://redis:6379"), decode_responses=True)
+    return _R
 _EMBED_URL = os.getenv("OLLAMA_EMBED_URL", "http://ollama:11434/api/embeddings")
 _EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "gemma4:e4b")
 _BATCH = 20
@@ -206,20 +213,20 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
     descs: Dict[str, str] = {}
     for name in items:
         key = f"{category}:desc:{name}"
-        cached = _R.get(key)
+        cached = _get_redis().get(key)
         if cached is not None:
             descs[name] = cached
             continue
 
         generated = _describe(name)
-        _R.set(key, generated)
+        _get_redis().set(key, generated)
         descs[name] = generated
 
     # Step 2 — embeddings (fire-and-forget into Redis, used for future ANN)
     embeds: Dict[str, List[float]] = {}
     for name in items:
         key = f"{category}:emb:{name}"
-        cached = _R.get(key)
+        cached = _get_redis().get(key)
         if cached:
             try:
                 embeds[name] = json.loads(cached)
@@ -229,7 +236,7 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
 
         emb = _embed(descs[name])
         embeds[name] = emb
-        _R.set(key, json.dumps(emb))
+        _get_redis().set(key, json.dumps(emb))
 
     # Step 3 — candidate pair generation and LLM comparison (batched)
     exact_mode = len(items) <= _EXACT_THRESHOLD
@@ -263,7 +270,7 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
         canon = _canonical(members)
         for m in members:
             canon_map[m] = canon
-            _R.set(f"{category}:canonical:{m}", canon)
+            _get_redis().set(f"{category}:canonical:{m}", canon)
 
     return canon_map, {
         "mode": mode,
