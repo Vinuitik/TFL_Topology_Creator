@@ -40,6 +40,8 @@ services:
       context: .
       dockerfile: ollama/Dockerfile
     container_name: ollama
+    environment:
+      OLLAMA_HOST: "0.0.0.0:11434"
     ports:
       - "11434:11434"
     volumes:

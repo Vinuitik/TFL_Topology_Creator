@@ -30,10 +30,16 @@ if ($modelList -notmatch [regex]::Escape($Model)) {
     Write-Host "  Model already cached, skipping pull."
 }
 
-Write-Host "[2/3] Building and running sequential pipeline..."
+Write-Host "[2/4] Ingesting OWL/TTL files from inputs/..."
+docker compose run --rm --build llm-pipeline python ingest_owl.py --inputs-dir /app/inputs --output-dir /app/outputs
+if ($LASTEXITCODE -ne 0) {
+    throw "OWL ingestion failed with exit code $LASTEXITCODE"
+}
+
+Write-Host "[3/4] Building and running sequential pipeline..."
 docker compose run --rm --build llm-pipeline python agent.py --data-dir /app/data_sources --pattern $DataPattern --output-dir /app/outputs
 if ($LASTEXITCODE -ne 0) {
     throw "Pipeline run failed with exit code $LASTEXITCODE"
 }
 
-Write-Host "[3/3] Artifacts written to ./outputs (final.owl, final.ttl, run_summary.json, runs/*)."
+Write-Host "[4/4] Artifacts written to ./outputs (final.owl, final.ttl, run_summary.json, runs/*)."

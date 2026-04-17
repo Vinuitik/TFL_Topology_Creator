@@ -1,0 +1,122 @@
+{
+  "classes": [
+    {
+      "label": "Zone",
+      "iri": "http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg"
+    },
+    {
+      "label": "TransportMode",
+      "iri": "http://webprotege.stanford.edu/R7mQXjcxy79h9g8J1fC0tjV"
+    },
+    {
+      "label": "Journey",
+      "iri": "http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8"
+    },
+    {
+      "label": "AccessibilityFeature",
+      "iri": "http://webprotege.stanford.edu/R8suZp8urh3QUp7Gjq7I9vS"
+    },
+    {
+      "label": "BusStop",
+      "iri": "http://webprotege.stanford.edu/R9TCSglVMKeAj22qlxYUozU"
+    },
+    {
+      "label": "Line",
+      "iri": "http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj"
+    },
+    {
+      "label": "Fare",
+      "iri": "http://webprotege.stanford.edu/RFQBoIMyODKarwW9fBl0aS"
+    },
+    {
+      "label": "Route",
+      "iri": "http://webprotege.stanford.edu/RIfSnBzsdC7fyIHQcX6Erd"
+    },
+    {
+      "label": "TrainStation",
+      "iri": "http://webprotege.stanford.edu/TrainStation"
+    },
+    {
+      "label": "RouteSegment",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#RouteSegment"
+    },
+    {
+      "label": "TransitAccessPoint",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#TransitAccessPoint"
+    }
+  ],
+  "predicates": [
+    {
+      "label": "hasZone",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#hasZone"
+    },
+    {
+      "label": "hasStop",
+      "iri": "http://webprotege.stanford.edu/R5vX3rRQHCFUQRqsCJpU7U"
+    },
+    {
+      "label": "isInterchange",
+      "iri": "http://webprotege.stanford.edu/R71eqrN4K4TdLRHIljaDYrr"
+    },
+    {
+      "label": "locatedInZone",
+      "iri": "http://webprotege.stanford.edu/R7da28meiu9GbOT1rL0SAxy"
+    },
+    {
+      "label": "connectionLine",
+      "iri": "http://webprotege.stanford.edu/R7jFYnKUCHBZlrbM3lXqSCf"
+    },
+    {
+      "label": "hasTransportMode",
+      "iri": "http://webprotege.stanford.edu/R7v2UJSR5VRm9sY5m9mhjoD"
+    },
+    {
+      "label": "hasFare",
+      "iri": "http://webprotege.stanford.edu/RBF7bBYX8buEHB8SURG8bAt"
+    },
+    {
+      "label": "offersAccessibilityFeature",
+      "iri": "http://webprotege.stanford.edu/RBcEVIqolJplXGnyvK1Sg68"
+    },
+    {
+      "label": "servedByLine",
+      "iri": "http://webprotege.stanford.edu/RCCYxhe5VfhDbpzKCYZDdJM"
+    },
+    {
+      "label": "directlyConnectedTo",
+      "iri": "http://webprotege.stanford.edu/RCMwEsdqyKGYIXWhK3cknWo"
+    },
+    {
+      "label": "providesService",
+      "iri": "http://webprotege.stanford.edu/RJAwTY1EBQrdbPNMCkPZE0"
+    },
+    {
+      "label": "startStation",
+      "iri": "http://webprotege.stanford.edu/RObdgWrfvP7lOibVufoCGj"
+    },
+    {
+      "label": "endStation",
+      "iri": "http://webprotege.stanford.edu/Rhira9cILzBTmJrEsO00c5"
+    },
+    {
+      "label": "belongsToLine",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#belongsToLine"
+    },
+    {
+      "label": "endZone",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#endZone"
+    },
+    {
+      "label": "hasEndStation",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#hasEndStation"
+    },
+    {
+      "label": "hasStartStation",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#hasStartStation"
+    },
+    {
+      "label": "startZone",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#startZone"
+    }
+  ]
+}
