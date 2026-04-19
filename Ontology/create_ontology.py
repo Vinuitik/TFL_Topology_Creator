@@ -1,4 +1,5 @@
-from rdflib import Graph, Namespace, RDF, RDFS, OWL, Literal, XSD
+from rdflib import Graph, Namespace, RDF, RDFS, OWL, Literal, XSD, BNode
+from rdflib.collection import Collection
 
 # Create graph
 g = Graph()
@@ -51,6 +52,24 @@ g.add((EX.BusStop, RDFS.subClassOf, EX.TransitAccessPoint))
 
 g.add((EX.InterchangeStation, RDF.type, OWL.Class))
 g.add((EX.InterchangeStation, RDFS.subClassOf, EX.TrainStation))
+
+# --- Disjoint Classes ---
+disjoint_node = BNode()
+g.add((disjoint_node, RDF.type, OWL.AllDisjointClasses))
+disjoint_list_node = BNode()
+Collection(g, disjoint_list_node, [
+    EX.TransitAccessPoint,
+    EX.Zone,
+    EX.TransportMode,
+    EX.Journey,
+    EX.AccessibilityFeature,
+    EX.Fare,
+    EX.Route,
+    EX.RouteStopSequence
+])
+g.add((disjoint_node, OWL.members, disjoint_list_node))
+
+
 
 
 # --- Object Properties ---
