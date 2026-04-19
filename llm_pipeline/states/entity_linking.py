@@ -26,6 +26,7 @@ def _get_redis() -> redis.Redis:
     return _R
 _EMBED_URL = os.getenv("OLLAMA_EMBED_URL", "http://ollama:11434/api/embeddings")
 _EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
+_ENTITY_MODEL = os.getenv("OLLAMA_ENTITY_MODEL", "qwen2.5:1.5b")
 _BATCH = 20
 _EXACT_THRESHOLD = 350
 _MAX_CANDIDATES_PER_ITEM = 40
@@ -83,7 +84,7 @@ class _DSU:
 
 def _describe(name: str) -> str:
     try:
-        return call_llm("entity_linking_describe", f"\nName: {name}\n").get("description", name)
+        return call_llm("entity_linking_describe", f"\nName: {name}\n", model=_ENTITY_MODEL).get("description", name)
     except Exception as exc:  # pragma: no cover - dependent on external runtime
         log.warning("Description fallback for '%s': %s", name, exc)
         return name
@@ -106,7 +107,7 @@ def _compare_batch(pairs: List[Tuple[str, str, str, str]]) -> List[bool]:
         for i, (na, da, nb, db) in enumerate(pairs)
     )
     try:
-        results = call_llm("entity_linking", groups).get("results", [])
+        results = call_llm("entity_linking", groups, model=_ENTITY_MODEL).get("results", [])
         flags = [r.get("same", False) for r in results]
         if len(flags) < len(pairs):
             flags.extend([False] * (len(pairs) - len(flags)))
@@ -123,7 +124,7 @@ def _compare_batch(pairs: List[Tuple[str, str, str, str]]) -> List[bool]:
 
 def _canonical(names: List[str]) -> str:
     try:
-        return call_llm("entity_linking_canonical", f"\nNames: {json.dumps(names)}\n").get("canonical", names[0])
+        return call_llm("entity_linking_canonical", f"\nNames: {json.dumps(names)}\n", model=_ENTITY_MODEL).get("canonical", names[0])
     except Exception as exc:  # pragma: no cover - dependent on external runtime
         log.warning("Canonical fallback for %s: %s", names, exc)
         return sorted(names, key=lambda x: (len(x), x))[0]

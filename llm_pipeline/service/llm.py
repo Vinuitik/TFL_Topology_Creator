@@ -50,21 +50,22 @@ def _parse_json(raw: str) -> Any:
     raise ValueError(f"Could not parse JSON from LLM response:\n{raw}")
 
 
-def call_llm(state_name: str, params: str) -> Any:
+def call_llm(state_name: str, params: str, model: str | None = None) -> Any:
     prompt_path = _find_latest_prompt(state_name)
     log.info("Using prompt %s", prompt_path.name)
 
     full_prompt = prompt_path.read_text(encoding="utf-8") + params
+    effective_model = model or _MODEL
 
     payload = {
-        "model": _MODEL,
+        "model": effective_model,
         "prompt": full_prompt,
         "stream": False,
         "options": {"temperature": 0},
     }
 
     log.info("LLM → state=%s model=%s url=%s prompt_chars=%d",
-             state_name, _MODEL, _OLLAMA_URL, len(full_prompt))
+             state_name, effective_model, _OLLAMA_URL, len(full_prompt))
     last_exc: Exception | None = None
     for attempt in range(1, _MAX_RETRIES + 1):
         t0 = time.monotonic()

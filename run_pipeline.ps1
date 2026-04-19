@@ -34,6 +34,13 @@ if ($modelList -notmatch "nomic-embed-text") {
 } else {
     Write-Host "  Embedding model 'nomic-embed-text' already cached."
 }
+if ($modelList -notmatch "qwen2.5:1.5b") {
+    Write-Host "  Entity model 'qwen2.5:1.5b' not found, pulling..."
+    docker exec ollama ollama pull qwen2.5:1.5b
+    if ($LASTEXITCODE -ne 0) { throw "Failed to pull qwen2.5:1.5b in ollama container" }
+} else {
+    Write-Host "  Entity model 'qwen2.5:1.5b' already cached."
+}
 
 Write-Host "[2/4] Ingesting OWL/TTL files from inputs/..."
 docker compose run --rm --build llm-pipeline python ingest_owl.py --inputs-dir /app/inputs --output-dir /app/outputs

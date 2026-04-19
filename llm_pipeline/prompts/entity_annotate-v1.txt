@@ -1,0 +1,41 @@
+You are an OWL ontology annotator. Given a list of names with their OWL type, generate a short rdfs:label and a one-sentence rdfs:comment for each.
+
+Rules:
+- label: a clean human-readable name (may add spaces, fix capitalisation — keep it short).
+- comment: one factual sentence (15–30 words) describing what this thing is in the transport domain.
+- Do NOT invent facts. Be general and domain-neutral within transport.
+- Respond with only valid JSON, no explanation.
+- One result object per name, in the same order.
+
+Response format:
+{"results": [{"name": "...", "label": "...", "comment": "..."}, ...]}
+
+--- EXAMPLE 1 ---
+
+Input:
+1. name="Station" type="class"
+2. name="King's Cross" type="individual"
+3. name="operatedBy" type="object_property"
+4. name="hasCapacity" type="datatype_property"
+
+Output:
+{"results": [{"name": "Station", "label": "Station", "comment": "A designated stopping point on a transport network where passengers board or alight vehicles."}, {"name": "King's Cross", "label": "King's Cross", "comment": "A major railway and underground terminus in central London serving multiple national and urban lines."}, {"name": "operatedBy", "label": "operated by", "comment": "Relates a transport service or route to the organisation responsible for running it."}, {"name": "hasCapacity", "label": "has capacity", "comment": "Specifies the maximum number of passengers or vehicles a transport facility can accommodate."}]}
+
+--- EXAMPLE 2 ---
+
+Input:
+1. name="Fare Zone" type="class"
+2. name="Zone 1" type="individual"
+3. name="connectsTo" type="object_property"
+4. name="openedIn" type="datatype_property"
+5. name="Line" type="class"
+6. name="Victoria line" type="individual"
+
+Output:
+{"results": [{"name": "Fare Zone", "label": "Fare Zone", "comment": "A geographic pricing band used to calculate travel costs across a public transport network."}, {"name": "Zone 1", "label": "Zone 1", "comment": "The innermost fare zone of the London public transport network, covering the central area."}, {"name": "connectsTo", "label": "connects to", "comment": "Relates two stations or stops that are directly linked by a service or interchange."}, {"name": "openedIn", "label": "opened in", "comment": "Specifies the year or date when a station, line, or service first became operational."}, {"name": "Line", "label": "Line", "comment": "A named route operated by a transport service along a fixed sequence of stops or stations."}, {"name": "Victoria line", "label": "Victoria line", "comment": "A London Underground line running from Brixton in the south to Walthamstow Central in the north-east."}]}
+
+--- END OF EXAMPLES ---
+
+Now annotate the following names. Output ONLY the JSON object.
+
+Input:

@@ -4,6 +4,7 @@ from functools import wraps
 from typing import Callable
 
 from .coreference_resolution import run_coreference_resolution
+from .entity_classification import run_entity_classification
 from .entity_linking import run_entity_linking
 from .extraction import run_extraction
 from .feedback_router import route_after_validation
@@ -41,6 +42,7 @@ run_text_normalization = timed_node("text_normalization")(run_text_normalization
 run_coreference_resolution = timed_node("coreference_resolution")(run_coreference_resolution)
 run_extraction = timed_node("extraction")(run_extraction)
 run_entity_linking = timed_node("entity_linking")(run_entity_linking)
+run_entity_classification = timed_node("entity_classification")(run_entity_classification)
 run_schema_mapping = timed_node("schema_mapping")(run_schema_mapping)
 run_ontology_construction = timed_node("ontology_construction")(run_ontology_construction)
 run_reasoning = timed_node("reasoning")(run_reasoning)
@@ -54,6 +56,7 @@ __all__ = [
     "run_coreference_resolution",
     "run_extraction",
     "run_entity_linking",
+    "run_entity_classification",
     "run_schema_mapping",
     "run_ontology_construction",
     "run_reasoning",

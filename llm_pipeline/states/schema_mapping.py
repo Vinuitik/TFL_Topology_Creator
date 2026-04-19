@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 from difflib import SequenceMatcher
-from typing import Dict, List, Tuple
+from typing import Any, Dict, List, Tuple
 
 from schemas import PipelineState
 
@@ -17,12 +17,6 @@ _XSD_DECIMAL = "http://www.w3.org/2001/XMLSchema#decimal"
 def _slug(value: str) -> str:
     out = re.sub(r"[^a-zA-Z0-9]+", "_", value).strip("_")
     return out or "item"
-
-
-def _label_from_iri(iri: str) -> str:
-    token = iri.split("#")[-1].split("/")[-1]
-    token = re.sub(r"[_-]+", " ", token)
-    return token.strip() or iri
 
 
 def _normalize_text(value: str) -> str:
@@ -80,6 +74,8 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
         return {"mapped_graph": {"nodes": [], "edges": [], "unmapped_predicates": []}}
 
     rag_catalog = state.get("rag_catalog", {})
+    entity_catalog: Dict[str, Any] = state.get("entity_catalog", {})
+
     predicate_catalog = list(rag_catalog.get("predicates", [])) + _default_predicate_catalog()
     class_catalog = list(rag_catalog.get("classes", [])) + _default_class_catalog()
 
@@ -88,45 +84,67 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
         if _literal_value(t.object) is None:
             entity_set.add(t.object)
     entity_labels = sorted(entity_set)
-    node_map: Dict[str, Dict[str, str]] = {}
+
+    node_map: Dict[str, Dict[str, Any]] = {}
     for idx, label in enumerate(entity_labels, start=1):
-        class_match, class_score = _best_match(label, class_catalog)
-        if class_match and class_score >= 0.6:
-            class_iri = class_match["iri"]
-            class_label = class_match["label"]
+        cat = entity_catalog.get(label, {})
+        kind = cat.get("kind", "individual")
+        display_label = cat.get("label", label)
+        comment = cat.get("comment", "")
+
+        if kind == "class":
+            # Entity IS the class — IRI doubles as both instance and class IRI
+            class_iri = f"{_BASE_NS}{_slug(label)}"
+            node_map[label] = {
+                "id": f"ent_{idx}",
+                "label": display_label,
+                "comment": comment,
+                "iri": class_iri,
+                "class_iri": class_iri,
+                "class_label": display_label,
+                "is_class": True,
+            }
         else:
-            class_iri = f"{_BASE_NS}TransportEntity"
-            class_label = "TransportEntity"
+            # Individual — fuzzy-match to a class from the catalog
+            class_match, class_score = _best_match(label, class_catalog)
+            if class_match and class_score >= 0.6:
+                class_iri = class_match["iri"]
+                class_label = class_match["label"]
+            else:
+                class_iri = f"{_BASE_NS}TransportEntity"
+                class_label = "TransportEntity"
 
-        ent_id = f"ent_{idx}"
-        node_map[label] = {
-            "id": ent_id,
-            "label": label,
-            "iri": f"{_BASE_NS}entity/{_slug(label)}",
-            "class_iri": class_iri,
-            "class_label": class_label,
-        }
+            node_map[label] = {
+                "id": f"ent_{idx}",
+                "label": display_label,
+                "comment": comment,
+                "iri": f"{_BASE_NS}entity/{_slug(label)}",
+                "class_iri": class_iri,
+                "class_label": class_label,
+                "is_class": False,
+            }
 
-    edges: List[Dict[str, str]] = []
+    edges: List[Dict[str, Any]] = []
     unmapped_predicates: List[str] = []
 
     for t in triplets:
+        cat = entity_catalog.get(t.predicate, {})
+        display_pred_label = cat.get("label", t.predicate)
+
         pred_match, pred_score = _best_match(t.predicate, predicate_catalog)
         if pred_match and pred_score >= 0.66:
             pred_iri = pred_match["iri"]
-            pred_label = pred_match["label"]
         else:
             pred_iri = f"{_BASE_NS}relation/{_slug(t.predicate)}"
-            pred_label = t.predicate
             unmapped_predicates.append(t.predicate)
 
         obj_literal = _literal_value(t.object)
-        edge: Dict[str, str] = {
+        edge: Dict[str, Any] = {
             "subject_id": node_map[t.subject]["id"],
             "subject_iri": node_map[t.subject]["iri"],
-            "predicate_label": pred_label,
+            "predicate_label": display_pred_label,
             "predicate_iri": pred_iri,
-            # "confidence": str(t.confidence),  # always 0.0 until extraction provides real scores
+            "predicate_kind": cat.get("kind", "object_property"),
             "provenance_sentence": t.provenance_sentence,
         }
 

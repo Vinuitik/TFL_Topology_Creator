@@ -27,6 +27,7 @@ class PipelineState(TypedDict, total=False):
     validated_ontology: Dict[str, List[Dict[str, Any]]]
     validation_errors: List[str]
     validation_report: Dict[str, Any]
+    entity_catalog: Dict[str, Any]
     entity_linking_stats: Dict[str, Any]
     inferred_triples_count: int
     linking_conflicts: int
