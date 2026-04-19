@@ -14,6 +14,7 @@ services:
       OLLAMA_BACKOFF_SEC: 2
       HF_HOME: /app/.hf_cache
       TRANSFORMERS_CACHE: /app/.hf_cache
+      CHUNK_MAX_WORDS: 300
     volumes:
       - ./:/app
     depends_on:
