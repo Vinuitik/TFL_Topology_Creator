@@ -1,0 +1,133 @@
+@prefix ex: <http://example.org/tfl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:BusStop a owl:Class ;
+    rdfs:subClassOf ex:TransitAccessPoint .
+
+ex:FareClass a owl:Class .
+
+ex:InterchangeStation a owl:Class ;
+    rdfs:subClassOf ex:TrainStation .
+
+ex:OffPeakFare a owl:Class ;
+    rdfs:subClassOf ex:Fare .
+
+ex:PeakFare a owl:Class ;
+    rdfs:subClassOf ex:Fare .
+
+ex:Point a owl:Class .
+
+ex:SpatialThing a owl:Class .
+
+ex:Station a owl:Class .
+
+ex:StopTime a owl:Class .
+
+ex:belongsToRoute a owl:ObjectProperty ;
+    rdfs:domain ex:RouteStopSequence ;
+    rdfs:range ex:Route .
+
+ex:connectionLine a owl:ObjectProperty ;
+    rdfs:domain ex:TrainStation ;
+    rdfs:range ex:Line .
+
+ex:directlyConnectedTo a owl:ObjectProperty ;
+    rdfs:domain ex:TrainStation ;
+    rdfs:range ex:TrainStation .
+
+ex:endStation a owl:ObjectProperty ;
+    rdfs:domain ex:Journey ;
+    rdfs:range ex:TrainStation .
+
+ex:endZone a owl:ObjectProperty ;
+    rdfs:domain ex:Journey ;
+    rdfs:range ex:Zone .
+
+ex:fareCost a owl:DatatypeProperty ;
+    rdfs:domain ex:Fare ;
+    rdfs:range xsd:decimal .
+
+ex:hasFare a owl:ObjectProperty ;
+    rdfs:domain ex:Journey ;
+    rdfs:range ex:Fare .
+
+ex:hasName a owl:DatatypeProperty ;
+    rdfs:range xsd:string .
+
+ex:hasStop a owl:ObjectProperty ;
+    rdfs:domain ex:Line,
+        ex:Route ;
+    rdfs:range ex:TransitAccessPoint .
+
+ex:hasTransportMode a owl:ObjectProperty ;
+    rdfs:domain ex:TransitAccessPoint ;
+    rdfs:range ex:TransportMode .
+
+ex:hasZone a owl:ObjectProperty ;
+    rdfs:domain ex:TrainStation ;
+    rdfs:range ex:Zone .
+
+ex:latitude a owl:DatatypeProperty ;
+    rdfs:domain ex:TransitAccessPoint ;
+    rdfs:range xsd:decimal .
+
+ex:longitude a owl:DatatypeProperty ;
+    rdfs:domain ex:TransitAccessPoint ;
+    rdfs:range xsd:decimal .
+
+ex:offersAccessibilityFeature a owl:ObjectProperty ;
+    rdfs:domain ex:TrainStation ;
+    rdfs:range ex:AccessibilityFeature .
+
+ex:providesService a owl:ObjectProperty ;
+    rdfs:domain ex:TrainStation ;
+    rdfs:range ex:Line .
+
+ex:sequenceStop a owl:ObjectProperty ;
+    rdfs:domain ex:RouteStopSequence ;
+    rdfs:range ex:TransitAccessPoint .
+
+ex:servedByLine a owl:ObjectProperty ;
+    rdfs:domain ex:TrainStation ;
+    rdfs:range ex:Line .
+
+ex:startStation a owl:ObjectProperty ;
+    rdfs:domain ex:Journey ;
+    rdfs:range ex:TrainStation .
+
+ex:startZone a owl:ObjectProperty ;
+    rdfs:domain ex:TrainStation ;
+    rdfs:range ex:Zone .
+
+ex:stopSequenceNumber a owl:DatatypeProperty ;
+    rdfs:domain ex:RouteStopSequence ;
+    rdfs:range xsd:integer .
+
+ex:zoneNumber a owl:DatatypeProperty ;
+    rdfs:domain ex:Zone ;
+    rdfs:range xsd:integer .
+
+ex:AccessibilityFeature a owl:Class .
+
+ex:TransportMode a owl:Class .
+
+ex:Route a owl:Class .
+
+ex:RouteStopSequence a owl:Class .
+
+ex:Fare a owl:Class .
+
+ex:Journey a owl:Class .
+
+ex:Line a owl:Class ;
+    rdfs:subClassOf ex:Route .
+
+ex:Zone a owl:Class .
+
+ex:TransitAccessPoint a owl:Class .
+
+ex:TrainStation a owl:Class ;
+    rdfs:subClassOf ex:TransitAccessPoint .
+
