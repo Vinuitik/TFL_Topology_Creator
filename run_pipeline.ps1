@@ -1,6 +1,6 @@
 param(
     [string]$DataPattern = "Unstructured-*.txt",
-    [string]$Model = "gemma4:e4b"
+    [string]$Model = "gemma2:2b"
 )
 
 $ErrorActionPreference = "Stop"
@@ -18,16 +18,21 @@ if (-not $ollamaIsUp) {
     throw "Ollama service is not running after startup"
 }
 
-Write-Host "[1.5/3] Checking Ollama model: $Model"
+Write-Host "[1.5/4] Checking Ollama models..."
 $modelList = docker exec ollama ollama list 2>&1
 if ($modelList -notmatch [regex]::Escape($Model)) {
-    Write-Host "  Model not found locally, pulling..."
+    Write-Host "  LLM model '$Model' not found, pulling..."
     docker exec ollama ollama pull $Model
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to pull model '$Model' in ollama container"
-    }
+    if ($LASTEXITCODE -ne 0) { throw "Failed to pull model '$Model' in ollama container" }
 } else {
-    Write-Host "  Model already cached, skipping pull."
+    Write-Host "  LLM model '$Model' already cached."
+}
+if ($modelList -notmatch "nomic-embed-text") {
+    Write-Host "  Embedding model 'nomic-embed-text' not found, pulling..."
+    docker exec ollama ollama pull nomic-embed-text
+    if ($LASTEXITCODE -ne 0) { throw "Failed to pull nomic-embed-text in ollama container" }
+} else {
+    Write-Host "  Embedding model 'nomic-embed-text' already cached."
 }
 
 Write-Host "[2/4] Ingesting OWL/TTL files from inputs/..."

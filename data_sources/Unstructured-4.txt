@@ -1,11 +1,182 @@
-National Rail Conditions of Travel
 
-When you purchase a ticket to travel on the railway network you enter into an agreement with any train operating company you travel with to complete your journey. That agreement gives you the right to make the journey between the stations and or Zones shown on the ticket you’ve bought.
 
-The National Rail Conditions of Travel are also part of that agreement, and set out the minimum level of service you are entitled to expect when you travel with a valid ticket. Individual train companies may offer above this minimum, but not below it. This is called a Passenger’s Charter and can be found on each train company’s website.
+Wikipedia The Free Encyclopedia
 
-The National Rail Conditions of Travel can be found at the links below.
+    Donate
+    Create account
+    Log in
 
-More information on your rights and obligations as a customer of the railway can be found by visiting our Your Rights and Obligations page.
+Contents
 
-Last updated 1 April 2026
+    (Top)
+    Fare zones
+    Ticket machines
+    Summary of ticket types
+    Ticket types
+        Single tickets
+        Travelcard
+        Oyster card
+        Contactless
+    Penalty fares and fare evasion
+    Ticket machines
+    References
+    External links
+
+London Underground ticketing
+
+    Article
+    Talk
+
+    Read
+    Edit
+    View history
+
+Tools
+
+Appearance
+Text
+
+    Small
+    Standard
+    Large
+
+Width
+
+    Standard
+    Wide
+
+Color (beta)
+
+    Automatic
+    Light
+    Dark
+
+From Wikipedia, the free encyclopedia
+icon
+	
+This article needs additional citations for verification. Please help improve this article by adding citations to reliable sources. Unsourced material may be challenged and removed.
+Find sources: "London Underground ticketing" – news · newspapers · books · scholar · JSTOR (July 2009) (Learn how and when to remove this message)
+
+The London Underground and Docklands Light Railway (DLR) metro systems of London, England uses a mix of paper and electronic smart-card ticketing.
+Fare zones
+See also: London fare zones § Ancillary zones
+
+London Underground and Docklands Light Railway use Transport for London's London fare zones to calculate fares, including fares on the Underground only. London fare zone 1 is the most central, encompassing an area mainly bounded by the London Terminals and the Circle line, while London fare zone 6 is the most outlying zone within the Greater London boundaries. It includes London Heathrow Airport. All of Greater London is covered by zones 1 to 6.
+
+Tickets including zone 1 are usually more expensive than those involving only outer zones. The most popular destinations and most interchange stations are in zone 1, meaning that most journeys over similar distances will cost the same.
+
+A few stations in the north east of the network, on the Central line, outside Greater London (in the Epping Forest district) are in zones 4, 5 and 6. In the north west of the network, on the Metropolitan line, zones 7, 8 and 9 (formerly A - D) cover stations outside Greater London including Amersham and Chesham in Buckinghamshire. Unlike the lower numbered zones, the ancillary zones 7-9 do not encircle the capital. Some stations are in two consecutive zones: For example, Vauxhall is in Zones 1 and 2. Ten stations in east London, many in the London Borough of Newham area, are in both zone 2 and 3: Abbey Rd, Bromley-by-Bow, Canning Town, East India, Pudding Mill Lane, Star Lane, Stratford, Stratford High Street, Stratford International and West Ham. This creates the situation where two consecutive stations on a radial route are in both zones - West Ham and Bromley by Bow; Stratford and Pudding Mill Lane; Canning Town and East India.
+
+A traveller travelling to or from a two-zone station can, in certain circumstances, 'save' a zone and perhaps therefore pay a cheaper fare. For example, travelling to West Ham from any zone 2 station is a single zone journey, but so is travelling there from any zone 3 station.
+Ticket machines
+
+American transportation system company Cubic Transportation Systems, known in the UK as Westinghouse Cubic Ltd until April 1997, has manufactured all of London Underground's ticket machines since 1987. Tickets are sold from various types of self-service machines; London Underground progressively closed all its station ticket offices in 2015-16. The name for the system as installed from 1987 is "UTS" (Underground Ticketing System), though this system has been enhanced and extended recently, most notably since 1998 under the Prestige initiative, where Oyster smartcards were introduced.
+Summary of ticket types
+
+The following tickets are/were available from London Underground, Docklands Light Railway and Transport for London ticket agents for use on the Underground and Docklands Light Railway:
+Ticket 	Paper 	Oyster 	Contactless 	Off peak version 	Notes
+Single 	Yes 	Yes 	Yes 	Yes (on Oyster and Contactless) 	Paper tickets are priced at a higher rate.
+Day Travelcard 	Yes 	No 	No 	Yes 	The maximum daily spend on Oyster and Contactless is capped below the equivalent Day Travelcard price.
+3-day Travelcard 	No 	No 	No 	No 	Withdrawn from sale 2 January 2010.
+Weekly Travelcard 	No 	Yes 	No 	No 	Contactless Payment supports "Monday to Sunday Capping".
+Monthly Travelcard 	No 	Yes 	No 	No 	
+Annual Travelcard 	No 	Yes 	No 	No 	Requires registration.
+
+Detailed information on tickets and pricing is available from the Transport for London website.
+
+There are also a number of tickets, issued by National Rail and its agents, valid for travel on London Underground and DLR:
+Ticket 	Paper 	E-ticket 	Smartcard 	Example 	Notes
+single, return and season tickets on interavailable routes 	Yes 	Some 	Some 	Luton to London Thameslink Anytime Day Single 	Some routes are designated as "interavailable routes",[1] for example, between West Hampstead and London Thameslink stations, where a ticket valid on National Rail services on the route is also valid on the tube running in parallel
+cross-London Single and return tickets (tickets marked with a Maltese Cross) 	Yes 	No 	No 	Brighton to Luton Any Permitted Anytime Day Single 	These tickets allow a through journey between two National Rail stations, where a transfer on the Underground is permitted between two interchange stations on the route
+Single and return tickets to/from London Underground fare zones 	Yes 	No 	No 	Brighton to London Underground Zones 1-6 Any Permitted Anytime Day Single 	These tickets allow a through journey between a National Rail station and a London Underground station, allowing one National Rail journey between the National Rail station to an interchange within the fare zones specified, and one London Underground journey within the fare zones specified.
+Day Travelcard 	Yes 	No 	Some 	Brighton to London Zones 1-6 Any Permitted Anytime Day Travelcard 	These tickets are only issued from a National Rail station to a combination of fare zones. It allows unlimited travel within the zones specified, and if the National Rail station is outside the fare zones, a return journey from the station to the zones then back on the same day.
+Season Travelcard (weekly, or any period between 1 month and 1 year) 	Some[2] 	No 	Yes 	Brighton to London Zones 1-6 Any Permitted Season Travelcard 	These tickets are only issued from a National Rail station to a combination of fare zones. It allows unlimited travel within the zones specified, and if the National Rail station is outside the fare zones, unlimited travel between the station specified and the zones.
+Ticket types
+London Underground Day Travelcard
+Single tickets
+
+The fare structure for paper single tickets was simplified in January 2006. Fares for single paper tickets have been set deliberately high in order to encourage users to use either Travelcards or Oyster pre-pay fares, which are substantially lower (by up to £2.50 per journey) than paper tickets.
+
+Return tickets are sold at twice the price of a single ticket. A Travelcard is often cheaper than a return ticket and will automatically be provided by ticket machines and ticket office staff if it is cheaper than the return fare.
+Travelcard
+Main article: Travelcard
+
+Daily, seven-day, monthly and annual Travelcards are also available, allowing unlimited rides in two or more zones on the London Underground and most other forms of public transport in London, including most National Rail services, buses, Tramlink and Docklands Light Railway, but not the Emirates Air Line (cable car) cross-Thames service. Travelcards are also available for 'odd periods' of between one month and a year at some retailers. Most regular travellers use Travelcards, and they are usually better value for money than single tickets for anyone making multiple daily journeys or using multiple forms of public transport (train/tube, tube/bus, etc.). Any period travelcard is valid at any time of day, any day of the week.
+
+Day Travelcards are valid at any time on any day, although they are usually only sold Monday-Friday before 9:30am, while cheaper Off-Peak Travelcards are only valid for use on trains & London Underground services after 9:30am on weekdays (excluding Bank Holidays) but any time on weekends & holidays. Newsagents and other designated "Ticket Stop" shops can no longer sell any form of paper tickets and now only offer Oyster facilities; one day paper Bus Passes can be obtained from ticket vending machines at some Bus Stops in Central London. Both Peak and Off-Peak Day Travelcards are valid on all journeys started before 04:30 on the day after the date of issue.
+
+The number and combination of zones is restricted depending the type of travelcard. Travelcards for only one zone are not sold.
+Validity 	Combinations
+1 day (paper only) 	1-4 (anytime only), 1-6, 1-9 (where applicable)
+Weekly and longer (Oyster only) 	At least two adjacent primary zones †
+
+† Oyster travelcards for the north-west Zones 7, 8, 9, Watford Junction, Hertford East or Shenfield (denoted as Zone 10, 11 or 12 respectively on Oyster cards) must include at least zones 4-6 and any other contiguous zones, i.e. 5+7, 8+9 etc. are not available for purchase.
+Oyster card
+Main article: Oyster card
+
+In 2003, Transport for London launched the Oyster card. It is a proximity card, which on buses, trams and on the Underground allows a traveller to touch the card on one of the yellow readers positioned on the automatic entrance and exit faregates rather than feeding it through a card ticket reader.
+
+Unlike card tickets, the Oyster card is not disposable, and value - either 'pay as you go' balance or Travelcards - can be added to it at computerised ticket machines and at ticket offices. Where pay as you go credit is used, the cost of each journey is deducted from a stored balance. As of October 2005, weekly, monthly and annual Travelcards issued by London Underground or directly by Transport for London are only available on Oyster cards.
+
+The fare structure is now designed to encourage the use of Oyster cards. Daily Travelcards are not available on Oyster, but a system called 'Capping' ensures that on each day of use no more than the equivalent Travelcard price is deducted. Prior to January 2010 the Oyster cap was 50p less than a Travelcard, but now the daily cap for Oyster is always less than the equivalent Day Travelcard. The balance can be automatically topped up with funds from a credit or debit card when the balance becomes low, a feature known as 'auto top-up'. Tickets and pay as you go credit can be purchased via a website or over the telephone.
+
+The Oyster card system is designed to eliminate the need to purchase tickets at the station for most users. Following the implementation of the technology London Underground reduced the number of staff working in ticket offices.
+London Underground automated faregates, West Kensington station (January 2007)
+A faregate at Bounds Green station with the cover open, showing the mechanism inside
+Contactless
+
+Contactless Visa, Maestro, MasterCard and American Express debit and credit bank cards,[3] as well as contactless enabled smartphones and smartwatches using Apple Pay[4] and Android Pay[5] are accepted for travel on London Underground, London Overground, Docklands Light Rail, most National Rail, London Tramlink and Bus services.
+
+Operation of the system is exactly the same as the Oyster smartcard; customers should touch their card on the validation devices (entry/exit gates, passenger validators) at the start and again at the end of their journey to ensure the correct fare is paid. Only adult, non-discount, "Pay As You Go" fares are available with Contactless payment cards. Travelcards may not be loaded onto a Contactless payment card as they may be with Oyster.
+
+Unlike Pay As You Go on Oyster (where the stored value held on the card is adjusted as the passenger touches their card as they enter/exit stations or board buses), transactions made with Contactless payment cards are processed by a central processing system. The total charge of all travel accrued throughout a day is settled overnight, meaning that a customer will see one transaction for each day in which they have travelled on their credit card or bank statement. Daily travel charges are settled directly against the customer's debit or credit card account; no "topping up" is required.
+
+Like Oyster, Contactless implements daily capping, whereby the customer pays no more than the price of an equivalent daily Travelcard. Contactless also offers "Monday-Sunday Capping", whereby the combination of products that gives the "best value" is selected (from a range of single fares, extension fares, daily and weekly Travelcards) to ensure that the customer never pays more than is necessary for their travel. The customer does not have to know their travel plans in advance. Monday-Sunday Capping is distinct from an Oyster 7-day Travelcard in that the latter may be purchased on any day of the week, whereas Monday-Sunday Capping "lapses" at the start of the travel day on Monday.
+
+More information is available from the Transport for London website.
+Penalty fares and fare evasion
+
+In addition to the automatic and staffed faregates at stations, the Underground also operates on a proof-of-payment system. The network is sometimes patrolled by the uniformed staff who mainly stay at the faregates, and very occasionally by plainclothes fare inspectors equipped with hand-held Oyster card readers. Passengers travelling without a ticket valid for their entire journey are sometimes required to pay an £80 penalty fare or face prosecution for fare evasion. Oyster pre-pay users who have failed to 'touch in' at the start of their journey are also considered to be travelling without a valid ticket and are liable to a penalty fare if caught; otherwise they are charged the maximum fare upon touching out at the destination station.
+
+Touts at stations can often be seen attempting to resell used Day Travelcards that they have been given by passengers who no longer need them. Transport for London strongly discourage this, officially stating that Travelcards are 'non-transferable' and thus invalid if resold. Underground staff and inspectors have the authority to confiscate tickets that they know to have been resold and to require a passenger using such a ticket to pay a penalty fare[citation needed], although this is rare in practice since proving a ticket has been resold can be a difficult and time-consuming process.
+
+In an attempt to reduce the numbers of Travelcards being used by more than one person, an experiment took place at Brixton station in 2002. A box was provided at the station exit into which passengers were encouraged to deposit Travelcards that were no longer required, and for each ticket deposited London Underground made a small donation to local charities for the homeless.
+Ticket machines
+
+London Underground ticket machines in all stations support the following 17 languages: English, Spanish, French, German, Italian, Japanese, Arabic, Bengali, Chinese, Greek, Gujarati, Hindi, Polish, Punjabi, Tamil, Turkish and Urdu. Prior to 2009, some ticket machines were multilingual; they supported six languages and those machines had English, Spanish, French, German, Italian, and Japanese. The new languages were added as part of the Investment Programme of LU.[6]
+References
+
+    internal KnowledgeBase, National Rail Enquiries
+    outboundary tickets only
+    "Contactless payment on London Underground". Transport for London (Press release). Retrieved 20 November 2017.
+    "TfL to accept Apple Pay on public transport". Transport for London (Press release). Retrieved 20 November 2017.
+    "Android Pay accepted for pay as you go travel in London". Transport for London (Press release). Retrieved 20 November 2017.
+    "London Underground unveils more languages at ticket machines." (Archive) Transport for London. 1 June 2009. Retrieved on 21 April 2013.
+
+External links
+
+    London transport portal
+
+    Oyster Card information and sales site
+
+Category:
+
+    London Underground
+
+    This page was last edited on 11 October 2025, at 09:18 (UTC).
+    Text is available under the Creative Commons Attribution-ShareAlike 4.0 License; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Legal & safety contacts
+    Code of Conduct
+    Developers
+    Statistics
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

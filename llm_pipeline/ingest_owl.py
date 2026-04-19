@@ -19,6 +19,8 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Tuple
 
+import time
+
 import redis as redis_lib
 import requests
 import rdflib
@@ -29,9 +31,9 @@ log = logging.getLogger(__name__)
 
 _REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379")
 _EMBED_URL = os.getenv("OLLAMA_EMBED_URL", "http://ollama:11434/api/embeddings")
-_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "gemma4:e4b")
+_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 _LLM_URL = os.getenv("OLLAMA_URL", "http://ollama:11434/api/generate")
-_LLM_MODEL = os.getenv("OLLAMA_MODEL", "gemma4:e4b")
+_LLM_MODEL = os.getenv("OLLAMA_MODEL", "gemma2:2b")
 _LLM_TIMEOUT = float(os.getenv("OLLAMA_TIMEOUT_SEC", "45"))
 
 _PROMPTS_DIR = Path(__file__).parent / "prompts"
@@ -75,29 +77,41 @@ def _llm_describe(label: str) -> str:
         key=lambda p: int(re.search(r"-v(\d+)\.txt$", p.name).group(1)),
     )
     full_prompt = prompt_path.read_text(encoding="utf-8") + f"\nName: {label}\n"
+    log.info("LLM describe → model=%s url=%s prompt_chars=%d label='%s'",
+             _LLM_MODEL, _LLM_URL, len(full_prompt), label)
+    t0 = time.monotonic()
     try:
         r = requests.post(
             _LLM_URL,
             json={"model": _LLM_MODEL, "prompt": full_prompt, "stream": False, "options": {"temperature": 0}},
             timeout=_LLM_TIMEOUT,
         )
+        elapsed = time.monotonic() - t0
+        log.info("LLM describe ← status=%d elapsed=%.1fs label='%s'", r.status_code, elapsed, label)
         r.raise_for_status()
         raw = r.json().get("response", "")
         m = re.search(r'\{.*\}', raw, re.DOTALL)
         if m:
             return json.loads(m.group()).get("description", label)
     except Exception as exc:
-        log.warning("LLM describe failed for '%s': %s", label, exc)
+        elapsed = time.monotonic() - t0
+        log.warning("LLM describe failed for '%s' after %.1fs: %s: %s",
+                    label, elapsed, type(exc).__name__, exc)
     return label
 
 
 def _embed(text: str) -> List[float]:
+    log.info("Embed → model=%s url=%s text_chars=%d", _EMBED_MODEL, _EMBED_URL, len(text))
+    t0 = time.monotonic()
     try:
         r = requests.post(_EMBED_URL, json={"model": _EMBED_MODEL, "prompt": text}, timeout=60)
+        elapsed = time.monotonic() - t0
+        log.info("Embed ← status=%d elapsed=%.1fs", r.status_code, elapsed)
         r.raise_for_status()
         return r.json().get("embedding", [])
     except Exception as exc:
-        log.warning("Embedding failed: %s", exc)
+        elapsed = time.monotonic() - t0
+        log.warning("Embedding failed after %.1fs: %s: %s", elapsed, type(exc).__name__, exc)
         return []
 
 
@@ -152,6 +166,7 @@ def _write_to_redis(r: redis_lib.Redis, category: str, items: List[Dict]) -> int
         lbl = item["label"]
         ctx = item["context"]
 
+        log.info("[%s] describing '%s' (ctx_words=%d)", category, lbl, len(ctx.split()))
         description = ctx if len(ctx.split()) >= 8 else _llm_describe(lbl)
         r.set(f"{category}:desc:{lbl}", description)
 
@@ -201,6 +216,14 @@ def main() -> None:
         log.info("No OWL/TTL/RDF files found in %s — skipping ingestion.", inputs_dir)
         print(json.dumps({"files_ingested": 0, "skipped": "no input files"}))
         sys.exit(0)
+
+    # Preflight: check Ollama is up and which models are loaded
+    try:
+        tags = requests.get(_LLM_URL.replace("/api/generate", "/api/tags"), timeout=5).json()
+        loaded = [m["name"] for m in tags.get("models", [])]
+        log.info("Ollama preflight OK — models available: %s", loaded)
+    except Exception as exc:
+        log.warning("Ollama preflight failed: %s: %s", type(exc).__name__, exc)
 
     r = _get_redis()
 

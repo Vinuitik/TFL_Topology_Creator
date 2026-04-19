@@ -25,7 +25,7 @@ def _get_redis() -> redis.Redis:
         _R = redis.from_url(os.getenv("REDIS_URL", "redis://redis:6379"), decode_responses=True)
     return _R
 _EMBED_URL = os.getenv("OLLAMA_EMBED_URL", "http://ollama:11434/api/embeddings")
-_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "gemma4:e4b")
+_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 _BATCH = 20
 _EXACT_THRESHOLD = 350
 _MAX_CANDIDATES_PER_ITEM = 40

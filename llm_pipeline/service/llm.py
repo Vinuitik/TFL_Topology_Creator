@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 
 _PROMPTS_DIR = Path(__file__).parent.parent / "prompts"
 _OLLAMA_URL = os.getenv("OLLAMA_URL", "http://ollama:11434/api/generate")
-_MODEL = os.getenv("OLLAMA_MODEL", "gemma4:e4b")
+_MODEL = os.getenv("OLLAMA_MODEL", "gemma2:2b")
 _TIMEOUT_SEC = float(os.getenv("OLLAMA_TIMEOUT_SEC", "45"))
 _MAX_RETRIES = int(os.getenv("OLLAMA_MAX_RETRIES", "2"))
 _BACKOFF_SEC = float(os.getenv("OLLAMA_BACKOFF_SEC", "1.5"))
@@ -63,26 +63,29 @@ def call_llm(state_name: str, params: str) -> Any:
         "options": {"temperature": 0},
     }
 
+    log.info("LLM → state=%s model=%s url=%s prompt_chars=%d",
+             state_name, _MODEL, _OLLAMA_URL, len(full_prompt))
     last_exc: Exception | None = None
     for attempt in range(1, _MAX_RETRIES + 1):
+        t0 = time.monotonic()
         try:
             response = requests.post(_OLLAMA_URL, json=payload, timeout=_TIMEOUT_SEC)
+            elapsed = time.monotonic() - t0
+            log.info("LLM ← state=%s attempt=%d status=%d elapsed=%.1fs",
+                     state_name, attempt, response.status_code, elapsed)
             response.raise_for_status()
             raw = response.json().get("response", "")
             log.debug("LLM raw response: %r", raw)
             return _parse_json(raw)
         except (requests.RequestException, ValueError) as exc:
+            elapsed = time.monotonic() - t0
             last_exc = exc
             if attempt >= _MAX_RETRIES:
                 break
             sleep_s = _BACKOFF_SEC * attempt
             log.warning(
-                "LLM call failed for state=%s attempt=%d/%d: %s; retrying in %.1fs",
-                state_name,
-                attempt,
-                _MAX_RETRIES,
-                exc,
-                sleep_s,
+                "LLM call failed for state=%s attempt=%d/%d after %.1fs: %s: %s; retrying in %.1fs",
+                state_name, attempt, _MAX_RETRIES, elapsed, type(exc).__name__, exc, sleep_s,
             )
             time.sleep(sleep_s)
 

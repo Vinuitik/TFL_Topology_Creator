@@ -1,144 +1,610 @@
 
-Know your rail rights
-Body
-Components
 
-A guide for rail passengers on how to get refunds and compensation, how to make a complaint and other information for travellers on Britain's railways. 
-Refunds and compensation
+Wikipedia The Free Encyclopedia
 
-Key facts: 
+    Donate
+    Create account
+    Log in
 
-    if there is disruption and you don’t travel you can get a fee free refund from your retailer
-    if you still travel and arrive late you can get compensation from your train company
+Contents
 
-Refunds if you do not travel
+    (Top)
+    History
+    Route
+    Design and infrastructure
+    Service pattern
+    Operations
+    Further proposals
+    Honours and awards
+    See also
+    References
+    External links
 
-    If you purchase a ticket and then choose not to travel, you may be able to apply for a refund from your original retailer. Any refund may be subject to an admin fee of up to £5 and not all tickets are refundable. See ticket types below for more details
-    If your train is cancelled, rescheduled or disrupted after you buy your ticket and as a result you are unable to travel you may apply for a refund from your original retailer. In these cases there is no admin fee
+Elizabeth line
 
-Compensation if you travel and are delayed
+    Article
+    Talk
 
-    If you are delayed in reaching your destination as a result of a delay or cancellation of a train service, you may be entitled to claim compensation from the train company that is responsible for the delay in completing your journey
+    Read
+    Edit
+    View history
 
-Refunds
-Collapse accordion Open accordion
+Tools
 
-You can get a refund:
+Appearance
+Text
 
-    if you change your mind about travelling
-    some tickets such, as Advance Tickets, are non-refundable if you just change your mind
-    all ticket types are refundable if you do not travel due to disruption
-    an admin fee (usually £5) applies to refunds, except in cases of disruption
-    if your ticket costs less than the admin fee you will not receive any money
+    Small
+    Standard
+    Large
 
-Refunding Season Tickets
+Width
 
-Unexpired Season Tickets can be submitted for refund to the retailer or train company you bought it from. The refund is calculated from the date after the Season Ticket was returned.
+    Standard
+    Wide
 
-Refunds can only be backdated with evidence that illness prevented you from travelling (National Rail Conditions of Travel, Condition 40). 
+Color (beta)
 
-The refund amount will be the difference between the price you paid and the cost of a ticket or tickets for the period for which you have actually used the ticket up to and including the date a refund is requested. An admin charge of no more than £10 may be payable.
+    Automatic
+    Light
+    Dark
 
-Because of the discounts on longer term Season Tickets, refunds are not made pro-rata and so there may be no monetary value to your refund once your Season Ticket is nearing expiry.
+From Wikipedia, the free encyclopedia
+For other uses, see Elizabeth Line (disambiguation).
+Elizabeth line
+An Elizabeth line Class 345 train at Reading in January 2026
+Overview
+System	National Rail
+Locale	
 
-For more information please see National Rail: Compensation and refunds for train tickets.
-Complaints
+    Greater London
+    Berkshire
+    Buckinghamshire
+    Essex
 
-Train and station operators are required to have and comply with a procedure for handling complaints from customers and potential customers. 
-Making a complaint about your train company
+Predecessor	TfL Rail
+First service	24 May 2022; 3 years ago
+Current operator	GTS Rail Operations (under concession from TfL)[1]
+Annual ridership	243 million Increase10% (2024/2025)[2] passenger journeys
+Website	tfl.gov.uk/modes/elizabeth-line/ Edit this at Wikidata
+Route
+Termini	West: Heathrow Terminal 4, Heathrow Terminal 5 and Reading
+East: Abbey Wood and Shenfield
+Stops	41
+Distance travelled	117 km (73 mi)[3]
+Technical
+Rolling stock	Class 345[4]
+Track gauge	1,435 mm (4 ft 8+1⁄2 in) standard gauge
+Electrification	Overhead line, 25 kV 50 Hz AC
+Operating speed	
 
-    Gather relevant information. This could include specific journey details such as departure station, date, time and ticket type. 
-    Contact the train company concerned. This may be done via their website, by email or by phone. 
-    Finding a resolution. You should usually receive a full response within 20 working days.
-    Not happy with the response? If you're not happy with the response, ask them to look at it again. The train company has a maximum of 40 working days to try to find a resolution. 
+    Core section: 95 km/h (60 mph)
+    GWML, Heathrow and GEML: 145 km/h (90 mph)
 
-Ombudsman
+Track owners	
 
-If the complaint cannot be resolved, the Rail Ombudsman is able to look at the complaint from an independent perspective. The Rail Ombudsman is a free service and any decision it makes is binding upon the train service provider.
+    Transport for London (Old Oak Common–Abbey Wood and Stratford)
+    Network Rail (Pudding Mill Lane–Shenfield, and Old Oak Common–Reading)
+    Heathrow Airport Holdings (Heathrow branch)
 
-For further details about the Rail Ombudsman and how it may be able to assist, please visit their website.
-Disruption information
+Transport for London rail lines
 
-Each train company needs to publish a code of practice setting out how it will provide information to passengers, including during disruption. 
+The Elizabeth line is a railway line that runs across Greater London and nearby towns. It runs services on dedicated infrastructure in central London from the Great Western Main Line west of Paddington station to Abbey Wood and via Whitechapel to the Great Eastern Main Line near Stratford; and out parallel to the Great Eastern Main Line to Shenfield in the east, along the Great Western Main Line to Reading and Heathrow Airport in the west.
 
-Most train companies rely on the Customer Information Pledges published by the Rail Delivery Group. 
-What is in the Pledges
-Collapse accordion Open accordion
+Under the project name of Crossrail, the system was approved in 2007, and construction began in 2009. Originally planned to open in 2018, the project was repeatedly delayed, including for several months as a result of the COVID-19 pandemic. The service is named after Queen Elizabeth II, who officially opened the line on 17 May 2022 during her Platinum Jubilee year; passenger services started on 24 May 2022.
 
-    before a train journey –ensure customers are able to obtain timely and accurate information via all channels (web, contact centres, telephone services)
-    at the station – tell you as soon as they know which platform your train will depart from and let you know if you need to travel in a particular part of the train 
-    on the train – let customers know when the train is approaching the next station to give you time to get ready to leave the train. Announcements should be consistent with the Passenger Information Screens (PIS) which themselves should be updated at the start of the journey and throughout
-    during times of disruption – add prominent warnings to websites and give an estimate for how long the disruption will last
+Elizabeth line services are operated by GTS Rail Operations under a concession from Transport for London (TfL). TfL considers the line to be a distinct service, rather than part of the London Underground. It is considered to be in a class of its own and TfL's Oyster card is not valid for journeys to stations outside the TfL fare zones,[5][6] whilst a premium fare is charged to passengers travelling to or from Heathrow Airport, in line with that charged on the Heathrow Connect service which it replaced.
 
-All train companies and National Rail Enquiries have a Pledges page which may be accessed via a short link at 'toc.co.uk/pledges', for example nationalrail.co.uk/pledges. 
+The line performs a similar function in London to the RER in Paris and the S-Bahn systems of German-speaking countries.[7] It reached over 200 million trips annually in its second year of operation and carries one seventh of all trips by rail in the United Kingdom.
+History
+Main articles: History of the Crossrail project, Crossrail, and TfL Rail
 
-We review compliance with the pledges and monitor their implementation to ensure that the pledges are being met, even during times of disruption.
-Ticket types
-Advance tickets
-Collapse accordion Open accordion
+In 2001, Cross London Rail Links (CLRL), a 50/50 joint-venture between Transport for London (TfL) and the Department for Transport (DfT), was formed to develop and promote the Crossrail scheme,[8] and also a Wimbledon–Hackney scheme, Crossrail 2. In 2003 and 2004, over 50 days of exhibitions were held to explain the proposals at over 30 different locations.[9][10][11]
+2005 route development
 
-    generally for longer single journeys and subject to availability, with limited numbers available
-    valid only on date and train shown on the ticket
-    non-refundable except if there is disruption, but date/time can be changed before departure of the first reserved train (fee may apply)
-    no break of journey allowed
-    some railcard discounts apply
+In 2005, ahead of Crossrail's hybrid bill submission, a number of feeder routes were considered by CLRL west of Paddington and east of Liverpool Street. It was viewed, given the 24 trains-per-hour (tph) core frequency, that two feeder routes, each of 12 tph, could be taken forward.[12]
 
-Off-peak/Super off-peak Tickets
-Collapse accordion Open accordion
+In the west, a route to Maidenhead (later extended to Reading) and Heathrow Airport was selected. In the east, routes to Abbey Wood (curtailed from Ebbsfleet to avoid conflicts with the North Kent lines) and Shenfield were selected.
+Approval
 
-    for travelling at less busy times on weekdays, and all day at the weekend
-    may require you to travel at specific times of day, days of the week or on a specific route
-    journey planners show where trains are off-peak
-    break of journey allowed (subject to some restrictions)
-    refundable subject to admin fee (unless there is disruption)
-    railcard discounts apply
-    where there is more than one Off-Peak fare for a journey, the cheaper fare with more restrictions will be called Super Off-Peak
+The Crossrail Act 2008 authorising the construction project received royal assent on 22 July 2008.[13][14] In December 2008, TfL and the DfT announced that they had signed the "Crossrail Sponsors' Agreement". This committed them to financing the project, then projected to cost £15.9 billion, with further contributions from Network Rail, BAA,[15] and the City of London.[16]
+Construction
+Main article: Crossrail
+Construction of Crossrail at Tottenham Court Road in September 2011
 
-Anytime Tickets
-Collapse accordion Open accordion
+Work began on 15 May 2009, when piling works started at the future Canary Wharf station.[17]
 
-    fully flexible
-    refundable subject to admin fee (no fee if service is cancelled/delayed)
-    railcard discounts apply, subject to time or fares restrictions set by the railcard
-    can break your journey at stations along the route of travel (except on London Underground/DLR)
-    Anytime Day single and return tickets are valid on date shown on ticket and up to 04:29 the following day. Most Anytime tickets sold in London and the Southeast are anytime day tickets
-    Anytime Single must be used within 2 days of the date shown on the ticket and up until 04:29 after the last day of validity
-    for Anytime Return tickets, the outward journey must be made within 5 days and up until 04:29 after the last day of validity; the return portion must be used within one calendar month and up until 04:29 after the last day of validity
+Boring of the railway tunnels was officially completed in June 2015.[18] Installation of the track was completed in September 2017.[19] The European Train Control System (ETCS) signalling was scheduled to be tested in the Heathrow tunnels over the winter of 2017–2018.[20]
 
-Season Tickets
-Collapse accordion Open accordion
+At the end of August 2018, four months before the scheduled opening of the core section of the line, it was announced that completion was delayed and that the line would not open before autumn 2019.[21] After multiple delays, in August 2020 Crossrail announced that the central section would be ready to open "in the first half of 2022".[22]
 
-    season tickets offer unlimited travel between two specified stations
-    you can buy a season ticket for seven days or any period between one month and a year
-    the Flexi-Season ticket allows 8 days of travel in a 28 day period
-    unless your season ticket says it can only be used to travel with a specific train company, it is valid on all services on the route/within the zones for which the ticket is issued
-    Season Tickets are available for most short and medium distance journeys on the National Rail network, and for some long-distance journeys where a train company chooses to offer them
-    if you no longer need your Season Ticket, you can request a refund from the retailer you bought it from. An admin fee may be payable
+In May 2021, trial running commenced.[23]
 
-Railcards
-Collapse accordion Open accordion
+On 17 May 2022, the line was officially opened by Queen Elizabeth II in honour of her Platinum Jubilee. She was not scheduled to attend the event, but decided to attend with her son, Prince Edward, to unveil the plaque commemorating the official opening.[24]
+Timeline
 
-    Railcards can save you 1/3 on rail fares.
-    You can choose from national Railcards or regional Railcards that cover specific geographical areas.
-    National Railcard options are the 16-17 saver, 16-25 Railcard, 26-30 Railcard, Disabled Persons Railcard, Family & Friends Railcard, Network Railcard, Senior Railcard, Two Together Railcard, and Veterans Railcard.
-    There may be some restrictions on when you can use certain Railcards so check the individual Railcard terms and conditions for further information. These can include time restrictions and minimum fares.
-    You must always carry your Railcard with you during the journey in order to qualify for the discount.
-     
+Though the main tunnels under central London had not yet been opened, passenger operations on the outer branches of the future Elizabeth line were transferred to TfL for inclusion in the concession – this took place over several stages beginning May 2015. During this initial phase of operation, services were operated by MTR under the TfL Rail brand. Following the practice adopted during the transfer of former Silverlink services to London Overground in 2007, TfL carried out a deep clean of stations and trains on the future Elizabeth line route, installed new ticket machines and barriers, introduced Oyster card and contactless payment, and ensured all stations were staffed. Existing rolling stock was rebranded with the TfL Rail identity.[25]
+TfL Rail and Elizabeth line services Stage 	Map 	Completion dates 	Notes
+Schedule 	Actual 	Delay
+0 	Map of the first phase of Crossrail 2015 	May 2015[26] 	31 May 2015[27] 	— 	Existing "metro" service between Liverpool Street (main line station) and Shenfield transferred from Abellio Greater Anglia to TfL Rail
+1 	Map of the first phase of Crossrail 2015 	May 2017[26] 	22 June 2017[28] 	1 month 	Class 345 trains start running between Liverpool Street and Shenfield in reduced length format[29]
+2a[30] 	Map of the 2nd phase of Crossrail in 2018 	May 2018[26] 	20 May 2018[31] 	— 	
 
-Mobile tickets ('mTicket')
-Collapse accordion Open accordion
+    Existing service between Paddington (main line station) and Heathrow Terminal 4 transferred from Heathrow Connect
+    Existing shuttle service between Heathrow Terminals 2 & 3 and Heathrow Terminal 4 transferred from Heathrow Express, both to TfL Rail
 
-    an mTicket is a train ticket that is held on your mobile device in a rail travel app
-    it includes a barcode that holds your ticket information, and you will need to activate it before the barcode can be read
-    if you are unable to show a valid barcode, this may be classed as travelling without a valid ticket
-    ensure your mobile device is charged and your screen is in good condition so that the ticket barcode can be scanned and validated
+5a[32] 	Map of Crossrail with Reading section 	—N/a 	15 December 2019[33] 	— 	
 
-National Rail Conditions of Travel
+    Most stopping services between Paddington and Reading transferred from Great Western Railway to TfL Rail, operating up to 4 tph
+    The first TfL trains in public service to Reading ran on 25 November 2019 as a soft launch of the service.[34]
 
-The National Rail Conditions of Travel form part of the agreement you make with the train companies when you buy a ticket to travel on the rail network.
+2b[30] 	Map of the 2nd phase of Crossrail in 2018 	May 2018[26] 	30 July 2020[35] 	2 years and 2 months 	Class 345 trains start running between Paddington and Heathrow
+4a[36] 	Map of the first phase of Crossrail 2015 	—N/a 	26 May 2021[37] 	— 	Class 345 trains in full length format start running between Liverpool Street and Shenfield[37]
+3 	Map of the 3rd phase of Crossrail 2018 	Dec 2018[26] 	24 May 2022[38] 	3 years and 5 months 	Services between Paddington and Abbey Wood begin; this section and existing TfL Rail routes rebranded as the Elizabeth line, up to 12 tph
+4b/5b 	Map of the 5th phase of Crossrail 2019 	—N/a 	6 November 2022[39] 	— 	Services begin between Paddington and Shenfield; and between Reading and Abbey Wood; and between Heathrow and Abbey Wood. The services are operated in parallel, sharing the central tunnel.
+5c 	Map of the 5th phase of Crossrail 2019 	Dec 2019[26] 	21 May 2023 	3 years and 5 months 	Full route opens, with services between Heathrow and both Abbey Wood and Shenfield; and between Reading and Abbey Wood.
+Route
+See also: Crossrail § Route
 
-They set out your rights and responsibilities when travelling by train, as well as the minimum level of service the train companies must provide.
+The Elizabeth line runs on an east–west axis across the London region, with branches terminating at Abbey Wood and Shenfield in the east, and at Heathrow Terminal 4, Heathrow Terminal 5 and Reading in the west. There are 41 stations. In the central section, there are interchanges with London Underground, National Rail, and Docklands Light Railway lines.[40]
+The Elizabeth line in the London transport network
+Geographical map of London rail and tube
+Geographical map
+Schematic map of London rail and tube
+Schematic map (interactive)
+Routes of the Elizabeth line (in purple, from middle of left edge to right edge), shown with London Underground and the Docklands Light Railway connections
+Design and infrastructure
+Elizabeth line roundel on a sign for Seven Kings station
+Name and identity
 
-They cover topics including buying your ticket, using your ticket, ticket refunds and compensation rights, and Season Ticket special conditions. 
+Crossrail is the name of the construction project and of the limited company, wholly owned by TfL, that was formed to carry out construction works.[25][41]
 
-The complete National Rail Conditions of Travel are available on the National Rail website.
+The "Elizabeth line" is the name of the new service that is on signage throughout the stations. It is named in honour of Queen Elizabeth II,[42][43] and colloquially called the "Lizzie line".[44][45] The Elizabeth line roundel is coloured purple, with a superimposed blue bearing white text in the same style as London Underground and other TfL services. However, unlike other services, the Elizabeth line roundel features the line name rather than the mode of transport (i.e. Underground, Overground, Buses).
+
+TfL Rail was an intermediate brand name which was introduced in May 2015 and discontinued in May 2022. It was used by TfL on services between Paddington and Heathrow Terminal 5 and Reading, as well as trains between Liverpool Street and Shenfield.[46]
+Stations
+
+    vte
+
+Elizabeth line
+All stations have step-free access
+Legend
+		
+		Reading National Rail
+		
+		Twyford National Rail
+		
+		Maidenhead National Rail
+North sign pointing rightward
+			
+		River Thames
+		
+		Taplow
+		
+		Burnham
+		
+		Slough National Rail
+Airport interchange Heathrow Express Piccadilly Line Heathrow T5 		
+		Langley
+Airport interchange Heathrow T4 		
+		Iver
+		
+		M25 motorway
+Airport interchange Heathrow Express Heathrow T2&3 		
+		Greater London boundary
+		
+		West Drayton
+Heathrow Rail Link
+		
+		Great Western Main Line
+		
+		Hayes & Harlington
+		
+		Southall
+		
+		River Brent
+		
+		Hanwell
+		
+		West Ealing National Rail
+		
+		Ealing Broadway Central line (London Underground) District Line
+		
+		Acton Main Line
+National Rail Old Oak Common
+(under construction)
+		
+		Old Oak Common depot
+		
+		
+Crossrail
+		
+		Great Western Main Line
+		
+		turnback siding
+Royal Oak portal
+		
+		
+National Rail Heathrow Express Bakerloo Line Circle line (London Underground)
+District Line Hammersmith & City Line
+Paddington 		
+	enlarge…
+	London Paddington
+Central line (London Underground) Jubilee Line Bond Street 		
+		
+Central line (London Underground) Northern Line Tottenham Ct Rd 		
+		
+National Rail Circle line (London Underground) Hammersmith & City Line Metropolitan Line Farringdon 		
+		Barbican Circle line (London Underground) Hammersmith & City Line Metropolitan Line
+		
+		Moorgate Northern Line Northern City Line
+National Rail Weaver line Central line (London Underground) Circle line (London Underground)
+Hammersmith & City Line Metropolitan Line
+Liverpool St 		
+		
+Windrush line District Line Hammersmith & City Line Whitechapel 		
+		
+Crossrail
+		
+		Great Eastern Main Line
+		
+		Pudding Mill Lane portal[47]
+Canary Wharf tube station Canary Wharf DLR station Canary Wharf 		
+		Stratford National Rail Mildmay line Central line (London Underground) Jubilee Line Docklands Light Railway
+Victoria Dock portal
+		
+		Maryland
+Docklands Light Railway Custom House 		
+		Forest Gate Suffragette line Wanstead
+Park
+Connaught tunnel
+under Royal Docks
+		
+		Manor Park
+River Thames
+		
+		Ilford
+Woolwich Arsenal station Woolwich Arsenal station Woolwich 		
+		Seven Kings
+National Rail Abbey Wood 		
+		Goodmayes
+Safeguarded route
+to Gravesend
+		
+		Chadwell Heath
+		
+		Romford Control Centre
+and depot
+		
+		
+		
+		Romford National Rail Liberty line
+		
+		Gidea Park
+		
+		Harold Wood
+		
+		Greater London boundary
+		
+		M25 motorway
+		
+		Brentwood
+		
+		Shenfield National Rail
+						
+Elizabeth line station information Station 	Image 	Line section 	TfL service began 	Interchanges
+Reading 	
+	Reading branch 	15 December 2019 	
+
+    National Rail CrossCountry
+    National Rail Great Western
+    National Rail South Western
+
+Twyford 	
+	National Rail Great Western
+Maidenhead 	
+	National Rail Great Western
+Taplow 	
+	
+Burnham 	
+	
+Slough 	
+	National Rail Great Western
+Langley 	
+	
+Iver 	
+	
+West Drayton 	
+	
+Heathrow Terminal 5
+Heathrow Airport 	
+	Heathrow branch 	9 May 2020 	
+
+    Heathrow Express Heathrow Express
+    Piccadilly Line Piccadilly line
+
+Heathrow Terminal 4
+Heathrow Airport 	
+	20 May 2018 	
+Heathrow Terminals 2 & 3
+Heathrow Airport 	
+	Heathrow Express Heathrow Express
+Hayes & Harlington 	
+	Reading and Heathrow branches 	20 May 2018 	
+Southall 	
+	
+Hanwell 	
+	Heathrow branch[a] 	
+West Ealing 	
+	National Rail Great Western
+Ealing Broadway 	
+	Reading and Heathrow branches 	
+
+    Central line (London Underground) Central line
+    District Line District line
+
+Acton Main Line 	
+	Heathrow branch[a] 	
+Paddington[b] 	
+	Core 	24 May 2022[c] 	
+
+    National Rail Great Western
+    Heathrow Express Heathrow Express
+    Bakerloo Line Bakerloo line[d]
+    Circle line (London Underground) Circle line[d][e]
+    District Line District line[d]
+    Hammersmith & City Line Hammersmith & City line[e]
+
+Bond Street 	
+	24 October 2022 	
+
+    Central line (London Underground) Central line
+    Jubilee Line Jubilee line
+
+Tottenham Court Road 	
+	24 May 2022 	
+
+    Central line (London Underground) Central line
+    Northern Line Northern line
+
+Farringdon 	
+	
+
+    National Rail Thameslink
+    Circle line (London Underground) Circle line
+    Hammersmith & City Line Hammersmith & City line
+    Metropolitan Line Metropolitan line
+
+Liverpool Street[f] 	
+	24 May 2022[g] 	
+
+    National Rail c2c[h]
+    National Rail Greater Anglia
+    National Rail Great Northern[i]
+    Weaver line Weaver line
+    Central line (London Underground) Central line
+    Circle line (London Underground) Circle line
+    Hammersmith & City Line Hammersmith & City line
+    Metropolitan Line Metropolitan line
+    Northern Line Northern line[i]
+
+Whitechapel 	
+	24 May 2022 	
+
+    Windrush line Windrush line
+    District Line District line
+    Hammersmith & City Line Hammersmith & City line
+
+Canary Wharf 	
+	Abbey Wood branch 	24 May 2022 	
+
+    Jubilee Line Jubilee line[j]
+    Docklands Light Railway Docklands Light Railway[k]
+
+Custom House 	
+	Docklands Light Railway Docklands Light Railway
+Woolwich 	
+	
+
+    National Rail Southeastern[l]
+    National Rail Thameslink[l]
+    Docklands Light Railway Docklands Light Railway[l]
+
+Abbey Wood 	
+	
+
+    National Rail Southeastern
+    National Rail Thameslink
+
+Stratford 	
+	Shenfield branch 	31 May 2015 	
+
+    National Rail c2c[h]
+    National Rail Greater Anglia
+    Mildmay line Mildmay line
+    Central line (London Underground) Central line
+    Jubilee Line Jubilee line
+    Docklands Light Railway Docklands Light Railway
+
+Maryland 	
+	
+Forest Gate 	
+	Suffragette line Suffragette line[m]
+Manor Park 	
+	
+Ilford 	
+	
+Seven Kings 	
+	
+Goodmayes 	
+	
+Chadwell Heath 	
+	
+Romford 	
+	
+
+    National Rail Greater Anglia
+    Liberty line Liberty line
+
+Gidea Park 	
+	
+Harold Wood 	
+	
+Brentwood 	
+	
+Shenfield 	
+	National Rail Greater Anglia
+
+    Reading branch services skip Hanwell, West Ealing, and Acton Main Line stations
+    Some early-morning and late-night services instead use the National Rail terminal platforms
+    Services using the National Rail terminal platforms commenced on 20 May 2018
+    From Paddington (Bakerloo, Circle, and District) tube station
+    From Paddingdon (Circle and Hammersmith & City) tube station
+    Some early-morning, late-night, and peak-time services instead use the National Rail terminal platforms
+    Services using the National Rail terminal platforms commenced on 31 May 2015
+    Only limited service
+    From Moorgate station
+    From Canary Wharf tube station
+    From Canary Wharf, Poplar, and West India Quay DLR stations
+    From Woolwich Arsenal station
+    From Wanstead Park station
+
+The new platforms at Farringdon
+
+Ten new stations have been built in the central and south east sections of the line, and 31 existing stations were upgraded and refurbished.[48] Nine of the ten new-build stations opened for revenue service on 24 May 2022; the remaining station – Bond Street – required additional finishing works before commissioning could proceed.[49][50] Trains passed through its platforms non-stop until it opened five months later on 24 October.[51][52] All stations are equipped with CCTV[53] and because of the length of trains, central stations have train indicators above the platform-edge doors.[54]
+
+All 41 stations are step-free from street to platform.[55] Thirteen stations (the central and Heathrow stations) have level access between trains and platforms while other outer suburban platforms remain at their pre-existing height, about 200 millimetres (7.9 in) lower.[56] This platform height difference was criticised by the Campaign for Level Boarding who said Crossrail's "poor decision making" meant "this brand-new railway has cornered itself into perpetually offering an inaccessible service."[56]
+
+Although the trains are 200 metres (660 feet) long, platforms at the new stations in the central core are built to enable 240-metre-long (790 ft) trains in case of possible future need. In the eastern section, Maryland and Manor Park have not had platform extensions, so trains use selective door opening instead.[57] At Maryland this is because of the prohibitive cost of extensions and the poor business case,[58] and at Manor Park it is due to the presence of a freight loop that would otherwise be cut off.[59]
+
+The new subterranean stations were designed by Grimshaw Architects, adopting a uniform approach across all stations, in partnership with engineering firm AtkinsRéalis; way-finding was designed by Maynard and lighting designed by Equation.[60]
+Future stations
+
+As of 2024, Old Oak Common railway station is under construction. It will provide an interchange with the High Speed 2 service.
+Station 	Image 	Line section 	Opening 	Interchanges
+Old Oak Common 	—N/a 	Core[61] 	c. 2030[62] 	
+
+    National Rail Avanti West Coast
+    National Rail Great Western
+    Heathrow Express Heathrow Express
+
+Rolling stock
+Current rolling stock
+ Class 	Image 	Type 	 Top speed 	 Carriages 	 Number 	 Routes operated 	 Built 	 Years in operation
+ mph  	 km/h 
+Class 345 Aventra 		EMU 	90 	145 	7 or 9 	70 	
+
+All lines
+	2015–2019
+
+2025–present
+	June 2017–present
+Former rolling stock
+ Class 	Image 	Type 	 Top speed 	 Carriages 	 Number 	 Routes operated 	 Built 	 Years in operation
+ mph  	 km/h 
+Class 315 		EMU 	75 	120 	4 	20 	Liverpool Street – Shenfield[63] 	1980–1981 	May–December 2022
+Class 345 unit at Shenfield in 2017
+
+Services on the Elizabeth line are operated exclusively by a fleet of nine-car Class 345 trains that was procured especially for this purpose.[64][38] The service specifications called for approximately 60 trains, each 200 metres (660 feet) long and capable of carrying up to 1,500 passengers, of which 57 would be in service at any one time.[65][66] In March 2011, Crossrail indicated that five bidders had been shortlisted as potential suppliers of both the new fleet and its depot facilities; Alstom, CAF, Siemens Mobility, Hitachi Rail, and Bombardier Transportation – although Alstom withdrew four months later.[65][66] Crossrail issued invitations to negotiate to the remaining bidders in March 2012, with submission of tenders expected between June and August.[66] It was stipulated that bidders should offer a fleet based on technology that was "already developed", with the expectation that an "evolutionary, not revolutionary" product would help to ensure "value for money" and "[the] utmost reliability from day one".[65][66] Siemens withdrew their rolling stock bid in July 2013, citing an increase in other business and a need to protect their "ability to deliver ... current customer commitments", which included the £1.6 billion Class 700 order for Thameslink. Their contract to supply Crossrail's signalling and control systems was unaffected.[67]
+
+In December 2013, the European Investment Bank (EIB) agreed to provide TfL loans of up to £500 million to fund the rolling stock procurement, following TfL's decision in March of that year to abandon plans to cover most of the cost with private financing.[68]
+
+TfL and the DfT announced in early February 2014 that Bombardier's bid had been successful. The 32-year contract for the supply and maintenance of the trains and depot was valued at £1 billion. It included a firm order for 65 units from Bombardier's new Aventra family, plus an option for a further 18.[4][69] The trains have air-conditioning and are designed to be as accessible as possible, including wide aisles and gangways, dedicated areas for wheelchairs, audio and visual announcements, CCTV, and passenger intercoms connected to the driver for use in the event of emergency.[70] They will run at up to 90 mph (140 km/h) on certain parts of the route.[71]
+
+Due to limited platform lengths at both Liverpool Street and Paddington National Rail stations, most Class 345 units were initially delivered as seven-car formations, then later extended to the intended nine.[72] The first unit entered service on 22 June 2017, between Liverpool Street and Shenfield.[73][74] TfL exercised an option to acquire a further five units in July 2017, bringing the total number on order to 70.[75]
+
+A number of Class 315 units that had been operating with TfL Rail remained in use on Elizabeth line services between Liverpool Street's terminal platforms and Shenfield alongside Class 345 units while the introduction of the new fleet – including the extension to nine-car formations – was completed.[76] The Class 315 units, which had been built for British Rail in 1980–1981, could not be used in the line's core section. The final four were withdrawn from service on 9 December 2022.[77]
+Future stock
+
+Following the opening of the Elizabeth line, TfL experienced high passenger growth on the line.[78] TfL noted that extra capacity would be required when Old Oak Common railway station opens in the 2030s alongside the opening of High Speed 2.[79] TfL therefore pushed for funding from the DfT for additional trains.[80] Following this, Alstom (new owners of the original builder Bombardier) was awarded a £370 million contract in June 2024 to build an additional ten Class 345 trains at its factory in Derby. This would increase the number of trains from 70 to 80.[81]
+Electrification and train protection
+
+The Elizabeth line uses 25 kV, 50 Hz AC overhead lines, already in use on the Great Eastern and Great Western Main Lines.
+
+The Heathrow branch started using the European Train Control System (ETCS) in 2020. The Automatic Warning System (AWS) and Train Protection & Warning System (TPWS) are used on the Great Western and Great Eastern Main Lines, with possible later upgrades to ETCS. Communications-based train control (CBTC) is installed in the central section and the Abbey Wood branch.[82][83][84]
+Depots
+
+The Elizabeth line has depots in west London at Old Oak Common TMD, in south-east London at Plumstead Depot, and in east London at Ilford EMU Depot.[85][86]
+Service pattern
+Previous service
+
+In May 2015, commuter services on a section of one of the eastern branches, between Liverpool Street and Shenfield, were transferred to TfL Rail; this precursor service also took control of Heathrow Connect in May 2018, and some local services on the Paddington to Reading line in December 2019. These services were augmented by a new central section in May 2022, and rebranded as the Elizabeth line. The outer services were connected to the central section in November 2022. Since May 2023, the central section has had up to 24 nine-carriage Class 345 trains per hour in each direction.
+
+Upon opening, the line ran as three physically separate services: between Reading or Heathrow Airport and Paddington in the west; from Paddington via Liverpool Street to Abbey Wood in the centre; and between Liverpool Street and Shenfield in the east. To connect between services, a walk between the separate stations at Paddington or Liverpool Street was required. Operating hours were limited, as well as the service running Monday to Saturday only - allowing for further testing and software updates to take place.[87] When through-running began in November 2022, there were two main service groups, overlapping through the core section: from Reading or Heathrow Airport to Abbey Wood; and from Paddington to Shenfield.
+Current service
+
+As of December 2024, the off-peak weekday service is as follows:[88]
+Elizabeth line off-peak weekday service Route 	tph 	Calling at
+Reading to Abbey Wood 	2 	
+
+    TwyfordMaidenheadTaplowBurnhamSloughLangleyWest DraytonHayes & HarlingtonSouthallEaling BroadwayPaddingtonBond StreetTottenham Court RoadFarringdonLiverpool StreetWhitechapelCanary WharfCustom HouseWoolwich
+
+Maidenhead to Abbey Wood 	2 	
+
+    BurnhamSloughLangleyIverWest DraytonHayes & HarlingtonSouthallEaling BroadwayPaddingtonBond StreetTottenham Court RoadFarringdonLiverpool StreetWhitechapelCanary WharfCustom HouseWoolwich
+
+Heathrow Terminal 4 to Abbey Wood 	4 	
+
+    Heathrow Terminals 2 & 3Hayes & HarlingtonSouthallHanwellWest EalingEaling BroadwayActon Main LinePaddingtonBond StreetTottenham Court RoadFarringdonLiverpool StreetWhitechapelCanary WharfCustom HouseWoolwich
+
+Heathrow Terminal 5 to Shenfield 	2 	
+
+    Heathrow Terminals 2 & 3Hayes & HarlingtonWest EalingEaling BroadwayPaddingtonBond StreetTottenham Court RoadFarringdonLiverpool StreetWhitechapelStratfordMarylandForest GateManor ParkIlfordSeven KingsGoodmayesChadwell HeathRomfordGidea ParkHarold WoodBrentwood
+
+Paddington to Shenfield 	6 	
+
+    Bond StreetTottenham Court RoadFarringdonLiverpool StreetWhitechapelStratfordMarylandForest GateManor ParkIlfordSeven KingsGoodmayesChadwell HeathRomfordGidea ParkHarold WoodBrentwood
+
+Some early morning and late night services run into Paddington mainline terminus instead of going through central London. Likewise, some early, peak-direction, and late trains run between Liverpool Street mainline terminus and Gidea Park, bypassing Whitechapel.
+Journey times
+Minutes between stations[89] Route 	Pre-Elizabeth line time 	Elizabeth line time
+Paddington to Tottenham Court Road 	20 	4
+Paddington to Canary Wharf 	34 	17
+Bond Street to Paddington 	15 	3
+Bond Street to Whitechapel 	24 	10
+Canary Wharf to Liverpool Street 	21 	6
+Canary Wharf to Heathrow 	55 	39
+Whitechapel to Canary Wharf 	13 	3
+Abbey Wood to Heathrow 	93 	52
+Operations
+Operator
+
+The Elizabeth line is currently operated by GTS Rail Operations, a train operating company owned by Go-Ahead Group, Tokyo Metro and Sumitomo Corporation.[6] GTS took over operations from MTR Elizabeth line,[90] the line's first operator, whose contract with TfL expired in May 2025. Following a model similar to that used for the Docklands Light Railway and London Overground, TfL invited tenders for operation of the Elizabeth line. Unlike other National Rail operators under the franchise control of the DfT, TfL sets fares, procures rolling stock and decides service levels. The operator takes only a small element of revenue risk, with TfL taking 90% and the operator 10%.
+History
+
+In June 2013, TfL announced that Arriva, MTR Corporation, Keolis / Go-Ahead Group and National Express had been shortlisted to bid for the concession to operate Crossrail, which was under construction.[91][92] Prior to the opening of the central section, the concessionaire would operate the existing railway services using the TfL Rail brand. In July 2014, TfL awarded the contract to MTR Corporation, for a duration of eight years with an option to extend by an additional two years.[93][94]
+
+On 16 February 2024, TfL shortlisted four bidders – Arriva, a FirstGroup / Keolis joint venture, MTR Corporation and GTS Rail Operations (a consortium comprising Go-Ahead Group, Tokyo Metro and Sumitomo Corporation) – to operate the line from May 2025.[95] In November 2024, GTS Rail Operations was chosen to operate the line from May 2025 for seven years with an optional two-year extension.[96][97][98]
+Ticketing
+
+Ticketing is integrated with the other London transport systems, but Oyster pay as you go is not accepted on the western section between West Drayton (the limit of London fare zone 6) and Reading, with only contactless cards valid there. The concessionary travel Freedom Pass is valid for the whole length of the route, including stations outside London.[99][100] The Elizabeth line is integrated with the London Underground, the wider TfL network and the National Rail networks; it is also included on the standard Tube map.[101]
+
+Journeys to or from Heathrow Airport are priced at a premium due to using the rail tunnel between the airport and Hayes & Harlington. That stretch of line is not part of the Network Rail system but owned by Heathrow Airport Holdings, who charge TfL an additional fee for each train that uses it. This fare is priced approximately halfway between the more expensive Heathrow Express and the standard Zone 6 fare charged on the Underground. Heathrow is nevertheless included within the Travelcard scheme and daily/weekly fare capping as fare zone 6 stations.[102]
+Passenger numbers
+
+Before the COVID-19 pandemic, the Elizabeth line was predicted to carry over 200 million passengers annually immediately after opening;[103] this was expected to relieve pressure on London Underground's lines, especially the Central line.[104] Farringdon is expected to become one of the busiest stations in the UK, due to it being the key interchange station with Thameslink services.[105] In a business plan for the line published in January 2020, TfL predicted total annual revenues from the line of nearly £500 million per year in 2022/23 (its first full year of operation) and over £1 billion per year in 2024/25.[103] By the time the line opened, TfL had reduced their passenger forecasts because passenger travelling habits changed during the pandemic; the estimate was between 130 and 170 million passengers by 2026.[106] However, the Elizabeth line carried 62.2 million passengers in the last quarter of 2022 alone. That was one-sixth of the UK's total rail journeys, and double the number the line carried during the same period one year earlier.[107] TFL later stated the line had carried over 150 million passengers in its first year of operation.[108] By its second anniversary, more than 350 million trips had been made on the line, and it carried a seventh of all rail trips in the UK.[109]
+
+In the fiscal year ending March 2025, the line carried 243 million passengers,[2] an increase of 10% on the previous year.
+Number of passengers carried Fiscal Year 	Passengers
+(millions) 	Source
+2022/23 	143.1 	[2]
+2023/24 	220.3 	[2]
+2024/25 	242.9 	[2]
+Further proposals
+Main article: Crossrail § Further proposals
+
+A new station has been proposed to serve London City Airport, and extensions have been put forward to Ebbsfleet in the south east, Milton Keynes in the north west, Staines in the south west, and Southend Airport in the east.
+
+TfL has introduced high-speed 4G and 5G mobile coverage in the first tunnelled section of the Elizabeth line between Liverpool Street and Paddington. This initiative, part of a broader plan to extend coverage across the entire Tube and London Overground network, aims to improve connectivity.[110]
+Honours and awards
+
+In 2024, the Elizabeth line won the RIBA London Building of the Year award,[111] and won the Stirling Prize for the same year.[112] Muyiwa Oki, RIBA president and chair of judges, said the Elizabeth line was "a triumph in architect-led collaboration" that transformed "the typical commuter chaos . . . into an effortless experience".[112]
+See also
+
+    Crossrail 2 – second proposed Crossrail route providing a new north–south rail link across Greater London
+    Thameslink - north–south route through London connecting locations across south east England
+    The Fifteen Billion Pound Railway, a documentary about the Elizabeth line's construction and commissioning
+    Transport in London
+    Réseau Express Régional
+    Naniwasuji Line, planned north–south rail link in Osaka
+

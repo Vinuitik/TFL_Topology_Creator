@@ -1,19 +1,180 @@
-London's bus network is one of the largest and most recognisable urban transport systems in the world. The iconic red double-decker bus has become a symbol of the city itself, instantly associated with London's identity in the same way as black cabs and the Underground.
 
-Transport for London (TfL) oversees the bus network, which covers virtually every corner of Greater London. Rather than operating the buses directly, TfL contracts private operators — companies like Arriva, Go-Ahead, Metroline, and Tower Transit — who run the routes on TfL's behalf. All buses operate under TfL branding and follow standardised fares and ticketing rules regardless of which company drives them.
 
-The network runs around the clock. Most routes operate throughout the day and into the late evening, while a dedicated set of Night Bus routes (identified by the letter N before the route number) keep running through the small hours when the Tube and most Overground services shut down. For many Londoners who work night shifts or enjoy the city's nightlife, the Night Bus is the only practical option for getting home.
+Wikipedia The Free Encyclopedia
 
-Fares are flat across the entire network — a single journey costs the same whether you are travelling two stops or crossing the whole of London. Payment is contactless only: cash has not been accepted on London buses since 2014. Passengers tap in with an Oyster card, a contactless bank card, or a contactless device such as a phone or watch. There is also a daily cap and a weekly cap, which limits the total anyone pays regardless of how many journeys they make. Travellers under the age of 11 travel free, and those aged 11 to 17 in full-time education can apply for a zip Oyster card giving free or heavily discounted travel.
+    Donate
+    Create account
+    Log in
 
-Bus stops across London are colour-coded. A red stop with a white background is a request stop, where the bus only halts if a passenger signals from the kerb or rings the bell on board. A white stop with a red background is a compulsory stop, where every bus pauses regardless. Buses in Central London also operate many dedicated bus lanes, which help them move faster through congested streets, and several routes serve bus-only streets entirely closed to other traffic.
+Contents
 
-London's bus routes are numbered rather than named. Single and double-digit numbers generally serve central areas; three-digit numbers typically indicate suburban routes further from the core. Routes in the 400s and 500s often serve areas south and east of the city, and routes prefixed with letters such as E, W, or K serve specific local areas like Ealing, Walthamstow, or Kingston.
+    (Top)
+    Background
+    History
+    Principal fare zones
+    Ancillary zones
+    Outside fare zones
+    Notes
+    References
 
-The network is also a lifeline for accessibility. All modern London buses are low-floor, with a ramp that extends to allow wheelchair users and passengers with prams to board without assistance. Each bus has a designated wheelchair space and priority seating near the front for elderly and disabled passengers. Audio and visual announcements on board call out the next stop, which helps passengers who are visually impaired or unfamiliar with the route.
+London fare zones
 
-In recent years, London has been gradually replacing older diesel buses with cleaner alternatives. The city now has a growing fleet of zero-emission electric buses, particularly on routes in the most polluted central zones. Hydrogen fuel-cell buses have also been trialled on certain routes. The goal is to make the entire London bus fleet zero-emission by the mid-2030s.
+    Article
+    Talk
 
-During major events — concerts, football matches, New Year's Eve — TfL often puts on extra services or diverts routes around road closures. Journey planning is generally done through the TfL Go app or website, which gives real-time arrival information using GPS tracking on every bus.
+    Read
+    Edit
+    View history
 
-Complaints and feedback about specific routes or services are handled by TfL directly, and persistent issues with punctuality or reliability on a route can lead to TfL renegotiating or removing the contract from the operating company. Service quality, therefore, is commercially important to the operators as well as to passengers.
+Tools
+
+Appearance
+Text
+
+    Small
+    Standard
+    Large
+
+Width
+
+    Standard
+    Wide
+
+Color (beta)
+
+    Automatic
+    Light
+    Dark
+
+From Wikipedia, the free encyclopedia
+Route map of zonal system of the railway services directly managed by Transport for London. Stations only served by National Rail services are not shown in this map.
+
+Rail service fares in Greater London and the surrounding area are calculated in accordance with the London fare zones system managed by Transport for London. Within London, all London Underground, National Rail, London Overground, Elizabeth Line and Docklands Light Railway stations are assigned to six fare zones.[notes 1] Fare zone 1 covers the central area and fare zones 2, 3, 4, 5 and 6 form concentric rings around it. Some National Rail stations and almost all Transport for London served stations outside Greater London in the home counties of Buckinghamshire, Essex, Hertfordshire and Surrey are either included in fare zones 4, 5 or 6 or in extended zones beyond these. Transport for London fare zones are also known simply as zones or travelcard zones, referring to their use in calculating prices for travelcards. London fare zones are also used for calculating the cost of single and return paper tickets on Transport for London services, National Rail single and return paper tickets within the London area, Oyster card and contactless pay-as-you-go fares and caps, and season tickets.[1][2] Before Londonwide flat fares were introduced in 2004, fare zones were used on the London Buses network.
+Background
+
+Before the introduction of fare zones, tickets for rail travel in Greater London were purchased on a 'point-to-point' basis between two stations, either as a single, return or season ticket; and were priced according to distance travelled. During the early 1980s the London Transport Executive of the Greater London Council made a series of revisions to fares which introduced the fare zones. The purpose of creating zones was to simplify fares, in order to speed up the process of buying tickets. On buses this became necessary as conductors were being eliminated in favour of the driver selling tickets, which was having an impact on the time it took passengers to board the bus and therefore on journey times.
+History
+
+The first zones were introduced on 4 October 1981 as part of the Fares Fair policy of the Greater London Council.[3] For London Buses, the whole of Greater London was divided into four bus zones where flat fares applied.[4] They were City, West End, Inner and Outer.[3] On the London Underground, only the overlapping City and West End zones were advertised to the public.[3] On 21 March 1982 fares to all other London Underground stations were graduated at three mile intervals, effectively creating zones, although they were not named as such.[5] During 1982, outer zonal boundaries for public use were being developed.[6]
+
+The weekly, monthly and annual Travelcard was launched on Sunday 22 May 1983.[7] To coincide with this, the City and West End zones were combined into a new Central zone 1 (coloured blue on maps) for both London Buses and London Underground.[8] The existing Inner bus zone became Inner zone 2 (green on maps). That was surrounded by the rings of Outer zones 3a, 3b and 3c (all coloured orange on maps). These five zones covered all London Underground stations within Greater London.[8] 3a, 3b and 3c were combined into a single Outer zone 3 for London Buses.[8] The off-peak One Day Travelcard, initially launched on 22 April 1984, also used the zones.[9]
+
+British Rail stations in London were brought into the fare zones when the weekly, monthly and annual Capitalcard was introduced on 6 January 1985.[10] The fare zones were also used for the off-peak One Day Capitalcard launched in June 1986.[5] When the Capitalcard and Travelcard tickets were folded into a single Travelcard brand on 8 January 1989, the outer zones were renamed. 3a became zone 3, 3b became zone 4 and 3c became zone 5.[11] Whereas 3a, 3b and 3c had been grouped as one zone for bus fares, only zones 4 and 5 were grouped after the change.[11][12] Zone 3 was coloured yellow on maps to indicate this.[11] Part of zone 5 was split off into a new zone 6 from 6 January 1991.[13] The LT Card, valid only on London Transport services at all times of day and introduced on 12 May 1991, also used the fare zones.[14]
+Principal fare zones
+
+All of Greater London is within the six principal fare zones numbered 1 to 6. Inner zone 1 forms a roughly circular area and covers central London. Each of five outer zones forms a concentric ring around it. Zones 4, 5 and 6 additionally extend into parts of Essex, Hertfordshire and Surrey. List of boroughs in each zone:
+Zone 	Inner London 	Outer London 	Outside London
+1 	Central London: City of London, Camden, Hackney, Islington, Kensington & Chelsea, Lambeth, Southwark, Tower Hamlets, Wandsworth and Westminster 		
+2 	Camden, Hackney, Hammersmith & Fulham, Islington, Kensington & Chelsea, Lambeth, Lewisham, Newham, Southwark, Tower Hamlets, Wandsworth and Westminster 	Brent, Ealing, Greenwich, Hounslow 	
+3 	Camden, Hackney, Haringey, Islington, Lambeth, Lewisham, Newham, Southwark, Wandsworth 	Barnet, Brent, Bromley, Croydon, Ealing, Greenwich, Hounslow, Merton, Richmond upon Thames, Waltham Forest 	
+4 	Lewisham, Haringey, Newham 	Barking and Dagenham, Barnet, Bexley, Brent, Bromley, Croydon, Ealing, Enfield, Greenwich, Hounslow, Kingston upon Thames, Merton, Redbridge, Richmond upon Thames, Sutton, Waltham Forest 	Epping Forest (Essex)
+5 		Barking and Dagenham, Barnet, Bexley, Bromley, Croydon, Ealing, Enfield, Harrow, Hillingdon, Hounslow, Kingston upon Thames, Richmond upon Thames, Sutton, Waltham Forest 	Epping Forest (Essex), Epsom and Ewell (Surrey)
+6 		Bexley, Bromley, Croydon, Enfield, Harrow, Havering, Hillingdon, Hounslow, Kingston upon Thames, Richmond upon Thames 	Elmbridge (Surrey), Epping Forest (Essex), Epsom and Ewell (Surrey), Hertsmere (Hertfordshire), Reigate and Banstead (Surrey), Tandridge (Surrey), Three Rivers (Hertfordshire)
+Ancillary zones
+Further information: List of stations in London fare zones 7–14
+
+For some services outside Greater London where fares are set by Transport for London, there are three additional zones 7, 8 and 9. They extend into Buckinghamshire, Essex and Hertfordshire to include most stations served by TfL services beyond zone 6. Some National Rail stations that are outside Greater London are also in these zones. Unlike zones 2–6, they do not form complete rings around London.
+Outside fare zones
+Further information: CPAY § Coverage
+
+As of January 2013, there were eight National Rail stations outside the nine numbered fare zones, where Oyster card pay as you go is permitted and fares are set by the train operating companies. They are located in Essex and Hertfordshire, and are organised into additional areas B, C, G and W. On maps, these stations are shown as being outside fare zones 1–9, but within the 'special fares' Oyster pay as you go area.[15]
+
+In January 2016, the Oyster and contactless system was extended to Gatwick Airport in Crawley, West Sussex, and the stations down that line (Horley, Salfords, Earlswood, Redhill and Merstham).[16]
+
+All stations accepting Oyster card but outside the publicised fare zones (except Stratford International) are put into unadvertised zones, which are numbered 9 to 14, for the purpose of calculating caps.[17] In addition, there are stations which are further out accepting contactless payment cards but not Oyster cards. These stations do not have zonal fares and caps, with caps applied on the basis of individual stations, and categorised as zone 16 in the fare data.[18]
+Notes
+
+    Stations can be assigned to one or two fare zones
+
+References
+
+    London Rail and Tube fares 2022 2023
+    London Rail and Tube fares 2025 2026
+    "A cut out guide to the biggest fare cuts in London's history". Sunday Mirror. 4 October 1981. p. 12.
+    Greater London Council (15 June 1961). "London Buses Map and List of Routes Showing Four New Fare Zones - London Transport Executive". Google Arts and Culture. London: TfL Corporate Archives. Archived from the original on 14 October 2025. Retrieved 14 October 2025.
+    Monopolies and Mergers Commission (1991). London Underground Limited : A Report on Passenger and Other Services Supplied by the Company (PDF). HMSO. p. 129. ISBN 0101155522. Archived from the original (PDF) on 19 January 2012. Retrieved 14 October 2025.
+    Greater London Council (15 June 1982). "Diagram of Tentative Suburban Rail Zonal Boundaries - London Transport Executive". Google Arts and Culture. London: TfL Corporate Archives. Archived from the original on 14 October 2025. Retrieved 14 October 2025.
+    Paterson, Ian (13 May 1983). "Commuter Joy and London Transport Cuts Rail Fares". Buckinghamshire Examiner. p. 1.
+    "From 22nd May You'll Find Our Fares Just the Ticket". Daily Mirror. 17 May 1983. p. 20.
+    "Travelcard". The Gazette. 20 April 1984. p. 7.
+    "New all-in-one card could be just the ticket for Londoners". Marylebone Mercury. 4 January 1985. p. 3.
+    London Regional Transport (1989). "Details of the New Travelcard from 8 January 1989". Google Arts and Culture. London: TfL Corporate Archives. p. 5. Retrieved 15 October 2025.
+    "Bus fares set to rise 12pc". Croydon Advertiser. p. 9.
+    "New zone on the way". Uxbridge and West Drayton Gazette. 14 November 1990. p. 14.
+    "LT card changes". Hayes and Harlington Gazette. 27 March 1991. p. 4.
+    London Rail and Tube services map
+    "Getting to Gatwick Airport with Oyster and contactless". Archived from the original on 20 December 2016. Retrieved 15 December 2016.
+    [Freedom of Information request] FOI-0644-2021
+    National Rail fares, caps and Travelcards beyond Zone 9
+
+    vte
+
+London fare zones
+
+    vte
+
+Transport in London
+
+	
+
+	
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+	
+
+	
+
+	
+	
+
+	
+
+	
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+Categories:
+
+    1981 establishments in EnglandRail transport in LondonFare collection systems in LondonTransport for London
+
+    This page was last edited on 1 April 2026, at 00:26 (UTC).
+    Text is available under the Creative Commons Attribution-ShareAlike 4.0 License; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization.
+
+    Privacy policy
+    About Wikipedia
+    Disclaimers
+    Contact Wikipedia
+    Legal & safety contacts
+    Code of Conduct
+    Developers
+    Statistics
+    Cookie statement
+    Mobile view
+
+    Wikimedia Foundation
+    Powered by MediaWiki
+

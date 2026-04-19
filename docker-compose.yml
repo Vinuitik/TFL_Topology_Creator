@@ -7,9 +7,9 @@ services:
     working_dir: /app/llm_pipeline
     command: ["python", "agent.py"]
     environment:
-      OLLAMA_MODEL: gemma4:e4b
-      OLLAMA_EMBED_MODEL: gemma4:e4b
-      OLLAMA_TIMEOUT_SEC: 45
+      OLLAMA_MODEL: gemma2:2b
+      OLLAMA_EMBED_MODEL: nomic-embed-text
+      OLLAMA_TIMEOUT_SEC: 180
       OLLAMA_MAX_RETRIES: 2
       OLLAMA_BACKOFF_SEC: 2
       HF_HOME: /app/.hf_cache

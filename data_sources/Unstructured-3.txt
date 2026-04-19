@@ -1,46 +1,388 @@
-Make sure you have a valid ticket to avoid a Penalty Fare
 
-Most people travel with a valid ticket for their journey, but for those that try to get away without paying their fare, there is a Penalty Fares system across the rail network.
-About Penalty Fares
 
-A Penalty Fare is an exceptional fare charged if you do not comply with the normal ticket purchasing rules without good reason. It is not a fine.
-Penalty Fare cost
+Wikipedia The Free Encyclopedia
 
-The penalty is £100 plus the price of the full single fare applicable for your intended journey. However, if it is paid within 21 days, the Penalty Fare is reduced to £50 plus the price of the single fare applicable.
+    Donate
+    Create account
+    Log in
 
-The station where you leave the train will not necessarily be the end of your journey, as you may be asked to leave the train at any station by a Penalty Fares Collector.
+Contents
 
-If you want to travel further than the next station, you have 2 options. You can remain on the train and buy an Anytime single ticket for any station up to the final destination of the train – you will not be entitled to use any discount, such as a Railcard, for this ticket. Or you can get off the train and buy a ticket at the station for the remainder of your journey, using any relevant discounts.
+    (Top)
+    History
+        Origins
+        Other circle routes
+        Electrification
+        London Transport
+        Extension
+    Route
+        Map
+        Railway line
+    Services
+        Announcements
+    Rolling stock
+        Depot
+    Four Lines Modernisation (4LM)
+    List of stations
+    Urban myths
+    See also
+    References
+        Notes
+        Citations
+        Bibliography
+    Further reading
+    External links
 
-Transport for London services have a different Penalty Fare system, please see the FAQs below.
+Circle line (London Underground)
 
-Transport for Wales services, operating wholly within Wales, have a different Penalty Fare system, please see the FAQs below.
+    Article
+    Talk
 
-Text of penalty fare warning advert, which reads "It's only fair to pay your fare. There are easy way to buy your ticket before you travel."
+    Read
+    Edit
+    View history
 
-Avoiding a Penalty Fare
+Tools
 
-If you have a valid ticket for your journey, don’t worry, you cannot get a Penalty Fare.
+Appearance
+Text
 
-But if you travel on a train without a valid ticket, then you may be liable for a Penalty Fare. If you were not able to buy a ticket (for example, if the ticket office was closed or the ticket machine was broken), you can purchase a ticket onboard (if available), or at the first opportunity. If there is no ticket office, the ticket machine accepts cards only and you wish to pay cash, you will, where directed to do so, need to obtain a Promise to Pay notice from the ticket machine and exchange it for a ticket at the first opportunity.
-How will I know if a Penalty Fare applies to my journey?
+    Small
+    Standard
+    Large
 
-Penalty Fares apply if you are travelling from a Penalty Fare station or are in a Compulsory Ticket Area (CTA). Penalty Fare stations and Compulsory Ticket Areas should be clearly indicated as such by means of yellow warning posters at the entry points. Your train company will also be able to advise you.
-What is the law regarding Penalty Fares?
+Width
 
-You can find The Railways (Penalty Fares) Regulations 2018 here (opens on the gov.uk website) and the 2022 Amendment here (opens on the gov.uk website).
+    Standard
+    Wide
 
-Rail Delivery Group has also created the Penalty Fares Guidelines. These guidelines are non-statutory but are a useful interpretation of the Regulations. You can view and download the Penalty Fare Guidelines (PDF, 1.3MB).
-FAQs
+Color (beta)
 
-A Penalty Fare is an exceptional fare charged if you do not comply with the normal train ticket purchasing rules without good reason.
+    Automatic
+    Light
+    Dark
 
-A Penalty Fare is £100 plus the price of the full single fare applicable for your intended journey. However, if it is paid within 21 days, the Penalty Fare is reduced to £50 plus the price of the single fare applicable.
+Route map:
+From Wikipedia, the free encyclopedia
+For other similarly named rapid transit systems in other cities, see Circle Line.
+Circle line
+A red S7 Stock train arriving at the clockwise platform at Monument station
+A Circle line S7 Stock train at Monument
+Overview
+Termini	
 
-You can avoid a Penalty Fare by having a valid ticket for your journey.
+    Edgware Road
+    Hammersmith
 
-Your ticket can be checked at any time – before, during and at the end of your journey.
+Stations	36
+Colour on map	Corporate Yellow (with black outline until 1990)[1]
+Website	tfl.gov.uk/tube/route/circle/ Edit this at Wikidata
+Service
+Type	Rapid transit
+System	London Underground
+Depot(s)	Hammersmith
+Rolling stock	S7 Stock
+Ridership	141.627 million (2019)[a][2] passenger journeys
+History
+Opened	Infrastructure opened in stages between 1863 (163 years ago) and 1884; shown as a separate line on the Tube map from 1949
+Last extension	13 December 2009
+Technical
+Line length	27 km (17 mi)
+Character	Sub-surface
+Track gauge	1,435 mm (4 ft 8+1⁄2 in) standard gauge
+Transport for London rail lines
 
-Penalty Fares issued on TfL’s rail services the Elizabeth Line and London Overground are in accordance with different regulations. More information can be found on the TfL page about Penalty Fares.
+The Circle line is a spiral-shaped London Underground line, running from Hammersmith in the west to Edgware Road and then looping around central London back to Edgware Road. The railway is below ground in the central section and on the loop east of Paddington. Unlike London's deep-level lines, the Circle line tunnels are just below the surface and are of similar size to those on British main lines. Printed in yellow on the Tube map, the 17-mile (27 km) line serves 36 stations, including most of London's main line termini. Almost all of the route, and all the stations, are shared with one or more of the three other sub-surface lines, namely the District, Hammersmith & City and Metropolitan lines. On the Circle and Hammersmith & City lines combined, over 141 million passenger journeys were recorded in 2019.
 
-Penalty Fares issued by Transport for Wales ( with the exception of the route between Shrewsbury and Birmingham International) are in accordance with different regulations . More information can be found on More information can be found on the TfW page about Penalty Fares.
+The first section became operational in 1863 when the Metropolitan Railway opened the world's first underground line between Paddington and Farringdon with wooden carriages and steam locomotives. The same year a select committee report recommended an "inner circle" of lines connecting the London railway termini, and the Metropolitan District Railway (commonly known as the District Railway) was formed to build the southern portion of the line.
+
+In 1871, services began between Mansion House and Moorgate via Paddington, jointly operated by the two companies. Due to conflict between the two companies it was not until October 1884 that the inner circle was completed. The line was electrified in 1905, and in 1933 the companies were amalgamated into the London Passenger Transport Board. In 1949, the Circle line appeared as a separate line for the first time on the Tube map. In 2009, the closed loop around the centre of London on the north side of the River Thames was broken at Edgware Road and extended west to become a spiral to Hammersmith.
+
+Starting in 2015, the signalling system was upgraded as part of a programme to increase peak-hour capacity on the line. The six-car C Stock trains were replaced from 2012 to 2014 by new seven-car S Stock trains.
+History
+Origins
+Main articles: Metropolitan Railway and District Railway
+Metropolitan and District Railways (City Lines and Extensions) Act 1879
+coat of arms
+	
+	
+	
+A black-and-white photograph of a railway station platform under a barrel roof. Several figures are visible, one standing wearing a top hat, a sign reads "WAIT HERE FOR THIRD CLASS".
+High Street Kensington station in 1892
+
+In 1863, the Metropolitan Railway, the world's first underground railway, opened in London between Paddington and Farringdon, connecting the Great Western Railway's relatively remote terminus at Paddington with Euston and King's Cross stations and the City, London's financial district. In the same year, a select committee report recommended an "inner circle" of railway lines connecting the London termini that had been built or were under construction. In the next year, the Metropolitan District Railway (commonly known as the District Railway) was formed to build and operate a railway from South Kensington to Tower Hill. The Metropolitan western extension from a new station at Paddington to South Kensington opened in 1868. By May 1870, the District Railway had opened its line from West Brompton to Blackfriars via Gloucester Road and South Kensington, services being operated at first by the Metropolitan.[3] In 1871, the District had built a terminus at Mansion House, and on 18 November 1876 the Metropolitan opened its terminus at Aldgate.[4] Because of the conflict between the two companies, it took an act of Parliament, the Metropolitan and District Railways (City Lines and Extensions) Act 1879 (42 & 43 Vict. c. cci) before further work was done on the inner circle.[5] In 1882, the Metropolitan extended its line from Aldgate to a temporary station at Tower Hill and the District completed its line to Whitechapel. On 6 October 1884, the temporary station was replaced with a joint station and the inner circle was complete.[6][7] The Metropolitan provided the clockwise, or "outer rail", trains; the District the "inner rail", or anti-clockwise.[8] Many breakdowns occurred, due to the unbalanced wear-and-tear inflicted upon the train and carriages caused by travelling in a single circular direction. Equally, services were further disrupted due to petty squabbles between the two rivals including an incident whereby the Metropolitan Railway forcibly removed (using three trains) the District Railway's parked carriages which had been chained to the track.[9]
+Other circle routes
+
+As well as the inner circle, other routes circumnavigated London, although these were not complete loops. From 1872, the L&NWR began an "outer circle" service from Broad Street to Mansion House via Willesden Junction and Earl's Court, diverting an earlier service that had run to Victoria; and the GWR began a "middle circle" service from Moorgate to Mansion House via Latimer Road and Earl's Court. Both of these routes were cut back to Earl's Court: the "middle circle" in 1900 and the "outer circle" in 1909. The GWR service survived as a shuttle service from the Hammersmith & City line to Addison Road, now Kensington (Olympia), until 1940.[8]
+
+The Midland Railway briefly ran a super outer circle from St Pancras to Earl's Court from 1878 to 1880.[8] London Overground now runs services between Clapham Junction, Willesden Junction and Dalston Junction and between Dalston Junction and Clapham Junction.
+Electrification
+A three-quarter black-and-white photograph of a train standing at a station, showing the end carriage with windows at the end
+The joint Metropolitan and District Railway experimental electric train that ran between Earl's Court and High Street Kensington in 1900
+
+Wooden carriages were originally hauled by steam locomotives leading to smoke-filled stations and carriages, unpopular with passengers. At the start of the 20th century, the District and Metropolitan were seeing increased competition in central London from the new electric underground tube lines and trams, and conversion to electric traction was seen as the way forward.[10] Experiments were carried out on the Earl's Court to High Street Kensington section, and a jointly owned six-carriage train began passenger service in 1900. Following this, an AC system was suggested, and this was accepted by both parties. However, the District was looking for a way to raise the finance needed and in 1901 found an investor, the American Charles Yerkes. He formed the Underground Electric Railways of London (UERL), and his experience in the United States led him to favour DC, with third-rail pick-up similar to that in use on the City & South London Railway and Central London Railway. After arbitration by the Board of Trade, the DC system was taken up, and the railways began electrifying the routes, using multiple-unit stock.[11]
+
+The District and Metropolitan Railways bought different designs of electric multiple unit. Both had open saloons; the Metropolitan trains with gated ends, the District B Stock with sliding doors in the middle of each car.[12] When their introduction was attempted on 1 July 1905, a Metropolitan train overturned the third rail on the District Railway, requiring all Metropolitan trains to be modified before running again on the District lines. A fully electric service began on 24 September, initially with six-car trains, later reduced to four-car.[13] The Metropolitan trains were soon modified to enclose the gated end[14] and eventually to add sliding doors in the middle.[15] Trains were increased to five cars in 1918 and the Metropolitan introduced new stock in 1921, with three pairs of sliding double doors on trailer cars.[16] In 1926 the Metropolitan took over all inner circle workings except for three trains on Sundays.[17]
+London Transport
+A three-quarter photograph of a red train O stock with sliding doors and flared sides, leaving Barking station bound for Ealing in 1980
+O Stock was used on the Circle line 1947–1970. Here photographed at Barking in 1980.
+The Circle line before the extension to Hammersmith in 2009
+
+On 1 July 1933, the Metropolitan and the District Railways were amalgamated with other Underground railways, tramway companies and bus operators to form the London Passenger Transport Board. Metropolitan Railway electric multiple units were refurbished in 1934 at Acton Works to become eighteen five-car trains of Circle Stock, at first painted red and cream, later painted red all over to reduce costs. These trains included first-class accommodation,[18] but this was downgraded in 1940.[19] From 1947, these were replaced by five-car trains of O and P Stock, with doors remotely operated by the guard, released by the transfer of F Stock to the Uxbridge line.[20] The 1933 London Underground Beck map shows a Metropolitan line north of High Street Kensington and Mark Lane stations and a District line south of these points.[21] On the 1947 map, the Metropolitan and District lines were shown together in the same colour[22] and two years later in 1949 the Circle line was shown separately on the map.[23]
+
+In 1959–1960, Circle line trains were increased to six cars, the same length as those operating on the Hammersmith & City line, and the stock of the two lines was integrated with maintenance concentrated at Hammersmith depot, allowing Neasden depot to concentrate on the new A Stock.[24] Aluminium C Stock trains, with public address systems and originally unpainted, replaced these trains from 1970.[25] One person operation of the trains was proposed in 1972 but, due to conflict with the trade unions, was not introduced until 1984.[26] In 2003, the infrastructure of the Circle line was partly privatised in a public–private partnership, managed by the Metronet consortium. Metronet went into administration in 2007 and the local government body Transport for London took over responsibilities.[27]
+
+During the 7 July 2005 London bombings, bombs exploded around 08:50 on two Circle line trains. One was travelling between Liverpool Street and Aldgate and the other was at Edgware Road. The bombs killed 15 people, including the two suicide bombers.[28][29] Following the attacks, the whole of the Circle line was closed until 8 August.[30]
+
+A day before a ban on drinking alcohol on public transport in London came into force, a party was held on 31 May 2008, mainly on the Circle line. Thousands of people attended and 17 were arrested by police due to disorderly behaviour, eventually causing several stations to be closed.[31]
+Extension
+
+Prior to 13 December 2009, Circle line trains travelled in both directions around a simple loop with 27 stations and 12.89 miles (20.75 km) of track. In 2006, there were fourteen trains in service on the line with an interval between trains of 8+1⁄2 minutes during peak hours and 8 minutes off-peak; the minimum running time around the circle off-peak was 51+1⁄2 minutes,[32] although timetabled stops at stations extended this.[b]
+
+In December 2009, the Circle line was extended to include the Hammersmith & City route from Edgware Road to Hammersmith. Rather than continuously running around the circle, trains now travel from Hammersmith to Edgware Road, generally going around the circle once before terminating at Edgware Road, and returning via the same route; occasionally, trains may also continue clockwise through Edgware Road to additional stations. The change was made to improve reliability and increase the service frequency on the Hammersmith branch.[34]
+
+In March 2020, following the UK government's implementation of lockdown restricting all non-essential travel, the Circle line, along with the Waterloo & City line, was suspended.[35]
+Route
+Map
+The route of the Circle line since 13 December 2009 and the London boroughs it serves
+Railway line
+
+    vte
+
+Circle line
+Legend
+	
+km
+	
+	km
+	
+		
+		
+		
+		Hammersmith District Line Piccadilly Line
+District and Piccadilly lines
+		
+	0.00
+	Hammersmith Hammersmith & City Line
+		
+		
+		
+		Hammersmith depot
+		
+enlarge…
+	0.82
+	Goldhawk Road
+		
+		Shepherd's Bush (MR)
+		
+	1.33
+	Shepherd's Bush Market
+		
+		White City
+		
+	1.80
+	Wood Lane Hammersmith & City Line │ White City
+Central line
+Central line (London Underground)
+		
+		West London Line
+		
+		
+		
+	2.34
+	Latimer Road
+		
+	3.00
+	Ladbroke Grove
+		
+		GWML to Bristol
+Elizabeth line via Acton Main Line
+		
+enlarge…
+	3.79
+	Westbourne Park
+		
+		
+		
+	4.77
+	Royal Oak
+		
+		
+		
+	5.41
+26.27
+	Paddington Bakerloo Line District Line Hammersmith & City Line Elizabeth Line Heathrow Express National Rail
+Bayswater 	25.29
+	
+		
+Central line (London Underground) District Line Notting Hill Gate 	24.50
+	
+		Elizabeth line via Bond Street
+		
+	6.34
+27.09
+	Edgware Road District Line Hammersmith & City Line
+District Line High Street Kensington 	23.57
+	
+		Metropolitan line to Harrow
+District line
+via Earl's Court
+		
+	7.06
+	Baker Street Bakerloo Line Hammersmith & City Line Jubilee Line Metropolitan Line
+District Line Piccadilly Line Gloucester Road 	22.64
+	
+		
+District Line Piccadilly Line South Kensington 	21.90
+	
+	7.98
+	Great Portland Street
+		
+	8.59
+	Euston Square Hammersmith & City Line Metropolitan Line │ Euston Watford DC Line National Rail
+Sloane Square 	20.68
+	
+enlarge…
+	9.44
+	King's Cross St Pancras Hammersmith & City Line Metropolitan Line Northern Line
+Piccadilly Line Victoria Line
+National Rail
+Eurostar
+National Rail District Line Victoria Line Victoria 	19.63
+	
+		Thameslink via St Pancras
+St James's Park 	18.91
+	
+		King's Cross Metropolitan
+London River Services District Line Jubilee Line Westminster 	18.15
+	
+		Clerkenwell not built
+London River Services Bakerloo Line District Line Northern Line Embankment 	17.46
+	
+		City Widened Lines
+Temple 	16.75
+	
+		Elizabeth line via Bond Street
+		
+	11.29
+	Farringdon Hammersmith & City Line Metropolitan Line Elizabeth Line National Rail
+National Rail London River Services District Line Blackfriars 	15.99
+	
+		City Thameslink
+Mansion House 	15.38
+	
+	11.80
+	Barbican Elizabeth Line
+National Rail District Line Cannon Street 	15.07
+	
+		
+Docklands Light Railway Central line (London Underground) District Line Northern Line Waterloo & City Line Monument 	14.73
+	
+	12.43
+	Moorgate Hammersmith & City Line Metropolitan Line Northern Line Elizabeth Line National Rail
+Mark Lane
+		
+	12.94
+	Liverpool Street Central line (London Underground) Hammersmith & City Line Metropolitan Line Elizabeth Line Lea Valley lines National Rail
+London River Services District Line Tower Hill 	14.05
+	
+		Elizabeth line via Whitechapel
+Docklands Light Railway Tower Gateway
+		
+	13.55
+	Aldgate Metropolitan Line
+		
+		
+		
+		District and Hammersmith & City
+lines via Aldgate East
+						
+
+The Circle line is 17 miles (27 km) long with 36 stations.[36] Almost all of its track, and all of its stations, are shared with the other London Underground sub-surface lines: the Hammersmith & City line from Hammersmith to Liverpool Street; the Metropolitan line from just east of Baker Street to Aldgate station; the main branch of the District line from Tower Hill station to Gloucester Road; and the Edgware Road branch of the District line from High Street Kensington to Edgware Road.[37] The only two sections of track which are not shared with any other lines are linking sections between Aldgate and Tower Hill, and between Gloucester Road and High Street Kensington. The line is electrified with a four-rail DC system: a central conductor rail is energised at −210 V and a rail outside the running rail at +420 V, giving a potential difference of 630 V.[38] The running rails are not electrified. Much of the 2-mile-35-chain (3.9 km) double track railway from the Hammersmith terminus to Westbourne Park station is on a 20-foot (6.1 m) high brick viaduct.[39]
+
+East of Westbourne Park the line passes beneath the Great Western Main Line before resurfacing at Royal Oak station and running alongside the tracks of the main line to an island platform just north of the suburban platforms at Paddington station.[37] The line enters a cut and cover tunnel at the end of the platforms and meets the District line and the other end of the Circle line from Bayswater at Praed Street Junction before passing through Edgware Road station in a cutting. After King's Cross St Pancras station the line exits the tunnel before passing over the Ray Street Gridiron beneath which pass the City Widened Lines which are currently used by Thameslink services.[37][40] The line continues underground after Farringdon station; there are bay platforms at Moorgate station.[37]
+
+After passing through Aldgate station, the terminus of the Metropolitan line, the line joins the District line shortly before Tower Hill; this part of the line includes stations on the Victoria Embankment, on the north bank of the Thames, as far as Westminster station.[37] West of Gloucester Road station the line turns off the District main line to join the District line's Edgware Road branch just before High Street Kensington station.[37] In Bayswater the line is in a cutting, concealed from above by a façade of two five-storey houses at Nos 23 and 24 Leinster Gardens.[41] Trains then call at the second Paddington station on Praed Street before rejoining the Hammersmith & City line at Praed Street junction and terminating at the four-platform Edgware Road station.[37]
+Services
+
+As of December 2012, there are six trains per hour, calling at all stations,[42] requiring 18 trains in service.[36] The journey from Edgware Road around the loop and continuing to Hammersmith takes 72 minutes off-peak.[42] Together with the Hammersmith & City line over 114 million passenger journeys are made each year.[43] Paddington and all stations on the loop are within Zone 1, with those on the line to Hammersmith in Zone 2.[44]
+
+Two trains per day run from Barking to Edgware Road via Victoria (as of February 2015).[45]
+Announcements
+
+Historically there has been difficulty in relaying the direction of travel a train is headed in a clear message: variations such as "eastbound" and "westbound", and "clockwise" and "anti-clockwise" can be ambiguous. As passengers became more accustomed to digital devices, TfL considered stopping such announcements and now uses key stations along the route to describe a service (e.g. "via. High Street Kensington").[46][47]
+Rolling stock
+
+From 1970 to 2014, services were provided using six-car C69 stock trains, each car having mostly transverse seating and four sets of double doors per side to minimise loading times.[48]
+
+The C69 stock trains were replaced by seven-car S Stock trains, the first running on the Circle line on 2 September 2013.[49][50][51] By June 2014, all services were provided by S7 Stock trains, which are part of the Bombardier Movia family,[52] and have a top speed of 62 mph (100 km/h).[52] A seven-car S Stock train has a capacity of 865 passengers compared to 739 for the six-car C Stock train it replaced.[53][54] With a length of 117 m (384 ft), the S Stock trains are 24 m (79 ft) longer than the 93 m-long (305 ft) C stock train, and required station platforms to be lengthened before their introduction.[55]
+Depot
+
+The line's depot is at Hammersmith,[c] close to Hammersmith station, originally built by the Great Western Railway to be operated by the Metropolitan Railway when the joint Hammersmith & City Railway was electrified in the early 20th century.[56] Sidings at Barking, Farringdon and near High Street Kensington (known as Triangle Sidings) stable trains overnight.[36]
+Four Lines Modernisation (4LM)
+See also: Four Lines Modernisation
+
+It was planned that a new signalling system would be used first on the sub-surface lines from the end of 2016,[57] but signalling contractor Bombardier was released from its contract by agreement in December 2013 amid heavy criticism of the procurement process[58] and London Underground subsequently awarded the contract for the project to Thales in August 2015.[59]
+
+With the introduction of S7 Stock, the track, electrical supply, and signalling systems are being upgraded in a programme planned to increase peak-hour capacity on the line by 27 per cent by the end of 2023.[57][60][61] A single control room for the sub-surface railway opened at Hammersmith on 6 May 2018, and Communications Based Train Control (CBTC) provided by Thales will progressively replace 'fixed block' signalling equipment dating back to the 1940s.[57][62]
+
+The rollout of CBTC has been split into sections, each known as a Signal Migration Area (SMA), and are located on the line as follows:[63]
+Circle line Signal Migration Areas SMA[i] 	from 	to 	status 	date
+0.5 	Hammersmith 	Latimer Road 	Completed 	March 2019
+1 	Latimer Road 	Paddington 	Completed 	September 2019
+2 	Paddington 	Euston Square 	Completed 	September 2019
+3 	Euston Square 	Monument 	Completed 	March 2021
+4 	Monument 	Sloane Square 	Completed 	April 2021
+5 	Sloane Square 	Paddington 	Completed 	March 2022
+
+    SMAs 6–14 concerns parts of the District, Hammersmith & City, and Metropolitan lines.
+
+List of stations
+Station 	Image 	Opened[7] 	Additional information 	Position
+Hammersmith Disabled access 	A brown-bricked building with a rectangular, blue sign reading "HAMMERSMITH STATION" in white letters all under a grey sky 	13 June 1864 	Moved to current position 1 December 1868.[7] Connects with District and Piccadilly lines. 	51°29′39″N 000°13′30″W
+Goldhawk Road 	An entrance under a railway brick viaduct with a blue sign reading "GOLDHAWK ROAD STATION" in white letters and two women walking in front all under a grey sky 	1 April 1914 		51°30′07″N 000°13′37″W
+Shepherd's Bush Market 	A railway on a brick viaduct crosses a road on a steel bridge, with an entrance below a blue sign reading "SHEPHERD'S BUSH MARKET STATION" in white letters 	13 June 1864 	Moved to current position 1 April 1914.[7] Renamed from "Shepherd's Bush" in 2008.[64] 	51°30′21″N 000°13′35″W
+Wood Lane Disabled access 	A silver metal and glass building with a blue sign with "WOOD LANE STATION" in white letters 	1 May 1908 	Open as Wood Lane (Exhibition) 1908–14 and as required from 1920 as Wood Lane (White City). Renamed White City in 1947 and closed in 1959,[7] until re-opened as Wood Lane on 12 October 2008.[65] 	51°30′35″N 000°13′27″W
+Latimer Road 	A railway on a brick viaduct crosses a road, an entrance in the brickwork below a sign reading "LATIMER ROAD STATION" 	16 December 1868 	Closed from 17 January to 1 August 2011 for engineering and refurbishment works.[66] 	51°30′50″N 000°13′02″W
+Ladbroke Grove 	A brick building with an entrance below a sign reading "LADBROKE GROVE STATION". Three people are in a group outside the entrance 	13 June 1864 	Opened as Notting Hill, renamed Notting Hill & Ladbroke Grove in 1880, Ladbroke Grove (North Kensington) in 1919, and Ladbroke Grove in 1938.[7] 	51°31′02″N 000°12′38″W
+Westbourne Park 	A dirty, white-bricked building with a rectangular, dark blue sign reading "WESTBOURNE PARK STATION" in white letters all under a blue sky 	1 February 1866 	Moved to current position 1 November 1871,[7] and a Great Western Main Line station from 1871 to 1992.[67] 	51°31′16″N 000°12′04″W
+Royal Oak 	A brown-bricked building with a rectangular, dark blue sign reading "ROYAL OAK STATION" in white letters all under a light blue sky 	30 October 1871 	Also a Great Western Main Line station after opening[68] until 1934. 	51°31′09″N 000°11′17″W
+Paddington Disabled access Elizabeth line National Rail 	A platform with several people waiting for a train. A white square sign has a London Underground roundel with "PADDINGTON" in the centre. To the right there is a track with fourth track electrification and on an adjacent track a blue multiple unit train with red doors waits. 	10 January 1863 	Opened as Paddington (Bishop's Road), renamed in 1948.[7]
+Connects with Bakerloo and District lines, Elizabeth line and National rail services from Paddington main line station. 	51°31′07″N 000°10′46″W
+Edgware Road 	A tan-coloured building with brown-framed windows and a sign reading "METROPOLITAN EDGWARE ROAD STATION RAILWAY" in brown letters 	10 January 1863 	Connects with District, anti-clockwise Circle lines and the Hammersmith & City line. 	51°31′12″N 000°10′04″W
+Baker Street 	A street filled with people in front of a light grey building that has variously coloured signs protruding from it stating a variety of different things 	10 January 1863 	Connects with Bakerloo, Jubilee and Metropolitan lines. 	51°31′19″N 000°09′25″W
+Great Portland Street 	A beige-bricked building with a blue sign reading "GREAT PORTLAND STREET STATION" in white letters all under a blue sky with white clouds 	10 January 1863 	Opened as Portland Road, renamed Great Portland Street in 1917. Named Great Portland Street & Regent's Park 1923–33.[7] 	51°31′26″N 000°08′38″W
+Euston Square 	A building covered in windows with a blue sign reading "EUSTON SQUARE STATION" in white letters all under a blue sky with white clouds 	10 January 1863 	Opened as Gower Street and renamed in 1909.[7] Street connection with Lioness line and National rail services from Euston main line station. 	51°31′33″N 000°08′09″W
+King's Cross St Pancras Disabled access Thameslink National Rail Eurostar 	Beneath a blue sign reading "KING'S CROSS ST. PANCRAS UNDERGROUND STATION several people exit from an entrance leading to steps down. To the right there are silver doors under a sign reading "Lift". The sky is overcast, above the entrance is a dark blue temporary building 	10 January 1863 	Opened as King's Cross, renamed King's Cross & St. Pancras in 1925 and King's Cross St. Pancras in 1933. Moved to current position in 1941.[7]
+Connects with Northern, Piccadilly and Victoria lines and National and International Rail Services from St Pancras and King's Cross main line stations. 	51°31′49″N 000°07′27″W
+Farringdon Disabled access Elizabeth line Thameslink National Rail 	A street view of a pale stone two storey building. Across the top of the building signs read "FARRINGDON & HIGH HOLBORN STATION" and "METROPOLITAN RAILWAY" in gold colour lettering. At ground level a canopy extends into the street around a blue sign reads "FARRINGDON STATION" with the London Underground roundel and National Rail symbols, and just above an entrance is a gold lettering reading "ENTRANCE". Either side of the entrance are shops, bicycles are in bicycle stands and people are walking on the pavement in front of the building 	10 January 1863 	Interchangeable with National Rail (Thameslink) services and the Elizabeth line. Opened as Farringdon Street, and moved to current position in 1865. Renamed Farringdon & High Holborn in 1922 and Farringdon in 1936.[7] 	51°31′12″N 000°06′19″W
+Barbican 	Across a road with a London taxi and a car is an entrance. This has people standing in it and above is a blue rectangular sign reading "BARBICAN STATION" in white and above this is a bridge linking the building 	23 December 1865 	Opened as Aldersgate Street, then Aldersgate in 1910, Aldersgate & Barbican in 1923 and Barbican in 1968.[7] 	51°31′13″N 000°05′52″W
+Moorgate Elizabeth line National Rail 	Across a street and behind black bollards is a brick building of at least two storeys. The ground floor is stone coloured and two people are standing in a dark entrance beneath a blue rectangular sign reading "MOORGATE STATION" in white. Above this, attached to be wall at 90 degrees is a white rectangular sign with the National Rail logo and London Underground roundel. Above this, below three windows, blue lettering reads "MOORGATE STATION" 	23 December 1865 	Opened as Moorgate Street, renamed in 1924.[7]
+Connects with Northern line and National rail services from the main line Northern City Line. The Elizabeth line is interchangeable via Liverpool Street station owing to the long platforms. 	51°31′07″N 000°05′19″W
+Liverpool Street Elizabeth line London Overground National Rail 	The end of a brick building with arched windows and sloping roofs lies between two towers with steeples. In front of this is a white metal and glass structure. People are standing and walking in the street in front. 	11 July 1875 	From February to July 1875 trains used platforms in the mainline station.[69]
+Connects with Central and Hammersmith & City lines and Weaver line, Elizabeth line and National rail services from Liverpool Street mainline station. Elizabeth Line services via Stratford and Shenfield from platforms 15, 16 and 17. 	51°31′04″N 000°04′59″W
+Aldgate 	A light grey building with "M.R. ALDGATE STATION M.R." written in stone on the front face and a black car driving in the foreground 	18 November 1876 	Connects with Metropolitan line. 	51°30′50″N 000°04′34″W
+Tower Hill Disabled access 	A grey, many-windowed castle with flags flying from its turrets in the background, several people walking in the foreground, and a bright sky above 	25 September 1882 	The Metropolitan Railway opened "Tower of London", however closed this in 1884 as the District Railway had opened "Mark Lane" nearby. This station was renamed "Tower Hill" in 1946 and moved to the site of the "Tower of London" station in 1967.[7][70] Connects with District line, DLR from Tower Gateway, National rail services from Fenchurch Street mainline station, and Riverboat services from Tower Pier 	51°30′36″N 000°04′34″W
+Monument Docklands Light Railway 	An entrance in a larger building under a sign reading "MONUMENT STATION" reveals banisters leading down. A woman is walking out of the entrance 	6 October 1884 	Opened as Eastcheap, renamed The Monument in 1884.[7] Escalator connection to Bank station giving connections with Central, Northern, Waterloo & City and DLR. 	51°30′47″N 000°05′17″W
+Cannon Street National Rail 	A building with four people walking in front of it, one man in a white shirt sitting in front of it, and one white vehicle driving in front of it 	6 October 1884 	Connects with Cannon Street main line station. 	51°30′37″N 000°05′27″W
+Mansion House 	A beige-bricked building with a rectangular, dark blue sign reading "MANSION HOUSE STATION" in white letters and a yellow sign reading "OFFICES TO LET" 	3 July 1871 		51°30′44″N 000°05′39″W
+Blackfriars Disabled access Thameslink National Rail 	A glass structure with gray slats on higher floor; an entrance leads under a canopy with a sign reading "BLACKFRIARS STATION" into a large internal space seen through the glass, People are walking into the entrance and coming up steps from an underpass. 	30 May 1870 	Connects with National rail services from Blackfriars main line station, including Thameslink services, and Riverboat services from Blackfriars Pier 	51°30′42″N 000°06′11″W
+Temple 	A grey building with a rectangular, white sign on a rounded corner reading "TEMPLE STATION" in black letters all under a blue sky 	30 May 1870 	Opened as The Temple.[7] 	51°30′40″N 000°06′52″W
+Embankment 	A grey building with a blue sign reading "EMBANKMENT STATION" in white letters and people standing in the foreground all under a white sky 	30 May 1870 	Opened as Charing Cross, renamed Charing Cross Embankment in 1974 and to the current name from 1976.[7] Connects with Bakerloo and Northern lines, National rail services from Charing Cross main line station, and Riverboat services from Embankment Pier 	51°30′25″N 000°07′19″W
+Westminster Disabled access 	A large crowd of people walking on a grey sidewalk next to a black road where two vehicles are driving from the left to the right 	24 December 1868 	Opened as Westminster Bridge, renamed in 1907.[7] Connects with Jubilee line. 	51°30′04″N 000°07′30″W
+St James's Park 		24 December 1868 	The former London Underground Headquarters offices, 55 Broadway, were built over the station. 	51°29′58″N 000°08′04″W
+Victoria Disabled access National Rail 	A grey building with three rectangular, white signs reading "London Victoria Station" in black letters all under a clear, white sky 	24 December 1868 	Connects with Victoria line, National rail services from Victoria main line station and Victoria bus station. 	51°29′48″N 000°08′41″W
+Sloane Square 	A modern looking building with marble coloured tiled wall at ground level with grey cladding above. A small concrete canopy is over the larger of two entrances with blue signs reading "SLOANE SQUARE STATION", people are entering and exiting through the larger entrance. 	24 December 1868 		51°29′33″N 000°09′24″W
+South Kensington 	A entrance behind a raised bed of green plant and under a blue sign reading "SOUTH KENSINGTON STATION" leads into an arcade of shops. Above the entrance there is a glass panel with white lettering reading "METROPOLITAN AND DISTRICT RAILWAYS" and "SOUTH KENSINGTON STATION". 	24 December 1868 	Connects with Piccadilly line. 	51°29′39″N 000°10′26″W
+Gloucester Road 	A beige-bricked building with a green sign reading "METROPOLITAN & DISTRICT RAILWAYS GLOUCESTER ROAD STATION" in white letters 	1 October 1868 	Opened as Brompton (Gloucester Road), renamed in 1907.[7] Connects with Piccadilly and District lines. 	51°29′41″N 000°10′59″W
+High Street Kensington 	A white many-windowed building 	1 October 1868 	Opened as Kensington (High Street) and name gradually changed by 1880.[7] Connects with District line Edgware Road branch. 	51°30′03″N 000°11′33″W
+Notting Hill Gate 	A railway station with side platforms either side of two tracks that disappear into darkness under a painted steel bridge like structure topped with a brick wall, covered by a partially glazed barrel roof. 	1 October 1868 	Connects with Central line. 	51°30′32″N 000°11′49″W
+Bayswater 	A single storey pale brick building topped with stone railing. Above an entrance is a canopy, around which are rectanglar blue signs reading "BAYSWATER" and "BAYSWATER STATION". People are walking in the street. 	1 October 1868 	Opened as Bayswater, renamed Bayswater (Queen's Road) & Westbourne Grove in 1923, Bayswater (Queen's Road) in 1933 and Bayswater (Queensway) in 1946, after which the suffix was gradually dropped.[7] 	51°30′43″N 000°11′17″W
+Paddington Elizabeth line National Rail 	A pale two storey stone building, with gold coloured letters at the top reading "METROPOLITAN RAILWAY" and "PADDINGTON STATION", windows on the first floor. On the ground floor there are shops either side of an entrance with a canopy with rectanglar blue signs reading "PADDINGTON STATION". There are cars and a small truck in the road and people are walking on the pavement. 	1 October 1868 	Opened as Paddington (Praed Street), renamed in 1948.[7] Connects with Bakerloo and Hammersmith & City lines, Elizabeth line and National rail services from Paddington main line station. 	
+
+51°30′56″N 000°10′32″W
+
+The line then continues to Edgware Road where trains terminate, then reverse to traverse the loop in an anticlockwise direction to Hammersmith.
+Urban myths
+
+Owing to its historically circular nature, the line has generated many urban myths over the years, including a dead man travelling around undiscovered, a school or office using the service to save infrastructure costs and, as an April fool in the Independent, a new particle accelerator to coexist alongside passenger services.[46][71][72]
