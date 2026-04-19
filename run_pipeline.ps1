@@ -7,10 +7,14 @@ $ErrorActionPreference = "Stop"
 
 Set-Location "$PSScriptRoot"
 
-Write-Host "[1/3] Starting Redis and Ollama services..."
-docker compose up -d redis ollama
+Write-Host "[1/3] Building and starting Redis, Ollama, and coref-service..."
+docker compose build coref-service
 if ($LASTEXITCODE -ne 0) {
-    throw "Failed to start redis/ollama services"
+    throw "Failed to build coref-service"
+}
+docker compose up -d redis ollama coref-service
+if ($LASTEXITCODE -ne 0) {
+    throw "Failed to start redis/ollama/coref-service"
 }
 
 $ollamaIsUp = docker ps --filter "name=^ollama$" --format "{{.Names}}"

@@ -30,7 +30,10 @@ services:
       CHUNK_MAX_WORDS: 600
       COREF_SERVICE_HOST: coref-service:50051
     volumes:
-      - ./:/app
+      - ./data_sources:/app/data_sources
+      - ./inputs:/app/inputs
+      - ./outputs:/app/outputs
+      - ./.hf_cache:/app/.hf_cache
     depends_on:
       ollama:
         condition: service_healthy
