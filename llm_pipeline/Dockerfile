@@ -1,10 +1,16 @@
-FROM python:3.12-slim
+FROM python:3.10-slim
 
 WORKDIR /app/llm_pipeline
 
+RUN apt-get update && apt-get install -y --no-install-recommends g++ && rm -rf /var/lib/apt/lists/*
+
 COPY llm_pipeline/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-RUN python -m spacy download en_coreference_web_trf
+
+# Generate gRPC client stubs from the coref service proto
+RUN pip install --no-cache-dir grpcio-tools>=1.60.0
+COPY coref_service/coref.proto /tmp/coref.proto
+RUN python -m grpc_tools.protoc -I/tmp --python_out=. --grpc_python_out=. /tmp/coref.proto
 
 COPY llm_pipeline/ ./
 

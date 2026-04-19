@@ -1,4 +1,16 @@
 services:
+  coref-service:
+    build:
+      context: .
+      dockerfile: coref_service/Dockerfile
+    container_name: coref-service
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; s=socket.create_connection(('localhost',50051),timeout=3); s.close()"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
   llm-pipeline:
     build:
       context: .
@@ -16,12 +28,15 @@ services:
       HF_HOME: /app/.hf_cache
       TRANSFORMERS_CACHE: /app/.hf_cache
       CHUNK_MAX_WORDS: 600
+      COREF_SERVICE_HOST: coref-service:50051
     volumes:
       - ./:/app
     depends_on:
       ollama:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      coref-service:
         condition: service_healthy
 
   redis:

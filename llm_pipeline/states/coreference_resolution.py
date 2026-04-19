@@ -1,62 +1,35 @@
 from __future__ import annotations
 
-"""Resolve coreferences using spacy-experimental en_coreference_web_trf.
-
-The model outputs span groups keyed "coref_clusters_N" in doc.spans.
-Each group is one coreference cluster (all mentions of the same entity).
-Canonical mention = longest span by character count (tends to be the full
-proper name; pronouns and short aliases are naturally shorter).
-Replacements are applied right-to-left so earlier offsets stay valid.
-"""
-
 import logging
+import os
 from typing import Any
 
+import grpc
+
+import coref_pb2
+import coref_pb2_grpc
 from schemas import PipelineState, ResolvedDocument
 
 log = logging.getLogger(__name__)
 
-_nlp: Any = None
+_COREF_HOST = os.getenv("COREF_SERVICE_HOST", "coref-service:50051")
+
+_channel: Any = None
+_stub: Any = None
 
 
-def _get_nlp() -> Any:
-    global _nlp
-    if _nlp is None:
-        import spacy
-        _nlp = spacy.load("en_coreference_web_trf")
-        log.info("spacy-experimental coreference model loaded")
-    return _nlp
+def _get_stub() -> coref_pb2_grpc.CoreferenceServiceStub:
+    global _channel, _stub
+    if _stub is None:
+        _channel = grpc.insecure_channel(_COREF_HOST)
+        _stub = coref_pb2_grpc.CoreferenceServiceStub(_channel)
+    return _stub
 
 
 def _resolve(text: str) -> str:
-    nlp = _get_nlp()
-    doc = nlp(text)
-
-    replacements: list[tuple[int, int, str]] = []
-
-    for key, spans in doc.spans.items():
-        if not key.startswith("coref_clusters"):
-            continue
-        if not spans:
-            continue
-
-        canonical = max(spans, key=lambda s: len(s.text)).text
-
-        for span in spans:
-            if span.text == canonical:
-                continue
-            replacements.append((span.start_char, span.end_char, canonical))
-
-    if not replacements:
-        return text
-
-    # Right-to-left so earlier char offsets stay valid
-    replacements.sort(key=lambda x: x[0], reverse=True)
-    chars = list(text)
-    for start, end, repl in replacements:
-        chars[start:end] = list(repl)
-
-    return "".join(chars)
+    stub = _get_stub()
+    response = stub.Resolve(coref_pb2.ResolveRequest(text=text))
+    return response.resolved_text
 
 
 def run_coreference_resolution(state: PipelineState) -> PipelineState:
