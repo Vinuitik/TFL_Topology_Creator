@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import logging
 from datetime import datetime, timezone
@@ -165,21 +166,34 @@ if __name__ == "__main__":
     if not files:
         raise FileNotFoundError(f"No files matching '{args.pattern}' in {data_dir}")
 
+    hashes_path = output_dir / "file_hashes.json"
     rag_catalog = _load_json(rag_path, {"classes": [], "predicates": []})
+    saved_hashes: Dict[str, str] = _load_json(hashes_path, {})
     all_triples: Dict[Tuple, Dict[str, Any]] = {}
     run_summaries: List[Dict[str, Any]] = []
+    cumulative_timings: Dict[str, float] = {}
 
     for idx, file_path in enumerate(files, start=1):
-        raw_text = file_path.read_text(encoding="utf-8", errors="ignore")
-        result = run_pipeline(
-            raw_text=raw_text,
-            metadata={"source": file_path.name, "domain": "public-transport", "sequence": str(idx)},
-            rag_catalog=rag_catalog,
-        )
-        result_json = _jsonable(result)
-
+        raw_bytes = file_path.read_bytes()
+        file_hash = hashlib.sha256(raw_bytes).hexdigest()
         run_out = runs_dir / f"{idx:02d}_{file_path.stem}.json"
-        _save_json(run_out, result_json)
+
+        if saved_hashes.get(file_path.name) == file_hash and run_out.exists():
+            logging.getLogger(__name__).info("CACHE HIT %s — skipping pipeline", file_path.name)
+            result_json = _load_json(run_out, {})
+            cache_hit = True
+        else:
+            raw_text = raw_bytes.decode("utf-8", errors="ignore")
+            result = run_pipeline(
+                raw_text=raw_text,
+                metadata={"source": file_path.name, "domain": "public-transport", "sequence": str(idx)},
+                rag_catalog=rag_catalog,
+            )
+            result_json = _jsonable(result)
+            _save_json(run_out, result_json)
+            saved_hashes[file_path.name] = file_hash
+            _save_json(hashes_path, saved_hashes)
+            cache_hit = False
 
         rag_catalog = _update_catalog(rag_catalog, result_json)
         _save_json(rag_path, rag_catalog)
@@ -188,12 +202,18 @@ if __name__ == "__main__":
         for t in validated.get("triples", []):
             all_triples[_triple_key(t)] = t
 
+        timings = result_json.get("timings", {})
+        for stage, elapsed in timings.items():
+            cumulative_timings[stage] = cumulative_timings.get(stage, 0.0) + elapsed
+
         run_summaries.append({
             "file": file_path.name,
+            "cache_hit": cache_hit,
             "output": str(run_out),
             "triplets": len(result_json.get("triplets", [])),
             "validated_triples": len(validated.get("triples", [])),
             "validation_errors": result_json.get("validation_errors", []),
+            "per_stage_timings": timings,
         })
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -210,6 +230,7 @@ if __name__ == "__main__":
         "sources_processed": len(files),
         "runs": run_summaries,
         "final_triples": len(final_triples),
+        "cumulative_timings": cumulative_timings,
         "owl_path": str(owl_path),
         "ttl_path": str(ttl_path),
         "rag_catalog_path": str(rag_path),

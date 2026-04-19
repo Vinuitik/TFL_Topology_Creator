@@ -38,3 +38,4 @@ class PipelineState(TypedDict, total=False):
     iteration: int
     turtle_output: str
     owl_output: str
+    timings: Dict[str, float]
