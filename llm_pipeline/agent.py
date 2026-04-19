@@ -37,7 +37,7 @@ def build_graph() -> Any:
     graph.add_node("input_ingestion", run_input_ingestion)
     # graph.add_node("preprocessing", run_preprocessing)
     graph.add_node("text_normalization", run_text_normalization)
-    graph.add_node("coreference_resolution", run_coreference_resolution)
+    # graph.add_node("coreference_resolution", run_coreference_resolution)
     graph.add_node("extraction", run_extraction)
     graph.add_node("entity_linking", run_entity_linking)
     graph.add_node("entity_classification", run_entity_classification)
@@ -52,8 +52,9 @@ def build_graph() -> Any:
     # graph.add_edge("input_ingestion", "preprocessing")
     # graph.add_edge("preprocessing", "text_normalization")
     graph.add_edge("input_ingestion", "text_normalization")
-    graph.add_edge("text_normalization", "coreference_resolution")
-    graph.add_edge("coreference_resolution", "extraction")
+    # graph.add_edge("text_normalization", "coreference_resolution")
+    # graph.add_edge("coreference_resolution", "extraction")
+    graph.add_edge("text_normalization", "extraction")
     graph.add_edge("extraction", "entity_linking")
     graph.add_edge("entity_linking", "entity_classification")
     graph.add_edge("entity_classification", "schema_mapping")
@@ -65,7 +66,8 @@ def build_graph() -> Any:
         "validation",
         route_after_validation,
         {
-            "coreference_resolution": "coreference_resolution",
+            # "coreference_resolution": "coreference_resolution",
+            "coreference_resolution": "extraction",
             "extraction": "extraction",
             "entity_linking": "entity_linking",
             "schema_mapping": "schema_mapping",
