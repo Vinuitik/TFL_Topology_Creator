@@ -1,0 +1,194 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://anonymous> a owl:Ontology .
+
+<http://example.org/tfl> a owl:Ontology .
+
+<http://example.org/tfl#BusRoute> a owl:Class ;
+    rdfs:subClassOf <http://example.org/tfl#Route> .
+
+<http://example.org/tfl#BusStop> a owl:Class ;
+    rdfs:subClassOf <http://example.org/tfl#TransitAccessPoint> .
+
+<http://example.org/tfl#FareClass> a owl:Class ;
+    rdfs:subClassOf <http://vocab.gtfs.org/terms#FareClass> .
+
+<http://example.org/tfl#InterchangeStation> a owl:Class ;
+    rdfs:subClassOf <http://example.org/tfl#TrainStation> .
+
+<http://example.org/tfl#Line> a owl:Class ;
+    rdfs:subClassOf <http://example.org/tfl#Route> .
+
+<http://example.org/tfl#OffPeakFare> a owl:Class ;
+    rdfs:subClassOf <http://example.org/tfl#Fare> .
+
+<http://example.org/tfl#PeakFare> a owl:Class ;
+    rdfs:subClassOf <http://example.org/tfl#Fare> .
+
+<http://example.org/tfl#Point> a owl:Class .
+
+<http://example.org/tfl#StopTime> a owl:Class .
+
+<http://example.org/tfl#belongsToRoute> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#RouteStopSequence> ;
+    rdfs:range <http://example.org/tfl#Route> .
+
+<http://example.org/tfl#directlyConnectedTo> a owl:ObjectProperty,
+        owl:SymmetricProperty ;
+    rdfs:domain <http://example.org/tfl#TransitAccessPoint> ;
+    rdfs:range <http://example.org/tfl#TransitAccessPoint> .
+
+<http://example.org/tfl#endPoint> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#Journey> ;
+    rdfs:range <http://example.org/tfl#TransitAccessPoint> .
+
+<http://example.org/tfl#endZone> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#Journey> ;
+    rdfs:range <http://example.org/tfl#Zone> .
+
+<http://example.org/tfl#fareCost> a owl:DatatypeProperty ;
+    rdfs:domain <http://example.org/tfl#Fare> ;
+    rdfs:range xsd:decimal .
+
+<http://example.org/tfl#hasFare> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#Journey> ;
+    rdfs:range <http://example.org/tfl#Fare> .
+
+<http://example.org/tfl#hasName> a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:subPropertyOf <http://vocab.gtfs.org/terms#shortName> .
+
+<http://example.org/tfl#hasStop> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#Route> ;
+    rdfs:range <http://example.org/tfl#TransitAccessPoint> .
+
+<http://example.org/tfl#hasTransportMode> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#TransitAccessPoint> ;
+    rdfs:range <http://example.org/tfl#TransportMode> .
+
+<http://example.org/tfl#hasZone> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#TransitAccessPoint> ;
+    rdfs:range <http://example.org/tfl#Zone> ;
+    owl:equivalentProperty <http://vocab.gtfs.org/terms#zone> .
+
+<http://example.org/tfl#latitude> a owl:DatatypeProperty ;
+    rdfs:domain <http://example.org/tfl#TransitAccessPoint> ;
+    rdfs:range xsd:decimal ;
+    owl:equivalentProperty <http://www.w3.org/2003/01/geo/wgs84_pos#lat> .
+
+<http://example.org/tfl#longitude> a owl:DatatypeProperty ;
+    rdfs:domain <http://example.org/tfl#TransitAccessPoint> ;
+    rdfs:range xsd:decimal ;
+    owl:equivalentProperty <http://www.w3.org/2003/01/geo/wgs84_pos#long> .
+
+<http://example.org/tfl#offersAccessibilityFeature> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#TransitAccessPoint> ;
+    rdfs:range <http://example.org/tfl#AccessibilityFeature> .
+
+<http://example.org/tfl#onRoute> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#LineSegment> ;
+    rdfs:range <http://example.org/tfl#Route> .
+
+<http://example.org/tfl#reachableFrom> a owl:ObjectProperty,
+        owl:TransitiveProperty ;
+    rdfs:domain <http://example.org/tfl#TransitAccessPoint> ;
+    rdfs:range <http://example.org/tfl#TransitAccessPoint> ;
+    owl:propertyChainAxiom ( <http://example.org/tfl#isStartPointOf> <http://example.org/tfl#hasEndPoint> ) .
+
+<http://example.org/tfl#sequenceStop> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#RouteStopSequence> ;
+    rdfs:range <http://example.org/tfl#TransitAccessPoint> ;
+    owl:equivalentProperty <http://vocab.gtfs.org/terms#stop> .
+
+<http://example.org/tfl#servedByRoute> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#TransitAccessPoint> ;
+    rdfs:range <http://example.org/tfl#Route> .
+
+<http://example.org/tfl#startPoint> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#Journey> ;
+    rdfs:range <http://example.org/tfl#TransitAccessPoint> .
+
+<http://example.org/tfl#startZone> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#TransitAccessPoint> ;
+    rdfs:range <http://example.org/tfl#Zone> .
+
+<http://example.org/tfl#stopSequenceNumber> a owl:DatatypeProperty ;
+    rdfs:domain <http://example.org/tfl#RouteStopSequence> ;
+    rdfs:range xsd:integer ;
+    owl:equivalentProperty <http://vocab.gtfs.org/terms#stopSequence> .
+
+<http://example.org/tfl#zoneNumber> a owl:DatatypeProperty ;
+    rdfs:domain <http://example.org/tfl#Zone> ;
+    rdfs:range xsd:integer .
+
+<http://inferrences> a owl:Ontology .
+
+<http://example.org/tfl#Station> a owl:Class ;
+    rdfs:subClassOf <http://example.org/tfl#TransitAccessPoint> .
+
+<http://example.org/tfl#TrainStation> a owl:Class ;
+    rdfs:subClassOf <http://example.org/tfl#Station>,
+        <http://vocab.gtfs.org/terms#Station> .
+
+<http://example.org/tfl#hasEndPoint> a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#LineSegment> ;
+    rdfs:range <http://example.org/tfl#TransitAccessPoint> .
+
+<http://example.org/tfl#hasStartPoint> a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#LineSegment> ;
+    rdfs:range <http://example.org/tfl#TransitAccessPoint> ;
+    owl:inverseOf <http://example.org/tfl#isStartPointOf> .
+
+<http://vocab.gtfs.org/terms#Route> owl:equivalentClass <http://example.org/tfl#Route> .
+
+<http://vocab.gtfs.org/terms#Stop> rdfs:subClassOf <http://example.org/tfl#SpatialThing>,
+        <http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing> ;
+    owl:equivalentClass <http://example.org/tfl#TransitAccessPoint> .
+
+<http://vocab.gtfs.org/terms#StopTime> owl:equivalentClass <http://example.org/tfl#RouteStopSequence> .
+
+<http://vocab.gtfs.org/terms#Trip> owl:equivalentClass <http://example.org/tfl#Journey> .
+
+<http://vocab.gtfs.org/terms#Zone> owl:equivalentClass <http://example.org/tfl#Zone> .
+
+<http://example.org/tfl#AccessibilityFeature> a owl:Class .
+
+<http://example.org/tfl#TransportMode> a owl:Class .
+
+<http://example.org/tfl#isStartPointOf> a owl:ObjectProperty ;
+    rdfs:domain <http://example.org/tfl#TransitAccessPoint> ;
+    rdfs:range <http://example.org/tfl#LineSegment> ;
+    owl:inverseOf <http://example.org/tfl#hasStartPoint> .
+
+<http://example.org/tfl#SpatialThing> a owl:Class .
+
+<http://example.org/tfl#LineSegment> a owl:Class ;
+    rdfs:subClassOf <http://example.org/tfl#SpatialThing> .
+
+<http://example.org/tfl#Fare> a owl:Class .
+
+<http://example.org/tfl#RouteStopSequence> a owl:Class ;
+    owl:equivalentClass <http://vocab.gtfs.org/terms#StopTime> .
+
+<http://example.org/tfl#Journey> a owl:Class ;
+    owl:equivalentClass <http://vocab.gtfs.org/terms#Trip> .
+
+<http://example.org/tfl#Zone> a owl:Class ;
+    owl:equivalentClass <http://vocab.gtfs.org/terms#Zone> .
+
+<http://example.org/tfl#Route> a owl:Class ;
+    owl:equivalentClass <http://vocab.gtfs.org/terms#Route> .
+
+<http://example.org/tfl#TransitAccessPoint> a owl:Class ;
+    rdfs:subClassOf <http://example.org/tfl#SpatialThing>,
+        <http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing> ;
+    owl:equivalentClass <http://vocab.gtfs.org/terms#Stop> .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( <http://example.org/tfl#TransitAccessPoint> <http://example.org/tfl#Zone> <http://example.org/tfl#TransportMode> <http://example.org/tfl#Journey> <http://example.org/tfl#AccessibilityFeature> <http://example.org/tfl#Fare> <http://example.org/tfl#Route> <http://example.org/tfl#RouteStopSequence> ) .
+
