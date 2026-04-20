@@ -54,9 +54,7 @@ services:
       retries: 10
 
   ollama:
-    build:
-      context: .
-      dockerfile: ollama/Dockerfile
+    image: ollama/ollama
     container_name: ollama
     deploy:
       resources:

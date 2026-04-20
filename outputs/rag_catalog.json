@@ -43,6 +43,90 @@
     {
       "label": "TransitAccessPoint",
       "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#TransitAccessPoint"
+    },
+    {
+      "label": "BusRoute",
+      "iri": "http://example.org/tfl#BusRoute"
+    },
+    {
+      "label": "BusStop",
+      "iri": "http://example.org/tfl#BusStop"
+    },
+    {
+      "label": "FareClass",
+      "iri": "http://example.org/tfl#FareClass"
+    },
+    {
+      "label": "InterchangeStation",
+      "iri": "http://example.org/tfl#InterchangeStation"
+    },
+    {
+      "label": "Line",
+      "iri": "http://example.org/tfl#Line"
+    },
+    {
+      "label": "OffPeakFare",
+      "iri": "http://example.org/tfl#OffPeakFare"
+    },
+    {
+      "label": "PeakFare",
+      "iri": "http://example.org/tfl#PeakFare"
+    },
+    {
+      "label": "Point",
+      "iri": "http://example.org/tfl#Point"
+    },
+    {
+      "label": "StopTime",
+      "iri": "http://example.org/tfl#StopTime"
+    },
+    {
+      "label": "Station",
+      "iri": "http://example.org/tfl#Station"
+    },
+    {
+      "label": "TrainStation",
+      "iri": "http://example.org/tfl#TrainStation"
+    },
+    {
+      "label": "AccessibilityFeature",
+      "iri": "http://example.org/tfl#AccessibilityFeature"
+    },
+    {
+      "label": "SpatialThing",
+      "iri": "http://example.org/tfl#SpatialThing"
+    },
+    {
+      "label": "TransportMode",
+      "iri": "http://example.org/tfl#TransportMode"
+    },
+    {
+      "label": "LineSegment",
+      "iri": "http://example.org/tfl#LineSegment"
+    },
+    {
+      "label": "RouteStopSequence",
+      "iri": "http://example.org/tfl#RouteStopSequence"
+    },
+    {
+      "label": "Fare",
+      "iri": "http://example.org/tfl#Fare"
+    },
+    {
+      "label": "Journey",
+      "iri": "http://example.org/tfl#Journey"
+    },
+    {
+      "label": "Zone",
+      "iri": "http://example.org/tfl#Zone"
+    },
+    {
+      "label": "Route",
+      "iri": "http://example.org/tfl#Route"
+    },
+    {
+      "label": "TransitAccessPoint",
+      "iri": "http://example.org/tfl#TransitAccessPoint"
     }
   ],
   "predicates": [
@@ -117,6 +201,98 @@
     {
       "label": "startZone",
       "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#startZone"
+    },
+    {
+      "label": "belongsToRoute",
+      "iri": "http://example.org/tfl#belongsToRoute"
+    },
+    {
+      "label": "directlyConnectedTo",
+      "iri": "http://example.org/tfl#directlyConnectedTo"
+    },
+    {
+      "label": "endPoint",
+      "iri": "http://example.org/tfl#endPoint"
+    },
+    {
+      "label": "endZone",
+      "iri": "http://example.org/tfl#endZone"
+    },
+    {
+      "label": "hasEndPoint",
+      "iri": "http://example.org/tfl#hasEndPoint"
+    },
+    {
+      "label": "hasFare",
+      "iri": "http://example.org/tfl#hasFare"
+    },
+    {
+      "label": "hasStartPoint",
+      "iri": "http://example.org/tfl#hasStartPoint"
+    },
+    {
+      "label": "hasStop",
+      "iri": "http://example.org/tfl#hasStop"
+    },
+    {
+      "label": "hasTransportMode",
+      "iri": "http://example.org/tfl#hasTransportMode"
+    },
+    {
+      "label": "hasZone",
+      "iri": "http://example.org/tfl#hasZone"
+    },
+    {
+      "label": "offersAccessibilityFeature",
+      "iri": "http://example.org/tfl#offersAccessibilityFeature"
+    },
+    {
+      "label": "onRoute",
+      "iri": "http://example.org/tfl#onRoute"
+    },
+    {
+      "label": "reachableFrom",
+      "iri": "http://example.org/tfl#reachableFrom"
+    },
+    {
+      "label": "sequenceStop",
+      "iri": "http://example.org/tfl#sequenceStop"
+    },
+    {
+      "label": "servedByRoute",
+      "iri": "http://example.org/tfl#servedByRoute"
+    },
+    {
+      "label": "startPoint",
+      "iri": "http://example.org/tfl#startPoint"
+    },
+    {
+      "label": "startZone",
+      "iri": "http://example.org/tfl#startZone"
+    },
+    {
+      "label": "fareCost",
+      "iri": "http://example.org/tfl#fareCost"
+    },
+    {
+      "label": "hasName",
+      "iri": "http://example.org/tfl#hasName"
+    },
+    {
+      "label": "latitude",
+      "iri": "http://example.org/tfl#latitude"
+    },
+    {
+      "label": "longitude",
+      "iri": "http://example.org/tfl#longitude"
+    },
+    {
+      "label": "stopSequenceNumber",
+      "iri": "http://example.org/tfl#stopSequenceNumber"
+    },
+    {
+      "label": "zoneNumber",
+      "iri": "http://example.org/tfl#zoneNumber"
     }
   ]
 }
