@@ -9,51 +9,58 @@ import logging
 import os
 import re
 from typing import Any, Dict, List
+from concurrent.futures import ThreadPoolExecutor
 
 from schemas import PipelineState
 from service.llm import call_llm
+import config
 
 log = logging.getLogger(__name__)
 
 _ENTITY_MODEL = os.getenv("OLLAMA_ENTITY_MODEL")
-_BATCH = 15
 
 _VALID_ENTITY_KINDS = {"class", "individual"}
 _VALID_RELATION_KINDS = {"object_property", "datatype_property"}
 
 
 def _is_literal(value: str) -> bool:
-    cleaned = value.strip()
-    return bool(re.fullmatch(r"-?\d+", cleaned) or re.fullmatch(r"-?\d+\.\d+", cleaned))
+    cleaned = value.strip().lower()
+    # Booleans
+    if cleaned in ("true", "false", "yes", "no"):
+        return True
+    # Numbers
+    if re.fullmatch(r"-?\d+(\.\d+)?", cleaned):
+        return True
+    # Dates/Years: "1950", "1950s", "3 july 1939", "september 1939"
+    if re.fullmatch(r"\d{4}s?", cleaned):
+        return True
+    if re.fullmatch(r"(\d{1,2}\s+)?(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{4}", cleaned):
+        return True
+    # Times / Durations: "60 mins", "2 hours"
+    if re.search(r"^\d+\s*(mins?|minutes?|hrs?|hours?|seconds?|secs?)$", cleaned):
+        return True
+    return False
 
 
-def _run_batch(state_name: str, names: List[str]) -> List[Dict[str, str]]:
-    params = "\n" + "\n".join(f'{i + 1}. "{n}"' for i, n in enumerate(names)) + "\n"
+def _run_single(args: tuple[str, str]) -> Dict[str, str]:
+    state_name, name = args
+    params = f'\nname="{name}"\n'
     try:
         result = call_llm(state_name, params, model=_ENTITY_MODEL)
-        results = result.get("results", [])
-        if len(results) < len(names):
-            results.extend([{}] * (len(names) - len(results)))
-        return results[: len(names)]
+        return result
     except Exception as exc:
-        log.warning("%s batch failed: %s", state_name, exc)
-        return [{}] * len(names)
+        log.warning("%s failed for %r: %s", state_name, name, exc)
+        return {}
 
 
-def _annotate_batch(items: List[Dict[str, str]]) -> List[Dict[str, str]]:
-    params = "\n" + "\n".join(
-        f'{i + 1}. name="{item["name"]}" type="{item["kind"]}"'
-        for i, item in enumerate(items)
-    ) + "\n"
+def _annotate_single(item: Dict[str, str]) -> Dict[str, str]:
+    params = f'\nname="{item["name"]}" type="{item["kind"]}"\n'
     try:
         result = call_llm("entity_annotate", params, model=_ENTITY_MODEL)
-        results = result.get("results", [])
-        if len(results) < len(items):
-            results.extend([{}] * (len(items) - len(results)))
-        return results[: len(items)]
+        return result
     except Exception as exc:
-        log.warning("entity_annotate batch failed: %s", exc)
-        return [{}] * len(items)
+        log.warning("entity_annotate failed for %r: %s", item["name"], exc)
+        return {}
 
 
 def run_entity_classification(state: PipelineState) -> PipelineState:
@@ -71,32 +78,29 @@ def run_entity_classification(state: PipelineState) -> PipelineState:
 
     catalog: Dict[str, Dict[str, Any]] = {}
 
-    # Step 1: classify entities (class vs individual)
-    for i in range(0, len(entity_names), _BATCH):
-        batch = entity_names[i : i + _BATCH]
-        results = _run_batch("entity_classify", batch)
-        for name, r in zip(batch, results):
+    with ThreadPoolExecutor(max_workers=config.LLM_MAX_CONCURRENCY) as executor:
+        # Step 1: classify entities (class vs individual)
+        args_ent = [("entity_classify", name) for name in entity_names]
+        ent_results = list(executor.map(_run_single, args_ent))
+        for name, r in zip(entity_names, ent_results):
             kind = r.get("type", "individual")
             if kind not in _VALID_ENTITY_KINDS:
                 kind = "individual"
             catalog[name] = {"kind": kind, "label": name, "comment": ""}
 
-    # Step 2: classify relations (object_property vs datatype_property)
-    for i in range(0, len(relation_names), _BATCH):
-        batch = relation_names[i : i + _BATCH]
-        results = _run_batch("relation_classify", batch)
-        for name, r in zip(batch, results):
+        # Step 2: classify relations (object_property vs datatype_property)
+        args_rel = [("relation_classify", name) for name in relation_names]
+        rel_results = list(executor.map(_run_single, args_rel))
+        for name, r in zip(relation_names, rel_results):
             kind = r.get("type", "object_property")
             if kind not in _VALID_RELATION_KINDS:
                 kind = "object_property"
             catalog[name] = {"kind": kind, "label": name, "comment": ""}
 
-    # Step 3: annotate all (label + comment)
-    all_items = [{"name": n, "kind": catalog[n]["kind"]} for n in sorted(catalog)]
-    for i in range(0, len(all_items), _BATCH):
-        batch = all_items[i : i + _BATCH]
-        results = _annotate_batch(batch)
-        for item, r in zip(batch, results):
+        # Step 3: annotate all (label + comment)
+        all_items = [{"name": n, "kind": catalog[n]["kind"]} for n in sorted(catalog)]
+        ann_results = list(executor.map(_annotate_single, all_items))
+        for item, r in zip(all_items, ann_results):
             name = item["name"]
             catalog[name]["label"] = r.get("label", name) or name
             catalog[name]["comment"] = r.get("comment", "") or ""

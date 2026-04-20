@@ -1,48 +1,215 @@
+# ---------------------------------------------------------
+# SPARQL Queries for Competency Questions (CQ1 - CQ9)
+# ---------------------------------------------------------
+# Base Prefix required for all queries:
+# PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+# PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+# ---------------------------------------------------------
 
-Which stations are served by a given underground line, and in which transport zones are they located?
+# ==========================================
+# Q1: Which stations are served by a given underground line, and in which transport zones are they located?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT DISTINCT ?station ?zone
+SELECT ?stationName ?zoneNum
 WHERE {
-  ?station a ex:TrainStation .
-  ?station ex:servedByLine ?line .
-  ?station ex:hasZone ?zone .
-
-  FILTER(?line = ex:CentralLine)
+  ?line :hasName "Victoria Line"^^xsd:string ;
+        :hasStop ?station .
+  ?station :hasName ?stationName ;
+           :hasZone ?zone .
+  ?zone :zoneNumber ?zoneNum .
 }
-ORDER BY ?station ?zone
 
-Which stations are directly connected to a given station, and on which lines do these
-connections occur?
+# ==========================================
+# Q2: Which underground lines serve a given station, and is the station an interchange?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT DISTINCT ?connectedStation ?route
+SELECT ?lineName (IF(BOUND(?isInterchange), "Yes", "No") AS ?interchangeStatus)
 WHERE {
+  ?station :hasName "Oxford Circus Station"^^xsd:string .
+  ?line :hasStop ?station ;
+        :hasName ?lineName .
+  OPTIONAL {
+    ?station a :InterchangeStation .
+    BIND(true AS ?isInterchange)
+  }
+}
+
+# ==========================================
+# Q3: What is the ordered sequence of stops for a given bus route, including start and end points?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?stopName ?seq
+WHERE {
+  ?route :hasName "Bus Route 25"^^xsd:string .
+  ?stopSequence :belongsToRoute ?route ;
+                :stopSequenceNumber ?seq ;
+                :sequenceStop ?stop .
+  ?stop :hasName ?stopName .
+}
+ORDER BY ASC(?seq)
+
+# ==========================================
+# Q4: Which stations are directly connected to a given station, and on which lines do these connections occur?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?connectedStationName ?routeName
+WHERE {
+  ?station :hasName "Victoria Station"^^xsd:string .
+  
+  # Find the sequence node for Victoria Station
+  ?seqNode1 a :RouteStopSequence ;
+            :sequenceStop ?station ;
+            :belongsToRoute ?route ;
+            :stopSequenceNumber ?num1 .
+            
+  # Find the direct connection (Sequence numbering offset by 1 or -1)
+  ?seqNode2 a :RouteStopSequence ;
+            :belongsToRoute ?route ;
+            :sequenceStop ?connectedStation ;
+            :stopSequenceNumber ?num2 .
+            
+  FILTER ( ?num2 = ?num1 + 1 || ?num2 = ?num1 - 1 )
+  
+  ?connectedStation :hasName ?connectedStationName .
+  ?route :hasName ?routeName .
+}
+
+# ==========================================
+# Q5: Which stations act as interchanges between multiple lines or transport modes?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?stationName (COUNT(?line) AS ?linesServed)
+WHERE {
+  # We query stations that have >1 line explicitly serving them
+  ?line :hasStop ?station .
+  ?station :hasName ?stationName .
+}
+GROUP BY ?stationName
+HAVING (COUNT(?line) > 1)
+
+# ==========================================
+# Q6: What routes are available between two stations, including required interchanges and lines used?
+# Handles direct routes (0 swaps), 1 interchange, or 2 interchanges.
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?startName ?route1Name ?mid1Name ?route2Name ?mid2Name ?route3Name ?endName
+WHERE {
+  ?startStation :hasName "Start Station"^^xsd:string .
+  ?endStation :hasName "End Station"^^xsd:string .
+  
   {
-    ?segment a ex:RouteSegment .
-    ?segment ex:fromStop ?station .
-    ?segment ex:toStop ?connectedStation .
+    # Option A: 0 Interchanges (Direct Route)
+    ?seqStart1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numStart1 .
+    ?seqEnd1 a :RouteStopSequence ; :sequenceStop ?endStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numEnd1 .
+    FILTER(?numStart1 < ?numEnd1)
   }
   UNION
   {
-    ?segment a ex:RouteSegment .
-    ?segment ex:toStop ?station .
-    ?segment ex:fromStop ?connectedStation .
+    # Option B: 1 Interchange
+    ?seqStart1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numStart1 .
+    ?seqEnd1 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numEnd1 .
+    FILTER(?numStart1 < ?numEnd1)
+    
+    ?seqStart2 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numStart2 .
+    ?seqEnd2 a :RouteStopSequence ; :sequenceStop ?endStation ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numEnd2 .
+    FILTER(?numStart2 < ?numEnd2)
+    FILTER(?route1 != ?route2)
+    
+    ?mid1Station a :InterchangeStation ; :hasName ?mid1Name .
+    ?route2 :hasName ?route2Name .
   }
+  UNION
+  {
+    # Option C: 2 Interchanges
+    ?seqStart1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numStart1 .
+    ?seqEnd1 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numEnd1 .
+    FILTER(?numStart1 < ?numEnd1)
+    
+    ?seqStart2 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numStart2 .
+    ?seqEnd2 a :RouteStopSequence ; :sequenceStop ?mid2Station ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numEnd2 .
+    FILTER(?numStart2 < ?numEnd2)
+    FILTER(?route1 != ?route2)
 
-  ?segment ex:partOfRoute ?route .
+    ?seqStart3 a :RouteStopSequence ; :sequenceStop ?mid2Station ; :belongsToRoute ?route3 ; :stopSequenceNumber ?numStart3 .
+    ?seqEnd3 a :RouteStopSequence ; :sequenceStop ?endStation ; :belongsToRoute ?route3 ; :stopSequenceNumber ?numEnd3 .
+    FILTER(?numStart3 < ?numEnd3)
+    FILTER(?route2 != ?route3)
 
-  FILTER(?station = ex:KingCross)  # replace with station IRI
+    ?mid1Station a :InterchangeStation ; :hasName ?mid1Name .
+    ?mid2Station a :InterchangeStation ; :hasName ?mid2Name .
+    ?route2 :hasName ?route2Name .
+    ?route3 :hasName ?route3Name .
+  }
+  
+  ?startStation :hasName ?startName .
+  ?endStation :hasName ?endName .
+  ?route1 :hasName ?route1Name .
 }
-ORDER BY ?connectedStation
 
-Which stations are located within a specific transport zone, and what services operate in that
-zone?
+# ==========================================
+# Q7: Which stations are located within a specific transport zone, and what services operate in that zone?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT DISTINCT ?station ?service
+SELECT DISTINCT ?stationName ?lineName
 WHERE {
-  ?station a ex:TrainStation .
-  ?station ex:hasZone ?zone .
-  ?station ex:servedByLine ?service .
-
-  FILTER(?zone = ex:Zone1)  # replace with your zone IRI
+  ?zone :zoneNumber 1 .
+  ?station :hasZone ?zone ;
+           :hasName ?stationName .
+  ?line :hasStop ?station ;
+        :hasName ?lineName .
 }
-ORDER BY ?station ?service
+
+# ==========================================
+# Q8: Which stations provide accessibility features such as step-free access?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?stationName
+WHERE {
+  ?feature :hasName "Step-Free Access"^^xsd:string .
+  ?station :offersAccessibilityFeature ?feature ;
+           :hasName ?stationName .
+}
+
+# ==========================================
+# Q9: What fare options are available for travel between two stations, including peak and off-peak pricing?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?startName ?endName ?fareCost ?fareType
+WHERE {
+  ?startStation :hasName "Victoria Station"^^xsd:string .
+  ?endStation :hasName "Oxford Circus Station"^^xsd:string .
+  
+  ?journey a <http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> ;
+           :startStation ?startStation ;
+           :endStation ?endStation ;
+           :hasFare ?fare .
+           
+  ?fare :fareCost ?fareCost .
+  
+  # Safe Type Probing (Prevents looping over all OWL superclasses)
+  OPTIONAL { ?fare a :PeakFare . BIND("Peak" AS ?typeP) }
+  OPTIONAL { ?fare a :OffPeakFare . BIND("Off-Peak" AS ?typeO) }
+  
+  BIND(COALESCE(?typeP, ?typeO, "Standard Fare") AS ?fareType)
+  
+  ?startStation :hasName ?startName .
+  ?endStation :hasName ?endName .
+}

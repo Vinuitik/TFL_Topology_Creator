@@ -99,8 +99,8 @@ def _embed(text: str) -> List[float]:
         return []
 
 
-_SAME_THRESHOLD = float(os.getenv("ENTITY_SAME_THRESHOLD", "0.88"))
-
+import config
+_SAME_THRESHOLD = config.ENTITY_SAME_THRESHOLD
 
 def _compare_by_embedding(pairs: List[Tuple[str, str, str, str]], embeds: Dict[str, List[float]]) -> List[bool]:
     return [_cosine(embeds.get(na, []), embeds.get(nb, [])) >= _SAME_THRESHOLD for na, _, nb, _ in pairs]
@@ -196,19 +196,28 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
 
     # Step 1 — descriptions
     descs: Dict[str, str] = {}
+    uncached_names = []
     for name in items:
         key = f"{category}:desc:{name}"
         cached = _get_redis().get(key)
         if cached is not None:
             descs[name] = cached
-            continue
+        else:
+            uncached_names.append(name)
 
-        generated = _describe(name)
-        _get_redis().set(key, generated)
-        descs[name] = generated
+    if uncached_names:
+        from concurrent.futures import ThreadPoolExecutor
+        import config
+        with ThreadPoolExecutor(max_workers=config.LLM_MAX_CONCURRENCY) as executor:
+            results = list(executor.map(_describe, uncached_names))
+        
+        for name, generated in zip(uncached_names, results):
+            _get_redis().set(f"{category}:desc:{name}", generated)
+            descs[name] = generated
 
     # Step 2 — embeddings (fire-and-forget into Redis, used for future ANN)
     embeds: Dict[str, List[float]] = {}
+    uncached_emb_names = []
     for name in items:
         key = f"{category}:emb:{name}"
         cached = _get_redis().get(key)
@@ -218,10 +227,18 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
                 continue
             except json.JSONDecodeError:
                 pass
+        uncached_emb_names.append(name)
 
-        emb = _embed(descs[name])
-        embeds[name] = emb
-        _get_redis().set(key, json.dumps(emb))
+    if uncached_emb_names:
+        from concurrent.futures import ThreadPoolExecutor
+        import config
+        desc_list = [descs[n] for n in uncached_emb_names]
+        with ThreadPoolExecutor(max_workers=config.LLM_MAX_CONCURRENCY) as executor:
+            emb_results = list(executor.map(_embed, desc_list))
+            
+        for name, emb in zip(uncached_emb_names, emb_results):
+            embeds[name] = emb
+            _get_redis().set(f"{category}:emb:{name}", json.dumps(emb))
 
     # Step 3 — candidate pair generation and embedding-based comparison
     exact_mode = len(items) <= _EXACT_THRESHOLD

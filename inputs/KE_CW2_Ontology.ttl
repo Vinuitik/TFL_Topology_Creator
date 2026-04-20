@@ -1,206 +1,333 @@
-@prefix : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#> .
+@prefix tfl:    <http://example.org/tfl#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix gtfs:   <http://vocab.gtfs.org/terms#> .
+@prefix schema: <https://schema.org/> .
+@base <http://example.org/tfl#> .
 
-<http://example.org/tfl> rdf:type owl:Ontology .
+# ─────────────────────────────────────────────────────────────────────────────
+#  Ontology Declaration
+# ─────────────────────────────────────────────────────────────────────────────
 
-#################################################################
-#    Object Properties
-#################################################################
-
-###  http://example.org/tfl#hasZone
-:hasZone rdf:type owl:ObjectProperty ;
-         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
-         rdfs:range <http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg> .
-
-
-###  http://webprotege.stanford.edu/R5vX3rRQHCFUQRqsCJpU7U
-<http://webprotege.stanford.edu/R5vX3rRQHCFUQRqsCJpU7U> rdf:type owl:ObjectProperty ;
-                                                        rdfs:subPropertyOf owl:topObjectProperty ;
-                                                        rdfs:domain <http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj> ,
-                                                                    <http://webprotege.stanford.edu/RIfSnBzsdC7fyIHQcX6Erd> ;
-                                                        rdfs:range <http://webprotege.stanford.edu/R9TCSglVMKeAj22qlxYUozU> ,
-                                                                   <http://webprotege.stanford.edu/TrainStation> ;
-                                                        rdfs:label "hasStop" .
+<http://example.org/tfl> rdf:type owl:Ontology ;
+    rdfs:label "TFL Transport Ontology" ;
+    rdfs:comment "An ontology for modelling Transport for London (TfL) network topology, fares, and passenger rights. Extends GTFS (http://vocab.gtfs.org/terms#) and Schema.org (https://schema.org/)." .
 
 
-###  http://webprotege.stanford.edu/R71eqrN4K4TdLRHIljaDYrr
-<http://webprotege.stanford.edu/R71eqrN4K4TdLRHIljaDYrr> rdf:type owl:ObjectProperty ;
-                                                         rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
-                                                         rdfs:label "isInterchange" .
+# ─────────────────────────────────────────────────────────────────────────────
+#  Classes
+# ─────────────────────────────────────────────────────────────────────────────
+
+###  tfl:TransitAccessPoint
+tfl:TransitAccessPoint rdf:type owl:Class ;
+    rdfs:subClassOf gtfs:Stop ;
+    rdfs:label "Transit Access Point" ;
+    rdfs:comment "A point on the transport network where passengers can board or alight a vehicle." .
+
+###  tfl:TrainStation  (subclass of TransitAccessPoint — extends GTFS Stop)
+tfl:TrainStation rdf:type owl:Class ;
+    rdfs:subClassOf tfl:TransitAccessPoint ;
+    rdfs:label "Train Station" ;
+    rdfs:comment "A station serving rail, underground, overground, or DLR services." .
+
+###  tfl:BusStop  (subclass of TransitAccessPoint — extends GTFS Stop)
+tfl:BusStop rdf:type owl:Class ;
+    rdfs:subClassOf tfl:TransitAccessPoint ;
+    rdfs:label "Bus Stop" ;
+    rdfs:comment "A designated roadside stop where bus or coach services pick up or set down passengers." .
+
+###  tfl:Line  (subclass of GTFS Route — extends existing ontology)
+tfl:Line rdf:type owl:Class ;
+    rdfs:subClassOf gtfs:Route ;
+    rdfs:label "Line" ;
+    rdfs:comment "A named service route (e.g. Northern line, Route 38) operated along a fixed sequence of stops." .
+
+###  tfl:Route  (subclass of GTFS Route)
+tfl:Route rdf:type owl:Class ;
+    rdfs:subClassOf gtfs:Route ;
+    rdfs:label "Route" ;
+    rdfs:comment "A specific operational path taken by a service between two termini." .
+
+###  tfl:RouteSegment
+tfl:RouteSegment rdf:type owl:Class ;
+    rdfs:label "Route Segment" ;
+    rdfs:comment "A directed connection between two consecutive stops on a named route." .
+
+###  tfl:Zone  (subclass of GTFS Zone — extends existing ontology)
+tfl:Zone rdf:type owl:Class ;
+    rdfs:subClassOf gtfs:Zone ;
+    rdfs:label "Zone" ;
+    rdfs:comment "A concentric fare pricing band covering a geographic area of the TfL network (e.g. Zone 1, Zone 2)." .
+
+###  tfl:Fare
+tfl:Fare rdf:type owl:Class ;
+    rdfs:label "Fare" ;
+    rdfs:comment "The price charged for travel between or within fare zones on the TfL network." .
+
+###  tfl:Journey  (subclass of schema:TravelAction — extends Schema.org)
+tfl:Journey rdf:type owl:Class ;
+    rdfs:subClassOf schema:TravelAction ;
+    rdfs:label "Journey" ;
+    rdfs:comment "A single trip taken by a passenger from an origin station to a destination station." .
+
+###  tfl:TransportMode
+tfl:TransportMode rdf:type owl:Class ;
+    rdfs:label "Transport Mode" ;
+    rdfs:comment "The type of vehicle or service (e.g. tube, bus, DLR, overground, cable car)." .
+
+###  tfl:AccessibilityFeature
+tfl:AccessibilityFeature rdf:type owl:Class ;
+    rdfs:label "Accessibility Feature" ;
+    rdfs:comment "An accessibility provision available at a station or stop (e.g. step-free access, hearing loop, tactile paving)." .
+
+###  tfl:Operator
+tfl:Operator rdf:type owl:Class ;
+    rdfs:label "Operator" ;
+    rdfs:comment "An organisation responsible for running one or more transport services or lines." .
+
+###  tfl:Ticket
+tfl:Ticket rdf:type owl:Class ;
+    rdfs:label "Ticket" ;
+    rdfs:comment "A document or digital entitlement authorising travel on specified services." .
+
+###  tfl:PassengerRight
+tfl:PassengerRight rdf:type owl:Class ;
+    rdfs:label "Passenger Right" ;
+    rdfs:comment "A legal or regulatory entitlement held by a passenger when using a rail or bus service." .
+
+###  tfl:PenaltyFarePolicy
+tfl:PenaltyFarePolicy rdf:type owl:Class ;
+    rdfs:label "Penalty Fare Policy" ;
+    rdfs:comment "A policy under which a penalty charge is levied on passengers travelling without a valid ticket." .
+
+###  tfl:Regulation
+tfl:Regulation rdf:type owl:Class ;
+    rdfs:label "Regulation" ;
+    rdfs:comment "A legislative instrument governing passenger rights or transport operations (e.g. EU Regulation 1371/2007)." .
+
+###  tfl:ConnectedEntity
+tfl:ConnectedEntity rdf:type owl:Class ;
+    rdfs:label "Connected Entity" ;
+    rdfs:comment "Any node that participates in at least one non-type relation in the knowledge graph (inferred by the pipeline reasoning step)." .
 
 
-###  http://webprotege.stanford.edu/R7da28meiu9GbOT1rL0SAxy
-<http://webprotege.stanford.edu/R7da28meiu9GbOT1rL0SAxy> rdf:type owl:ObjectProperty ;
-                                                         rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
-                                                         rdfs:range <http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg> ;
-                                                         rdfs:label "locatedInZone" .
+# ─────────────────────────────────────────────────────────────────────────────
+#  Object Properties
+# ─────────────────────────────────────────────────────────────────────────────
+
+###  tfl:servedByLine  (sub-property of gtfs:route — extends GTFS)
+tfl:servedByLine rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf gtfs:route ;
+    rdfs:domain tfl:TransitAccessPoint ;
+    rdfs:range tfl:Line ;
+    rdfs:label "served by line" ;
+    rdfs:comment "Relates a station or stop to a line that calls at it." .
+
+###  tfl:directlyConnectedTo  (sub-property of schema:connectedTo — extends Schema.org)
+tfl:directlyConnectedTo rdf:type owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:subPropertyOf schema:connectedTo ;
+    rdfs:domain tfl:TrainStation ;
+    rdfs:range tfl:TrainStation ;
+    rdfs:label "directly connected to" ;
+    rdfs:comment "Relates two stations between which a direct rail or underground service runs." .
+
+###  tfl:locatedInZone
+tfl:locatedInZone rdf:type owl:ObjectProperty ;
+    rdfs:domain tfl:TransitAccessPoint ;
+    rdfs:range tfl:Zone ;
+    rdfs:label "located in zone" ;
+    rdfs:comment "Relates a station or stop to the fare zone(s) in which it is located." .
+
+###  tfl:hasZone
+tfl:hasZone rdf:type owl:ObjectProperty ;
+    owl:equivalentProperty tfl:locatedInZone ;
+    rdfs:domain tfl:TransitAccessPoint ;
+    rdfs:range tfl:Zone ;
+    rdfs:label "has zone" ;
+    rdfs:comment "Equivalent to locatedInZone; used in structured API data." .
+
+###  tfl:hasStop
+tfl:hasStop rdf:type owl:ObjectProperty ;
+    rdfs:range tfl:TransitAccessPoint ;
+    rdfs:label "has stop" ;
+    rdfs:comment "Relates a line or route to a stop or station it serves." .
+
+###  tfl:isInterchange
+tfl:isInterchange rdf:type owl:ObjectProperty ;
+    rdfs:domain tfl:TrainStation ;
+    rdfs:label "is interchange" ;
+    rdfs:comment "Relates a station to another line or station accessible via interchange." .
+
+###  tfl:connectionLine
+tfl:connectionLine rdf:type owl:ObjectProperty ;
+    rdfs:domain tfl:TrainStation ;
+    rdfs:range tfl:Line ;
+    rdfs:label "connection line" ;
+    rdfs:comment "A line reachable by interchange at this station." .
+
+###  tfl:hasTransportMode
+tfl:hasTransportMode rdf:type owl:ObjectProperty ;
+    rdfs:label "has transport mode" ;
+    rdfs:comment "Relates a line, route, or operator to its mode of transport." .
+
+###  tfl:hasFare
+tfl:hasFare rdf:type owl:ObjectProperty ;
+    rdfs:domain tfl:Journey ;
+    rdfs:range tfl:Fare ;
+    rdfs:label "has fare" ;
+    rdfs:comment "Relates a journey to the applicable fare." .
+
+###  tfl:offersAccessibilityFeature
+tfl:offersAccessibilityFeature rdf:type owl:ObjectProperty ;
+    rdfs:domain tfl:TransitAccessPoint ;
+    rdfs:range tfl:AccessibilityFeature ;
+    rdfs:label "offers accessibility feature" ;
+    rdfs:comment "Relates a station or stop to an accessibility feature it provides." .
+
+###  tfl:providesService
+tfl:providesService rdf:type owl:ObjectProperty ;
+    rdfs:domain tfl:TransitAccessPoint ;
+    rdfs:label "provides service" ;
+    rdfs:comment "Relates a station to a passenger service it provides (e.g. ticket office, cycle hire)." .
+
+###  tfl:startStation  (sub-property of gtfs:originStop — extends GTFS)
+tfl:startStation rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf gtfs:originStop ;
+    rdfs:domain tfl:Journey ;
+    rdfs:range tfl:TransitAccessPoint ;
+    rdfs:label "start station" ;
+    rdfs:comment "The origin station or stop of a journey." .
+
+###  tfl:endStation  (sub-property of gtfs:destinationStop — extends GTFS)
+tfl:endStation rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf gtfs:destinationStop ;
+    rdfs:domain tfl:Journey ;
+    rdfs:range tfl:TransitAccessPoint ;
+    rdfs:label "end station" ;
+    rdfs:comment "The destination station or stop of a journey." .
+
+###  tfl:startZone
+tfl:startZone rdf:type owl:ObjectProperty ;
+    rdfs:domain tfl:Journey ;
+    rdfs:range tfl:Zone ;
+    rdfs:label "start zone" ;
+    rdfs:comment "The fare zone from which a journey originates." .
+
+###  tfl:endZone
+tfl:endZone rdf:type owl:ObjectProperty ;
+    rdfs:domain tfl:Journey ;
+    rdfs:range tfl:Zone ;
+    rdfs:label "end zone" ;
+    rdfs:comment "The fare zone at which a journey terminates." .
+
+###  tfl:belongsToLine
+tfl:belongsToLine rdf:type owl:ObjectProperty ;
+    rdfs:domain tfl:RouteSegment ;
+    rdfs:range tfl:Line ;
+    rdfs:label "belongs to line" ;
+    rdfs:comment "Relates a route segment to the named line it is part of." .
+
+###  tfl:hasStartStation
+tfl:hasStartStation rdf:type owl:ObjectProperty ;
+    rdfs:domain tfl:RouteSegment ;
+    rdfs:range tfl:TransitAccessPoint ;
+    rdfs:label "has start station" ;
+    rdfs:comment "The origin stop of a route segment." .
+
+###  tfl:hasEndStation
+tfl:hasEndStation rdf:type owl:ObjectProperty ;
+    rdfs:domain tfl:RouteSegment ;
+    rdfs:range tfl:TransitAccessPoint ;
+    rdfs:label "has end station" ;
+    rdfs:comment "The destination stop of a route segment." .
+
+###  tfl:operates
+tfl:operates rdf:type owl:ObjectProperty ;
+    rdfs:label "operates" ;
+    rdfs:comment "Relates an operator to a line, service, or route it runs." .
+
+###  tfl:operatedBy
+tfl:operatedBy rdf:type owl:ObjectProperty ;
+    owl:inverseOf tfl:operates ;
+    rdfs:label "operated by" ;
+    rdfs:comment "Relates a line, service, or route to the operator that runs it." .
+
+###  tfl:appliesTo
+tfl:appliesTo rdf:type owl:ObjectProperty ;
+    rdfs:label "applies to" ;
+    rdfs:comment "Relates a regulation, right, or policy to the entity or service it governs." .
+
+###  tfl:hasCompensationRight
+tfl:hasCompensationRight rdf:type owl:ObjectProperty ;
+    rdfs:range tfl:PassengerRight ;
+    rdfs:label "has compensation right" ;
+    rdfs:comment "Relates a passenger or journey to a compensation entitlement following a delay." .
+
+###  tfl:eligibleForRefund
+tfl:eligibleForRefund rdf:type owl:ObjectProperty ;
+    rdfs:label "eligible for refund" ;
+    rdfs:comment "Relates a ticket or journey to a right of refund under the applicable terms." .
+
+###  tfl:hasPenaltyFare
+tfl:hasPenaltyFare rdf:type owl:ObjectProperty ;
+    rdfs:range tfl:PenaltyFarePolicy ;
+    rdfs:label "has penalty fare" ;
+    rdfs:comment "Relates a service or zone to the penalty fare policy enforced on it." .
+
+###  tfl:relatedTo
+tfl:relatedTo rdf:type owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:label "related to" ;
+    rdfs:comment "A general symmetric relation between two entities in the transport domain." .
 
 
-###  http://webprotege.stanford.edu/R7jFYnKUCHBZlrbM3lXqSCf
-<http://webprotege.stanford.edu/R7jFYnKUCHBZlrbM3lXqSCf> rdf:type owl:ObjectProperty ;
-                                                         rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
-                                                         rdfs:range <http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj> ;
-                                                         rdfs:label "connectionLine" .
+# ─────────────────────────────────────────────────────────────────────────────
+#  Datatype Properties
+# ─────────────────────────────────────────────────────────────────────────────
 
+###  tfl:fareAmount
+tfl:fareAmount rdf:type owl:DatatypeProperty ;
+    rdfs:domain tfl:Fare ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "fare amount" ;
+    rdfs:comment "The monetary value of a fare in pounds sterling." .
 
-###  http://webprotege.stanford.edu/R7v2UJSR5VRm9sY5m9mhjoD
-<http://webprotege.stanford.edu/R7v2UJSR5VRm9sY5m9mhjoD> rdf:type owl:ObjectProperty ;
-                                                         rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:label "hasTransportMode" .
+###  tfl:openedIn
+tfl:openedIn rdf:type owl:DatatypeProperty ;
+    rdfs:domain tfl:TransitAccessPoint ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "opened in" ;
+    rdfs:comment "The year in which a station, line, or service first opened." .
 
+###  tfl:lineLength
+tfl:lineLength rdf:type owl:DatatypeProperty ;
+    rdfs:domain tfl:Line ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "line length" ;
+    rdfs:comment "The total length of a line in kilometres." .
 
-###  http://webprotege.stanford.edu/RBF7bBYX8buEHB8SURG8bAt
-<http://webprotege.stanford.edu/RBF7bBYX8buEHB8SURG8bAt> rdf:type owl:ObjectProperty ;
-                                                         rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> ;
-                                                         rdfs:range <http://webprotege.stanford.edu/RFQBoIMyODKarwW9fBl0aS> ;
-                                                         rdfs:label "hasFare" .
+###  tfl:isTflService
+tfl:isTflService rdf:type owl:DatatypeProperty ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is TfL service" ;
+    rdfs:comment "Indicates whether a transport mode is directly operated under a TfL contract." .
 
+###  tfl:isFarePaying
+tfl:isFarePaying rdf:type owl:DatatypeProperty ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is fare paying" ;
+    rdfs:comment "Indicates whether passengers pay a fare to use this mode or service." .
 
-###  http://webprotege.stanford.edu/RBcEVIqolJplXGnyvK1Sg68
-<http://webprotege.stanford.edu/RBcEVIqolJplXGnyvK1Sg68> rdf:type owl:ObjectProperty ;
-                                                         rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
-                                                         rdfs:range <http://webprotege.stanford.edu/R8suZp8urh3QUp7Gjq7I9vS> ;
-                                                         rdfs:label "offersAccessibilityFeature" .
+###  tfl:isScheduledService
+tfl:isScheduledService rdf:type owl:DatatypeProperty ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is scheduled service" ;
+    rdfs:comment "Indicates whether this mode or service runs to a published timetable." .
 
-
-###  http://webprotege.stanford.edu/RCCYxhe5VfhDbpzKCYZDdJM
-<http://webprotege.stanford.edu/RCCYxhe5VfhDbpzKCYZDdJM> rdf:type owl:ObjectProperty ;
-                                                         rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
-                                                         rdfs:range <http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj> ;
-                                                         rdfs:label "servedByLine" .
-
-
-###  http://webprotege.stanford.edu/RCMwEsdqyKGYIXWhK3cknWo
-<http://webprotege.stanford.edu/RCMwEsdqyKGYIXWhK3cknWo> rdf:type owl:ObjectProperty ;
-                                                         rdfs:subPropertyOf owl:topObjectProperty ;
-                                                         rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
-                                                         rdfs:range <http://webprotege.stanford.edu/TrainStation> ;
-                                                         rdfs:label "directlyConnectedTo" .
-
-
-###  http://webprotege.stanford.edu/RJAwTY1EBQrdbPNMCkPZE0
-<http://webprotege.stanford.edu/RJAwTY1EBQrdbPNMCkPZE0> rdf:type owl:ObjectProperty ;
-                                                        rdfs:subPropertyOf owl:topObjectProperty ;
-                                                        rdfs:domain <http://webprotege.stanford.edu/TrainStation> ;
-                                                        rdfs:label "providesService" .
-
-
-###  http://webprotege.stanford.edu/RObdgWrfvP7lOibVufoCGj
-<http://webprotege.stanford.edu/RObdgWrfvP7lOibVufoCGj> rdf:type owl:ObjectProperty ;
-                                                        rdfs:subPropertyOf owl:topObjectProperty ;
-                                                        rdfs:domain <http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> ;
-                                                        rdfs:range <http://webprotege.stanford.edu/TrainStation> ;
-                                                        rdfs:label "startStation" .
-
-
-###  http://webprotege.stanford.edu/Rhira9cILzBTmJrEsO00c5
-<http://webprotege.stanford.edu/Rhira9cILzBTmJrEsO00c5> rdf:type owl:ObjectProperty ;
-                                                        rdfs:subPropertyOf owl:topObjectProperty ;
-                                                        rdfs:domain <http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> ;
-                                                        rdfs:range <http://webprotege.stanford.edu/TrainStation> ;
-                                                        rdfs:label "endStation" .
-
-
-###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#belongsToLine
-:belongsToLine rdf:type owl:ObjectProperty ;
-               rdfs:domain :RouteSegment ;
-               rdfs:range <http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj> .
-
-
-###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#endZone
-:endZone rdf:type owl:ObjectProperty ;
-         rdfs:domain <http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> ;
-         rdfs:range <http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg> .
-
-
-###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#hasEndStation
-:hasEndStation rdf:type owl:ObjectProperty ;
-               rdfs:domain :RouteSegment ;
-               rdfs:range <http://webprotege.stanford.edu/TrainStation> .
-
-
-###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#hasStartStation
-:hasStartStation rdf:type owl:ObjectProperty ;
-                 rdfs:domain :RouteSegment ;
-                 rdfs:range <http://webprotege.stanford.edu/TrainStation> .
-
-
-###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#startZone
-:startZone rdf:type owl:ObjectProperty ;
-           rdfs:domain <http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> ;
-           rdfs:range <http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg> .
-
-
-#################################################################
-#    Classes
-#################################################################
-
-###  http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg
-<http://webprotege.stanford.edu/R7cZlQsX1sMesyLmlHKw2lg> rdf:type owl:Class ;
-                                                         rdfs:label "Zone" .
-
-
-###  http://webprotege.stanford.edu/R7mQXjcxy79h9g8J1fC0tjV
-<http://webprotege.stanford.edu/R7mQXjcxy79h9g8J1fC0tjV> rdf:type owl:Class ;
-                                                         rdfs:label "TransportMode" .
-
-
-###  http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8
-<http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> rdf:type owl:Class ;
-                                                         rdfs:label "Journey" .
-
-
-###  http://webprotege.stanford.edu/R8suZp8urh3QUp7Gjq7I9vS
-<http://webprotege.stanford.edu/R8suZp8urh3QUp7Gjq7I9vS> rdf:type owl:Class ;
-                                                         rdfs:label "AccessibilityFeature" .
-
-
-###  http://webprotege.stanford.edu/R9TCSglVMKeAj22qlxYUozU
-<http://webprotege.stanford.edu/R9TCSglVMKeAj22qlxYUozU> rdf:type owl:Class ;
-                                                         rdfs:subClassOf :TransitAccessPoint ;
-                                                         rdfs:label "BusStop" .
-
-
-###  http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj
-<http://webprotege.stanford.edu/RDEVnVTugRbS0jlPdGiumAj> rdf:type owl:Class ;
-                                                         rdfs:label "Line" .
-
-
-###  http://webprotege.stanford.edu/RFQBoIMyODKarwW9fBl0aS
-<http://webprotege.stanford.edu/RFQBoIMyODKarwW9fBl0aS> rdf:type owl:Class ;
-                                                        rdfs:label "Fare" .
-
-
-###  http://webprotege.stanford.edu/RIfSnBzsdC7fyIHQcX6Erd
-<http://webprotege.stanford.edu/RIfSnBzsdC7fyIHQcX6Erd> rdf:type owl:Class ;
-                                                        rdfs:label "Route" .
-
-
-###  http://webprotege.stanford.edu/TrainStation
-<http://webprotege.stanford.edu/TrainStation> rdf:type owl:Class ;
-                                              rdfs:subClassOf :TransitAccessPoint ;
-                                              rdfs:label "TrainStation" .
-
-
-###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#RouteSegment
-:RouteSegment rdf:type owl:Class ;
-              rdfs:label "RouteSegment" .
-
-
-###  urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#TransitAccessPoint
-:TransitAccessPoint rdf:type owl:Class ;
-                    rdfs:label "TransitAccessPoint" .
-
-
-###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
+###  tfl:hasCapacity
+tfl:hasCapacity rdf:type owl:DatatypeProperty ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has capacity" ;
+    rdfs:comment "The passenger capacity of a vehicle, platform, or station." .

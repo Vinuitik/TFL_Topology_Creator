@@ -43,6 +43,9 @@ def run_ontology_construction(state: PipelineState) -> PipelineState:
 
     triples: List[Dict[str, Any]] = []
 
+    # --- Ontology header ---
+    _add(triples, "http://example.org/tfl", _RDF_TYPE, "http://www.w3.org/2002/07/owl#Ontology")
+
     # --- Classes ---
     seen_classes: set = set()
     for node in nodes:
@@ -106,7 +109,7 @@ def run_ontology_construction(state: PipelineState) -> PipelineState:
                 datatype=edge.get("object_datatype", ""),
             )
 
-        stmt_iri = f"http://example.org/pt#stmt/{idx}"
+        stmt_iri = f"http://example.org/pt#stmt_{idx}"
         if edge.get("provenance_sentence"):
             _add(triples, stmt_iri, _PROV_FROM_TEXT, edge["provenance_sentence"], is_literal=True)
 

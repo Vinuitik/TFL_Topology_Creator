@@ -43,6 +43,1050 @@
     {
       "label": "TransitAccessPoint",
       "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#TransitAccessPoint"
+    },
+    {
+      "label": "Transit Access Point",
+      "iri": "http://example.org/tfl#TransitAccessPoint"
+    },
+    {
+      "label": "Train Station",
+      "iri": "http://example.org/tfl#TrainStation"
+    },
+    {
+      "label": "Bus Stop",
+      "iri": "http://example.org/tfl#BusStop"
+    },
+    {
+      "label": "Line",
+      "iri": "http://example.org/tfl#Line"
+    },
+    {
+      "label": "Route",
+      "iri": "http://example.org/tfl#Route"
+    },
+    {
+      "label": "Route Segment",
+      "iri": "http://example.org/tfl#RouteSegment"
+    },
+    {
+      "label": "Fare Zone",
+      "iri": "http://example.org/tfl#Zone"
+    },
+    {
+      "label": "Fare",
+      "iri": "http://example.org/tfl#Fare"
+    },
+    {
+      "label": "Journey",
+      "iri": "http://example.org/tfl#Journey"
+    },
+    {
+      "label": "Transport Mode",
+      "iri": "http://example.org/tfl#TransportMode"
+    },
+    {
+      "label": "Accessibility Feature",
+      "iri": "http://example.org/tfl#AccessibilityFeature"
+    },
+    {
+      "label": "Operator",
+      "iri": "http://example.org/tfl#Operator"
+    },
+    {
+      "label": "Ticket",
+      "iri": "http://example.org/tfl#Ticket"
+    },
+    {
+      "label": "Passenger Right",
+      "iri": "http://example.org/tfl#PassengerRight"
+    },
+    {
+      "label": "Penalty Fare Policy",
+      "iri": "http://example.org/tfl#PenaltyFarePolicy"
+    },
+    {
+      "label": "Regulation",
+      "iri": "http://example.org/tfl#Regulation"
+    },
+    {
+      "label": "Connected Entity",
+      "iri": "http://example.org/tfl#ConnectedEntity"
+    },
+    {
+      "label": "TransportEntity",
+      "iri": "http://example.org/tfl#TransportEntity"
+    },
+    {
+      "label": "Crowding",
+      "iri": "http://example.org/tfl#crowding"
+    },
+    {
+      "label": "access point",
+      "iri": "http://example.org/tfl#access_point"
+    },
+    {
+      "label": "area accessible from",
+      "iri": "http://example.org/tfl#area_accessible_from"
+    },
+    {
+      "label": "Coach Bay",
+      "iri": "http://example.org/tfl#coach_bay"
+    },
+    {
+      "label": "Coverage",
+      "iri": "http://example.org/tfl#coverage"
+    },
+    {
+      "label": "Entrance",
+      "iri": "http://example.org/tfl#entrance"
+    },
+    {
+      "label": "Ferry Berth",
+      "iri": "http://example.org/tfl#ferry_berth"
+    },
+    {
+      "label": "Flexible Zone",
+      "iri": "http://example.org/tfl#flexible_zone"
+    },
+    {
+      "label": "Hail and Ride Section",
+      "iri": "http://example.org/tfl#hail_and_ride_section"
+    },
+    {
+      "label": "Interchange",
+      "iri": "http://example.org/tfl#interchange"
+    },
+    {
+      "label": "Lift Stop Area",
+      "iri": "http://example.org/tfl#liftstoparea"
+    },
+    {
+      "label": "Marked Naptan Point",
+      "iri": "http://example.org/tfl#marked_naptan_point"
+    },
+    {
+      "label": "Metro Platform",
+      "iri": "http://example.org/tfl#metro_platform"
+    },
+    {
+      "label": "Metro Access Area",
+      "iri": "http://example.org/tfl#metro_access_area"
+    },
+    {
+      "label": "Pick-Up Area",
+      "iri": "http://example.org/tfl#pick_up_area"
+    },
+    {
+      "label": "Unknown",
+      "iri": "http://example.org/tfl#unknown"
+    },
+    {
+      "label": "Elizabeth Line",
+      "iri": "http://example.org/tfl#Elizabeth_Line"
+    },
+    {
+      "label": "Automobile for hire",
+      "iri": "http://example.org/tfl#automobile_for_hire"
+    },
+    {
+      "label": "Bus",
+      "iri": "http://example.org/tfl#bus"
+    },
+    {
+      "label": "Coach",
+      "iri": "http://example.org/tfl#coach"
+    },
+    {
+      "label": "Cycle hire",
+      "iri": "http://example.org/tfl#cyclehire"
+    },
+    {
+      "label": "DLR",
+      "iri": "http://example.org/tfl#dlr"
+    },
+    {
+      "label": "Overground",
+      "iri": "http://example.org/tfl#overground"
+    },
+    {
+      "label": "Railway system",
+      "iri": "http://example.org/tfl#railway_system"
+    },
+    {
+      "label": "Replacement bus",
+      "iri": "http://example.org/tfl#replacementbus"
+    },
+    {
+      "label": "tram",
+      "iri": "http://example.org/tfl#tram"
+    },
+    {
+      "label": "tubing",
+      "iri": "http://example.org/tfl#tubing"
+    },
+    {
+      "label": "transport vehicle",
+      "iri": "http://example.org/tfl#vehicle_for_passenger_transport"
+    },
+    {
+      "label": "walking",
+      "iri": "http://example.org/tfl#walking"
+    },
+    {
+      "label": "Bakerloo Line",
+      "iri": "http://example.org/tfl#Bakerloo_Line"
+    },
+    {
+      "label": "DLR",
+      "iri": "http://example.org/tfl#DLR"
+    },
+    {
+      "label": "House of Lords",
+      "iri": "http://example.org/tfl#House_of_Lords"
+    },
+    {
+      "label": "London",
+      "iri": "http://example.org/tfl#London"
+    },
+    {
+      "label": "Maryland",
+      "iri": "http://example.org/tfl#Maryland"
+    },
+    {
+      "label": "Mornington Crescent",
+      "iri": "http://example.org/tfl#Mornington_Crescent"
+    },
+    {
+      "label": "NineElms",
+      "iri": "http://example.org/tfl#NineElms"
+    },
+    {
+      "label": "Piccadilly",
+      "iri": "http://example.org/tfl#Piccadilly"
+    },
+    {
+      "label": "Regent's Park",
+      "iri": "http://example.org/tfl#Regent_s_Park"
+    },
+    {
+      "label": "Rickmansworth",
+      "iri": "http://example.org/tfl#Rickmansworth"
+    },
+    {
+      "label": "Russell Square",
+      "iri": "http://example.org/tfl#Russell_Square"
+    },
+    {
+      "label": "Seven Sisters",
+      "iri": "http://example.org/tfl#Seven_Sisters"
+    },
+    {
+      "label": "Shenfield Railway Line",
+      "iri": "http://example.org/tfl#Shenfield_Railway_Line"
+    },
+    {
+      "label": "ShuttleLine",
+      "iri": "http://example.org/tfl#ShuttleLine"
+    },
+    {
+      "label": "Victoria",
+      "iri": "http://example.org/tfl#Victoria"
+    },
+    {
+      "label": "Waterloo and City Line",
+      "iri": "http://example.org/tfl#Waterloo_and_City_Line"
+    },
+    {
+      "label": "Borough",
+      "iri": "http://example.org/tfl#borough"
+    },
+    {
+      "label": "Central",
+      "iri": "http://example.org/tfl#central"
+    },
+    {
+      "label": "Circle",
+      "iri": "http://example.org/tfl#circle"
+    },
+    {
+      "label": "circle",
+      "iri": "http://example.org/tfl#circles"
+    },
+    {
+      "label": "city",
+      "iri": "http://example.org/tfl#city"
+    },
+    {
+      "label": "District",
+      "iri": "http://example.org/tfl#district"
+    },
+    {
+      "label": "financial institution",
+      "iri": "http://example.org/tfl#financial_institution"
+    },
+    {
+      "label": "Green",
+      "iri": "http://example.org/tfl#green"
+    },
+    {
+      "label": "House",
+      "iri": "http://example.org/tfl#heathrow_terminals_2_and_3"
+    },
+    {
+      "label": "Main",
+      "iri": "http://example.org/tfl#main"
+    },
+    {
+      "label": "Metro Line",
+      "iri": "http://example.org/tfl#metro_line"
+    },
+    {
+      "label": "Mille-End",
+      "iri": "http://example.org/tfl#mille_end"
+    },
+    {
+      "label": "Monument",
+      "iri": "http://example.org/tfl#monument"
+    },
+    {
+      "label": "Northern",
+      "iri": "http://example.org/tfl#northern"
+    },
+    {
+      "label": "Oval",
+      "iri": "http://example.org/tfl#oval"
+    },
+    {
+      "label": "Piccadilly Railway",
+      "iri": "http://example.org/tfl#piccadilly_underground_railway"
+    },
+    {
+      "label": "Railway Station",
+      "iri": "http://example.org/tfl#railway_station"
+    },
+    {
+      "label": "Underground Railway",
+      "iri": "http://example.org/tfl#railway_underground"
+    },
+    {
+      "label": "Shepherd's Bush",
+      "iri": "http://example.org/tfl#shepherds_bush"
+    },
+    {
+      "label": "Switzerland",
+      "iri": "http://example.org/tfl#switzerland"
+    },
+    {
+      "label": "Temple",
+      "iri": "http://example.org/tfl#temple"
+    },
+    {
+      "label": "Underground Railway",
+      "iri": "http://example.org/tfl#underground_railway"
+    },
+    {
+      "label": "Wembley Stadium",
+      "iri": "http://example.org/tfl#wembley_stadium"
+    },
+    {
+      "label": "Transport link",
+      "iri": "http://example.org/tfl#Channel_Tunnel"
+    },
+    {
+      "label": "London Electric Railway",
+      "iri": "http://example.org/tfl#London_Electric_Railway"
+    },
+    {
+      "label": "London Overground",
+      "iri": "http://example.org/tfl#London_Overground"
+    },
+    {
+      "label": "New Works Programme",
+      "iri": "http://example.org/tfl#New_Works_Programme"
+    },
+    {
+      "label": "Night Tube",
+      "iri": "http://example.org/tfl#Night_Tube"
+    },
+    {
+      "label": "Southern Branch",
+      "iri": "http://example.org/tfl#Southern_Branch"
+    },
+    {
+      "label": "Southern Railway",
+      "iri": "http://example.org/tfl#Southern_Railway"
+    },
+    {
+      "label": "Thames River",
+      "iri": "http://example.org/tfl#Thames_River"
+    },
+    {
+      "label": "Victoria Line",
+      "iri": "http://example.org/tfl#Victoria_Line"
+    },
+    {
+      "label": "deep-level lines",
+      "iri": "http://example.org/tfl#deep_level_lines"
+    },
+    {
+      "label": "depot",
+      "iri": "http://example.org/tfl#depot"
+    },
+    {
+      "label": "depots",
+      "iri": "http://example.org/tfl#depots"
+    },
+    {
+      "label": "Disambiguation",
+      "iri": "http://example.org/tfl#disambiguation"
+    },
+    {
+      "label": "Docklands Light Railway",
+      "iri": "http://example.org/tfl#docklands_light_railway"
+    },
+    {
+      "label": "Elizabeth Line",
+      "iri": "http://example.org/tfl#elizabeth_line"
+    },
+    {
+      "label": "greenbelt",
+      "iri": "http://example.org/tfl#greenbelt"
+    },
+    {
+      "label": "history icon",
+      "iri": "http://example.org/tfl#history_icon"
+    },
+    {
+      "label": "June 3, 1900",
+      "iri": "http://example.org/tfl#jubilee"
+    },
+    {
+      "label": "Line",
+      "iri": "http://example.org/tfl#line"
+    },
+    {
+      "label": "Load Gauge",
+      "iri": "http://example.org/tfl#load_gauge"
+    },
+    {
+      "label": "Material",
+      "iri": "http://example.org/tfl#material"
+    },
+    {
+      "label": "National Rail",
+      "iri": "http://example.org/tfl#national_rail"
+    },
+    {
+      "label": "Platform",
+      "iri": "http://example.org/tfl#platform"
+    },
+    {
+      "label": "Railroad Cars",
+      "iri": "http://example.org/tfl#railroad_cars"
+    },
+    {
+      "label": "railway",
+      "iri": "http://example.org/tfl#railway"
+    },
+    {
+      "label": "Shelter",
+      "iri": "http://example.org/tfl#shelter"
+    },
+    {
+      "label": "Sidings",
+      "iri": "http://example.org/tfl#sidings"
+    },
+    {
+      "label": "Source",
+      "iri": "http://example.org/tfl#source"
+    },
+    {
+      "label": "Stable",
+      "iri": "http://example.org/tfl#stable"
+    },
+    {
+      "label": "Station",
+      "iri": "http://example.org/tfl#station"
+    },
+    {
+      "label": "Subterranean",
+      "iri": "http://example.org/tfl#subterranean"
+    },
+    {
+      "label": "Subway",
+      "iri": "http://example.org/tfl#subway"
+    },
+    {
+      "label": "Track",
+      "iri": "http://example.org/tfl#track"
+    },
+    {
+      "label": "Train",
+      "iri": "http://example.org/tfl#train"
+    },
+    {
+      "label": "transportation method",
+      "iri": "http://example.org/tfl#transport"
+    },
+    {
+      "label": "Tunnel Bore",
+      "iri": "http://example.org/tfl#tunnel_bore"
+    },
+    {
+      "label": "World War II",
+      "iri": "http://example.org/tfl#world_war_ii"
+    },
+    {
+      "label": "Class designation",
+      "iri": "http://example.org/tfl#700th_class"
+    },
+    {
+      "label": "System type",
+      "iri": "http://example.org/tfl#European_Train_Control_System"
+    },
+    {
+      "label": "Class of project",
+      "iri": "http://example.org/tfl#HS2"
+    },
+    {
+      "label": "Date of event or record",
+      "iri": "http://example.org/tfl#May_2015"
+    },
+    {
+      "label": "Paris",
+      "iri": "http://example.org/tfl#Paris"
+    },
+    {
+      "label": "RER",
+      "iri": "http://example.org/tfl#RER"
+    },
+    {
+      "label": "RIBA",
+      "iri": "http://example.org/tfl#RIBA"
+    },
+    {
+      "label": "abbeywood branch",
+      "iri": "http://example.org/tfl#abbeywoodbranch"
+    },
+    {
+      "label": "Alstom",
+      "iri": "http://example.org/tfl#alstom"
+    },
+    {
+      "label": "Avantura Family",
+      "iri": "http://example.org/tfl#aventura_family"
+    },
+    {
+      "label": "Bombardier",
+      "iri": "http://example.org/tfl#bombardier"
+    },
+    {
+      "label": "Central Line",
+      "iri": "http://example.org/tfl#central_line"
+    },
+    {
+      "label": "central section",
+      "iri": "http://example.org/tfl#central_section"
+    },
+    {
+      "label": "central tunnel",
+      "iri": "http://example.org/tfl#central_tunnel"
+    },
+    {
+      "label": "Crossrail",
+      "iri": "http://example.org/tfl#crossrail"
+    },
+    {
+      "label": "Department of Transport",
+      "iri": "http://example.org/tfl#department_of_transport"
+    },
+    {
+      "label": "Great Western Main Line",
+      "iri": "http://example.org/tfl#great_western_main_line"
+    },
+    {
+      "label": "Jubilee Year 1977",
+      "iri": "http://example.org/tfl#jubilee_year_1977"
+    },
+    {
+      "label": "London Midland and Scottish Railway",
+      "iri": "http://example.org/tfl#london_midland_and_scottish_railway"
+    },
+    {
+      "label": "Metro Railway",
+      "iri": "http://example.org/tfl#metro_railway"
+    },
+    {
+      "label": "Novel Coronavirus Pneumonia",
+      "iri": "http://example.org/tfl#novel_coronavirus_pneumonia"
+    },
+    {
+      "label": "Parallel",
+      "iri": "http://example.org/tfl#parallel"
+    },
+    {
+      "label": "Routing Development",
+      "iri": "http://example.org/tfl#routing_development"
+    },
+    {
+      "label": "Signal and Control Systems",
+      "iri": "http://example.org/tfl#signal_and_control_systems"
+    },
+    {
+      "label": "Thameslink Railway",
+      "iri": "http://example.org/tfl#thameslink_railway"
+    },
+    {
+      "label": "Underground",
+      "iri": "http://example.org/tfl#underground"
+    },
+    {
+      "label": "1920s",
+      "iri": "http://example.org/tfl#1920s"
+    },
+    {
+      "label": "Date",
+      "iri": "http://example.org/tfl#2008_10_12"
+    },
+    {
+      "label": "latitude",
+      "iri": "http://example.org/tfl#51_30_32_49_W"
+    },
+    {
+      "label": "American",
+      "iri": "http://example.org/tfl#American"
+    },
+    {
+      "label": "April Fool's Day",
+      "iri": "http://example.org/tfl#April_Fool_s_Day"
+    },
+    {
+      "label": "Broadway",
+      "iri": "http://example.org/tfl#Broadway"
+    },
+    {
+      "label": "California",
+      "iri": "http://example.org/tfl#California"
+    },
+    {
+      "label": "EMU",
+      "iri": "http://example.org/tfl#EMU"
+    },
+    {
+      "label": "Eurostar",
+      "iri": "http://example.org/tfl#Eurostar"
+    },
+    {
+      "label": "Transport authority in London",
+      "iri": "http://example.org/tfl#London_Transport_Authority"
+    },
+    {
+      "label": "NIRL",
+      "iri": "http://example.org/tfl#NIRL"
+    },
+    {
+      "label": "Northern City Line",
+      "iri": "http://example.org/tfl#NorthernCityLine"
+    },
+    {
+      "label": "Rectangle",
+      "iri": "http://example.org/tfl#Rectangle"
+    },
+    {
+      "label": "River Thames",
+      "iri": "http://example.org/tfl#Thames"
+    },
+    {
+      "label": "AC system",
+      "iri": "http://example.org/tfl#acsystem"
+    },
+    {
+      "label": "alcohol",
+      "iri": "http://example.org/tfl#alcohol"
+    },
+    {
+      "label": "bank station",
+      "iri": "http://example.org/tfl#bank_station"
+    },
+    {
+      "label": "British Railway System",
+      "iri": "http://example.org/tfl#britain_railway_system"
+    },
+    {
+      "label": "Building",
+      "iri": "http://example.org/tfl#building"
+    },
+    {
+      "label": "Central London Railway",
+      "iri": "http://example.org/tfl#central_london_railway"
+    },
+    {
+      "label": "Circle Stock",
+      "iri": "http://example.org/tfl#circle_stock"
+    },
+    {
+      "label": "Data center",
+      "iri": "http://example.org/tfl#datacenter"
+    },
+    {
+      "label": "district line",
+      "iri": "http://example.org/tfl#district_line"
+    },
+    {
+      "label": "Eighties",
+      "iri": "http://example.org/tfl#eighties"
+    },
+    {
+      "label": "Electric",
+      "iri": "http://example.org/tfl#electric"
+    },
+    {
+      "label": "electricity",
+      "iri": "http://example.org/tfl#electricity"
+    },
+    {
+      "label": "Glass",
+      "iri": "http://example.org/tfl#glass"
+    },
+    {
+      "label": "Headquarters",
+      "iri": "http://example.org/tfl#headquarters"
+    },
+    {
+      "label": "Joint Station",
+      "iri": "http://example.org/tfl#joint_station"
+    },
+    {
+      "label": "Loop",
+      "iri": "http://example.org/tfl#loop"
+    },
+    {
+      "label": "Metal",
+      "iri": "http://example.org/tfl#metal"
+    },
+    {
+      "label": "Metronet",
+      "iri": "http://example.org/tfl#metronet"
+    },
+    {
+      "label": "Metropolitan area",
+      "iri": "http://example.org/tfl#metropolis"
+    },
+    {
+      "label": "Metropolitan District",
+      "iri": "http://example.org/tfl#metropolitan_district"
+    },
+    {
+      "label": "Metropolitan Railway",
+      "iri": "http://example.org/tfl#metropolitan_railway"
+    },
+    {
+      "label": "Modern-looking",
+      "iri": "http://example.org/tfl#modern_looking"
+    },
+    {
+      "label": "movia",
+      "iri": "http://example.org/tfl#movia"
+    },
+    {
+      "label": "Multiple unit stock",
+      "iri": "http://example.org/tfl#multipleunitstock"
+    },
+    {
+      "label": "Piccadilly",
+      "iri": "http://example.org/tfl#piccadilly"
+    },
+    {
+      "label": "platform",
+      "iri": "http://example.org/tfl#platforms"
+    },
+    {
+      "label": "railway act",
+      "iri": "http://example.org/tfl#railway_acts"
+    },
+    {
+      "label": "road",
+      "iri": "http://example.org/tfl#road"
+    },
+    {
+      "label": "Shield",
+      "iri": "http://example.org/tfl#shield"
+    },
+    {
+      "label": "Sign",
+      "iri": "http://example.org/tfl#sign"
+    },
+    {
+      "label": "stand",
+      "iri": "http://example.org/tfl#standing"
+    },
+    {
+      "label": "Stock",
+      "iri": "http://example.org/tfl#stock"
+    },
+    {
+      "label": "stone-colored",
+      "iri": "http://example.org/tfl#stone_coloured"
+    },
+    {
+      "label": "Subway Line",
+      "iri": "http://example.org/tfl#subway_line"
+    },
+    {
+      "label": "system",
+      "iri": "http://example.org/tfl#system"
+    },
+    {
+      "label": "Thameslink",
+      "iri": "http://example.org/tfl#thameslink"
+    },
+    {
+      "label": "Urban Myth",
+      "iri": "http://example.org/tfl#urban_myth"
+    },
+    {
+      "label": "United States of America",
+      "iri": "http://example.org/tfl#usa"
+    },
+    {
+      "label": "Summer Olympic Games",
+      "iri": "http://example.org/tfl#item"
+    },
+    {
+      "label": "Android Pay",
+      "iri": "http://example.org/tfl#Android_Pay"
+    },
+    {
+      "label": "Zones",
+      "iri": "http://example.org/tfl#Brighton_and_London_Zones"
+    },
+    {
+      "label": "Creative Commons",
+      "iri": "http://example.org/tfl#Creative_Commons"
+    },
+    {
+      "label": "London Underground",
+      "iri": "http://example.org/tfl#London_Underground"
+    },
+    {
+      "label": "National Rail Enquiries",
+      "iri": "http://example.org/tfl#National_Rail_Enquiries"
+    },
+    {
+      "label": "Bank Statement",
+      "iri": "http://example.org/tfl#bank_statement"
+    },
+    {
+      "label": "bivalve mollusk",
+      "iri": "http://example.org/tfl#bivalve_mollusk"
+    },
+    {
+      "label": "Creative Commons License",
+      "iri": "http://example.org/tfl#cc_by_sa_4_0"
+    },
+    {
+      "label": "citation",
+      "iri": "http://example.org/tfl#citation"
+    },
+    {
+      "label": "Contactless",
+      "iri": "http://example.org/tfl#contactless"
+    },
+    {
+      "label": "Contactless Payment",
+      "iri": "http://example.org/tfl#contactless_payment"
+    },
+    {
+      "label": "Contactless Payment Card",
+      "iri": "http://example.org/tfl#contactless_payment_card"
+    },
+    {
+      "label": "Credit",
+      "iri": "http://example.org/tfl#credit"
+    },
+    {
+      "label": "Credit card",
+      "iri": "http://example.org/tfl#credit_card"
+    },
+    {
+      "label": "cubic transport",
+      "iri": "http://example.org/tfl#cubic_transport"
+    },
+    {
+      "label": "Debit",
+      "iri": "http://example.org/tfl#debit"
+    },
+    {
+      "label": "Dock",
+      "iri": "http://example.org/tfl#docks"
+    },
+    {
+      "label": "Ferry Terminal",
+      "iri": "http://example.org/tfl#ferry_terminal"
+    },
+    {
+      "label": "Fraud Evasion",
+      "iri": "http://example.org/tfl#fraud_evasion"
+    },
+    {
+      "label": "India",
+      "iri": "http://example.org/tfl#india"
+    },
+    {
+      "label": "MediaWiki",
+      "iri": "http://example.org/tfl#mediawiki"
+    },
+    {
+      "label": "Metro system",
+      "iri": "http://example.org/tfl#metro"
+    },
+    {
+      "label": "Non-Profit Organization",
+      "iri": "http://example.org/tfl#non_profit_organization"
+    },
+    {
+      "label": "Off-Peak Day Travel Card",
+      "iri": "http://example.org/tfl#off_peak_day_travel_card"
+    },
+    {
+      "label": "Outer Zones",
+      "iri": "http://example.org/tfl#outer_zones"
+    },
+    {
+      "label": "Pay as you go",
+      "iri": "http://example.org/tfl#pay_as_you_go"
+    },
+    {
+      "label": "penalty fare",
+      "iri": "http://example.org/tfl#penalty_fare"
+    },
+    {
+      "label": "Period",
+      "iri": "http://example.org/tfl#period"
+    },
+    {
+      "label": "Prepaid",
+      "iri": "http://example.org/tfl#prepaid"
+    },
+    {
+      "label": "Press release",
+      "iri": "http://example.org/tfl#press_release"
+    },
+    {
+      "label": "Prestige",
+      "iri": "http://example.org/tfl#prestige"
+    },
+    {
+      "label": "Proof of Payment",
+      "iri": "http://example.org/tfl#proof_of_payment"
+    },
+    {
+      "label": "Railway infrastructure",
+      "iri": "http://example.org/tfl#railway_infrastructure"
+    },
+    {
+      "label": "Return Ticket",
+      "iri": "http://example.org/tfl#return_ticket"
+    },
+    {
+      "label": "Seven Plus Five",
+      "iri": "http://example.org/tfl#seven_plus_five"
+    },
+    {
+      "label": "Smartcard",
+      "iri": "http://example.org/tfl#smartcard"
+    },
+    {
+      "label": "technology",
+      "iri": "http://example.org/tfl#technology"
+    },
+    {
+      "label": "Terms of Use",
+      "iri": "http://example.org/tfl#terms_of_use"
+    },
+    {
+      "label": "Terms of Service",
+      "iri": "http://example.org/tfl#terms_of_service"
+    },
+    {
+      "label": "Ticket",
+      "iri": "http://example.org/tfl#ticket"
+    },
+    {
+      "label": "Ticket Machine",
+      "iri": "http://example.org/tfl#ticket_machine"
+    },
+    {
+      "label": "tramlink",
+      "iri": "http://example.org/tfl#tramlink"
+    },
+    {
+      "label": "Travel Card",
+      "iri": "http://example.org/tfl#travel_card"
+    },
+    {
+      "label": "Travel card",
+      "iri": "http://example.org/tfl#travelcard"
+    },
+    {
+      "label": "Trip plans",
+      "iri": "http://example.org/tfl#trip_plans"
+    },
+    {
+      "label": "Underground Ticket Office",
+      "iri": "http://example.org/tfl#underground_ticket_offices"
+    },
+    {
+      "label": "website",
+      "iri": "http://example.org/tfl#website"
+    },
+    {
+      "label": "Wikipedia Foundation",
+      "iri": "http://example.org/tfl#wikipedia_foundation"
+    },
+    {
+      "label": "Withdrawn",
+      "iri": "http://example.org/tfl#withdrawn"
+    },
+    {
+      "label": "Zone",
+      "iri": "http://example.org/tfl#zone"
+    },
+    {
+      "label": "Booking",
+      "iri": "http://example.org/tfl#booking"
+    },
+    {
+      "label": "borough",
+      "iri": "http://example.org/tfl#boroughs"
+    },
+    {
+      "label": "Fare",
+      "iri": "http://example.org/tfl#fare"
+    },
+    {
+      "label": "Location",
+      "iri": "http://example.org/tfl#location"
+    },
+    {
+      "label": "London Underground",
+      "iri": "http://example.org/tfl#london_underground"
+    },
+    {
+      "label": "London Underground Stations",
+      "iri": "http://example.org/tfl#london_underground_stations"
+    },
+    {
+      "label": "service",
+      "iri": "http://example.org/tfl#service"
+    },
+    {
+      "label": "Transport for London",
+      "iri": "http://example.org/tfl#Transport_for_London"
+    },
+    {
+      "label": "API",
+      "iri": "http://example.org/tfl#application_programming_interface"
     }
   ],
   "predicates": [
@@ -63,7 +1107,7 @@
       "iri": "http://webprotege.stanford.edu/R7da28meiu9GbOT1rL0SAxy"
     },
     {
-      "label": "connectionLine",
+      "label": "connecting line",
       "iri": "http://webprotege.stanford.edu/R7jFYnKUCHBZlrbM3lXqSCf"
     },
     {
@@ -71,7 +1115,7 @@
       "iri": "http://webprotege.stanford.edu/R7v2UJSR5VRm9sY5m9mhjoD"
     },
     {
-      "label": "hasFare",
+      "label": "facet",
       "iri": "http://webprotege.stanford.edu/RBF7bBYX8buEHB8SURG8bAt"
     },
     {
@@ -95,7 +1139,7 @@
       "iri": "http://webprotege.stanford.edu/RObdgWrfvP7lOibVufoCGj"
     },
     {
-      "label": "endStation",
+      "label": "Station",
       "iri": "http://webprotege.stanford.edu/Rhira9cILzBTmJrEsO00c5"
     },
     {
@@ -117,6 +1161,482 @@
     {
       "label": "startZone",
       "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#startZone"
+    },
+    {
+      "label": "served by line",
+      "iri": "http://example.org/tfl#servedByLine"
+    },
+    {
+      "label": "Connected to",
+      "iri": "http://example.org/tfl#directlyConnectedTo"
+    },
+    {
+      "label": "located at",
+      "iri": "http://example.org/tfl#locatedInZone"
+    },
+    {
+      "label": "has zone",
+      "iri": "http://example.org/tfl#hasZone"
+    },
+    {
+      "label": "has stop",
+      "iri": "http://example.org/tfl#hasStop"
+    },
+    {
+      "label": "is interchange",
+      "iri": "http://example.org/tfl#isInterchange"
+    },
+    {
+      "label": "connecting line",
+      "iri": "http://example.org/tfl#connectionLine"
+    },
+    {
+      "label": "has transport mode",
+      "iri": "http://example.org/tfl#hasTransportMode"
+    },
+    {
+      "label": "has fare",
+      "iri": "http://example.org/tfl#hasFare"
+    },
+    {
+      "label": "offers accessibility feature",
+      "iri": "http://example.org/tfl#offersAccessibilityFeature"
+    },
+    {
+      "label": "provides service",
+      "iri": "http://example.org/tfl#providesService"
+    },
+    {
+      "label": "start station",
+      "iri": "http://example.org/tfl#startStation"
+    },
+    {
+      "label": "end station",
+      "iri": "http://example.org/tfl#endStation"
+    },
+    {
+      "label": "Start Time",
+      "iri": "http://example.org/tfl#startZone"
+    },
+    {
+      "label": "end zone",
+      "iri": "http://example.org/tfl#endZone"
+    },
+    {
+      "label": "part",
+      "iri": "http://example.org/tfl#belongsToLine"
+    },
+    {
+      "label": "has start station",
+      "iri": "http://example.org/tfl#hasStartStation"
+    },
+    {
+      "label": "has end station",
+      "iri": "http://example.org/tfl#hasEndStation"
+    },
+    {
+      "label": "operator",
+      "iri": "http://example.org/tfl#operates"
+    },
+    {
+      "label": "operated item",
+      "iri": "http://example.org/tfl#operatedBy"
+    },
+    {
+      "label": "applies to",
+      "iri": "http://example.org/tfl#appliesTo"
+    },
+    {
+      "label": "has compensation right",
+      "iri": "http://example.org/tfl#hasCompensationRight"
+    },
+    {
+      "label": "eligible for refund",
+      "iri": "http://example.org/tfl#eligibleForRefund"
+    },
+    {
+      "label": "has penalty fare",
+      "iri": "http://example.org/tfl#hasPenaltyFare"
+    },
+    {
+      "label": "replaced by",
+      "iri": "http://example.org/tfl#relatedTo"
+    },
+    {
+      "label": "fare amount",
+      "iri": "http://example.org/tfl#fareAmount"
+    },
+    {
+      "label": "opened in",
+      "iri": "http://example.org/tfl#openedIn"
+    },
+    {
+      "label": "Length",
+      "iri": "http://example.org/tfl#lineLength"
+    },
+    {
+      "label": "is TfL service",
+      "iri": "http://example.org/tfl#isTflService"
+    },
+    {
+      "label": "is fare paying",
+      "iri": "http://example.org/tfl#isFarePaying"
+    },
+    {
+      "label": "scheduled service",
+      "iri": "http://example.org/tfl#isScheduledService"
+    },
+    {
+      "label": "has capacity",
+      "iri": "http://example.org/tfl#hasCapacity"
+    },
+    {
+      "label": "dissolution",
+      "iri": "http://example.org/tfl#rel_disruption"
+    },
+    {
+      "label": "Modified by",
+      "iri": "http://example.org/tfl#rel_modified"
+    },
+    {
+      "label": "Status",
+      "iri": "http://example.org/tfl#rel_status"
+    },
+    {
+      "label": "Section",
+      "iri": "http://example.org/tfl#rel_section"
+    },
+    {
+      "label": "Type",
+      "iri": "http://example.org/tfl#rel_type"
+    },
+    {
+      "label": "Crowd",
+      "iri": "http://example.org/tfl#rel_crowd"
+    },
+    {
+      "label": "Zero",
+      "iri": "http://example.org/tfl#rel_zero"
+    },
+    {
+      "label": "1",
+      "iri": "http://example.org/tfl#rel_1"
+    },
+    {
+      "label": "2",
+      "iri": "http://example.org/tfl#rel_2"
+    },
+    {
+      "label": "3",
+      "iri": "http://example.org/tfl#rel_3"
+    },
+    {
+      "label": "4",
+      "iri": "http://example.org/tfl#rel_4"
+    },
+    {
+      "label": "25",
+      "iri": "http://example.org/tfl#rel_25"
+    },
+    {
+      "label": "6",
+      "iri": "http://example.org/tfl#rel_6"
+    },
+    {
+      "label": "7",
+      "iri": "http://example.org/tfl#rel_7"
+    },
+    {
+      "label": "8th",
+      "iri": "http://example.org/tfl#rel_8th"
+    },
+    {
+      "label": "9",
+      "iri": "http://example.org/tfl#rel_9"
+    },
+    {
+      "label": "10",
+      "iri": "http://example.org/tfl#rel_10"
+    },
+    {
+      "label": "11th",
+      "iri": "http://example.org/tfl#rel_11th"
+    },
+    {
+      "label": "12",
+      "iri": "http://example.org/tfl#rel_12"
+    },
+    {
+      "label": "14",
+      "iri": "http://example.org/tfl#rel_14"
+    },
+    {
+      "label": "15",
+      "iri": "http://example.org/tfl#rel_15"
+    },
+    {
+      "label": "16",
+      "iri": "http://example.org/tfl#rel_16"
+    },
+    {
+      "label": "19",
+      "iri": "http://example.org/tfl#rel_19"
+    },
+    {
+      "label": "32",
+      "iri": "http://example.org/tfl#rel_32"
+    },
+    {
+      "label": "20",
+      "iri": "http://example.org/tfl#rel_20"
+    },
+    {
+      "label": "22",
+      "iri": "http://example.org/tfl#rel_22"
+    },
+    {
+      "label": "23",
+      "iri": "http://example.org/tfl#rel_23"
+    },
+    {
+      "label": "26",
+      "iri": "http://example.org/tfl#rel_26"
+    },
+    {
+      "label": "China",
+      "iri": "http://example.org/tfl#rel_China"
+    },
+    {
+      "label": "28",
+      "iri": "http://example.org/tfl#rel_28"
+    },
+    {
+      "label": "29",
+      "iri": "http://example.org/tfl#rel_29"
+    },
+    {
+      "label": "35",
+      "iri": "http://example.org/tfl#rel_35"
+    },
+    {
+      "label": "36",
+      "iri": "http://example.org/tfl#rel_36"
+    },
+    {
+      "label": "37",
+      "iri": "http://example.org/tfl#rel_37"
+    },
+    {
+      "label": "transport for london",
+      "iri": "http://example.org/tfl#rel_transport_for_london"
+    },
+    {
+      "label": "Network",
+      "iri": "http://example.org/tfl#rel_network"
+    },
+    {
+      "label": "Line",
+      "iri": "http://example.org/tfl#rel_line"
+    },
+    {
+      "label": "color",
+      "iri": "http://example.org/tfl#rel_color"
+    },
+    {
+      "label": "Note",
+      "iri": "http://example.org/tfl#rel_note"
+    },
+    {
+      "label": "Branch",
+      "iri": "http://example.org/tfl#rel_branch"
+    },
+    {
+      "label": "subclass",
+      "iri": "http://example.org/tfl#rel_subclass"
+    },
+    {
+      "label": "owns",
+      "iri": "http://example.org/tfl#rel_owned_by"
+    },
+    {
+      "label": "terminus",
+      "iri": "http://example.org/tfl#rel_terminus"
+    },
+    {
+      "label": "opposes",
+      "iri": "http://example.org/tfl#rel_opposite"
+    },
+    {
+      "label": "Replace",
+      "iri": "http://example.org/tfl#rel_replace"
+    },
+    {
+      "label": "Next To",
+      "iri": "http://example.org/tfl#rel_next_to"
+    },
+    {
+      "label": "different",
+      "iri": "http://example.org/tfl#rel_differentfrom"
+    },
+    {
+      "label": "time point",
+      "iri": "http://example.org/tfl#rel_timepoint"
+    },
+    {
+      "label": "War",
+      "iri": "http://example.org/tfl#rel_war"
+    },
+    {
+      "label": "Service Entry",
+      "iri": "http://example.org/tfl#rel_service_entry"
+    },
+    {
+      "label": "inception",
+      "iri": "http://example.org/tfl#rel_inception"
+    },
+    {
+      "label": "manufacturer",
+      "iri": "http://example.org/tfl#rel_manufacturer"
+    },
+    {
+      "label": "End Time",
+      "iri": "http://example.org/tfl#rel_end_time"
+    },
+    {
+      "label": "jubilee",
+      "iri": "http://example.org/tfl#rel_includes"
+    },
+    {
+      "label": "near water",
+      "iri": "http://example.org/tfl#rel_water_near"
+    },
+    {
+      "label": "follows",
+      "iri": "http://example.org/tfl#rel_followed_by"
+    },
+    {
+      "label": "follows",
+      "iri": "http://example.org/tfl#rel_follows"
+    },
+    {
+      "label": "entry point",
+      "iri": "http://example.org/tfl#rel_entry_point"
+    },
+    {
+      "label": "country",
+      "iri": "http://example.org/tfl#rel_country"
+    },
+    {
+      "label": "used by",
+      "iri": "http://example.org/tfl#rel_used"
+    },
+    {
+      "label": "Author",
+      "iri": "http://example.org/tfl#rel_author"
+    },
+    {
+      "label": "July 3, 1939",
+      "iri": "http://example.org/tfl#rel_job"
+    },
+    {
+      "label": "performer",
+      "iri": "http://example.org/tfl#rel_performer"
+    },
+    {
+      "label": "instance of",
+      "iri": "http://example.org/tfl#rel_instance_of"
+    },
+    {
+      "label": "railway connection",
+      "iri": "http://example.org/tfl#rel_railway_connection"
+    },
+    {
+      "label": "point in time",
+      "iri": "http://example.org/tfl#rel_point_in_time"
+    },
+    {
+      "label": "transport hub location",
+      "iri": "http://example.org/tfl#rel_location_of_transport_hubs"
+    },
+    {
+      "label": "bordering",
+      "iri": "http://example.org/tfl#rel_bordering"
+    },
+    {
+      "label": "Publication Date",
+      "iri": "http://example.org/tfl#rel_publication_date"
+    },
+    {
+      "label": "Named After",
+      "iri": "http://example.org/tfl#rel_named_after"
+    },
+    {
+      "label": "material",
+      "iri": "http://example.org/tfl#rel_material"
+    },
+    {
+      "label": "subsidiary",
+      "iri": "http://example.org/tfl#rel_subsidiary"
+    },
+    {
+      "label": "organization",
+      "iri": "http://example.org/tfl#rel_parent_organization"
+    },
+    {
+      "label": "Member",
+      "iri": "http://example.org/tfl#rel_member"
+    },
+    {
+      "label": "Awarded",
+      "iri": "http://example.org/tfl#rel_awarded"
+    },
+    {
+      "label": "owns",
+      "iri": "http://example.org/tfl#rel_owner"
+    },
+    {
+      "label": "Position Held",
+      "iri": "http://example.org/tfl#rel_position_held"
+    },
+    {
+      "label": "citizenship country",
+      "iri": "http://example.org/tfl#rel_country_of_citizenship"
+    },
+    {
+      "label": "contains",
+      "iri": "http://example.org/tfl#rel_contains"
+    },
+    {
+      "label": "architecture",
+      "iri": "http://example.org/tfl#rel_architecture"
+    },
+    {
+      "label": "Street",
+      "iri": "http://example.org/tfl#rel_street"
+    },
+    {
+      "label": "Height",
+      "iri": "http://example.org/tfl#rel_height"
+    },
+    {
+      "label": "List",
+      "iri": "http://example.org/tfl#rel_list"
+    },
+    {
+      "label": "formed location",
+      "iri": "http://example.org/tfl#rel_formed_location"
+    },
+    {
+      "label": "developer",
+      "iri": "http://example.org/tfl#rel_developer"
+    },
+    {
+      "label": "industries",
+      "iri": "http://example.org/tfl#rel_industry"
+    },
+    {
+      "label": "share",
+      "iri": "http://example.org/tfl#rel_share"
     }
   ]
 }

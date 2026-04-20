@@ -5,6 +5,7 @@ WORKDIR /app/llm_pipeline
 RUN apt-get update && apt-get install -y --no-install-recommends g++ && rm -rf /var/lib/apt/lists/*
 
 COPY llm_pipeline/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir torch>=2.2.0 --index-url https://download.pytorch.org/whl/cu118
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Generate gRPC client stubs from the coref service proto

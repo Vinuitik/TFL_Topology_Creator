@@ -47,22 +47,22 @@ services:
       retries: 10
 
   ollama:
-    build:
-      context: .
-      dockerfile: ollama/Dockerfile
+    image: ollama/ollama:latest
     container_name: ollama
     environment:
       OLLAMA_HOST: "0.0.0.0:11434"
+      OLLAMA_NUM_PARALLEL: "5"
+      OLLAMA_MAX_QUEUE: "50"
     ports:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:11434/api/tags"]
+      test: ["CMD", "ollama", "list"]
       interval: 10s
-      timeout: 5s
-      retries: 20
-      start_period: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
 
 volumes:
   ollama_data:

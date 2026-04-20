@@ -1,0 +1,33 @@
+# docker-compose.gpu.yml — GPU override
+#
+# Layered on top of docker-compose.yml by run_pipeline_gpu.sh when the
+# NVIDIA Container Toolkit is detected.
+#
+# Usage (manual):
+#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up
+#
+# Requirements on WSL2:
+#   1. Windows NVIDIA driver ≥ 527.x (auto-passes through to WSL2)
+#   2. nvidia-container-toolkit installed inside WSL2 (see run_pipeline_gpu.sh)
+#   3. Docker daemon configured: sudo nvidia-ctk runtime configure --runtime=docker
+#   4. Docker daemon restarted:  sudo systemctl restart docker
+#   Verify with: docker run --rm --gpus all ubuntu nvidia-smi
+
+services:
+  ollama:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  llm-pipeline:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
