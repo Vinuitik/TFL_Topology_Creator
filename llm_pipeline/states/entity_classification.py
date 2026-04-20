@@ -15,7 +15,7 @@ from service.llm import call_llm
 
 log = logging.getLogger(__name__)
 
-_ENTITY_MODEL = os.getenv("OLLAMA_ENTITY_MODEL", "qwen2.5:1.5b")
+_ENTITY_MODEL = os.getenv("OLLAMA_ENTITY_MODEL")
 _BATCH = 15
 
 _VALID_ENTITY_KINDS = {"class", "individual"}

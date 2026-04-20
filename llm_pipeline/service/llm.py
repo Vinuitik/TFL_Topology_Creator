@@ -13,11 +13,11 @@ import requests
 log = logging.getLogger(__name__)
 
 _PROMPTS_DIR = Path(__file__).parent.parent / "prompts"
-_OLLAMA_URL = os.getenv("OLLAMA_URL", "http://ollama:11434/api/generate")
-_MODEL = os.getenv("OLLAMA_MODEL", "gemma2:2b")
-_TIMEOUT_SEC = float(os.getenv("OLLAMA_TIMEOUT_SEC", "45"))
-_MAX_RETRIES = int(os.getenv("OLLAMA_MAX_RETRIES", "2"))
-_BACKOFF_SEC = float(os.getenv("OLLAMA_BACKOFF_SEC", "1.5"))
+_OLLAMA_URL = os.getenv("OLLAMA_URL")
+_MODEL = os.getenv("OLLAMA_ENTITY_MODEL")
+_TIMEOUT_SEC = float(os.getenv("OLLAMA_TIMEOUT_SEC"))
+_MAX_RETRIES = int(os.getenv("OLLAMA_MAX_RETRIES"))
+_BACKOFF_SEC = float(os.getenv("OLLAMA_BACKOFF_SEC"))
 
 
 def _find_latest_prompt(state_name: str) -> Path:

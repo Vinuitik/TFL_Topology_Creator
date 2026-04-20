@@ -22,11 +22,11 @@ _R: redis.Redis | None = None
 def _get_redis() -> redis.Redis:
     global _R
     if _R is None:
-        _R = redis.from_url(os.getenv("REDIS_URL", "redis://redis:6379"), decode_responses=True)
+        _R = redis.from_url(os.getenv("REDIS_URL"), decode_responses=True)
     return _R
-_EMBED_URL = os.getenv("OLLAMA_EMBED_URL", "http://ollama:11434/api/embeddings")
-_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
-_ENTITY_MODEL = os.getenv("OLLAMA_ENTITY_MODEL", "qwen2.5:1.5b")
+_EMBED_URL = os.getenv("OLLAMA_EMBED_URL")
+_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL")
+_ENTITY_MODEL = os.getenv("OLLAMA_ENTITY_MODEL")
 _EXACT_THRESHOLD = 350
 _MAX_CANDIDATES_PER_ITEM = 40
 _SIMILARITY_MIN = 0.55

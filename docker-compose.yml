@@ -18,17 +18,8 @@ services:
     container_name: llm-pipeline
     working_dir: /app/llm_pipeline
     command: ["python", "agent.py"]
-    environment:
-      OLLAMA_MODEL: gemma2:2b
-      OLLAMA_ENTITY_MODEL: qwen2.5:1.5b
-      OLLAMA_EMBED_MODEL: nomic-embed-text
-      OLLAMA_TIMEOUT_SEC: 3600
-      OLLAMA_MAX_RETRIES: 2
-      OLLAMA_BACKOFF_SEC: 2
-      HF_HOME: /app/.hf_cache
-      TRANSFORMERS_CACHE: /app/.hf_cache
-      CHUNK_MAX_WORDS: 600
-      COREF_SERVICE_HOST: coref-service:50051
+    env_file:
+      - .env
     volumes:
       - ./data_sources:/app/data_sources
       - ./inputs:/app/inputs

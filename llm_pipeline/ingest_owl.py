@@ -30,11 +30,11 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 log = logging.getLogger(__name__)
 
 _REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379")
-_EMBED_URL = os.getenv("OLLAMA_EMBED_URL", "http://ollama:11434/api/embeddings")
-_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
-_LLM_URL = os.getenv("OLLAMA_URL", "http://ollama:11434/api/generate")
-_LLM_MODEL = os.getenv("OLLAMA_MODEL", "gemma2:2b")
-_LLM_TIMEOUT = float(os.getenv("OLLAMA_TIMEOUT_SEC", "45"))
+_EMBED_URL = os.getenv("OLLAMA_EMBED_URL")
+_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL")
+_LLM_URL = os.getenv("OLLAMA_URL")
+_LLM_MODEL = os.getenv("OLLAMA_ENTITY_MODEL")
+_LLM_TIMEOUT = float(os.getenv("OLLAMA_TIMEOUT_SEC"))
 
 _PROMPTS_DIR = Path(__file__).parent / "prompts"
 

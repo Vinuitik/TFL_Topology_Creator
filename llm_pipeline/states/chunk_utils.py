@@ -4,7 +4,7 @@ import os
 import re
 from typing import List
 
-CHUNK_MAX_WORDS: int = int(os.getenv("CHUNK_MAX_WORDS", "300"))
+CHUNK_MAX_WORDS: int = int(os.getenv("CHUNK_MAX_WORDS"))
 OVERLAP_SENTENCES: int = 2
 
 
