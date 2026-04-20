@@ -18,6 +18,13 @@ services:
     container_name: llm-pipeline
     working_dir: /app/llm_pipeline
     command: ["python", "agent.py"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     env_file:
       - .env
     volumes:
@@ -51,6 +58,13 @@ services:
       context: .
       dockerfile: ollama/Dockerfile
     container_name: ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     environment:
       OLLAMA_HOST: "0.0.0.0:11434"
     ports:
