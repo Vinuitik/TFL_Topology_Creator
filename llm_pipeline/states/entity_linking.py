@@ -27,7 +27,6 @@ def _get_redis() -> redis.Redis:
 _EMBED_URL = os.getenv("OLLAMA_EMBED_URL", "http://ollama:11434/api/embeddings")
 _EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 _ENTITY_MODEL = os.getenv("OLLAMA_ENTITY_MODEL", "qwen2.5:1.5b")
-_BATCH = 20
 _EXACT_THRESHOLD = 350
 _MAX_CANDIDATES_PER_ITEM = 40
 _SIMILARITY_MIN = 0.55
@@ -100,26 +99,11 @@ def _embed(text: str) -> List[float]:
         return []
 
 
-def _compare_batch(pairs: List[Tuple[str, str, str, str]]) -> List[bool]:
-    # each pair becomes a 2-item group in the entity_linking prompt
-    groups = "".join(
-        f'Group {i+1}: ["{na}: {da}", "{nb}: {db}"]\n'
-        for i, (na, da, nb, db) in enumerate(pairs)
-    )
-    try:
-        results = call_llm("entity_linking", groups, model=_ENTITY_MODEL).get("results", [])
-        flags = [r.get("same", False) for r in results]
-        if len(flags) < len(pairs):
-            flags.extend([False] * (len(pairs) - len(flags)))
-        return flags[: len(pairs)]
-    except Exception as exc:  # pragma: no cover - dependent on external runtime
-        log.warning("Batch compare fallback for %d pairs: %s", len(pairs), exc)
+_SAME_THRESHOLD = float(os.getenv("ENTITY_SAME_THRESHOLD", "0.88"))
 
-        # Heuristic fallback: strict normalized equality only.
-        out: List[bool] = []
-        for na, _, nb, _ in pairs:
-            out.append(_normalize_for_equality(na) == _normalize_for_equality(nb))
-        return out
+
+def _compare_by_embedding(pairs: List[Tuple[str, str, str, str]], embeds: Dict[str, List[float]]) -> List[bool]:
+    return [_cosine(embeds.get(na, []), embeds.get(nb, [])) >= _SAME_THRESHOLD for na, _, nb, _ in pairs]
 
 
 def _canonical(names: List[str]) -> str:
@@ -127,7 +111,7 @@ def _canonical(names: List[str]) -> str:
         return call_llm("entity_linking_canonical", f"\nNames: {json.dumps(names)}\n", model=_ENTITY_MODEL).get("canonical", names[0])
     except Exception as exc:  # pragma: no cover - dependent on external runtime
         log.warning("Canonical fallback for %s: %s", names, exc)
-        return sorted(names, key=lambda x: (len(x), x))[0]
+        return sorted(names, key=len)[0]
 
 
 def _normalize_for_equality(text: str) -> str:
@@ -239,18 +223,16 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
         embeds[name] = emb
         _get_redis().set(key, json.dumps(emb))
 
-    # Step 3 — candidate pair generation and LLM comparison (batched)
+    # Step 3 — candidate pair generation and embedding-based comparison
     exact_mode = len(items) <= _EXACT_THRESHOLD
     pairs = list(combinations(items, 2)) if exact_mode else _optimized_pairs(items, descs, embeds)
     same: List[Tuple[str, str]] = []
     decisions: Dict[Tuple[str, str], bool] = {}
-    for i in range(0, len(pairs), _BATCH):
-        batch = pairs[i : i + _BATCH]
-        flags = _compare_batch([(a, descs[a], b, descs[b]) for a, b in batch])
-        for pair, flag in zip(batch, flags):
-            decisions[_pair_key(*pair)] = bool(flag)
-            if flag:
-                same.append(pair)
+    flags = _compare_by_embedding([(a, descs[a], b, descs[b]) for a, b in pairs], embeds)
+    for pair, flag in zip(pairs, flags):
+        decisions[_pair_key(*pair)] = bool(flag)
+        if flag:
+            same.append(pair)
 
     mode = "exact" if exact_mode else "hybrid"
     log.info("[%s] mode=%s same=%d compared=%d", category, mode, len(same), len(pairs))
