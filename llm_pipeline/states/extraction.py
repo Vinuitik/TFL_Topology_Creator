@@ -6,6 +6,7 @@ import logging
 import re
 from typing import List
 
+import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 from schemas import PipelineState, Triplet
@@ -15,15 +16,16 @@ log = logging.getLogger(__name__)
 _MODEL_NAME = "Babelscape/rebel-large"
 _tokenizer = None
 _model = None
+_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def _load_model() -> None:
     global _tokenizer, _model
     if _tokenizer is None:
-        log.info("Loading REBEL model %s", _MODEL_NAME)
+        log.info("Loading REBEL model %s on %s", _MODEL_NAME, _device)
         _tokenizer = AutoTokenizer.from_pretrained(_MODEL_NAME)
-        _model = AutoModelForSeq2SeqLM.from_pretrained(_MODEL_NAME)
-        log.info("REBEL model loaded")
+        _model = AutoModelForSeq2SeqLM.from_pretrained(_MODEL_NAME).to(_device)
+        log.info("REBEL model loaded on %s", _device)
 
 
 def _parse_rebel_output(text: str) -> List[dict]:
@@ -63,6 +65,7 @@ def _extract_from_sentence(sentence: str) -> List[Triplet]:
         truncation=True,
         max_length=512,
     )
+    inputs = {k: v.to(_device) for k, v in inputs.items()}
     outputs = _model.generate(
         **inputs,
         max_length=512,
