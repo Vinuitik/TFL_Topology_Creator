@@ -131,7 +131,7 @@ All prompts live in `prompts/` and follow the naming convention `{state_name}-v{
 
 | Variable | Default | Used by |
 |---|---|---|
-| `OLLAMA_ENTITY_MODEL` | `qwen2.5:7b` | all LLM generate calls |
+| `OLLAMA_ENTITY_MODEL` | `qwen2.5:3b` | all LLM generate calls |
 | `OLLAMA_EMBED_MODEL` | `mxbai-embed-large` | embedding calls in entity_linking + ingest_owl |
 | `OLLAMA_TIMEOUT_SEC` | `45` | per-request HTTP timeout |
 | `OLLAMA_HOST` | `0.0.0.0:11434` | Ollama bind address (must be 0.0.0.0 for inter-container access) |

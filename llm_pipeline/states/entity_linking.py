@@ -138,6 +138,49 @@ def _pair_key(a: str, b: str) -> Tuple[str, str]:
     return (a, b) if a <= b else (b, a)
 
 
+# --- surface normalisation ---
+
+_LEADING_ARTICLES = re.compile(r'^(the|a|an)\s+', re.IGNORECASE)
+_NON_ALNUM = re.compile(r"[^\w\s]")
+_WHITESPACE = re.compile(r'\s+')
+
+
+def _normalize_surface(name: str) -> str:
+    """Canonical form used only for grouping before DSU — never stored or returned."""
+    n = name.strip().lower()
+    n = _LEADING_ARTICLES.sub('', n)
+    n = _NON_ALNUM.sub(' ', n)
+    n = _WHITESPACE.sub(' ', n).strip()
+    # simple depluralization: strip trailing 's' (not 'ss') if result >= 3 chars
+    if n.endswith('s') and not n.endswith('ss') and len(n) > 3:
+        n = n[:-1]
+    return n
+
+
+def _group_by_surface(items: List[str]) -> Tuple[Dict[str, str], List[str]]:
+    """Group surface forms by normalised key; pick best representative per group.
+
+    Returns:
+        norm_map: original surface → representative
+        representatives: deduplicated list of representative forms to pass to _process
+    """
+    groups: Dict[str, List[str]] = {}
+    for item in items:
+        key = _normalize_surface(item)
+        groups.setdefault(key, []).append(item)
+
+    norm_map: Dict[str, str] = {}
+    representatives: List[str] = []
+    for variants in groups.values():
+        # prefer: starts uppercase > more uppercase chars > longer
+        rep = max(variants, key=lambda x: (x[:1].isupper(), sum(c.isupper() for c in x), len(x)))
+        for v in variants:
+            norm_map[v] = rep
+        representatives.append(rep)
+
+    return norm_map, representatives
+
+
 def _optimized_pairs(items: List[str], descs: Dict[str, str], embeds: Dict[str, List[float]]) -> List[Tuple[str, str]]:
     tokens = {x: _norm_tokens(x) for x in items}
 
@@ -369,16 +412,32 @@ def run_entity_linking(state: PipelineState) -> PipelineState:
     if not triplets:
         return state
 
-    ce, entities_stats = _process("entities", list({t.subject for t in triplets} | {t.object for t in triplets}))
-    cr, relations_stats = _process("relations", list({t.predicate for t in triplets}))
+    # Surface normalisation: group plural/case variants before DSU
+    raw_entities = list({t.subject for t in triplets} | {t.object for t in triplets})
+    raw_relations = list({t.predicate for t in triplets})
+
+    ent_norm_map, ent_representatives = _group_by_surface(raw_entities)
+    rel_norm_map, rel_representatives = _group_by_surface(raw_relations)
+
+    ce_repr, entities_stats = _process("entities", ent_representatives)
+    cr_repr, relations_stats = _process("relations", rel_representatives)
+
+    # Compose: original → representative → canonical
+    def _resolve_entity(name: str) -> str:
+        rep = ent_norm_map.get(name, name)
+        return ce_repr.get(rep, rep)
+
+    def _resolve_relation(name: str) -> str:
+        rep = rel_norm_map.get(name, name)
+        return cr_repr.get(rep, rep)
 
     return {
         **state,
         "triplets": [
             t.model_copy(update={
-                "subject": ce.get(t.subject, t.subject),
-                "predicate": cr.get(t.predicate, t.predicate),
-                "object": ce.get(t.object, t.object),
+                "subject": _resolve_entity(t.subject),
+                "predicate": _resolve_relation(t.predicate),
+                "object": _resolve_entity(t.object),
             })
             for t in triplets
         ],

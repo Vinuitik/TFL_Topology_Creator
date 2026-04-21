@@ -30,12 +30,12 @@ if ($modelList -notmatch "mxbai-embed-large") {
 } else {
     Write-Host "  Embedding model 'mxbai-embed-large' already cached."
 }
-if ($modelList -notmatch "qwen2.5:7b") {
-    Write-Host "  Entity model 'qwen2.5:7b' not found, pulling..."
-    docker exec ollama ollama pull qwen2.5:7b
-    if ($LASTEXITCODE -ne 0) { throw "Failed to pull qwen2.5:7b in ollama container" }
+if ($modelList -notmatch "qwen2.5:3b") {
+    Write-Host "  Entity model 'qwen2.5:3b' not found, pulling..."
+    docker exec ollama ollama pull qwen2.5:3b
+    if ($LASTEXITCODE -ne 0) { throw "Failed to pull qwen2.5:3b in ollama container" }
 } else {
-    Write-Host "  Entity model 'qwen2.5:7b' already cached."
+    Write-Host "  Entity model 'qwen2.5:3b' already cached."
 }
 
 Write-Host "[1.8/4] Flushing Redis for a clean run..."
