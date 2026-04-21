@@ -18,6 +18,13 @@ services:
     container_name: llm-pipeline
     working_dir: /app/llm_pipeline
     command: ["python", "agent.py"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     env_file:
       - .env
     volumes:
@@ -49,6 +56,13 @@ services:
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     environment:
       OLLAMA_HOST: "0.0.0.0:11434"
       OLLAMA_NUM_PARALLEL: "5"
@@ -58,6 +72,7 @@ services:
     volumes:
       - ollama_data:/root/.ollama
     healthcheck:
+      test: ["CMD", "ollama", "list"]
       test: ["CMD", "ollama", "list"]
       interval: 10s
       timeout: 10s

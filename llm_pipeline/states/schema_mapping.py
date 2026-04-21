@@ -221,7 +221,7 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
                 "id": f"ent_{idx}",
                 "label": display_label,
                 "comment": comment,
-                "iri": f"{_BASE_NS}ent_{_slug(label)}",
+                "iri": f"{_BASE_NS}{_slug(label)}",
                 "class_iri": class_iri,
                 "class_label": class_label,
                 "is_class": False,
@@ -238,7 +238,7 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
         if pred_match and pred_score >= 0.66:
             pred_iri = pred_match["iri"]
         else:
-            pred_iri = f"{_BASE_NS}rel_{_slug(t.predicate)}"
+            pred_iri = f"{_BASE_NS}{_slug(t.predicate)}"
             unmapped_predicates.append(t.predicate)
 
         obj_literal = _literal_value(t.object)

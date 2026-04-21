@@ -40,9 +40,8 @@ Extracts a knowledge graph (OWL/Turtle) from unstructured `.txt` files via a Lan
 ### Models summary
 | Model | Purpose | Env var |
 |---|---|---|
-| `gemma2:2b` | schema mapping, ontology, reasoning, validation | `OLLAMA_MODEL` |
-| `qwen2.5:1.5b` | entity linking describe/compare/canonical + entity classification | `OLLAMA_ENTITY_MODEL` |
-| `nomic-embed-text` | embeddings for entity similarity | `OLLAMA_EMBED_MODEL` |
+| `qwen2.5:3b` | all LLM calls — entity linking, classification, coreference, schema mapping | `OLLAMA_ENTITY_MODEL` |
+| `mxbai-embed-large` | embeddings for entity similarity (1024-dim) | `OLLAMA_EMBED_MODEL` |
 | `en_coreference_web_trf` | coreference resolution | baked into Docker image |
 | `Babelscape/rebel-large` | triplet extraction | HuggingFace, cached in `HF_HOME` |
 
