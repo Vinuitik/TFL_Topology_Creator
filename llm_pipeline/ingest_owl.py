@@ -7,10 +7,12 @@ files from --inputs-dir, extracts classes, properties, and named individuals,
 generates descriptions via Ollama LLM, embeds them, and writes to Redis and
 rag_catalog.json so entity_linking and schema_mapping can reuse the knowledge.
 
-Assumes Redis starts empty on each run — writes unconditionally.
+Hash-gated: files whose SHA-256 matches outputs/ingest_hashes.json AND whose
+Redis entries still exist are skipped — no re-embedding on unchanged inputs.
 """
 
 import argparse
+import hashlib
 import json
 import logging
 import os
@@ -196,6 +198,14 @@ def _merge_catalog(catalog: Dict, entities: List[Dict], relations: List[Dict]) -
     return new_classes, new_preds
 
 
+def _redis_has_entries(r: redis_lib.Redis, category: str, labels: List[str]) -> bool:
+    """Spot-check: return True if at least one desc key exists for the given labels."""
+    for lbl in labels[:5]:  # sample first 5
+        if r.exists(f"{category}:desc:{lbl}"):
+            return True
+    return False
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Seed Redis and rag_catalog from OWL/TTL files.")
     parser.add_argument("--inputs-dir", default="../inputs")
@@ -205,6 +215,7 @@ def main() -> None:
     inputs_dir = Path(args.inputs_dir).resolve()
     output_dir = Path(args.output_dir).resolve()
     catalog_path = output_dir / "rag_catalog.json"
+    hashes_path = output_dir / "ingest_hashes.json"
 
     files = (
         list(inputs_dir.glob("*.owl"))
@@ -232,18 +243,40 @@ def main() -> None:
         with catalog_path.open(encoding="utf-8") as f:
             catalog = json.load(f)
 
+    saved_hashes: Dict[str, str] = {}
+    if hashes_path.exists():
+        with hashes_path.open(encoding="utf-8") as f:
+            saved_hashes = json.load(f)
+
     total_entities = 0
     total_relations = 0
     total_new_classes = 0
     total_new_preds = 0
+    files_skipped = 0
 
     for path in files:
-        log.info("Parsing %s ...", path.name)
-        g = rdflib.Graph()
-        g.parse(str(path))
+        file_hash = hashlib.sha256(path.read_bytes()).hexdigest()
 
-        entities, relations = _extract(g)
-        log.info("  %d entities, %d relations extracted", len(entities), len(relations))
+        if saved_hashes.get(path.name) == file_hash:
+            # Hash matches — check Redis still has the data (guard against flush)
+            g = rdflib.Graph()
+            g.parse(str(path))
+            entities, relations = _extract(g)
+            entity_labels = [e["label"] for e in entities]
+            if _redis_has_entries(r, "entities", entity_labels):
+                log.info("CACHE HIT %s — skipping re-embed (%d entities)", path.name, len(entities))
+                new_cls, new_preds = _merge_catalog(catalog, entities, relations)
+                total_new_classes += new_cls
+                total_new_preds += new_preds
+                files_skipped += 1
+                continue
+            log.info("Hash match but Redis empty for %s — re-ingesting", path.name)
+        else:
+            log.info("Parsing %s ...", path.name)
+            g = rdflib.Graph()
+            g.parse(str(path))
+            entities, relations = _extract(g)
+            log.info("  %d entities, %d relations extracted", len(entities), len(relations))
 
         ent_written = _write_to_redis(r, "entities", entities)
         rel_written = _write_to_redis(r, "relations", relations)
@@ -254,12 +287,17 @@ def main() -> None:
         total_new_classes += new_cls
         total_new_preds += new_preds
 
+        saved_hashes[path.name] = file_hash
+
     output_dir.mkdir(parents=True, exist_ok=True)
     with catalog_path.open("w", encoding="utf-8") as f:
         json.dump(catalog, f, indent=2, ensure_ascii=True)
+    with hashes_path.open("w", encoding="utf-8") as f:
+        json.dump(saved_hashes, f, indent=2, ensure_ascii=True)
 
     summary = {
-        "files_ingested": len(files),
+        "files_ingested": len(files) - files_skipped,
+        "files_skipped_cache": files_skipped,
         "entities_written": total_entities,
         "relations_written": total_relations,
         "rag_catalog_new_classes": total_new_classes,

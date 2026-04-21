@@ -38,6 +38,12 @@ if ($modelList -notmatch "qwen2.5:1.5b") {
     Write-Host "  Entity model 'qwen2.5:1.5b' already cached."
 }
 
+Write-Host "[1.8/4] Flushing Redis for a clean run..."
+docker exec redis redis-cli FLUSHALL
+if ($LASTEXITCODE -ne 0) {
+    throw "Redis flush failed with exit code $LASTEXITCODE"
+}
+
 Write-Host "[2/4] Ingesting OWL/TTL files from inputs/..."
 docker compose run --rm --build llm-pipeline python ingest_owl.py --inputs-dir /app/inputs --output-dir /app/outputs
 if ($LASTEXITCODE -ne 0) {

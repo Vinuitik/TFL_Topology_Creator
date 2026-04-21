@@ -181,6 +181,41 @@ def _conflicts_in_clusters(decisions: Dict[Tuple[str, str], bool], clusters: Ite
 
 # --- per-category pipeline ---
 
+def _scan_known_canonicals(category: str) -> Dict[str, str]:
+    """Return {surface_form: canonical} for all entries persisted in previous runs."""
+    r = _get_redis()
+    prefix = f"{category}:canonical:"
+    result: Dict[str, str] = {}
+    cursor = 0
+    while True:
+        cursor, keys = r.scan(cursor, match=f"{prefix}*", count=200)
+        for key in keys:
+            surface = key[len(prefix):]
+            canon = r.get(key)
+            if canon:
+                result[surface] = canon
+        if cursor == 0:
+            break
+    return result
+
+
+def _load_desc_emb(category: str, names: List[str], descs: Dict[str, str], embeds: Dict[str, List[float]]) -> None:
+    """Populate descs/embeds for names that already have Redis entries. No generation."""
+    r = _get_redis()
+    for name in names:
+        if name not in descs:
+            cached = r.get(f"{category}:desc:{name}")
+            if cached:
+                descs[name] = cached
+        if name not in embeds:
+            cached = r.get(f"{category}:emb:{name}")
+            if cached:
+                try:
+                    embeds[name] = json.loads(cached)
+                except json.JSONDecodeError:
+                    pass
+
+
 def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str, int | str]]:
     if not items:
         return {}, {
@@ -192,24 +227,53 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
             "consistency_conflicts": 0,
         }
 
-    items = sorted(set(items))
+    new_items = sorted(set(items))
 
-    # Step 1 — descriptions
+    # Load all canonicals seen in previous runs; derive the known-canonical universe.
+    prior_canonicals = _scan_known_canonicals(category)  # surface → canonical
+    known_canonicals: Set[str] = set(prior_canonicals.values())
+
+    # Map: if a new item was already canonicalised in a prior run, honour that immediately.
+    already_resolved: Dict[str, str] = {}
+    truly_new: List[str] = []
+    for name in new_items:
+        if name in prior_canonicals:
+            already_resolved[name] = prior_canonicals[name]
+        else:
+            truly_new.append(name)
+
+    if not truly_new:
+        # Everything in this file is already known — return prior mappings directly.
+        return already_resolved, {
+            "mode": "exact",
+            "total_items": len(new_items),
+            "compared_pairs": 0,
+            "same_pairs": 0,
+            "clusters": 0,
+            "consistency_conflicts": 0,
+        }
+
+    # Step 1 — descriptions for truly new items only
     descs: Dict[str, str] = {}
-    for name in items:
+    for name in truly_new:
         key = f"{category}:desc:{name}"
         cached = _get_redis().get(key)
         if cached is not None:
             descs[name] = cached
-            continue
+        else:
+            generated = _describe(name)
+            _get_redis().set(key, generated)
+            descs[name] = generated
 
-        generated = _describe(name)
-        _get_redis().set(key, generated)
-        descs[name] = generated
+    # Load desc/emb for known canonicals from Redis (no regeneration)
+    _load_desc_emb(category, sorted(known_canonicals), descs, {})
+    known_descs: Dict[str, str] = {}
+    _load_desc_emb(category, sorted(known_canonicals), known_descs, {})
+    descs.update(known_descs)
 
-    # Step 2 — embeddings (fire-and-forget into Redis, used for future ANN)
+    # Step 2 — embeddings for truly new items only
     embeds: Dict[str, List[float]] = {}
-    for name in items:
+    for name in truly_new:
         key = f"{category}:emb:{name}"
         cached = _get_redis().get(key)
         if cached:
@@ -218,27 +282,51 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
                 continue
             except json.JSONDecodeError:
                 pass
-
         emb = _embed(descs[name])
         embeds[name] = emb
         _get_redis().set(key, json.dumps(emb))
 
-    # Step 3 — candidate pair generation and embedding-based comparison
-    exact_mode = len(items) <= _EXACT_THRESHOLD
-    pairs = list(combinations(items, 2)) if exact_mode else _optimized_pairs(items, descs, embeds)
+    # Load embeddings for known canonicals (already in Redis)
+    known_embeds: Dict[str, List[float]] = {}
+    for name in sorted(known_canonicals):
+        cached = _get_redis().get(f"{category}:emb:{name}")
+        if cached:
+            try:
+                known_embeds[name] = json.loads(cached)
+            except json.JSONDecodeError:
+                pass
+    embeds.update(known_embeds)
+
+    # Step 3 — pairs: (new × new) + (new × known_canonical); skip known × known
+    universe = sorted(set(truly_new) | known_canonicals)
+    exact_mode = len(universe) <= _EXACT_THRESHOLD
+
+    if exact_mode:
+        new_set = set(truly_new)
+        pairs = [
+            (a, b)
+            for a, b in combinations(universe, 2)
+            if a in new_set or b in new_set  # at least one side is new
+        ]
+    else:
+        pairs = _optimized_pairs(universe, descs, embeds)
+        new_set = set(truly_new)
+        pairs = [(a, b) for a, b in pairs if a in new_set or b in new_set]
+
     same: List[Tuple[str, str]] = []
     decisions: Dict[Tuple[str, str], bool] = {}
-    flags = _compare_by_embedding([(a, descs[a], b, descs[b]) for a, b in pairs], embeds)
+    flags = _compare_by_embedding([(a, descs.get(a, a), b, descs.get(b, b)) for a, b in pairs], embeds)
     for pair, flag in zip(pairs, flags):
         decisions[_pair_key(*pair)] = bool(flag)
         if flag:
             same.append(pair)
 
     mode = "exact" if exact_mode else "hybrid"
-    log.info("[%s] mode=%s same=%d compared=%d", category, mode, len(same), len(pairs))
+    log.info("[%s] mode=%s same=%d compared=%d new=%d known_canonicals=%d",
+             category, mode, len(same), len(pairs), len(truly_new), len(known_canonicals))
 
-    # Step 4 — DSU clustering
-    dsu = _DSU(items)
+    # Step 4 — DSU on universe (new + known canonicals)
+    dsu = _DSU(universe)
     for a, b in same:
         dsu.union(a, b)
 
@@ -247,17 +335,26 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
     if conflicts:
         log.warning("[%s] consistency conflicts inside clusters: %d", category, len(conflicts))
 
-    # Step 5+6 — canonical name per cluster, persist
+    # Step 5+6 — canonical per cluster; prefer existing known canonical if present
     canon_map: Dict[str, str] = {}
     for members in clusters:
-        canon = _canonical(members)
+        known_in_cluster = [m for m in members if m in known_canonicals]
+        if known_in_cluster:
+            canon = known_in_cluster[0]
+        else:
+            new_members = [m for m in members if m in new_set]
+            canon = _canonical(new_members) if new_members else members[0]
         for m in members:
-            canon_map[m] = canon
-            _get_redis().set(f"{category}:canonical:{m}", canon)
+            if m in new_set:  # only remap/persist new surface forms
+                canon_map[m] = canon
+                _get_redis().set(f"{category}:canonical:{m}", canon)
+
+    # Merge in already-resolved items from prior runs
+    canon_map.update(already_resolved)
 
     return canon_map, {
         "mode": mode,
-        "total_items": len(items),
+        "total_items": len(new_items),
         "compared_pairs": len(pairs),
         "same_pairs": len(same),
         "clusters": len(clusters),
