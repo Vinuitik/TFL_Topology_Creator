@@ -4,9 +4,12 @@ import argparse
 import hashlib
 import json
 import logging
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
+
+import redis as redis_lib
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s %(message)s")
 log = logging.getLogger(__name__)
@@ -220,6 +223,21 @@ def _update_catalog(catalog: Dict[str, Any], result: Dict[str, Any]) -> Dict[str
     return catalog
 
 
+def _flush_annotation_cache() -> None:
+    """Delete all *:annotation:* Redis keys so entity_classification always re-runs LLM calls."""
+    r = redis_lib.from_url(os.getenv("REDIS_URL", "redis://redis:6379"), decode_responses=True)
+    cursor = 0
+    deleted = 0
+    while True:
+        cursor, keys = r.scan(cursor, match="*:annotation:*", count=500)
+        if keys:
+            r.delete(*keys)
+            deleted += len(keys)
+        if cursor == 0:
+            break
+    logging.getLogger(__name__).info("Flushed %d annotation cache keys", deleted)
+
+
 if __name__ == "__main__":
     from states.turtle_serialization import build_rdf_graph
 
@@ -245,6 +263,10 @@ if __name__ == "__main__":
     files.sort()
     if not files:
         raise FileNotFoundError(f"No files matching '{args.pattern}' in {data_dir}")
+
+    # Flush annotation cache so entity_classification always runs fresh LLM calls.
+    # Canonical/desc/emb keys are intentionally kept — they are reused within this run.
+    _flush_annotation_cache()
 
     hashes_path = output_dir / "file_hashes.json"
     rag_catalog = _load_json(rag_path, {"classes": [], "predicates": []})
