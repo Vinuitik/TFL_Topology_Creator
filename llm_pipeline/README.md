@@ -8,7 +8,7 @@ Turns unstructured `.txt` files (or JSON/TTL data sources) into an OWL/Turtle kn
 
 | Service | Role |
 |---|---|
-| `ollama` (Docker) | Runs `gemma4:e4b` locally. Used for preprocessing, coreference resolution, entity description generation, entity comparison, and canonical name selection. Must bind on `0.0.0.0:11434` — set via `OLLAMA_HOST=0.0.0.0:11434` in docker-compose. |
+| `ollama` (Docker) | Runs `qwen2.5:7b` locally. Used for coreference resolution, entity description generation, entity comparison, canonical name selection, and entity classification. Must bind on `0.0.0.0:11434` — set via `OLLAMA_HOST=0.0.0.0:11434` in docker-compose. |
 | `redis` (Docker) | Caches entity descriptions and embedding vectors between pipeline states. Keys: `entities:desc:{name}`, `entities:emb:{name}`, `relations:desc:{name}`, `relations:emb:{name}`, `*:canonical:{name}`. |
 | REBEL (`Babelscape/rebel-large`) | HuggingFace seq2seq model loaded inside the `llm-pipeline` container. Runs entirely locally — no network call. Extracts `(subject, predicate, object)` triplets from sentences. |
 
@@ -131,8 +131,8 @@ All prompts live in `prompts/` and follow the naming convention `{state_name}-v{
 
 | Variable | Default | Used by |
 |---|---|---|
-| `OLLAMA_MODEL` | `gemma4:e4b` | all LLM generate calls |
-| `OLLAMA_EMBED_MODEL` | `gemma4:e4b` | embedding calls in entity_linking + ingest_owl |
+| `OLLAMA_ENTITY_MODEL` | `qwen2.5:7b` | all LLM generate calls |
+| `OLLAMA_EMBED_MODEL` | `mxbai-embed-large` | embedding calls in entity_linking + ingest_owl |
 | `OLLAMA_TIMEOUT_SEC` | `45` | per-request HTTP timeout |
 | `OLLAMA_HOST` | `0.0.0.0:11434` | Ollama bind address (must be 0.0.0.0 for inter-container access) |
 | `REDIS_URL` | `redis://redis:6379` | entity cache |

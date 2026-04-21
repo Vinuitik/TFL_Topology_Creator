@@ -23,19 +23,19 @@ if (-not $ollamaIsUp) {
 
 Write-Host "[1.5/4] Checking Ollama models..."
 $modelList = docker exec ollama ollama list 2>&1
-if ($modelList -notmatch "nomic-embed-text") {
-    Write-Host "  Embedding model 'nomic-embed-text' not found, pulling..."
-    docker exec ollama ollama pull nomic-embed-text
-    if ($LASTEXITCODE -ne 0) { throw "Failed to pull nomic-embed-text in ollama container" }
+if ($modelList -notmatch "mxbai-embed-large") {
+    Write-Host "  Embedding model 'mxbai-embed-large' not found, pulling..."
+    docker exec ollama ollama pull mxbai-embed-large
+    if ($LASTEXITCODE -ne 0) { throw "Failed to pull mxbai-embed-large in ollama container" }
 } else {
-    Write-Host "  Embedding model 'nomic-embed-text' already cached."
+    Write-Host "  Embedding model 'mxbai-embed-large' already cached."
 }
-if ($modelList -notmatch "qwen2.5:1.5b") {
-    Write-Host "  Entity model 'qwen2.5:1.5b' not found, pulling..."
-    docker exec ollama ollama pull qwen2.5:1.5b
-    if ($LASTEXITCODE -ne 0) { throw "Failed to pull qwen2.5:1.5b in ollama container" }
+if ($modelList -notmatch "qwen2.5:7b") {
+    Write-Host "  Entity model 'qwen2.5:7b' not found, pulling..."
+    docker exec ollama ollama pull qwen2.5:7b
+    if ($LASTEXITCODE -ne 0) { throw "Failed to pull qwen2.5:7b in ollama container" }
 } else {
-    Write-Host "  Entity model 'qwen2.5:1.5b' already cached."
+    Write-Host "  Entity model 'qwen2.5:7b' already cached."
 }
 
 Write-Host "[1.8/4] Flushing Redis for a clean run..."
