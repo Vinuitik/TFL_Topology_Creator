@@ -175,7 +175,8 @@ properties = [
     (EX.hasPeakPeriod, "has peak period", "Links a station or line to its specific peak demand window.", [EX.Station, EX.Route], EX.PeakPeriod, OWL.ObjectProperty),
     (EX.hasOffPeakPeriod, "has off-peak period", "Links a station or line to its specific off-peak window.", [EX.Station, EX.Route], EX.OffPeakPeriod, OWL.ObjectProperty),
     (EX.targetsInfrastructure, "targets infrastructure", "Links a project to the specific station or line being improved.", EX.InfrastructureProject, [EX.Station, EX.Route], OWL.ObjectProperty),
-    (EX.hasProjectStatus, "has project status", "Indicates the current lifecycle stage of an infrastructure project.", EX.InfrastructureProject, EX.ProjectStatus, OWL.ObjectProperty)
+    (EX.hasProjectStatus, "has project status", "Indicates the current lifecycle stage of an infrastructure project.", EX.InfrastructureProject, EX.ProjectStatus, OWL.ObjectProperty),
+    (EX.openingDate, "opening date", "The historical date a line or station first opened to the public.", [EX.Line, EX.Station], XSD.date, OWL.DatatypeProperty)
 ]
 
 for prop, label, comment, domain, range_type, p_type in properties:
