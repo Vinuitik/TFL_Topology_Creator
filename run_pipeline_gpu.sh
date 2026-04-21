@@ -91,7 +91,8 @@ echo ""
 echo "[2/4] Checking Ollama models …"
 MODEL_LIST=$(docker exec ollama ollama list 2>&1 || true)
 
-for MODEL in "nomic-embed-text" "qwen2.5:1.5b"; do
+# Update these models to match what is defined in your .env file
+for MODEL in "mxbai-embed-large" "qwen2.5:3b"; do
     if ! echo "$MODEL_LIST" | grep -q "${MODEL%%:*}"; then
         echo "  Pulling $MODEL …"
         docker exec ollama ollama pull "$MODEL"

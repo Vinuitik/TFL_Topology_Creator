@@ -32,6 +32,32 @@ def _get_redis() -> redis.Redis:
         _R = redis.from_url(_REDIS_URL, decode_responses=True)
     return _R
 
+def _run_batch(state_name: str, names: List[str]) -> List[Dict[str, str]]:
+    params = "\n" + "\n".join(f'{i + 1}. "{n}"' for i, n in enumerate(names)) + "\n"
+    try:
+        result = call_llm(state_name, params, model=_ENTITY_MODEL)
+        results = result.get("results", [])
+        if len(results) < len(names):
+            results.extend([{}] * (len(names) - len(results)))
+        return results[: len(names)]
+    except Exception as exc:
+        log.warning("%s batch failed: %s", state_name, exc)
+        return [{}] * len(names)
+
+def _annotate_batch(items: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    params = "\n" + "\n".join(
+        f'{i + 1}. name="{item["name"]}" type="{item["kind"]}"'
+        for i, item in enumerate(items)
+    ) + "\n"
+    try:
+        result = call_llm("entity_annotate", params, model=_ENTITY_MODEL)
+        results = result.get("results", [])
+        if len(results) < len(items):
+            results.extend([{}] * (len(items) - len(results)))
+        return results[: len(items)]
+    except Exception as exc:
+        log.warning("entity_annotate batch failed: %s", exc)
+        return [{}] * len(items)
 
 def _load_annotation(category: str, name: str) -> Dict[str, str] | None:
     cached = _get_redis().get(f"{category}:annotation:{name}")
