@@ -53,8 +53,8 @@ def _literal_value(value: str) -> Tuple[str, str] | None:
         return cleaned, _XSD_DECIMAL
     if re.fullmatch(r"\d{4}[-_]\d{2}[-_]\d{2}", cleaned):
         return value.strip().replace("_", "-"), _XSD_DATE
-    if re.fullmatch(r"\d{4}-\d{2}-\d{2}t\d{2}:\d{2}:\d{2}(\.\d+)?z?", cleaned):
-        return value.strip(), _XSD_DATETIME
+    if re.fullmatch(r"\d{4}[-_]\d{2}[-_]\d{2}t\d{2}:\d{2}:\d{2}(\.\d+)?z?", cleaned):
+        return value.strip().replace("_", "-").upper(), _XSD_DATETIME
     if re.fullmatch(r"\d{2}:\d{2}(:\d{2})?", cleaned):
         return value.strip(), _XSD_TIME
     if re.fullmatch(r"\d{4}s?", cleaned):
@@ -95,32 +95,42 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
     predicate_catalog = list(rag_catalog.get("predicates", [])) + _default_predicate_catalog()
     class_catalog = list(rag_catalog.get("classes", [])) + _default_class_catalog()
 
+    # 1. Pre-map predicates for quick lookup
+    catalog_preds = {p["iri"]: p for p in rag_catalog.get("predicates", [])}
+    label_to_iri = {p["label"]: p["iri"] for p in rag_catalog.get("predicates", [])}
+    label_to_iri.update({c["label"]: c["iri"] for c in rag_catalog.get("classes", [])})
+    
+    datatype_preds = {iri for iri, p in catalog_preds.items() if p.get("property_type") == "datatype_property"}
+
+    # 2. Identify all entities (subjects + objects that aren't literals)
+    # We must be careful: if a predicate is known to be an ObjectProperty, 
+    # its object IS an entity even if it looks like a literal (e.g., "true").
     entity_set = {t.subject for t in triplets}
     for t in triplets:
-        if _literal_value(t.object) is None:
+        pred_match, _ = _best_match(t.predicate, predicate_catalog)
+        p_iri = pred_match["iri"] if pred_match else None
+        
+        # If the catalog says it's a DatatypeProperty, the object is NOT an entity.
+        if p_iri and p_iri in datatype_preds:
+            continue
+            
+        # If it's unmapped or an ObjectProperty, check if it's a literal.
+        # But if it's an ObjectProperty, we treat it as an entity regardless.
+        if p_iri and catalog_preds.get(p_iri, {}).get("property_type") == "object_property":
             entity_set.add(t.object)
+        elif _literal_value(t.object) is None:
+            entity_set.add(t.object)
+
     entity_labels = sorted(entity_set)
 
-    # Pre-map labels to IRIs and property types
-    label_to_iri: Dict[str, str] = {}
-    datatype_preds: Set[str] = set()
-    for entry in rag_catalog.get("classes", []) + rag_catalog.get("predicates", []):
-        if "label" in entry and "iri" in entry:
-            label_to_iri[entry["label"]] = entry["iri"]
-            if entry.get("property_type") == "datatype_property":
-                datatype_preds.add(entry["iri"])
-    
-    # Also check individuals in Redis/Catalog if possible, or just use the fuzzy matcher
+    # 3. Build Node Map
     node_map: Dict[str, Dict[str, Any]] = {}
     for idx, label in enumerate(entity_labels, start=1):
         cat = entity_catalog.get(label, {})
         display_label = cat.get("label", label)
         comment = cat.get("comment", "")
-
-        # 1. Attempt to find the EXACT IRI from the ontology catalog
         existing_iri = label_to_iri.get(label)
         
-        # 2. Match to a class
         class_match, class_score = _best_match(label, class_catalog)
         if class_match and class_score >= 0.6:
             class_iri = class_match["iri"]
@@ -128,11 +138,6 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
         else:
             class_iri = f"{_BASE_NS}TransitAccessPoint"
             class_label = "TransitAccessPoint"
-
-        # 3. Handle Datatype Properties (Force Literal)
-        is_literal = _is_literal(label)
-        if existing_iri in datatype_preds:
-            is_literal = True
 
         node_map[label] = {
             "id": f"ent_{idx}",
@@ -142,7 +147,7 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
             "class_iri": class_iri,
             "class_label": class_label,
             "is_class": False,
-            "is_literal": is_literal,
+            "is_literal": False, # These are all entities
         }
 
     edges: List[Dict[str, Any]] = []
@@ -160,48 +165,49 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
             unmapped_predicates.append(t.predicate)
 
         obj_literal = _literal_value(t.object)
+        
         edge: Dict[str, Any] = {
             "subject_id": node_map[t.subject]["id"],
             "subject_iri": node_map[t.subject]["iri"],
             "predicate_label": display_pred_label,
             "predicate_iri": pred_iri,
-            "predicate_kind": cat.get("kind", "object_property"),
             "provenance_sentence": t.provenance_sentence,
         }
 
-        # Strict Enforcement: Follow the catalog's property_type if available
-        catalog_entry = catalog_preds.get(pred_iri, {})
-        pred_type = catalog_entry.get("property_type")
+        # Value Type Enforcement
+        p_type = catalog_preds.get(pred_iri, {}).get("property_type")
 
-        if pred_type == "datatype_property":
-            # Must be a literal
-            if obj_literal is None:
-                # If we have an IRI but need a literal, take the IRI's label or the raw text
-                obj_literal = (t.object, _XSD_STRING)
-            edge["object_literal"] = obj_literal[0]
-            edge["object_datatype"] = obj_literal[1]
+        if p_type == "datatype_property":
+            # Force Literal
+            val, dtype = obj_literal if obj_literal else (t.object, _XSD_STRING)
+            edge["object_literal"] = val
+            edge["object_datatype"] = dtype
             edge["predicate_kind"] = "datatype_property"
         
-        elif pred_type == "object_property":
-            # Must be an IRI
-            edge["object_id"] = node_map[t.object]["id"]
-            edge["object_iri"] = obj_iri
+        elif p_type == "object_property":
+            # Force IRI
+            if t.object in node_map:
+                edge["object_id"] = node_map[t.object]["id"]
+                edge["object_iri"] = node_map[t.object]["iri"]
+            else:
+                # Fallback: slugify the literal into an individual
+                edge["object_id"] = f"lit_{_slug(t.object)}"
+                edge["object_iri"] = f"{_BASE_NS}{_slug(t.object)}"
             edge["predicate_kind"] = "object_property"
-            # Clear any literal info if it was mistakenly set
-            edge.pop("object_literal", None)
-            edge.pop("object_datatype", None)
             
         else:
-            # Unmapped property - use heuristic
-            if obj_literal is not None or _is_literal(t.object):
-                if obj_literal is None:
-                    obj_literal = (t.object, _XSD_STRING)
+            # Unmapped heuristic
+            if obj_literal:
                 edge["object_literal"] = obj_literal[0]
                 edge["object_datatype"] = obj_literal[1]
                 edge["predicate_kind"] = "datatype_property"
             else:
-                edge["object_id"] = node_map[t.object]["id"]
-                edge["object_iri"] = obj_iri
+                if t.object in node_map:
+                    edge["object_id"] = node_map[t.object]["id"]
+                    edge["object_iri"] = node_map[t.object]["iri"]
+                else:
+                    edge["object_id"] = f"lit_{_slug(t.object)}"
+                    edge["object_iri"] = f"{_BASE_NS}{_slug(t.object)}"
                 edge["predicate_kind"] = "object_property"
 
         edges.append(edge)
