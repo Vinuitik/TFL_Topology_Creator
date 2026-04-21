@@ -89,6 +89,14 @@ def _extract_from_sentence(sentence: str) -> List[Triplet]:
     return triplets
 
 
+def _unload_model() -> None:
+    global _tokenizer, _model
+    _tokenizer = None
+    _model = None
+    torch.cuda.empty_cache()
+    log.info("REBEL model unloaded, VRAM released")
+
+
 def run_extraction(state: PipelineState) -> PipelineState:
     resolved = state.get("resolved_document")
     if resolved is None:
@@ -105,6 +113,7 @@ def run_extraction(state: PipelineState) -> PipelineState:
         triplets.extend(_extract_from_sentence(sentence))
 
     log.info("Extraction complete — %d triplet(s) total", len(triplets))
+    _unload_model()
 
     state["triplets"] = triplets
     state["low_confidence"] = len(triplets) == 0
