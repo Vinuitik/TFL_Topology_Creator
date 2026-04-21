@@ -133,8 +133,8 @@ local:affectsStop a owl:ObjectProperty ;
 local:appliesDuring a owl:ObjectProperty ;
     rdfs:label "applies during" ;
     rdfs:comment "Links a fare or a service restriction to a specific time window." ;
-    rdfs:domain local:Fare,
-        local:Route ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( local:Fare local:Route ) ] ;
     rdfs:range local:TimeWindow .
 
 local:belongsToRoute a owl:ObjectProperty ;
@@ -215,15 +215,15 @@ local:hasName a owl:DatatypeProperty ;
 local:hasOffPeakPeriod a owl:ObjectProperty ;
     rdfs:label "has off-peak period" ;
     rdfs:comment "Links a station or line to its specific off-peak window." ;
-    rdfs:domain local:Route,
-        local:Station ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( local:Station local:Route ) ] ;
     rdfs:range local:OffPeakPeriod .
 
 local:hasPeakPeriod a owl:ObjectProperty ;
     rdfs:label "has peak period" ;
     rdfs:comment "Links a station or line to its specific peak demand window." ;
-    rdfs:domain local:Route,
-        local:Station ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( local:Station local:Route ) ] ;
     rdfs:range local:PeakPeriod .
 
 local:hasProjectStatus a owl:ObjectProperty ;
@@ -321,8 +321,8 @@ local:onRoute a owl:ObjectProperty ;
 local:openingDate a owl:DatatypeProperty ;
     rdfs:label "opening date" ;
     rdfs:comment "The historical date a line or station first opened to the public." ;
-    rdfs:domain local:Line,
-        local:Station ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( local:Line local:Station ) ] ;
     rdfs:range xsd:date ;
     owl:equivalentProperty dbo:openingDate .
 
@@ -401,8 +401,8 @@ local:targetsInfrastructure a owl:ObjectProperty ;
     rdfs:label "targets infrastructure" ;
     rdfs:comment "Links a project to the specific station or line being improved." ;
     rdfs:domain local:InfrastructureProject ;
-    rdfs:range local:Route,
-        local:Station .
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( local:Station local:Route ) ] .
 
 local:zoneNumber a owl:DatatypeProperty ;
     rdfs:label "zone number" ;

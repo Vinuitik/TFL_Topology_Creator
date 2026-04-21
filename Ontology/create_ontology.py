@@ -1,4 +1,5 @@
-from rdflib import Graph, Namespace, RDF, RDFS, OWL, Literal, XSD, BNode
+from rdflib import Graph, URIRef, Literal, Namespace, BNode
+from rdflib.namespace import RDF, RDFS, OWL, XSD
 from rdflib.collection import Collection
 
 # Create graph
@@ -194,16 +195,24 @@ for prop, label, comment, domain, range_type, p_type in properties:
 
     if domain:
         if isinstance(domain, list):
-            for d in domain:
-                g.add((prop, RDFS.domain, d))
+            union_node = BNode()
+            g.add((union_node, RDF.type, OWL.Class))
+            list_node = BNode()
+            Collection(g, list_node, domain)
+            g.add((union_node, OWL.unionOf, list_node))
+            g.add((prop, RDFS.domain, union_node))
         else:
             g.add((prop, RDFS.domain, domain))
             
 
     if range_type:
         if isinstance(range_type, list):
-            for r in range_type:
-                g.add((prop, RDFS.range, r))
+            union_node = BNode()
+            g.add((union_node, RDF.type, OWL.Class))
+            list_node = BNode()
+            Collection(g, list_node, range_type)
+            g.add((union_node, OWL.unionOf, list_node))
+            g.add((prop, RDFS.range, union_node))
         else:
             g.add((prop, RDFS.range, range_type))
 

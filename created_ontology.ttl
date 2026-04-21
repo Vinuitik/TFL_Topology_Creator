@@ -128,8 +128,8 @@ ex:affectsStop a owl:ObjectProperty ;
 ex:appliesDuring a owl:ObjectProperty ;
     rdfs:label "applies during" ;
     rdfs:comment "Links a fare or a service restriction to a specific time window." ;
-    rdfs:domain ex:Fare,
-        ex:Route ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( ex:Fare ex:Route ) ] ;
     rdfs:range ex:TimeWindow .
 
 ex:belongsToRoute a owl:ObjectProperty ;
@@ -208,15 +208,15 @@ ex:hasName a owl:DatatypeProperty ;
 ex:hasOffPeakPeriod a owl:ObjectProperty ;
     rdfs:label "has off-peak period" ;
     rdfs:comment "Links a station or line to its specific off-peak window." ;
-    rdfs:domain ex:Route,
-        ex:Station ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( ex:Station ex:Route ) ] ;
     rdfs:range ex:OffPeakPeriod .
 
 ex:hasPeakPeriod a owl:ObjectProperty ;
     rdfs:label "has peak period" ;
     rdfs:comment "Links a station or line to its specific peak demand window." ;
-    rdfs:domain ex:Route,
-        ex:Station ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( ex:Station ex:Route ) ] ;
     rdfs:range ex:PeakPeriod .
 
 ex:hasProjectStatus a owl:ObjectProperty ;
@@ -311,8 +311,8 @@ ex:onRoute a owl:ObjectProperty ;
 ex:openingDate a owl:DatatypeProperty ;
     rdfs:label "opening date" ;
     rdfs:comment "The historical date a line or station first opened to the public." ;
-    rdfs:domain ex:Line,
-        ex:Station ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( ex:Line ex:Station ) ] ;
     rdfs:range xsd:date .
 
 ex:operatingDays a owl:DatatypeProperty ;
@@ -386,8 +386,8 @@ ex:targetsInfrastructure a owl:ObjectProperty ;
     rdfs:label "targets infrastructure" ;
     rdfs:comment "Links a project to the specific station or line being improved." ;
     rdfs:domain ex:InfrastructureProject ;
-    rdfs:range ex:Route,
-        ex:Station .
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( ex:Station ex:Route ) ] .
 
 ex:zoneNumber a owl:DatatypeProperty ;
     rdfs:label "zone number" ;
