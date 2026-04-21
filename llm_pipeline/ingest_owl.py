@@ -163,16 +163,21 @@ def _extract(g: rdflib.Graph) -> Tuple[List[Dict], List[Dict]]:
 
 
 def _write_to_redis(r: redis_lib.Redis, category: str, items: List[Dict]) -> int:
-    written = 0
+    # Phase 1 — all descriptions first (one model load for qwen2.5)
+    descriptions: Dict[str, str] = {}
     for item in items:
         lbl = item["label"]
         ctx = item["context"]
-
         log.info("[%s] describing '%s' (ctx_words=%d)", category, lbl, len(ctx.split()))
-        description = ctx if len(ctx.split()) >= 8 else _llm_describe(lbl)
-        r.set(f"{category}:desc:{lbl}", description)
+        desc = ctx if len(ctx.split()) >= 8 else _llm_describe(lbl)
+        r.set(f"{category}:desc:{lbl}", desc)
+        descriptions[lbl] = desc
 
-        vec = _embed(description)
+    # Phase 2 — all embeddings after (one model swap to mxbai-embed-large)
+    written = 0
+    for item in items:
+        lbl = item["label"]
+        vec = _embed(descriptions[lbl])
         r.set(f"{category}:emb:{lbl}", json.dumps(vec))
         written += 1
 
