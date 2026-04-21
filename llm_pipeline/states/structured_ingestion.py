@@ -60,8 +60,10 @@ def _json_to_triplets(data: Any) -> List[Triplet]:
             or item.get("id")
             or item.get("naptanId")
             or item.get("stationName")
-            or "unknown"
         )
+        if not subject:
+            # Skip records with no resolvable name — avoids "unknown X NaptanFoo" triples
+            continue
         subject = str(subject).strip()
 
         for key, value in item.items():
@@ -126,8 +128,9 @@ def _tsv_to_triplets(text: str) -> List[Triplet]:
                 break
                 
         if not subject:
-            subject = "unknown"
-            
+            # Skip blocks with no name — avoids "unknown X Foo" triples
+            return
+
         for k, v in block_lines:
             if k.lower() in ("$type",) or k.lower() in _NAME_KEYS:
                 continue

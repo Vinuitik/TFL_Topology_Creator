@@ -9,7 +9,7 @@ from rdflib.namespace import OWL, RDF, RDFS, XSD
 
 from schemas import PipelineState
 
-_TFL = Namespace("http://example.org/tfl#")
+_TFL = Namespace("urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#")
 _PROV = Namespace("http://www.w3.org/ns/prov#")
 _GTFS = Namespace("http://vocab.gtfs.org/terms#")
 _SCHEMA = Namespace("https://schema.org/")

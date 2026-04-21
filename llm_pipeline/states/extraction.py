@@ -18,6 +18,38 @@ _tokenizer = None
 _model = None
 _device = "cuda" if torch.cuda.is_available() else "cpu"
 
+# Patterns that identify boilerplate sentences that REBEL should never see.
+# Reasoning: these produce irrelevant entities (Shakespeare, Canadian cities,
+# Wikipedia meta-text) that pollute the ontology with non-TfL knowledge.
+_BOILERPLATE_PATTERNS = re.compile(
+    r"("
+    r"For the .+, see "
+    r"|For other (uses|similarly)"
+    r"|Main article:"
+    r"|See also:"
+    r"|This article (is about|needs additional)"
+    r"|Text is available under the Creative Commons"
+    r"|Wikipedia\u00ae is a registered trademark"
+    r"|Privacy policy About Wikipedia"
+    r"|This page was last edited"
+    r"|Retrieved \d{1,2} "
+    r"|\[citation needed\]"
+    r"|\\u00a9|\u00a9"
+    r")",
+    re.IGNORECASE,
+)
+
+# Minimum sentence length to pass to REBEL - very short sentences yield no
+# useful triples and slow the pipeline down.
+_MIN_SENTENCE_LEN = 30
+
+
+def _is_boilerplate(sentence: str) -> bool:
+    """Return True if the sentence is Wikipedia boilerplate or citation noise."""
+    if len(sentence.strip()) < _MIN_SENTENCE_LEN:
+        return True
+    return bool(_BOILERPLATE_PATTERNS.search(sentence))
+
 def _load_model() -> None:
     global _tokenizer, _model
     if _tokenizer is None:
@@ -95,8 +127,10 @@ def run_extraction(state: PipelineState) -> PipelineState:
 
     _load_model()
 
-    sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", resolved.text) if s.strip()]
-    log.info("Extracting from %d sentence(s)", len(sentences))
+    all_sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", resolved.text) if s.strip()]
+    sentences = [s for s in all_sentences if not _is_boilerplate(s)]
+    skipped = len(all_sentences) - len(sentences)
+    log.info("Extracting from %d sentence(s) (%d boilerplate skipped)", len(sentences), skipped)
 
     triplets: List[Triplet] = []
     for sentence in sentences:

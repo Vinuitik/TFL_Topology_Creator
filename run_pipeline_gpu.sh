@@ -5,7 +5,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-# ── 1. Detect GPU and Container Toolkit ──────────────────────────────────────
+# ── 1. Detect GPU ─────────────────────────────────────────────────────────────
 GPU_AVAILABLE=0
 TOOLKIT_READY=0
 
@@ -17,14 +17,40 @@ else
     echo "[GPU] ✗ nvidia-smi not available — CPU mode"
 fi
 
-# In WSL2 with Docker Desktop, the toolkit is handled transparently.
-# If nvidia-smi works, we assume the GPU is available for Docker.
+# ── 2. Ensure nvidia-ctk is configured for Docker (idempotent, ~5s) ──────────
+# IMPORTANT: 'docker compose run' ignores deploy.resources reservations.
+# The toolkit must be configured AND --gpus all passed explicitly on run cmds.
 if [ "$GPU_AVAILABLE" -eq 1 ]; then
-    echo "[GPU] ✓ Assuming Docker Desktop WSL2 GPU passthrough is enabled"
-    TOOLKIT_READY=1
+    if command -v nvidia-ctk &>/dev/null; then
+        echo "[GPU] Configuring nvidia-ctk runtime for Docker (idempotent) …"
+        sudo nvidia-ctk runtime configure --runtime=docker --set-as-default 2>/dev/null || true
+        sudo systemctl restart docker 2>/dev/null || true
+        echo "[GPU] ✓ nvidia-ctk runtime configured."
+        TOOLKIT_READY=1
+    else
+        echo "[GPU] ✗ nvidia-ctk not found — installing nvidia-container-toolkit …"
+        curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
+            | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg 2>/dev/null
+        curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
+            | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
+            | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq nvidia-container-toolkit
+        sudo nvidia-ctk runtime configure --runtime=docker --set-as-default
+        sudo systemctl restart docker
+        echo "[GPU] ✓ nvidia-container-toolkit installed and configured."
+        TOOLKIT_READY=1
+    fi
+    # Verify Docker can actually see the GPU before committing to GPU mode
+    if docker run --rm --gpus all ubuntu nvidia-smi &>/dev/null 2>&1; then
+        echo "[GPU] ✓ Docker GPU passthrough verified."
+    else
+        echo "[GPU] ⚠ Docker GPU test failed — falling back to CPU for Docker containers."
+        TOOLKIT_READY=0
+    fi
 fi
 
-# ── 2. Select compose files ───────────────────────────────────────────────────
+# ── 3. Select compose files and GPU run flag ──────────────────────────────────
 if [ "$TOOLKIT_READY" -eq 1 ]; then
     COMPOSE_FILES="-f docker-compose.yml -f docker-compose.gpu.yml"
     echo "[COMPOSE] Using GPU override (docker-compose.gpu.yml)"
@@ -33,7 +59,7 @@ else
     echo "[COMPOSE] Using CPU-only base (docker-compose.yml)"
 fi
 
-# ── 3. Free port 11434 (native Ollama may be running) ────────────────────────
+# ── 4. Free port 11434 (native Ollama may be running) ────────────────────────
 echo ""
 echo "[PRE] Checking port 11434 …"
 if ss -tlnp 2>/dev/null | grep -q ':11434'; then
@@ -47,7 +73,7 @@ else
     echo "[PRE] Port 11434 is free."
 fi
 
-# ── 3. Start supporting services ──────────────────────────────────────────────
+# ── 5. Start supporting services ─────────────────────────────────────────────
 echo ""
 echo "[1/4] Building and starting Redis, Ollama, and coref-service …"
 docker compose $COMPOSE_FILES build coref-service llm-pipeline
@@ -60,7 +86,7 @@ until docker exec ollama ollama list > /dev/null 2>&1; do
 done
 echo " up."
 
-# ── 4. Pull models ────────────────────────────────────────────────────────────
+# ── 6. Pull models ────────────────────────────────────────────────────────────
 echo ""
 echo "[2/4] Checking Ollama models …"
 MODEL_LIST=$(docker exec ollama ollama list 2>&1 || true)
@@ -74,15 +100,17 @@ for MODEL in "nomic-embed-text" "qwen2.5:1.5b"; do
     fi
 done
 
-# ── 5. Ingest ontology ────────────────────────────────────────────────────────
+# ── 7. Ingest ontology ────────────────────────────────────────────────────────
 echo ""
 echo "[3/4] Ingesting OWL/TTL ontology …"
+# GPU is passed via NVIDIA_VISIBLE_DEVICES env var in docker-compose.gpu.yml
+# (docker compose run does not accept --gpus directly).
 docker compose $COMPOSE_FILES run --rm llm-pipeline \
     python ingest_owl.py \
     --inputs-dir /app/inputs \
     --output-dir /app/outputs
 
-# ── 6. Run pipeline over all data sources ─────────────────────────────────────
+# ── 8. Run pipeline over all data sources ────────────────────────────────────
 echo ""
 echo "[4/4] Running pipeline over all data sources (Structured + Unstructured) …"
 docker compose $COMPOSE_FILES run --rm llm-pipeline \

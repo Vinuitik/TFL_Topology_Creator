@@ -6,15 +6,15 @@
 # Usage (manual):
 #   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up
 #
-# Requirements on WSL2:
-#   1. Windows NVIDIA driver ≥ 527.x (auto-passes through to WSL2)
-#   2. nvidia-container-toolkit installed inside WSL2 (see run_pipeline_gpu.sh)
-#   3. Docker daemon configured: sudo nvidia-ctk runtime configure --runtime=docker
-#   4. Docker daemon restarted:  sudo systemctl restart docker
-#   Verify with: docker run --rm --gpus all ubuntu nvidia-smi
+# GPU passthrough for 'docker compose up -d' uses deploy.resources.
+# GPU passthrough for 'docker compose run' uses NVIDIA_VISIBLE_DEVICES env var,
+# because 'docker compose run' ignores deploy.resources reservations entirely.
 
 services:
   ollama:
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
     deploy:
       resources:
         reservations:
@@ -24,6 +24,9 @@ services:
               capabilities: [gpu]
 
   llm-pipeline:
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
     deploy:
       resources:
         reservations:

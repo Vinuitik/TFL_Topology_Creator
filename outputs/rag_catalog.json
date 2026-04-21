@@ -1087,6 +1087,1290 @@
     {
       "label": "API",
       "iri": "http://example.org/tfl#application_programming_interface"
+    },
+    {
+      "label": "Elizabeth Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Elizabeth_Line"
+    },
+    {
+      "label": "automobile",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#automobile_for_hire"
+    },
+    {
+      "label": "Bus",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#bus"
+    },
+    {
+      "label": "coach",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#coach"
+    },
+    {
+      "label": "Cycle hire",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#cyclehiring"
+    },
+    {
+      "label": "cyclone",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#cyclone"
+    },
+    {
+      "label": "TransportEntity",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#TransportEntity"
+    },
+    {
+      "label": "Interchange Secure",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#interchange_secure"
+    },
+    {
+      "label": "Overground",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#overground"
+    },
+    {
+      "label": "railway system",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#railway_system"
+    },
+    {
+      "label": "River",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#river"
+    },
+    {
+      "label": "Streetcar",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#streetcar"
+    },
+    {
+      "label": "tram",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#tram"
+    },
+    {
+      "label": "tubing",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#tubing"
+    },
+    {
+      "label": "Alert Status",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#alert_status"
+    },
+    {
+      "label": "Crowd",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#crowd"
+    },
+    {
+      "label": "Event",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#event"
+    },
+    {
+      "label": "Information",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#information"
+    },
+    {
+      "label": "Real-time",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#realtime"
+    },
+    {
+      "label": "Undefined",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#undefined"
+    },
+    {
+      "label": "Unknown",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#unknown"
+    },
+    {
+      "label": "Date",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#2026_03_31"
+    },
+    {
+      "label": "United States",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#United_States"
+    },
+    {
+      "label": "Summer Olympic Games",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#item"
+    },
+    {
+      "label": "Access Point",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#access_point"
+    },
+    {
+      "label": "accessible area",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#area_accessible_from"
+    },
+    {
+      "label": "Bus Stop",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#bus_stop"
+    },
+    {
+      "label": "Coach Bay",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#coach_bay"
+    },
+    {
+      "label": "Coverage",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#coverage"
+    },
+    {
+      "label": "Ferry berth",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ferry_berth"
+    },
+    {
+      "label": "Flexible zone",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#flexible_zone"
+    },
+    {
+      "label": "Interchange",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#interchange"
+    },
+    {
+      "label": "lift stop area",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#liftstoparea"
+    },
+    {
+      "label": "Metro access area",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#metro_access_area"
+    },
+    {
+      "label": "NAPTAN Airport",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#naptan_airport"
+    },
+    {
+      "label": "NAPTAN Ferry Port",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#naptan_ferry_port"
+    },
+    {
+      "label": "NAPTAN Rail Access Area",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#naptanrailaccessarea"
+    },
+    {
+      "label": "Pick-up Area",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#pick_up_area"
+    },
+    {
+      "label": "Platform",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#platform"
+    },
+    {
+      "label": "Point",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#point"
+    },
+    {
+      "label": "Taxi Rank",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#taxi_rank"
+    },
+    {
+      "label": "Interchange Secure",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Interchange_Secure"
+    },
+    {
+      "label": "Automobile",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#automobile"
+    },
+    {
+      "label": "DLR",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#dlr"
+    },
+    {
+      "label": "railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#railway"
+    },
+    {
+      "label": "Subterranean",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#subterranean"
+    },
+    {
+      "label": "Vehicle",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#vehicle"
+    },
+    {
+      "label": "walking",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#walking"
+    },
+    {
+      "label": "Watercraft",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#watercraft"
+    },
+    {
+      "label": "District Line Rail",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#DLR"
+    },
+    {
+      "label": "Eastern LSR",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Eastern_LSR"
+    },
+    {
+      "label": "House of Lords",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#House_of_Lords"
+    },
+    {
+      "label": "Regent's Park",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Regent_s_Park"
+    },
+    {
+      "label": "Seven Kingdoms",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Seven_Kingdoms"
+    },
+    {
+      "label": "Seven Sisters",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Seven_Sisters"
+    },
+    {
+      "label": "Shuttle Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ShuttleLine"
+    },
+    {
+      "label": "Victoria",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Victoria"
+    },
+    {
+      "label": "White City",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#White_City"
+    },
+    {
+      "label": "archway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#archway"
+    },
+    {
+      "label": "Bakerloo",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#bakerloo"
+    },
+    {
+      "label": "bank",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#bank"
+    },
+    {
+      "label": "Banyan Tree",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#banyan_tree"
+    },
+    {
+      "label": "color",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#blue"
+    },
+    {
+      "label": "borough",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#borough"
+    },
+    {
+      "label": "castle",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#castle"
+    },
+    {
+      "label": "Central Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#central_line"
+    },
+    {
+      "label": "circle",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#circle"
+    },
+    {
+      "label": "circle",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#circles"
+    },
+    {
+      "label": "City",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#city"
+    },
+    {
+      "label": "District",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#district"
+    },
+    {
+      "label": "District Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#district_line"
+    },
+    {
+      "label": "embankment",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#embankment"
+    },
+    {
+      "label": "Green Boundaries",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#green_bounds"
+    },
+    {
+      "label": "House",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#house"
+    },
+    {
+      "label": "laneway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#laneway"
+    },
+    {
+      "label": "Light blue",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#lightblue"
+    },
+    {
+      "label": "Main",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#main"
+    },
+    {
+      "label": "Marble Arch",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#marble_arch"
+    },
+    {
+      "label": "Monument",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#monument"
+    },
+    {
+      "label": "Northern",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#northern"
+    },
+    {
+      "label": "Oak Tree",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#oak_tree"
+    },
+    {
+      "label": "oval",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#oval"
+    },
+    {
+      "label": "Piccadilly",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#piccadilly"
+    },
+    {
+      "label": "Piccadilly Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#piccadilly_underground_railway"
+    },
+    {
+      "label": "Subway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#subway"
+    },
+    {
+      "label": "teal",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#teal"
+    },
+    {
+      "label": "temple",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#temple"
+    },
+    {
+      "label": "Train",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#train"
+    },
+    {
+      "label": "Paddington Tunnel",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#tunnel_paddington_abbey"
+    },
+    {
+      "label": "Underground Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#underground_railway"
+    },
+    {
+      "label": "Yellow color",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#yellow"
+    },
+    {
+      "label": "Date",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#1870_05_30"
+    },
+    {
+      "label": "Channel Tunnel",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Channel_Tunnel"
+    },
+    {
+      "label": "Docklands Light Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Docklands_Light_Railway"
+    },
+    {
+      "label": "Euston-Hampstead Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#EustonHampsteadRailway"
+    },
+    {
+      "label": "LPTB",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#LPTB"
+    },
+    {
+      "label": "London Electric Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#London_Electric_Railway"
+    },
+    {
+      "label": "London North Eastern Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#London_North_Eastern_Railway"
+    },
+    {
+      "label": "Transport authority in London",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#London_Transport_Authority"
+    },
+    {
+      "label": "Nine Elms",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#NineElms"
+    },
+    {
+      "label": "Northern Heights",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Northern_Heights"
+    },
+    {
+      "label": "Southern Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Southern_Railway"
+    },
+    {
+      "label": "River Thames",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Thames_River"
+    },
+    {
+      "label": "Victoria Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Victoria_Line"
+    },
+    {
+      "label": "Alstom",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#alstom"
+    },
+    {
+      "label": "branch",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#branch"
+    },
+    {
+      "label": "citation",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#citation"
+    },
+    {
+      "label": "Deep-level lines",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#deep_level_lines"
+    },
+    {
+      "label": "Depot",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#depot"
+    },
+    {
+      "label": "Disambiguation",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#disambiguation"
+    },
+    {
+      "label": "Dock",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#docks"
+    },
+    {
+      "label": "financial institution",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#financial_institution"
+    },
+    {
+      "label": "ghostwritten",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ghostwritten"
+    },
+    {
+      "label": "Green Belt",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#greenbelt"
+    },
+    {
+      "label": "History",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#history"
+    },
+    {
+      "label": "platform island",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#island_platform"
+    },
+    {
+      "label": "Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#line"
+    },
+    {
+      "label": "Load gauge",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#load_gauge"
+    },
+    {
+      "label": "London Midland and Scottish Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#london_midland_and_scottish_railway"
+    },
+    {
+      "label": "London North East Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#londonnortheastrailway"
+    },
+    {
+      "label": "New Works Program",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#new_works_program"
+    },
+    {
+      "label": "Ontario",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ontario"
+    },
+    {
+      "label": "Railroad Cars",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#railroad_cars"
+    },
+    {
+      "label": "Railway Derailment",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#railway_derailment"
+    },
+    {
+      "label": "Shelter",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#shelter"
+    },
+    {
+      "label": "sidings",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#sidings"
+    },
+    {
+      "label": "Source",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#source"
+    },
+    {
+      "label": "Stability",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#stability"
+    },
+    {
+      "label": "Station",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#station"
+    },
+    {
+      "label": "Stock",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#stock"
+    },
+    {
+      "label": "stock train",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#stock_train"
+    },
+    {
+      "label": "terminal",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#terminick"
+    },
+    {
+      "label": "railway track",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#track"
+    },
+    {
+      "label": "transport",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#transport"
+    },
+    {
+      "label": "tunnel bore",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#tunnelbore"
+    },
+    {
+      "label": "Underground platform",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#underground_platforms"
+    },
+    {
+      "label": "Underground Railway Map",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#underground_railway_map"
+    },
+    {
+      "label": "United Kingdom",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#united_kingdom"
+    },
+    {
+      "label": "unsourced material",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#unsourcedmaterial"
+    },
+    {
+      "label": "World War II",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#world_war_ii"
+    },
+    {
+      "label": "700th Class",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#700thClass"
+    },
+    {
+      "label": "Crossrail",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Crossrail"
+    },
+    {
+      "label": "ETCS",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ETCS"
+    },
+    {
+      "label": "Great Eastern",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Great_Eastern"
+    },
+    {
+      "label": "HS2",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#HS2"
+    },
+    {
+      "label": "Hong Kong Mass Transit Railway Limited",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Hong_Kong_Mass_Transit_Railway_Limited"
+    },
+    {
+      "label": "Keolis",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Keolis"
+    },
+    {
+      "label": "Paris",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Paris"
+    },
+    {
+      "label": "Regional Express Rail",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#RER"
+    },
+    {
+      "label": "RIBA",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#RIBA"
+    },
+    {
+      "label": "Australian Emu",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#australian_emu"
+    },
+    {
+      "label": "Bombardier",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#bombardier"
+    },
+    {
+      "label": "Central Section",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#central_section"
+    },
+    {
+      "label": "Central Tunnel",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#central_tunnel"
+    },
+    {
+      "label": "Class",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#class_345"
+    },
+    {
+      "label": "Control Systems",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#control_systems"
+    },
+    {
+      "label": "Crossrail",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#crossrail"
+    },
+    {
+      "label": "Great Western Main Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#great_western_main_line"
+    },
+    {
+      "label": "Harvard University",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#harvard_university"
+    },
+    {
+      "label": "Jubilee Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#jubilee_year_1977"
+    },
+    {
+      "label": "Metro Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#metro_railway"
+    },
+    {
+      "label": "Novel Coronavirus Pneumonia",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#novel_coronavirus_pneumonia"
+    },
+    {
+      "label": "parallel",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#parallel"
+    },
+    {
+      "label": "station",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#railway_station"
+    },
+    {
+      "label": "Read",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#read"
+    },
+    {
+      "label": "roundel",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#roundel"
+    },
+    {
+      "label": "routing development",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#routing_development"
+    },
+    {
+      "label": "SilverLink",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#silverlink"
+    },
+    {
+      "label": "Thameslink Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#thameslink_railway"
+    },
+    {
+      "label": "TLR",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#tlr"
+    },
+    {
+      "label": "Transport Department",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#transport_department"
+    },
+    {
+      "label": "Transport for London",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#transport_for_london"
+    },
+    {
+      "label": "20/20",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#twenty_twenty"
+    },
+    {
+      "label": "Underground",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#underground"
+    },
+    {
+      "label": "Western",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#western"
+    },
+    {
+      "label": "Event Date",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#1863_01_10"
+    },
+    {
+      "label": "Geographic coordinate",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#51_30_32_49_N_000_11_49_7_W"
+    },
+    {
+      "label": "American",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#American"
+    },
+    {
+      "label": "April Fools' Day",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#April_Fools_Day"
+    },
+    {
+      "label": "Broadway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Broadway"
+    },
+    {
+      "label": "Eurostar",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Eurostar"
+    },
+    {
+      "label": "London Overground",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#London_Overground"
+    },
+    {
+      "label": "London Passenger Transport Board",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#London_Passenger_Transport_Board"
+    },
+    {
+      "label": "Station",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#London_Underground_station"
+    },
+    {
+      "label": "NIRL",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#NIRL"
+    },
+    {
+      "label": "Rectangle",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Rectangle"
+    },
+    {
+      "label": "Stock",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Stock"
+    },
+    {
+      "label": "River Thames",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Thames"
+    },
+    {
+      "label": "Whitechapel",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Whitechapel"
+    },
+    {
+      "label": "AC system",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#acsystem"
+    },
+    {
+      "label": "Alcohol",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#alcohol"
+    },
+    {
+      "label": "Baywater",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#baywater"
+    },
+    {
+      "label": "British Railway System",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#britain_railway_system"
+    },
+    {
+      "label": "carriage",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ca"
+    },
+    {
+      "label": "Central London Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#central_london_railway"
+    },
+    {
+      "label": "circles and lines",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#circles_and_lines"
+    },
+    {
+      "label": "Circumference",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#circumference"
+    },
+    {
+      "label": "Data center",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#datacenter"
+    },
+    {
+      "label": "Electric",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#electric"
+    },
+    {
+      "label": "Electric Multiple Unit",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#electric_multiple_unit"
+    },
+    {
+      "label": "electricity",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#electricity"
+    },
+    {
+      "label": "highway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#highway"
+    },
+    {
+      "label": "Joint Station",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#joint_station"
+    },
+    {
+      "label": "London Underground Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#london_underground_railway"
+    },
+    {
+      "label": "Loop",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#loop"
+    },
+    {
+      "label": "Metal",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#metal"
+    },
+    {
+      "label": "Metro Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#metro_line"
+    },
+    {
+      "label": "Metronet",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#metronet"
+    },
+    {
+      "label": "Metropolitan City",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#metropolitan_city"
+    },
+    {
+      "label": "Metropolitan District",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#metropolitan_district"
+    },
+    {
+      "label": "Metropolitan Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#metropolitan_railway"
+    },
+    {
+      "label": "Modern-looking",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#modernlooking"
+    },
+    {
+      "label": "movia",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#movia"
+    },
+    {
+      "label": "multiple unit stock",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#multipleunitstock"
+    },
+    {
+      "label": "Northern City Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#northerncityline"
+    },
+    {
+      "label": "platform",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#platforms"
+    },
+    {
+      "label": "railway acts",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#railway_acts"
+    },
+    {
+      "label": "underground railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#railway_underground"
+    },
+    {
+      "label": "Sign",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#sign"
+    },
+    {
+      "label": "stand",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#standing"
+    },
+    {
+      "label": "Step",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#step"
+    },
+    {
+      "label": "Stock Circle",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#stock_circle"
+    },
+    {
+      "label": "stone-colored",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#stone_coloured"
+    },
+    {
+      "label": "road surface",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#surface_of_road"
+    },
+    {
+      "label": "system",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#system"
+    },
+    {
+      "label": "telephone system",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#telephone_system"
+    },
+    {
+      "label": "Thameslink",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#thameslink"
+    },
+    {
+      "label": "Track",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#track4"
+    },
+    {
+      "label": "Underground",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#undergroun"
+    },
+    {
+      "label": "Underground headquarters",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#underground_headquarters"
+    },
+    {
+      "label": "Urban legend",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#urbanlegend"
+    },
+    {
+      "label": "United States of America",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#usa"
+    },
+    {
+      "label": "war",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#war"
+    },
+    {
+      "label": "China",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#China"
+    },
+    {
+      "label": "Day of the week",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Monday_to_Sunday"
+    },
+    {
+      "label": "National Rail Enquiries",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#National_Rail_Enquiries"
+    },
+    {
+      "label": "Abbey Road",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#abbey_road"
+    },
+    {
+      "label": "Apple Pay",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#apple_pay"
+    },
+    {
+      "label": "Bank statement",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#bank_statement"
+    },
+    {
+      "label": "Creative Commons License",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#cc_by_sa_4_0"
+    },
+    {
+      "label": "Contactless",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#contactless"
+    },
+    {
+      "label": "Contactless Payment",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#contactless_payment"
+    },
+    {
+      "label": "Contactless Payment Card",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#contactless_payment_card"
+    },
+    {
+      "label": "Credit",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#credit"
+    },
+    {
+      "label": "Credit Card",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#credit_card"
+    },
+    {
+      "label": "cubic transport",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#cubic_transport"
+    },
+    {
+      "label": "Debit",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#debit"
+    },
+    {
+      "label": "Ferry Terminal",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ferry_terminal"
+    },
+    {
+      "label": "Ferry inspectors",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ferry_inspectors"
+    },
+    {
+      "label": "Fraud Evasion",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#fraud_evasion"
+    },
+    {
+      "label": "India",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#india"
+    },
+    {
+      "label": "MediaWiki",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#mediawiki"
+    },
+    {
+      "label": "Metro",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#metro"
+    },
+    {
+      "label": "National Rail",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#national_rail"
+    },
+    {
+      "label": "Non-Profit Organization",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#non_profit_organization"
+    },
+    {
+      "label": "Outer Zones",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#outer_zones"
+    },
+    {
+      "label": "Oyster Card",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#oyster_card"
+    },
+    {
+      "label": "Pay as you go",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#pay_as_you_go"
+    },
+    {
+      "label": "penalty fare",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#penalty_fare"
+    },
+    {
+      "label": "Period",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#period"
+    },
+    {
+      "label": "Prepaid",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#prepaid"
+    },
+    {
+      "label": "Press Release",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#press_release"
+    },
+    {
+      "label": "prestige",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#prestige"
+    },
+    {
+      "label": "Proof of Payment",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#proof_of_payment"
+    },
+    {
+      "label": "Return Ticket",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#return_ticket"
+    },
+    {
+      "label": "Single Ticket",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#single_ticket"
+    },
+    {
+      "label": "smartcard",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#smartcard"
+    },
+    {
+      "label": "Subway Ticket Office",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#subway_ticket_offices"
+    },
+    {
+      "label": "technology",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#technology"
+    },
+    {
+      "label": "Terms of Use",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#terms_of_use"
+    },
+    {
+      "label": "Terms of Service",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#terms_of_service"
+    },
+    {
+      "label": "Ticket",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ticket"
+    },
+    {
+      "label": "Ticketing Machine",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ticketing_machine"
+    },
+    {
+      "label": "tramlink",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#tramlink"
+    },
+    {
+      "label": "Travel Card",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#travel_card"
+    },
+    {
+      "label": "Travel card",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#travelcard"
+    },
+    {
+      "label": "Traveller",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#traveller"
+    },
+    {
+      "label": "trip",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#trip"
+    },
+    {
+      "label": "card",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#underground_day_travel_card"
+    },
+    {
+      "label": "Website",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#website"
+    },
+    {
+      "label": "Wikipedia Foundation",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#wikipedia_foundation"
+    },
+    {
+      "label": "Withdrawn",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#withdrawn"
+    },
+    {
+      "label": "Zone",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#zone"
+    },
+    {
+      "label": "Essex",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Essex"
+    },
+    {
+      "label": "London Underground",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#London_Underground"
+    },
+    {
+      "label": "boroughs",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#boroughs"
+    },
+    {
+      "label": "fare",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#fare"
+    },
+    {
+      "label": "Inner Zone 1",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#innerzone1"
+    },
+    {
+      "label": "London Underground",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#london_underground"
+    },
+    {
+      "label": "London Underground Stations",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#london_underground_stations"
+    },
+    {
+      "label": "railways",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#railways"
+    },
+    {
+      "label": "ring",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ring"
+    },
+    {
+      "label": "transport service",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#service"
+    },
+    {
+      "label": "three_a",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#three_a"
+    },
+    {
+      "label": "ticket seller",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#ticketseller"
+    },
+    {
+      "label": "fare zone",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#tlr_fare_zones"
+    },
+    {
+      "label": "Zone 16",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#zone_16"
+    },
+    {
+      "label": "Zones",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#zones"
+    },
+    {
+      "label": "Application Programming Interface",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#API"
+    },
+    {
+      "label": "coach",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#coaches"
+    },
+    {
+      "label": "cycle",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#cycle"
+    },
+    {
+      "label": "Taxi",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#taxi"
+    },
+    {
+      "label": "River Bus",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#river_bus"
+    },
+    {
+      "label": "Transport vehicle",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#transport_vehicle"
+    },
+    {
+      "label": "High Barnet",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#High_Barnet"
+    },
+    {
+      "label": "London",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#London"
+    },
+    {
+      "label": "depot",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#northern_line_depot"
+    },
+    {
+      "label": "Class",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#700th_class"
+    },
+    {
+      "label": "Great Western Main Line",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Great_Western_Main_Line"
+    },
+    {
+      "label": "Nine Carriage",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#Nine_Carriage"
+    },
+    {
+      "label": "Eastern Great",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#eastern_great"
+    },
+    {
+      "label": "Oak Common",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#oakcommon"
+    },
+    {
+      "label": "Date",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#2008_10_12"
+    },
+    {
+      "label": "Building",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#building"
+    },
+    {
+      "label": "Glass",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#glass"
+    },
+    {
+      "label": "railway acts",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#railwayacts"
+    },
+    {
+      "label": "telecommunication system",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#telecommunications_system"
+    },
+    {
+      "label": "Card",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#card"
+    },
+    {
+      "label": "laptop computer",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#laptop_computer"
+    },
+    {
+      "label": "National Railway",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#national_railway"
+    },
+    {
+      "label": "Railway Services",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#railway_services"
     }
   ],
   "predicates": [
@@ -1143,7 +2427,7 @@
       "iri": "http://webprotege.stanford.edu/Rhira9cILzBTmJrEsO00c5"
     },
     {
-      "label": "belongsToLine",
+      "label": "part of",
       "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#belongsToLine"
     },
     {
@@ -1167,11 +2451,11 @@
       "iri": "http://example.org/tfl#servedByLine"
     },
     {
-      "label": "Connected to",
+      "label": "connects",
       "iri": "http://example.org/tfl#directlyConnectedTo"
     },
     {
-      "label": "located at",
+      "label": "located",
       "iri": "http://example.org/tfl#locatedInZone"
     },
     {
@@ -1239,7 +2523,7 @@
       "iri": "http://example.org/tfl#operates"
     },
     {
-      "label": "operated item",
+      "label": "Operating Item",
       "iri": "http://example.org/tfl#operatedBy"
     },
     {
@@ -1283,7 +2567,7 @@
       "iri": "http://example.org/tfl#isFarePaying"
     },
     {
-      "label": "scheduled service",
+      "label": "scheduled-service",
       "iri": "http://example.org/tfl#isScheduledService"
     },
     {
@@ -1291,11 +2575,11 @@
       "iri": "http://example.org/tfl#hasCapacity"
     },
     {
-      "label": "dissolution",
+      "label": "disruption",
       "iri": "http://example.org/tfl#rel_disruption"
     },
     {
-      "label": "Modified by",
+      "label": "modified",
       "iri": "http://example.org/tfl#rel_modified"
     },
     {
@@ -1315,75 +2599,75 @@
       "iri": "http://example.org/tfl#rel_crowd"
     },
     {
-      "label": "Zero",
+      "label": "zero",
       "iri": "http://example.org/tfl#rel_zero"
     },
     {
-      "label": "1",
+      "label": "identifier",
       "iri": "http://example.org/tfl#rel_1"
     },
     {
-      "label": "2",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_2"
     },
     {
-      "label": "3",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_3"
     },
     {
-      "label": "4",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_4"
     },
     {
-      "label": "25",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_25"
     },
     {
-      "label": "6",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_6"
     },
     {
-      "label": "7",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_7"
     },
     {
-      "label": "8th",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_8th"
     },
     {
-      "label": "9",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_9"
     },
     {
-      "label": "10",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_10"
     },
     {
-      "label": "11th",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_11th"
     },
     {
-      "label": "12",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_12"
     },
     {
-      "label": "14",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_14"
     },
     {
-      "label": "15",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_15"
     },
     {
-      "label": "16",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_16"
     },
     {
-      "label": "19",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_19"
     },
     {
-      "label": "32",
+      "label": "number",
       "iri": "http://example.org/tfl#rel_32"
     },
     {
@@ -1391,15 +2675,15 @@
       "iri": "http://example.org/tfl#rel_20"
     },
     {
-      "label": "22",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_22"
     },
     {
-      "label": "23",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_23"
     },
     {
-      "label": "26",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_26"
     },
     {
@@ -1407,47 +2691,47 @@
       "iri": "http://example.org/tfl#rel_China"
     },
     {
-      "label": "28",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_28"
     },
     {
-      "label": "29",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_29"
     },
     {
-      "label": "35",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_35"
     },
     {
-      "label": "36",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_36"
     },
     {
-      "label": "37",
+      "label": "Number",
       "iri": "http://example.org/tfl#rel_37"
     },
     {
-      "label": "transport for london",
+      "label": "Transport for London",
       "iri": "http://example.org/tfl#rel_transport_for_london"
     },
     {
-      "label": "Network",
+      "label": "network",
       "iri": "http://example.org/tfl#rel_network"
     },
     {
-      "label": "Line",
+      "label": "line",
       "iri": "http://example.org/tfl#rel_line"
     },
     {
-      "label": "color",
+      "label": "Color",
       "iri": "http://example.org/tfl#rel_color"
     },
     {
-      "label": "Note",
+      "label": "note",
       "iri": "http://example.org/tfl#rel_note"
     },
     {
-      "label": "Branch",
+      "label": "branch",
       "iri": "http://example.org/tfl#rel_branch"
     },
     {
@@ -1463,7 +2747,7 @@
       "iri": "http://example.org/tfl#rel_terminus"
     },
     {
-      "label": "opposes",
+      "label": "opposite of",
       "iri": "http://example.org/tfl#rel_opposite"
     },
     {
@@ -1483,11 +2767,11 @@
       "iri": "http://example.org/tfl#rel_timepoint"
     },
     {
-      "label": "War",
+      "label": "war",
       "iri": "http://example.org/tfl#rel_war"
     },
     {
-      "label": "Service Entry",
+      "label": "service entry",
       "iri": "http://example.org/tfl#rel_service_entry"
     },
     {
@@ -1519,7 +2803,7 @@
       "iri": "http://example.org/tfl#rel_follows"
     },
     {
-      "label": "entry point",
+      "label": "Entry Point",
       "iri": "http://example.org/tfl#rel_entry_point"
     },
     {
@@ -1547,7 +2831,7 @@
       "iri": "http://example.org/tfl#rel_instance_of"
     },
     {
-      "label": "railway connection",
+      "label": "Railway connection",
       "iri": "http://example.org/tfl#rel_railway_connection"
     },
     {
@@ -1567,7 +2851,7 @@
       "iri": "http://example.org/tfl#rel_publication_date"
     },
     {
-      "label": "Named After",
+      "label": "named after",
       "iri": "http://example.org/tfl#rel_named_after"
     },
     {
@@ -1587,7 +2871,7 @@
       "iri": "http://example.org/tfl#rel_member"
     },
     {
-      "label": "Awarded",
+      "label": "awarded",
       "iri": "http://example.org/tfl#rel_awarded"
     },
     {
@@ -1603,11 +2887,11 @@
       "iri": "http://example.org/tfl#rel_country_of_citizenship"
     },
     {
-      "label": "contains",
+      "label": "contains part",
       "iri": "http://example.org/tfl#rel_contains"
     },
     {
-      "label": "architecture",
+      "label": "architectural design",
       "iri": "http://example.org/tfl#rel_architecture"
     },
     {
@@ -1637,6 +2921,78 @@
     {
       "label": "share",
       "iri": "http://example.org/tfl#rel_share"
+    },
+    {
+      "label": "created",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#relatedTo"
+    },
+    {
+      "label": "service",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#hasStop"
+    },
+    {
+      "label": "Number",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_25"
+    },
+    {
+      "label": "Number",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_21"
+    },
+    {
+      "label": "TfL",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_tfl"
+    },
+    {
+      "label": "location",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#locatedInZone"
+    },
+    {
+      "label": "Open Date",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#operates"
+    },
+    {
+      "label": "dissolution date",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_dissolution_date"
+    },
+    {
+      "label": "near water",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_water_near"
+    },
+    {
+      "label": "job",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_job"
+    },
+    {
+      "label": "transport hub location",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_location_of_transport_hub"
+    },
+    {
+      "label": "Connected to",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#directlyConnectedTo"
+    },
+    {
+      "label": "owns",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_owned_by"
+    },
+    {
+      "label": "citizenship country",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_country_of_citizenship"
+    },
+    {
+      "label": "Building",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_building"
+    },
+    {
+      "label": "altitude",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_altitude"
+    },
+    {
+      "label": "formation location",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_location_of_formation"
+    },
+    {
+      "label": "London Underground",
+      "iri": "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#rel_London_Underground"
     }
   ]
 }
