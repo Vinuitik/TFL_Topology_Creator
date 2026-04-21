@@ -99,8 +99,8 @@ def _embed(text: str) -> List[float]:
         return []
 
 
-import config
-_SAME_THRESHOLD = config.ENTITY_SAME_THRESHOLD
+_SAME_THRESHOLD = float(os.getenv("ENTITY_SAME_THRESHOLD", "0.88"))
+
 
 def _compare_by_embedding(pairs: List[Tuple[str, str, str, str]], embeds: Dict[str, List[float]]) -> List[bool]:
     return [_cosine(embeds.get(na, []), embeds.get(nb, [])) >= _SAME_THRESHOLD for na, _, nb, _ in pairs]
@@ -136,6 +136,49 @@ def _cosine(a: List[float], b: List[float]) -> float:
 
 def _pair_key(a: str, b: str) -> Tuple[str, str]:
     return (a, b) if a <= b else (b, a)
+
+
+# --- surface normalisation ---
+
+_LEADING_ARTICLES = re.compile(r'^(the|a|an)\s+', re.IGNORECASE)
+_NON_ALNUM = re.compile(r"[^\w\s]")
+_WHITESPACE = re.compile(r'\s+')
+
+
+def _normalize_surface(name: str) -> str:
+    """Canonical form used only for grouping before DSU — never stored or returned."""
+    n = name.strip().lower()
+    n = _LEADING_ARTICLES.sub('', n)
+    n = _NON_ALNUM.sub(' ', n)
+    n = _WHITESPACE.sub(' ', n).strip()
+    # simple depluralization: strip trailing 's' (not 'ss') if result >= 3 chars
+    if n.endswith('s') and not n.endswith('ss') and len(n) > 3:
+        n = n[:-1]
+    return n
+
+
+def _group_by_surface(items: List[str]) -> Tuple[Dict[str, str], List[str]]:
+    """Group surface forms by normalised key; pick best representative per group.
+
+    Returns:
+        norm_map: original surface → representative
+        representatives: deduplicated list of representative forms to pass to _process
+    """
+    groups: Dict[str, List[str]] = {}
+    for item in items:
+        key = _normalize_surface(item)
+        groups.setdefault(key, []).append(item)
+
+    norm_map: Dict[str, str] = {}
+    representatives: List[str] = []
+    for variants in groups.values():
+        # prefer: starts uppercase > more uppercase chars > longer
+        rep = max(variants, key=lambda x: (x[:1].isupper(), sum(c.isupper() for c in x), len(x)))
+        for v in variants:
+            norm_map[v] = rep
+        representatives.append(rep)
+
+    return norm_map, representatives
 
 
 def _optimized_pairs(items: List[str], descs: Dict[str, str], embeds: Dict[str, List[float]]) -> List[Tuple[str, str]]:
@@ -181,6 +224,41 @@ def _conflicts_in_clusters(decisions: Dict[Tuple[str, str], bool], clusters: Ite
 
 # --- per-category pipeline ---
 
+def _scan_known_canonicals(category: str) -> Dict[str, str]:
+    """Return {surface_form: canonical} for all entries persisted in previous runs."""
+    r = _get_redis()
+    prefix = f"{category}:canonical:"
+    result: Dict[str, str] = {}
+    cursor = 0
+    while True:
+        cursor, keys = r.scan(cursor, match=f"{prefix}*", count=200)
+        for key in keys:
+            surface = key[len(prefix):]
+            canon = r.get(key)
+            if canon:
+                result[surface] = canon
+        if cursor == 0:
+            break
+    return result
+
+
+def _load_desc_emb(category: str, names: List[str], descs: Dict[str, str], embeds: Dict[str, List[float]]) -> None:
+    """Populate descs/embeds for names that already have Redis entries. No generation."""
+    r = _get_redis()
+    for name in names:
+        if name not in descs:
+            cached = r.get(f"{category}:desc:{name}")
+            if cached:
+                descs[name] = cached
+        if name not in embeds:
+            cached = r.get(f"{category}:emb:{name}")
+            if cached:
+                try:
+                    embeds[name] = json.loads(cached)
+                except json.JSONDecodeError:
+                    pass
+
+
 def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str, int | str]]:
     if not items:
         return {}, {
@@ -192,33 +270,53 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
             "consistency_conflicts": 0,
         }
 
-    items = sorted(set(items))
+    new_items = sorted(set(items))
 
-    # Step 1 — descriptions
+    # Load all canonicals seen in previous runs; derive the known-canonical universe.
+    prior_canonicals = _scan_known_canonicals(category)  # surface → canonical
+    known_canonicals: Set[str] = set(prior_canonicals.values())
+
+    # Map: if a new item was already canonicalised in a prior run, honour that immediately.
+    already_resolved: Dict[str, str] = {}
+    truly_new: List[str] = []
+    for name in new_items:
+        if name in prior_canonicals:
+            already_resolved[name] = prior_canonicals[name]
+        else:
+            truly_new.append(name)
+
+    if not truly_new:
+        # Everything in this file is already known — return prior mappings directly.
+        return already_resolved, {
+            "mode": "exact",
+            "total_items": len(new_items),
+            "compared_pairs": 0,
+            "same_pairs": 0,
+            "clusters": 0,
+            "consistency_conflicts": 0,
+        }
+
+    # Step 1 — descriptions for truly new items only
     descs: Dict[str, str] = {}
-    uncached_names = []
-    for name in items:
+    for name in truly_new:
         key = f"{category}:desc:{name}"
         cached = _get_redis().get(key)
         if cached is not None:
             descs[name] = cached
         else:
-            uncached_names.append(name)
-
-    if uncached_names:
-        from concurrent.futures import ThreadPoolExecutor
-        import config
-        with ThreadPoolExecutor(max_workers=config.LLM_MAX_CONCURRENCY) as executor:
-            results = list(executor.map(_describe, uncached_names))
-        
-        for name, generated in zip(uncached_names, results):
-            _get_redis().set(f"{category}:desc:{name}", generated)
+            generated = _describe(name)
+            _get_redis().set(key, generated)
             descs[name] = generated
 
-    # Step 2 — embeddings (fire-and-forget into Redis, used for future ANN)
+    # Load desc/emb for known canonicals from Redis (no regeneration)
+    _load_desc_emb(category, sorted(known_canonicals), descs, {})
+    known_descs: Dict[str, str] = {}
+    _load_desc_emb(category, sorted(known_canonicals), known_descs, {})
+    descs.update(known_descs)
+
+    # Step 2 — embeddings for truly new items only
     embeds: Dict[str, List[float]] = {}
-    uncached_emb_names = []
-    for name in items:
+    for name in truly_new:
         key = f"{category}:emb:{name}"
         cached = _get_redis().get(key)
         if cached:
@@ -227,35 +325,51 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
                 continue
             except json.JSONDecodeError:
                 pass
-        uncached_emb_names.append(name)
+        emb = _embed(descs[name])
+        embeds[name] = emb
+        _get_redis().set(key, json.dumps(emb))
 
-    if uncached_emb_names:
-        from concurrent.futures import ThreadPoolExecutor
-        import config
-        desc_list = [descs[n] for n in uncached_emb_names]
-        with ThreadPoolExecutor(max_workers=config.LLM_MAX_CONCURRENCY) as executor:
-            emb_results = list(executor.map(_embed, desc_list))
-            
-        for name, emb in zip(uncached_emb_names, emb_results):
-            embeds[name] = emb
-            _get_redis().set(f"{category}:emb:{name}", json.dumps(emb))
+    # Load embeddings for known canonicals (already in Redis)
+    known_embeds: Dict[str, List[float]] = {}
+    for name in sorted(known_canonicals):
+        cached = _get_redis().get(f"{category}:emb:{name}")
+        if cached:
+            try:
+                known_embeds[name] = json.loads(cached)
+            except json.JSONDecodeError:
+                pass
+    embeds.update(known_embeds)
 
-    # Step 3 — candidate pair generation and embedding-based comparison
-    exact_mode = len(items) <= _EXACT_THRESHOLD
-    pairs = list(combinations(items, 2)) if exact_mode else _optimized_pairs(items, descs, embeds)
+    # Step 3 — pairs: (new × new) + (new × known_canonical); skip known × known
+    universe = sorted(set(truly_new) | known_canonicals)
+    exact_mode = len(universe) <= _EXACT_THRESHOLD
+
+    if exact_mode:
+        new_set = set(truly_new)
+        pairs = [
+            (a, b)
+            for a, b in combinations(universe, 2)
+            if a in new_set or b in new_set  # at least one side is new
+        ]
+    else:
+        pairs = _optimized_pairs(universe, descs, embeds)
+        new_set = set(truly_new)
+        pairs = [(a, b) for a, b in pairs if a in new_set or b in new_set]
+
     same: List[Tuple[str, str]] = []
     decisions: Dict[Tuple[str, str], bool] = {}
-    flags = _compare_by_embedding([(a, descs[a], b, descs[b]) for a, b in pairs], embeds)
+    flags = _compare_by_embedding([(a, descs.get(a, a), b, descs.get(b, b)) for a, b in pairs], embeds)
     for pair, flag in zip(pairs, flags):
         decisions[_pair_key(*pair)] = bool(flag)
         if flag:
             same.append(pair)
 
     mode = "exact" if exact_mode else "hybrid"
-    log.info("[%s] mode=%s same=%d compared=%d", category, mode, len(same), len(pairs))
+    log.info("[%s] mode=%s same=%d compared=%d new=%d known_canonicals=%d",
+             category, mode, len(same), len(pairs), len(truly_new), len(known_canonicals))
 
-    # Step 4 — DSU clustering
-    dsu = _DSU(items)
+    # Step 4 — DSU on universe (new + known canonicals)
+    dsu = _DSU(universe)
     for a, b in same:
         dsu.union(a, b)
 
@@ -264,17 +378,26 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
     if conflicts:
         log.warning("[%s] consistency conflicts inside clusters: %d", category, len(conflicts))
 
-    # Step 5+6 — canonical name per cluster, persist
+    # Step 5+6 — canonical per cluster; prefer existing known canonical if present
     canon_map: Dict[str, str] = {}
     for members in clusters:
-        canon = _canonical(members)
+        known_in_cluster = [m for m in members if m in known_canonicals]
+        if known_in_cluster:
+            canon = known_in_cluster[0]
+        else:
+            new_members = [m for m in members if m in new_set]
+            canon = _canonical(new_members) if new_members else members[0]
         for m in members:
-            canon_map[m] = canon
-            _get_redis().set(f"{category}:canonical:{m}", canon)
+            if m in new_set:  # only remap/persist new surface forms
+                canon_map[m] = canon
+                _get_redis().set(f"{category}:canonical:{m}", canon)
+
+    # Merge in already-resolved items from prior runs
+    canon_map.update(already_resolved)
 
     return canon_map, {
         "mode": mode,
-        "total_items": len(items),
+        "total_items": len(new_items),
         "compared_pairs": len(pairs),
         "same_pairs": len(same),
         "clusters": len(clusters),
@@ -289,16 +412,32 @@ def run_entity_linking(state: PipelineState) -> PipelineState:
     if not triplets:
         return state
 
-    ce, entities_stats = _process("entities", list({t.subject for t in triplets} | {t.object for t in triplets}))
-    cr, relations_stats = _process("relations", list({t.predicate for t in triplets}))
+    # Surface normalisation: group plural/case variants before DSU
+    raw_entities = list({t.subject for t in triplets} | {t.object for t in triplets})
+    raw_relations = list({t.predicate for t in triplets})
+
+    ent_norm_map, ent_representatives = _group_by_surface(raw_entities)
+    rel_norm_map, rel_representatives = _group_by_surface(raw_relations)
+
+    ce_repr, entities_stats = _process("entities", ent_representatives)
+    cr_repr, relations_stats = _process("relations", rel_representatives)
+
+    # Compose: original → representative → canonical
+    def _resolve_entity(name: str) -> str:
+        rep = ent_norm_map.get(name, name)
+        return ce_repr.get(rep, rep)
+
+    def _resolve_relation(name: str) -> str:
+        rep = rel_norm_map.get(name, name)
+        return cr_repr.get(rep, rep)
 
     return {
         **state,
         "triplets": [
             t.model_copy(update={
-                "subject": ce.get(t.subject, t.subject),
-                "predicate": cr.get(t.predicate, t.predicate),
-                "object": ce.get(t.object, t.object),
+                "subject": _resolve_entity(t.subject),
+                "predicate": _resolve_relation(t.predicate),
+                "object": _resolve_entity(t.object),
             })
             for t in triplets
         ],

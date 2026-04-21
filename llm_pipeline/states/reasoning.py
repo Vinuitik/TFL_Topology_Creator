@@ -8,13 +8,10 @@ from schemas import PipelineState
 
 
 _RDF_TYPE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
-_OWL_CLASS = "http://www.w3.org/2002/07/owl#Class"
-_RDFS_LABEL = "http://www.w3.org/2000/01/rdf-schema#label"
-_TFL_NS = "http://example.org/tfl#"
-_PT_CONNECTED = f"{_TFL_NS}ConnectedEntity"
-_PT_OPERATES = f"{_TFL_NS}operates"
-_PT_OPERATED_BY = f"{_TFL_NS}operatedBy"
-_PT_RELATED_TO = f"{_TFL_NS}relatedTo"
+_PT_CONNECTED = "http://example.org/pt#ConnectedEntity"
+_PT_OPERATES = "http://example.org/pt#operates"
+_PT_OPERATED_BY = "http://example.org/pt#operatedBy"
+_PT_RELATED_TO = "http://example.org/pt#relatedTo"
 
 
 def _key(triple: Dict[str, str]) -> Tuple[str, str, str, bool, str]:
@@ -33,25 +30,6 @@ def run_reasoning(state: PipelineState) -> PipelineState:
 
     inferred: List[Dict[str, str]] = list(triples)
     seen: Set[Tuple[str, str, str, bool, str]] = {_key(t) for t in triples}
-
-    # Ensure ConnectedEntity is declared as an owl:Class if we are about to use it.
-    connected_class_decl = {
-        "subject": _PT_CONNECTED,
-        "predicate": _RDF_TYPE,
-        "object": _OWL_CLASS,
-        "is_literal": False,
-    }
-    ck = _key(connected_class_decl)
-    if ck not in seen:
-        seen.add(ck)
-        inferred.append(connected_class_decl)
-        label_decl = {
-            "subject": _PT_CONNECTED,
-            "predicate": _RDFS_LABEL,
-            "object": "Connected Entity",
-            "is_literal": True,
-        }
-        inferred.append(label_decl)
 
     for t in triples:
         if t.get("is_literal", False):
