@@ -47,32 +47,48 @@ def _parse_json(raw: str) -> Any:
         except json.JSONDecodeError:
             pass
 
-    # attempt 3: fix truncated JSON (missing } or ] at the end)
-    if raw.strip().startswith("{") and not raw.strip().endswith("}"):
-        try:
-            return json.loads(raw.strip() + "}")
-        except json.JSONDecodeError:
+    # attempt 3: fix truncated JSON by progressively closing open brackets
+    stripped = raw.strip()
+    if stripped.startswith("{"):
+        # count unclosed brackets and close them
+        open_braces = stripped.count("{") - stripped.count("}")
+        open_brackets = stripped.count("[") - stripped.count("]")
+        # strip any trailing incomplete token (e.g. mid-string or mid-key)
+        candidate = stripped.rstrip(", \t\n\r")
+        # remove trailing incomplete object fragment like `{"subject": "foo`
+        candidate = re.sub(r',\s*\{[^}]*$', '', candidate)
+        suffix = "]" * max(open_brackets, 0) + "}" * max(open_braces, 0)
+        for closing in [suffix, "]}", "}", ""]:
             try:
-                return json.loads(raw.strip() + "]}")
+                return json.loads(candidate + closing)
             except json.JSONDecodeError:
-                pass
+                continue
 
     raise ValueError(f"Could not parse JSON from LLM response:\n{raw}")
 
 
-def call_llm(state_name: str, params: str, model: str | None = None) -> Any:
+def call_llm(
+    state_name: str,
+    params: str,
+    model: str | None = None,
+    extra_options: dict | None = None,
+) -> Any:
     prompt_path = _find_latest_prompt(state_name)
     log.info("Using prompt %s", prompt_path.name)
 
     full_prompt = prompt_path.read_text(encoding="utf-8") + params
     effective_model = model or _MODEL
 
+    options = {"temperature": 0, "repeat_penalty": 1.15}
+    if extra_options:
+        options.update(extra_options)
+
     payload = {
         "model": effective_model,
         "prompt": full_prompt,
         "stream": False,
         "format": "json",
-        "options": {"temperature": 0},
+        "options": options,
     }
 
     log.info("LLM → state=%s model=%s url=%s prompt_chars=%d",

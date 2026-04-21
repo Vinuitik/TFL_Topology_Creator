@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Run REBEL + spaCy NER to extract (subject, predicate, object) triplets from resolved text."""
+"""Run REBEL + spaCy NER + LLM to extract (subject, predicate, object) triplets from resolved text."""
 
 import logging
 import re
@@ -11,6 +11,7 @@ import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 from schemas import PipelineState, Triplet
+from service.llm import call_llm
 
 log = logging.getLogger(__name__)
 
@@ -21,6 +22,9 @@ _device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 _SPACY_MODEL = "en_core_web_lg"
 _nlp: Optional[spacy.language.Language] = None
+
+_LLM_CHUNK_WORDS = 350  # words per chunk sent to LLM
+_ENTITY_MODEL = __import__("os").getenv("OLLAMA_ENTITY_MODEL")
 
 # spaCy entity types to include; mapped to a transport-domain class name
 _SPACY_TYPE_MAP = {
@@ -33,15 +37,33 @@ _SPACY_TYPE_MAP = {
     "EVENT": "TransportEvent",
 }
 
-# Minimum token length — filters out short noisy spans
 _MIN_ENTITY_CHARS = 3
 
+
+# ── memory diagnostics ──────────────────────────────────────────────────────
+
+def _log_memory(label: str) -> None:
+    try:
+        import os, psutil
+        rss_mb = psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2
+        log.info("MEM [%s] process_rss=%.0fMB", label, rss_mb)
+    except Exception:
+        pass
+    if torch.cuda.is_available():
+        alloc = torch.cuda.memory_allocated() / 1024 ** 2
+        reserved = torch.cuda.memory_reserved() / 1024 ** 2
+        log.info("VRAM [%s] allocated=%.0fMB reserved=%.0fMB", label, alloc, reserved)
+
+
+# ── spaCy NER ───────────────────────────────────────────────────────────────
 
 def _load_spacy() -> spacy.language.Language:
     global _nlp
     if _nlp is None:
         log.info("Loading spaCy model %s (CPU)", _SPACY_MODEL)
+        _log_memory("pre-spacy-load")
         _nlp = spacy.load(_SPACY_MODEL, exclude=["parser", "senter"])
+        _log_memory("post-spacy-load")
         log.info("spaCy model loaded")
     return _nlp
 
@@ -71,20 +93,20 @@ def _extract_spacy_triplets(text: str, provenance: str) -> List[Triplet]:
     return triplets
 
 
+# ── REBEL ───────────────────────────────────────────────────────────────────
+
 def _load_model() -> None:
     global _tokenizer, _model
     if _tokenizer is None:
         log.info("Loading REBEL model %s on %s", _MODEL_NAME, _device)
+        _log_memory("pre-rebel-load")
         _tokenizer = AutoTokenizer.from_pretrained(_MODEL_NAME)
         _model = AutoModelForSeq2SeqLM.from_pretrained(_MODEL_NAME).to(_device)
+        _log_memory("post-rebel-load")
         log.info("REBEL model loaded on %s", _device)
 
 
 def _parse_rebel_output(text: str) -> List[dict]:
-    """Parse REBEL linearized output into raw triplet dicts.
-
-    REBEL format: <triplet> subject <subj> object <obj> predicate
-    """
     triplets = []
     current: dict | None = None
     part = "subject"
@@ -146,8 +168,64 @@ def _unload_model() -> None:
     _tokenizer = None
     _model = None
     torch.cuda.empty_cache()
+    _log_memory("post-rebel-unload")
     log.info("REBEL model unloaded, VRAM released")
 
+
+# ── LLM extraction ──────────────────────────────────────────────────────────
+
+def _chunk_text(text: str, max_words: int) -> List[str]:
+    """Split text into chunks of at most max_words words, breaking on sentence boundaries."""
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    chunks: List[str] = []
+    current_words: List[str] = []
+    for sentence in sentences:
+        words = sentence.split()
+        if current_words and len(current_words) + len(words) > max_words:
+            chunks.append(" ".join(current_words))
+            current_words = words
+        else:
+            current_words.extend(words)
+    if current_words:
+        chunks.append(" ".join(current_words))
+    return chunks
+
+
+def _extract_llm_triplets(text: str) -> List[Triplet]:
+    """Send text chunks to LLM and collect extracted triplets."""
+    chunks = _chunk_text(text, _LLM_CHUNK_WORDS)
+    log.info("LLM extraction: %d chunk(s) from %d chars", len(chunks), len(text))
+
+    triplets: List[Triplet] = []
+    for idx, chunk in enumerate(chunks):
+        try:
+            result = call_llm(
+                "extraction",
+                f"\n{chunk}\n",
+                model=_ENTITY_MODEL,
+                extra_options={"num_predict": 1024, "repeat_penalty": 1.2},
+            )
+            raw_triplets = result.get("triplets", [])
+            log.info("LLM extraction chunk %d/%d: %d triplet(s)", idx + 1, len(chunks), len(raw_triplets))
+            for rt in raw_triplets:
+                subj = str(rt.get("subject", "")).strip()
+                pred = str(rt.get("predicate", "")).strip()
+                obj = str(rt.get("object", "")).strip()
+                if subj and pred and obj and len(subj) >= 2:
+                    triplets.append(Triplet(
+                        subject=subj,
+                        predicate=pred,
+                        object=obj,
+                        provenance_sentence=chunk[:200],
+                    ))
+        except Exception as exc:
+            log.warning("LLM extraction chunk %d/%d failed: %s", idx + 1, len(chunks), exc)
+
+    log.info("LLM extraction: %d total triplet(s)", len(triplets))
+    return triplets
+
+
+# ── state ───────────────────────────────────────────────────────────────────
 
 def run_extraction(state: PipelineState) -> PipelineState:
     resolved = state.get("resolved_document")
@@ -158,27 +236,49 @@ def run_extraction(state: PipelineState) -> PipelineState:
     full_text = resolved.text
     sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", full_text) if s.strip()]
     log.info("Extracting from %d sentence(s)", len(sentences))
+    _log_memory("extraction-start")
 
-    # REBEL: relation triplets (runs on GPU)
+    # ── 1. REBEL: relation triplets (GPU) ───────────────────────────────────
     _load_model()
     rebel_triplets: List[Triplet] = []
     for sentence in sentences:
         rebel_triplets.extend(_extract_from_sentence(sentence))
     log.info("REBEL: %d triplet(s)", len(rebel_triplets))
-    _unload_model()  # free VRAM before spaCy
+    _unload_model()  # free VRAM before CPU-heavy stages
 
-    # spaCy NER: type-assertion triplets (runs on CPU, no VRAM)
-    spacy_triplets = _extract_spacy_triplets(full_text, provenance=full_text[:200])
+    # ── 2. spaCy NER: type-assertion triplets (CPU) ─────────────────────────
+    try:
+        spacy_triplets = _extract_spacy_triplets(full_text, provenance=full_text[:200])
+    except Exception as exc:
+        log.error("spaCy extraction failed: %s", exc, exc_info=True)
+        _log_memory("spacy-failure")
+        spacy_triplets = []
 
-    # Merge: REBEL triplets first, then spaCy type assertions
-    # Filter out empty/whitespace-only subjects or objects before merging
+    # ── 3. LLM extraction: relation triplets (Ollama HTTP) ──────────────────
+    _log_memory("pre-llm-extraction")
+    try:
+        llm_triplets = _extract_llm_triplets(full_text)
+    except Exception as exc:
+        log.error("LLM extraction failed: %s", exc, exc_info=True)
+        llm_triplets = []
+
+    # ── Merge all sources ────────────────────────────────────────────────────
     all_triplets: List[Triplet] = []
-    for t in rebel_triplets + spacy_triplets:
-        if t.subject.strip() and t.object.strip() and len(t.subject.strip()) >= 2:
-            all_triplets.append(t)
+    seen_keys: set = set()
+    for t in rebel_triplets + spacy_triplets + llm_triplets:
+        if not (t.subject.strip() and t.object.strip() and len(t.subject.strip()) >= 2):
+            continue
+        key = (t.subject.lower(), t.predicate.lower(), t.object.lower())
+        if key in seen_keys:
+            continue
+        seen_keys.add(key)
+        all_triplets.append(t)
 
-    log.info("Extraction complete — %d rebel + %d spacy = %d total triplet(s)",
-             len(rebel_triplets), len(spacy_triplets), len(all_triplets))
+    log.info(
+        "Extraction complete — %d rebel + %d spacy + %d llm = %d total (after dedup)",
+        len(rebel_triplets), len(spacy_triplets), len(llm_triplets), len(all_triplets),
+    )
+    _log_memory("extraction-end")
 
     state["triplets"] = all_triplets
     state["low_confidence"] = len(all_triplets) == 0

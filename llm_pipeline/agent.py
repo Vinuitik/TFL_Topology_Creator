@@ -29,7 +29,7 @@ from states import (
     # run_preprocessing,
     run_reasoning,
     run_schema_mapping,
-    run_structured_ingestion,
+    # run_structured_ingestion,
     run_text_normalization,
     run_turtle_serialization,
     run_validation,
@@ -37,7 +37,7 @@ from states import (
 
 
 def build_graph() -> Any:
-    """Unstructured pipeline: text → coref → REBEL → entity_linking → … → TTL"""
+    """Unstructured pipeline: text → coref → REBEL → entity_classification → entity_linking → … → TTL"""
     graph = StateGraph(PipelineState)
 
     graph.add_node("input_ingestion", run_input_ingestion)
@@ -60,9 +60,9 @@ def build_graph() -> Any:
     graph.add_edge("input_ingestion", "text_normalization")
     graph.add_edge("text_normalization", "coreference_resolution")
     graph.add_edge("coreference_resolution", "extraction")
-    graph.add_edge("extraction", "entity_linking")
-    graph.add_edge("entity_linking", "entity_classification")
-    graph.add_edge("entity_classification", "schema_mapping")
+    graph.add_edge("extraction", "entity_classification")
+    graph.add_edge("entity_classification", "entity_linking")
+    graph.add_edge("entity_linking", "schema_mapping")
     graph.add_edge("schema_mapping", "ontology_construction")
     graph.add_edge("ontology_construction", "reasoning")
     graph.add_edge("reasoning", "validation")
@@ -83,50 +83,9 @@ def build_graph() -> Any:
     return graph.compile()
 
 
-def build_structured_graph() -> Any:
-    """Structured pipeline: direct parse → entity_linking → … → TTL.
-
-    Skips input_ingestion, text_normalization, coreference_resolution, and
-    REBEL extraction entirely.  structured_ingestion produces the same
-    ``triplets`` key that run_extraction does, so every downstream node
-    (entity_linking through turtle_serialization) runs without modification.
-    """
-    graph = StateGraph(PipelineState)
-
-    graph.add_node("structured_ingestion", run_structured_ingestion)
-    graph.add_node("entity_linking", run_entity_linking)
-    graph.add_node("entity_classification", run_entity_classification)
-    graph.add_node("schema_mapping", run_schema_mapping)
-    graph.add_node("ontology_construction", run_ontology_construction)
-    graph.add_node("reasoning", run_reasoning)
-    graph.add_node("validation", run_validation)
-    graph.add_node("turtle_serialization", run_turtle_serialization)
-
-    graph.set_entry_point("structured_ingestion")
-
-    graph.add_edge("structured_ingestion", "entity_linking")
-    graph.add_edge("entity_linking", "entity_classification")
-    graph.add_edge("entity_classification", "schema_mapping")
-    graph.add_edge("schema_mapping", "ontology_construction")
-    graph.add_edge("ontology_construction", "reasoning")
-    graph.add_edge("reasoning", "validation")
-
-    # Structured data is high-confidence (parsed, not extracted), so on failure
-    # only loop back to schema_mapping — never back to ingestion.
-    graph.add_conditional_edges(
-        "validation",
-        route_after_validation,
-        {
-            "coreference_resolution": "entity_linking",  # remap — skip coref
-            "extraction": "entity_linking",              # remap — skip REBEL
-            "entity_linking": "entity_linking",
-            "schema_mapping": "schema_mapping",
-            "end": "turtle_serialization",
-        },
-    )
-    graph.add_edge("turtle_serialization", END)
-
-    return graph.compile()
+# def build_structured_graph() -> Any:
+#     """Structured pipeline — requires run_structured_ingestion (not currently available)."""
+#     pass
 
 
 def run_pipeline(
@@ -146,21 +105,9 @@ def run_pipeline(
     return result
 
 
-def run_structured_pipeline(
-    raw_text: str,
-    metadata: Dict[str, str] | None = None,
-    rag_catalog: Dict[str, Any] | None = None,
-) -> PipelineState:
-    """Run the structured pipeline (direct parse, no REBEL)."""
-    app = build_structured_graph()
-    initial_state: PipelineState = {
-        "document": Document(raw_text=raw_text, metadata=metadata or {}),
-        "iteration": 0,
-    }
-    if rag_catalog:
-        initial_state["rag_catalog"] = rag_catalog
-    result = app.invoke(initial_state)
-    return result
+# def run_structured_pipeline(...):
+#     """Requires build_structured_graph — not currently available."""
+#     pass
 
 
 
@@ -287,21 +234,11 @@ if __name__ == "__main__":
         else:
             raw_text = raw_bytes.decode("utf-8", errors="ignore")
 
-            # Auto-detect structured vs unstructured by filename prefix.
-            is_structured = file_path.stem.lower().startswith("structured")
-            if is_structured:
-                log.info("STRUCTURED path selected for %s", file_path.name)
-                result = run_structured_pipeline(
-                    raw_text=raw_text,
-                    metadata={"source": file_path.name, "domain": "public-transport", "sequence": str(idx)},
-                    rag_catalog=rag_catalog,
-                )
-            else:
-                result = run_pipeline(
-                    raw_text=raw_text,
-                    metadata={"source": file_path.name, "domain": "public-transport", "sequence": str(idx)},
-                    rag_catalog=rag_catalog,
-                )
+            result = run_pipeline(
+                raw_text=raw_text,
+                metadata={"source": file_path.name, "domain": "public-transport", "sequence": str(idx)},
+                rag_catalog=rag_catalog,
+            )
             result_json = _jsonable(result)
             _save_json(run_out, result_json)
             saved_hashes[file_path.name] = file_hash

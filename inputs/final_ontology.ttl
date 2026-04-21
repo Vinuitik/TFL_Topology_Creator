@@ -1,170 +1,525 @@
+@prefix dbo: <http://dbpedia.org/ontology/> .
 @prefix geo1: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 @prefix gtfs: <http://vocab.gtfs.org/terms#> .
 @prefix local: <http://example.org/tfl#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 local:BusRoute a owl:Class ;
+    rdfs:label "Bus Route" ;
+    rdfs:comment "A specific numbered route followed by a bus service." ;
     rdfs:subClassOf local:Route .
 
 local:BusStop a owl:Class ;
+    rdfs:label "Bus Stop" ;
+    rdfs:comment "A designated place where buses stop for passengers." ;
     rdfs:subClassOf local:TransitAccessPoint .
 
+local:EngineeringWorks a owl:Class ;
+    rdfs:label "Engineering Works" ;
+    rdfs:comment "Planned maintenance or construction on infrastructure." ;
+    rdfs:subClassOf local:DisruptionCause .
+
 local:FareClass a owl:Class ;
+    rdfs:label "Fare Class" ;
+    rdfs:comment "The category of fare applicable to a journey." ;
     rdfs:subClassOf gtfs:FareClass .
 
+local:GoodService a local:DisruptionStatus ;
+    rdfs:label "Good Service" .
+
+local:IndustrialAction a owl:Class ;
+    rdfs:label "Industrial Action" ;
+    rdfs:comment "Strikes or labor-related service withdrawals." ;
+    rdfs:subClassOf local:DisruptionCause .
+
 local:InterchangeStation a owl:Class ;
+    rdfs:label "Interchange Station" ;
+    rdfs:comment "A station where passengers can switch between different lines." ;
     rdfs:subClassOf local:TrainStation .
 
-local:Line a owl:Class ;
-    rdfs:subClassOf local:Route .
+local:LimitedService a owl:Class ;
+    rdfs:label "Limited Service" ;
+    rdfs:comment "A service with restricted operating hours, such as daytime-only or peak-hour only services." ;
+    rdfs:subClassOf local:ServiceSchedule .
+
+local:LineExpansion a owl:Class ;
+    rdfs:label "Line Expansion" ;
+    rdfs:comment "The construction of new tracks or the extension of an existing line to new areas." ;
+    rdfs:subClassOf local:InfrastructureProject .
+
+local:MinorDelays a local:DisruptionStatus ;
+    rdfs:label "Minor Delays" .
+
+local:NightService a owl:Class ;
+    rdfs:label "Night Service" ;
+    rdfs:comment "A specific service pattern that operates during late-night and early-morning hours." ;
+    rdfs:subClassOf local:ServiceSchedule .
 
 local:OffPeakFare a owl:Class ;
+    rdfs:label "Off-Peak Fare" ;
+    rdfs:comment "Discounted pricing applied during lower-demand periods." ;
     rdfs:subClassOf local:Fare .
+
+local:PartSuspended a local:DisruptionStatus ;
+    rdfs:label "Part Suspended" .
 
 local:PeakFare a owl:Class ;
+    rdfs:label "Peak Fare" ;
+    rdfs:comment "Higher pricing applied during high-demand morning and evening periods." ;
     rdfs:subClassOf local:Fare .
 
-local:Point a owl:Class .
+local:PlannedDisruption a owl:Class ;
+    rdfs:label "Planned Disruption" ;
+    rdfs:comment "A disruption scheduled in advance, like maintenance." ;
+    rdfs:subClassOf local:ServiceDisruption .
 
-local:StopTime a owl:Class .
+local:Point a owl:Class ;
+    rdfs:label "Point" ;
+    rdfs:comment "A specific geographic coordinate." .
+
+local:RollingStockIssue a owl:Class ;
+    rdfs:label "Rolling Stock Issue" ;
+    rdfs:comment "Mechanical problems with the vehicles (trains/buses)." ;
+    rdfs:subClassOf local:TechnicalFault .
+
+local:SevereDelays a local:DisruptionStatus ;
+    rdfs:label "Severe Delays" .
+
+local:SignalFailure a owl:Class ;
+    rdfs:label "Signal Failure" ;
+    rdfs:comment "A specific technical fault in the signaling system." ;
+    rdfs:subClassOf local:TechnicalFault .
+
+local:SignificantDisruption a owl:Class ;
+    rdfs:label "Significant Disruption" ;
+    rdfs:comment "A major event causing widespread impact over time." ;
+    rdfs:subClassOf local:ServiceDisruption .
+
+local:StationUpgrade a owl:Class ;
+    rdfs:label "Station Upgrade" ;
+    rdfs:comment "Improvements to existing stations, such as adding step-free access or increasing capacity." ;
+    rdfs:subClassOf local:InfrastructureProject .
+
+local:StopTime a owl:Class ;
+    rdfs:label "Stop Time" ;
+    rdfs:comment "The scheduled arrival or departure time at a specific stop." .
+
+local:TwentyFourHourService a owl:Class ;
+    rdfs:label "24-Hour Service" ;
+    rdfs:comment "A service that operates continuously throughout a 24-hour period (e.g., Night Tube, 24-hour buses)." ;
+    rdfs:subClassOf local:ServiceSchedule .
+
+local:UnplannedDisruption a owl:Class ;
+    rdfs:label "Unplanned Disruption" ;
+    rdfs:comment "An unexpected disruption, like a technical fault." ;
+    rdfs:subClassOf local:ServiceDisruption .
+
+local:affectsRoute a owl:ObjectProperty ;
+    rdfs:label "affects route" ;
+    rdfs:comment "Links a service disruption to the specific route it is impacting." ;
+    rdfs:domain local:ServiceDisruption ;
+    rdfs:range local:Route .
+
+local:affectsStop a owl:ObjectProperty ;
+    rdfs:label "affects stop" ;
+    rdfs:comment "Links a service disruption to a specific station or stop." ;
+    rdfs:domain local:ServiceDisruption ;
+    rdfs:range local:TransitAccessPoint .
+
+local:appliesDuring a owl:ObjectProperty ;
+    rdfs:label "applies during" ;
+    rdfs:comment "Links a fare or a service restriction to a specific time window." ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( local:Fare local:Route ) ] ;
+    rdfs:range local:TimeWindow .
 
 local:belongsToRoute a owl:ObjectProperty ;
+    rdfs:label "belongs to route" ;
+    rdfs:comment "Links a sequence of stops to the specific route they define." ;
     rdfs:domain local:RouteStopSequence ;
     rdfs:range local:Route .
 
 local:directlyConnectedTo a owl:ObjectProperty,
         owl:SymmetricProperty ;
+    rdfs:label "directly connected to" ;
+    rdfs:comment "Indicates a direct connection between two transit access points (e.g., adjacent stations)." ;
     rdfs:domain local:TransitAccessPoint ;
     rdfs:range local:TransitAccessPoint .
 
+local:disruptionDate a owl:DatatypeProperty ;
+    rdfs:label "disruption date" ;
+    rdfs:comment "The date and time when a disruption event occurred.",
+        "The date and time when a service disruption occurred." ;
+    rdfs:domain local:ServiceDisruption ;
+    rdfs:range xsd:dateTime .
+
 local:endPoint a owl:ObjectProperty ;
+    rdfs:label "end point" ;
+    rdfs:comment "The final station or stop of a specific journey." ;
     rdfs:domain local:Journey ;
     rdfs:range local:TransitAccessPoint .
 
+local:endTime a owl:DatatypeProperty ;
+    rdfs:label "end time" ;
+    rdfs:comment "The conclusion of a time window." ;
+    rdfs:domain local:TimeWindow ;
+    rdfs:range xsd:time .
+
 local:endZone a owl:ObjectProperty ;
+    rdfs:label "end zone" ;
+    rdfs:comment "The fare zone where a journey concludes." ;
     rdfs:domain local:Journey ;
     rdfs:range local:Zone .
 
+local:expectedCompletionDate a owl:DatatypeProperty ;
+    rdfs:label "expected completion date" ;
+    rdfs:comment "The anticipated date when the upgrade or expansion will be finished." ;
+    rdfs:domain local:InfrastructureProject ;
+    rdfs:range xsd:date ;
+    owl:equivalentProperty schema1:endDate .
+
 local:fareCost a owl:DatatypeProperty ;
+    rdfs:label "fare cost" ;
+    rdfs:comment "The monetary price of a fare." ;
     rdfs:domain local:Fare ;
     rdfs:range xsd:decimal .
 
+local:hasCause a owl:ObjectProperty ;
+    rdfs:label "has cause" ;
+    rdfs:comment "The underlying reason for a disruption (e.g., strike, fault)." ;
+    rdfs:domain local:ServiceDisruption ;
+    rdfs:range local:DisruptionCause .
+
 local:hasEndPoint a owl:ObjectProperty ;
+    rdfs:label "has end point" ;
+    rdfs:comment "The ending point of a specific line segment." ;
     rdfs:domain local:LineSegment ;
     rdfs:range local:TransitAccessPoint .
 
 local:hasFare a owl:ObjectProperty ;
+    rdfs:label "has fare" ;
+    rdfs:comment "Links a journey to the applicable fare object." ;
     rdfs:domain local:Journey ;
     rdfs:range local:Fare .
 
 local:hasName a owl:DatatypeProperty ;
+    rdfs:label "has name" ;
+    rdfs:comment "the human-readable name of an entity (e.g., station name, line name)." ;
     rdfs:range xsd:string ;
     rdfs:subPropertyOf gtfs:shortName .
 
+local:hasOffPeakPeriod a owl:ObjectProperty ;
+    rdfs:label "has off-peak period" ;
+    rdfs:comment "Links a station or line to its specific off-peak window." ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( local:Station local:Route ) ] ;
+    rdfs:range local:OffPeakPeriod .
+
+local:hasPeakPeriod a owl:ObjectProperty ;
+    rdfs:label "has peak period" ;
+    rdfs:comment "Links a station or line to its specific peak demand window." ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( local:Station local:Route ) ] ;
+    rdfs:range local:PeakPeriod .
+
+local:hasProjectStatus a owl:ObjectProperty ;
+    rdfs:label "has project status" ;
+    rdfs:comment "Indicates the current lifecycle stage of an infrastructure project." ;
+    rdfs:domain local:InfrastructureProject ;
+    rdfs:range local:ProjectStatus .
+
+local:hasScheduleType a owl:ObjectProperty ;
+    rdfs:label "has schedule type" ;
+    rdfs:comment "Links a route or line to its operating schedule category (e.g., 24-hour or Limited)." ;
+    rdfs:domain local:Route ;
+    rdfs:range local:ServiceSchedule .
+
+local:hasSeverity a owl:ObjectProperty ;
+    rdfs:label "has severity" ;
+    rdfs:comment "The scale of impact a disruption has on the network." ;
+    rdfs:domain local:ServiceDisruption .
+
 local:hasStartPoint a owl:ObjectProperty ;
+    rdfs:label "has start point" ;
+    rdfs:comment "The beginning point of a specific line segment." ;
     rdfs:domain local:LineSegment ;
     rdfs:range local:TransitAccessPoint .
 
+local:hasStatus a owl:ObjectProperty ;
+    rdfs:label "has status" ;
+    rdfs:comment "The current operational status of the service during a disruption." ;
+    rdfs:domain local:ServiceDisruption ;
+    rdfs:range local:DisruptionStatus .
+
 local:hasStop a owl:ObjectProperty ;
+    rdfs:label "has stop" ;
+    rdfs:comment "Links a route to the stations or stops that it serves." ;
     rdfs:domain local:Route ;
     rdfs:range local:TransitAccessPoint .
 
 local:hasTransportMode a owl:ObjectProperty ;
+    rdfs:label "has transport mode" ;
+    rdfs:comment "Indicates the mode of transport available at an access point (e.g., Tube, Bus)." ;
     rdfs:domain local:TransitAccessPoint ;
     rdfs:range local:TransportMode .
 
 local:hasZone a owl:ObjectProperty ;
+    rdfs:label "has zone" ;
+    rdfs:comment "Assigns a geographic fare zone to a station or stop." ;
     rdfs:domain local:TransitAccessPoint ;
     rdfs:range local:Zone ;
     owl:equivalentProperty gtfs:zone .
 
+local:isApplicableOnWeekends a owl:DatatypeProperty ;
+    rdfs:label "is applicable on weekends" ;
+    rdfs:comment "Indicates if the time window or fare applies on Saturdays and Sundays." ;
+    rdfs:domain local:TimeWindow ;
+    rdfs:range xsd:boolean .
+
+local:isNightService a owl:DatatypeProperty ;
+    rdfs:label "is night service" ;
+    rdfs:comment "Indicates if the service is a night-specific variant (e.g., Night Tube)." ;
+    rdfs:domain local:Route ;
+    rdfs:range xsd:boolean .
+
+local:isPubliclyFunded a owl:DatatypeProperty ;
+    rdfs:label "is publicly funded" ;
+    rdfs:comment "Indicates if the project is financed by government or public taxes." ;
+    rdfs:domain local:InfrastructureProject ;
+    rdfs:range xsd:boolean .
+
 local:latitude a owl:DatatypeProperty ;
+    rdfs:label "latitude" ;
+    rdfs:comment "The geographic latitude coordinate of a transit point." ;
     rdfs:domain local:TransitAccessPoint ;
     rdfs:range xsd:decimal ;
     owl:equivalentProperty geo1:lat .
 
 local:longitude a owl:DatatypeProperty ;
+    rdfs:label "longitude" ;
+    rdfs:comment "The geographic longitude coordinate of a transit point." ;
     rdfs:domain local:TransitAccessPoint ;
     rdfs:range xsd:decimal ;
     owl:equivalentProperty geo1:long .
 
 local:offersAccessibilityFeature a owl:ObjectProperty ;
+    rdfs:label "offers accessibility feature" ;
+    rdfs:comment "Links a station to its available accessibility services (e.g., elevators)." ;
     rdfs:domain local:TransitAccessPoint ;
     rdfs:range local:AccessibilityFeature .
 
 local:onRoute a owl:ObjectProperty ;
+    rdfs:label "on route" ;
+    rdfs:comment "Links a line segment to its parent route." ;
     rdfs:domain local:LineSegment ;
     rdfs:range local:Route .
 
+local:openingDate a owl:DatatypeProperty ;
+    rdfs:label "opening date" ;
+    rdfs:comment "The historical date a line or station first opened to the public." ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( local:Line local:Station ) ] ;
+    rdfs:range xsd:date ;
+    owl:equivalentProperty dbo:openingDate .
+
+local:operatingDays a owl:DatatypeProperty ;
+    rdfs:label "operating days" ;
+    rdfs:comment "Textual description of the days the service is active (e.g., 'Mon-Fri')." ;
+    rdfs:domain local:Route ;
+    rdfs:range xsd:string .
+
+local:operationEndTime a owl:DatatypeProperty ;
+    rdfs:label "operation end time" ;
+    rdfs:comment "The time a service ends daily operations." ;
+    rdfs:domain local:Route ;
+    rdfs:range xsd:time ;
+    owl:equivalentProperty schema1:endTime .
+
+local:operationStartTime a owl:DatatypeProperty ;
+    rdfs:label "operation start time" ;
+    rdfs:comment "The time a service begins daily operations." ;
+    rdfs:domain local:Route ;
+    rdfs:range xsd:time ;
+    owl:equivalentProperty schema1:startTime .
+
+local:projectBudget a owl:DatatypeProperty ;
+    rdfs:label "project budget" ;
+    rdfs:comment "The estimated financial cost of the infrastructure project." ;
+    rdfs:domain local:InfrastructureProject ;
+    rdfs:range xsd:decimal .
+
 local:reachableFrom a owl:ObjectProperty,
         owl:TransitiveProperty ;
+    rdfs:label "reachable from" ;
+    rdfs:comment "Indicates a station can be reached from another, potentially across multiple segments." ;
     rdfs:domain local:TransitAccessPoint ;
     rdfs:range local:TransitAccessPoint .
 
 local:sequenceStop a owl:ObjectProperty ;
+    rdfs:label "sequence stop" ;
+    rdfs:comment "Links a specific position in a route sequence to a transit stop." ;
     rdfs:domain local:RouteStopSequence ;
     rdfs:range local:TransitAccessPoint ;
     owl:equivalentProperty gtfs:stop .
 
 local:servedByRoute a owl:ObjectProperty ;
+    rdfs:label "served by route" ;
+    rdfs:comment "Links a station or stop to the routes that pass through it." ;
     rdfs:domain local:TransitAccessPoint ;
     rdfs:range local:Route .
 
 local:startPoint a owl:ObjectProperty ;
+    rdfs:label "start point" ;
+    rdfs:comment "The station or stop where a journey begins." ;
     rdfs:domain local:Journey ;
     rdfs:range local:TransitAccessPoint .
 
+local:startTime a owl:DatatypeProperty ;
+    rdfs:label "start time" ;
+    rdfs:comment "The beginning of a time window." ;
+    rdfs:domain local:TimeWindow ;
+    rdfs:range xsd:time .
+
 local:startZone a owl:ObjectProperty ;
-    rdfs:domain local:TransitAccessPoint ;
+    rdfs:label "start zone" ;
+    rdfs:comment "The fare zone where a journey begins." ;
+    rdfs:domain local:Journey ;
     rdfs:range local:Zone .
 
 local:stopSequenceNumber a owl:DatatypeProperty ;
+    rdfs:label "stop sequence number" ;
+    rdfs:comment "The numerical order of a stop within a route." ;
     rdfs:domain local:RouteStopSequence ;
     rdfs:range xsd:integer ;
     owl:equivalentProperty gtfs:stopSequence .
 
+local:targetsInfrastructure a owl:ObjectProperty ;
+    rdfs:label "targets infrastructure" ;
+    rdfs:comment "Links a project to the specific station or line being improved." ;
+    rdfs:domain local:InfrastructureProject ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( local:Station local:Route ) ] .
+
 local:zoneNumber a owl:DatatypeProperty ;
+    rdfs:label "zone number" ;
+    rdfs:comment "The identifying number of a fare zone." ;
     rdfs:domain local:Zone ;
     rdfs:range xsd:integer .
 
-local:Station a owl:Class ;
-    rdfs:subClassOf local:TransitAccessPoint .
+local:Line a owl:Class ;
+    rdfs:label "Line" ;
+    rdfs:comment "A named transport line, such as a specific Tube or DLR line." ;
+    rdfs:subClassOf local:Route .
+
+local:OffPeakPeriod a owl:Class ;
+    rdfs:label "Off-Peak Period" ;
+    rdfs:comment "Lower-demand travel times where discounted fares typically apply." ;
+    rdfs:subClassOf local:TimeWindow .
+
+local:PeakPeriod a owl:Class ;
+    rdfs:label "Peak Period" ;
+    rdfs:comment "High-demand travel times (e.g., morning and evening rush hours) where higher fares often apply." ;
+    rdfs:subClassOf local:TimeWindow .
 
 local:TrainStation a owl:Class ;
+    rdfs:label "Train Station" ;
+    rdfs:comment "A station specifically for heavy or light rail services." ;
     rdfs:subClassOf local:Station,
         gtfs:Station .
 
-local:AccessibilityFeature a owl:Class .
+local:AccessibilityFeature a owl:Class ;
+    rdfs:label "Accessibility Feature" ;
+    rdfs:comment "Physical features or services providing access (e.g., step-free access)." .
 
-local:SpatialThing a owl:Class .
+local:ProjectStatus a owl:Class ;
+    rdfs:label "Project Status" ;
+    rdfs:comment "The current stage of a project (e.g., Proposed, Under Construction, Completed)." .
 
-local:TransportMode a owl:Class .
+local:SpatialThing a owl:Class ;
+    rdfs:label "Spatial Thing" ;
+    rdfs:comment "Anything with a physical location or spatial extent." .
+
+local:TechnicalFault a owl:Class ;
+    rdfs:label "Technical Fault" ;
+    rdfs:comment "Mechanical or electronic equipment failure." ;
+    rdfs:subClassOf local:DisruptionCause .
+
+local:TransportMode a owl:Class ;
+    rdfs:label "Transport Mode" ;
+    rdfs:comment "The type of vehicle used (e.g., Tube, Bus, DLR)." .
 
 local:LineSegment a owl:Class ;
+    rdfs:label "Line Segment" ;
+    rdfs:comment "A specific portion of a transport line between two points." ;
     rdfs:subClassOf local:SpatialThing .
 
 local:RouteStopSequence a owl:Class ;
+    rdfs:label "Route Stop Sequence" ;
+    rdfs:comment "The ordered list of stops that define a specific route." ;
     owl:equivalentClass gtfs:StopTime .
 
-local:Fare a owl:Class .
+local:DisruptionCause a owl:Class ;
+    rdfs:label "Disruption Cause" ;
+    rdfs:comment "The underlying reason for a service disruption." .
 
-local:Journey a owl:Class ;
-    owl:equivalentClass gtfs:Trip .
+local:ServiceSchedule a owl:Class ;
+    rdfs:label "Service Schedule" ;
+    rdfs:comment "The timeframe and frequency under which a transport service operates." ;
+    owl:equivalentClass schema1:Schedule .
+
+local:Station a owl:Class ;
+    rdfs:label "Station" ;
+    rdfs:comment "A designated stopping place for trains." ;
+    rdfs:subClassOf local:TransitAccessPoint .
 
 local:Zone a owl:Class ;
+    rdfs:label "Zone" ;
+    rdfs:comment "A geographic area used for fare calculation." ;
     owl:equivalentClass gtfs:Zone .
 
+local:DisruptionStatus a owl:Class ;
+    rdfs:label "Disruption Status" ;
+    rdfs:comment "The operational state of a line (e.g., Severe Delays)." .
+
+local:Fare a owl:Class ;
+    rdfs:label "Fare" ;
+    rdfs:comment "The cost associated with a journey." .
+
+local:Journey a owl:Class ;
+    rdfs:label "Journey" ;
+    rdfs:comment "A specific instance of travel from an origin to a destination." ;
+    owl:equivalentClass gtfs:Trip .
+
+local:TimeWindow a owl:Class ;
+    rdfs:label "Time Window" ;
+    rdfs:comment "A defined period of time during the day used for scheduling or fare calculation." .
+
+local:InfrastructureProject a owl:Class ;
+    rdfs:label "Infrastructure Project" ;
+    rdfs:comment "A planned endeavor to improve or expand the transport network." ;
+    rdfs:subClassOf schema1:Project .
+
+local:ServiceDisruption a owl:Class ;
+    rdfs:label "Service Disruption" ;
+    rdfs:comment "An event that interferes with normal operation." ;
+    rdfs:subClassOf schema1:Event .
+
 local:Route a owl:Class ;
+    rdfs:label "Route" ;
+    rdfs:comment "A path or course followed by a public transport service." ;
     owl:equivalentClass gtfs:Route .
 
 local:TransitAccessPoint a owl:Class ;
+    rdfs:label "Transit Access Point" ;
+    rdfs:comment "A physical location where passengers enter or exit the system." ;
     rdfs:subClassOf local:SpatialThing,
         geo1:SpatialThing ;
     owl:equivalentClass gtfs:Stop .
 
 [] a owl:AllDisjointClasses ;
-    owl:members ( local:TransitAccessPoint local:Zone local:TransportMode local:Journey local:AccessibilityFeature local:Fare local:Route local:RouteStopSequence ) .
+    owl:members ( local:TransitAccessPoint local:Zone local:TransportMode local:Journey local:AccessibilityFeature local:Fare local:Route local:RouteStopSequence local:ServiceDisruption local:DisruptionCause local:DisruptionStatus local:ServiceSchedule local:TimeWindow local:InfrastructureProject local:ProjectStatus ) .
 

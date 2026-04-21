@@ -374,6 +374,9 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
         dsu.union(a, b)
 
     clusters = list(dsu.clusters().values())
+    for members in clusters:
+        if len(members) >= 2:
+            log.info("[%s] LINKED cluster (size=%d): %s", category, len(members), members)
     conflicts = _conflicts_in_clusters(decisions, clusters)
     if conflicts:
         log.warning("[%s] consistency conflicts inside clusters: %d", category, len(conflicts))
@@ -405,6 +408,17 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
     }
 
 
+# --- helpers ---
+
+_LITERAL_INT = re.compile(r"-?\d+")
+_LITERAL_FLOAT = re.compile(r"-?\d+\.\d+")
+
+
+def _is_literal(value: str) -> bool:
+    cleaned = value.strip()
+    return bool(_LITERAL_INT.fullmatch(cleaned) or _LITERAL_FLOAT.fullmatch(cleaned))
+
+
 # --- state ---
 
 def run_entity_linking(state: PipelineState) -> PipelineState:
@@ -412,24 +426,55 @@ def run_entity_linking(state: PipelineState) -> PipelineState:
     if not triplets:
         return state
 
-    # Surface normalisation: group plural/case variants before DSU
-    raw_entities = list({t.subject for t in triplets} | {t.object for t in triplets})
+    entity_catalog = state.get("entity_catalog", {})
+
+    # Exclude literal objects from entity linking
+    raw_entities = list(
+        {t.subject for t in triplets}
+        | {t.object for t in triplets if not _is_literal(t.object)}
+    )
     raw_relations = list({t.predicate for t in triplets})
 
-    ent_norm_map, ent_representatives = _group_by_surface(raw_entities)
-    rel_norm_map, rel_representatives = _group_by_surface(raw_relations)
+    # Split entities by kind from catalog (default: individual)
+    classes = [e for e in raw_entities if entity_catalog.get(e, {}).get("kind") == "class"]
+    individuals = [e for e in raw_entities if entity_catalog.get(e, {}).get("kind") != "class"]
 
-    ce_repr, entities_stats = _process("entities", ent_representatives)
-    cr_repr, relations_stats = _process("relations", rel_representatives)
+    # Split relations by kind from catalog (default: object_property)
+    obj_props = [r for r in raw_relations if entity_catalog.get(r, {}).get("kind") != "datatype_property"]
+    data_props = [r for r in raw_relations if entity_catalog.get(r, {}).get("kind") == "datatype_property"]
 
-    # Compose: original → representative → canonical
+    # Surface normalisation per group
+    cls_norm_map, cls_reps = _group_by_surface(classes)
+    ind_norm_map, ind_reps = _group_by_surface(individuals)
+    obj_norm_map, obj_reps = _group_by_surface(obj_props)
+    dat_norm_map, dat_reps = _group_by_surface(data_props)
+
+    # Process each group independently — no cross-type merging
+    cc_repr, cls_stats = _process("entities_class", cls_reps)
+    ci_repr, ind_stats = _process("entities_individual", ind_reps)
+    co_repr, obj_stats = _process("relations_object", obj_reps)
+    cd_repr, dat_stats = _process("relations_data", dat_reps)
+
     def _resolve_entity(name: str) -> str:
-        rep = ent_norm_map.get(name, name)
-        return ce_repr.get(rep, rep)
+        if entity_catalog.get(name, {}).get("kind") == "class":
+            rep = cls_norm_map.get(name, name)
+            return cc_repr.get(rep, rep)
+        rep = ind_norm_map.get(name, name)
+        return ci_repr.get(rep, rep)
 
     def _resolve_relation(name: str) -> str:
-        rep = rel_norm_map.get(name, name)
-        return cr_repr.get(rep, rep)
+        if entity_catalog.get(name, {}).get("kind") == "datatype_property":
+            rep = dat_norm_map.get(name, name)
+            return cd_repr.get(rep, rep)
+        rep = obj_norm_map.get(name, name)
+        return co_repr.get(rep, rep)
+
+    all_conflicts = (
+        cls_stats["consistency_conflicts"]
+        + ind_stats["consistency_conflicts"]
+        + obj_stats["consistency_conflicts"]
+        + dat_stats["consistency_conflicts"]
+    )
 
     return {
         **state,
@@ -437,14 +482,16 @@ def run_entity_linking(state: PipelineState) -> PipelineState:
             t.model_copy(update={
                 "subject": _resolve_entity(t.subject),
                 "predicate": _resolve_relation(t.predicate),
-                "object": _resolve_entity(t.object),
+                "object": _resolve_entity(t.object) if not _is_literal(t.object) else t.object,
             })
             for t in triplets
         ],
         "entity_linking_stats": {
-            "entities": entities_stats,
-            "relations": relations_stats,
+            "entities_class": cls_stats,
+            "entities_individual": ind_stats,
+            "relations_object": obj_stats,
+            "relations_data": dat_stats,
             "threshold": _EXACT_THRESHOLD,
         },
-        "linking_conflicts": entities_stats["consistency_conflicts"] + relations_stats["consistency_conflicts"],
+        "linking_conflicts": all_conflicts,
     }
