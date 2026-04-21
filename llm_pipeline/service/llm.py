@@ -47,6 +47,16 @@ def _parse_json(raw: str) -> Any:
         except json.JSONDecodeError:
             pass
 
+    # attempt 3: fix truncated JSON (missing } or ] at the end)
+    if raw.strip().startswith("{") and not raw.strip().endswith("}"):
+        try:
+            return json.loads(raw.strip() + "}")
+        except json.JSONDecodeError:
+            try:
+                return json.loads(raw.strip() + "]}")
+            except json.JSONDecodeError:
+                pass
+
     raise ValueError(f"Could not parse JSON from LLM response:\n{raw}")
 
 
@@ -61,6 +71,7 @@ def call_llm(state_name: str, params: str, model: str | None = None) -> Any:
         "model": effective_model,
         "prompt": full_prompt,
         "stream": False,
+        "format": "json",
         "options": {"temperature": 0},
     }
 

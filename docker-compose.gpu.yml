@@ -1,0 +1,36 @@
+# docker-compose.gpu.yml — GPU override
+#
+# Layered on top of docker-compose.yml by run_pipeline_gpu.sh when the
+# NVIDIA Container Toolkit is detected.
+#
+# Usage (manual):
+#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up
+#
+# GPU passthrough for 'docker compose up -d' uses deploy.resources.
+# GPU passthrough for 'docker compose run' uses NVIDIA_VISIBLE_DEVICES env var,
+# because 'docker compose run' ignores deploy.resources reservations entirely.
+
+services:
+  ollama:
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  llm-pipeline:
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

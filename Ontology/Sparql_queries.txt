@@ -1,48 +1,242 @@
+# ---------------------------------------------------------
+# SPARQL Queries for Competency Questions (CQ1 - CQ9)
+# ---------------------------------------------------------
+# Base Prefix required for all queries:
+# PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+# PREFIX ns1: <http://example.org/tfl#>
+# PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+# PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+# ---------------------------------------------------------
 
-Which stations are served by a given underground line, and in which transport zones are they located?
+# ==========================================
+# Q1: Which stations are served by a given underground line, and in which transport zones are they located?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX ns1: <http://example.org/tfl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT DISTINCT ?station ?zone
+SELECT DISTINCT ?stationName ?zoneNum
 WHERE {
-  ?station a ex:TrainStation .
-  ?station ex:servedByLine ?line .
-  ?station ex:hasZone ?zone .
-
-  FILTER(?line = ex:CentralLine)
+  { ?line rdfs:label ?lineNameMatch } UNION { ?line :hasName ?lineNameMatch }
+  FILTER(regex(str(?lineNameMatch), "Victoria Line", "i"))
+  
+  { ?line :hasStop ?station } UNION { ?line ns1:directlyConnectedTo ?station } UNION { ?station ns1:servedByLine ?line }
+  
+  { ?station rdfs:label ?stationName } UNION { ?station :hasName ?stationName }
+  
+  OPTIONAL {
+    { ?station :hasZone ?zone } UNION { ?station ns1:locatedInZone ?zone }
+    { ?zone :zoneNumber ?zoneNum } UNION { ?zone rdfs:label ?zoneNum }
+  }
 }
-ORDER BY ?station ?zone
 
-Which stations are directly connected to a given station, and on which lines do these
-connections occur?
+# ==========================================
+# Q2: Which underground lines serve a given station, and is the station an interchange?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX ns1: <http://example.org/tfl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT DISTINCT ?connectedStation ?route
+SELECT DISTINCT ?lineName (IF(BOUND(?isInterchange), "Yes", "No") AS ?interchangeStatus)
 WHERE {
+  { ?station rdfs:label ?stationNameMatch } UNION { ?station :hasName ?stationNameMatch }
+  FILTER(regex(str(?stationNameMatch), "Oxford Circus Station", "i"))
+
+  { ?line :hasStop ?station } UNION { ?line ns1:directlyConnectedTo ?station } UNION { ?station ns1:servedByLine ?line }
+  
+  { ?line rdfs:label ?lineName } UNION { ?line :hasName ?lineName }
+  
+  OPTIONAL {
+    { ?station a :InterchangeStation } UNION { ?station a ns1:InterchangeStation }
+    BIND(true AS ?isInterchange)
+  }
+}
+
+# ==========================================
+# Q3: What is the ordered sequence of stops for a given bus route, including start and end points?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX ns1: <http://example.org/tfl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?stopName ?seq
+WHERE {
+  { ?route rdfs:label ?routeNameMatch } UNION { ?route :hasName ?routeNameMatch }
+  FILTER(regex(str(?routeNameMatch), "Bus Route 25", "i"))
+
   {
-    ?segment a ex:RouteSegment .
-    ?segment ex:fromStop ?station .
-    ?segment ex:toStop ?connectedStation .
+    ?stopSequence :belongsToRoute ?route ;
+                  :stopSequenceNumber ?seq ;
+                  :sequenceStop ?stop .
+  } UNION {
+    { ?route ns1:hasStop ?stop } UNION { ?stop ns1:servedByLine ?route }
+    BIND(1 AS ?seq)
+  }
+
+  { ?stop rdfs:label ?stopName } UNION { ?stop :hasName ?stopName }
+}
+ORDER BY ASC(?seq)
+
+# ==========================================
+# Q4: Which stations are directly connected to a given station, and on which lines do these connections occur?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX ns1: <http://example.org/tfl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?connectedStationName ?routeName
+WHERE {
+  { ?station rdfs:label ?stationNameMatch } UNION { ?station :hasName ?stationNameMatch }
+  FILTER(regex(str(?stationNameMatch), "Victoria Station", "i"))
+  
+  {
+    ?seqNode1 a :RouteStopSequence ;
+              :sequenceStop ?station ;
+              :belongsToRoute ?route ;
+              :stopSequenceNumber ?num1 .
+              
+    ?seqNode2 a :RouteStopSequence ;
+              :belongsToRoute ?route ;
+              :sequenceStop ?connectedStation ;
+              :stopSequenceNumber ?num2 .
+              
+    FILTER ( ?num2 = ?num1 + 1 || ?num2 = ?num1 - 1 )
+  } UNION {
+    ?station ns1:directlyConnectedTo ?connectedStation .
+    OPTIONAL { ?station ns1:servedByLine ?route }
+  }
+  
+  { ?connectedStation rdfs:label ?connectedStationName } UNION { ?connectedStation :hasName ?connectedStationName }
+  OPTIONAL {
+    { ?route rdfs:label ?routeName } UNION { ?route :hasName ?routeName }
+  }
+}
+
+# ==========================================
+# Q5: Which stations act as interchanges between multiple lines or transport modes?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX ns1: <http://example.org/tfl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?stationName (COUNT(?line) AS ?linesServed)
+WHERE {
+  { ?line :hasStop ?station } UNION { ?line ns1:directlyConnectedTo ?station } UNION { ?station ns1:servedByLine ?line }
+  
+  { ?station rdfs:label ?stationName } UNION { ?station :hasName ?stationName }
+}
+GROUP BY ?stationName
+HAVING (COUNT(?line) > 1)
+
+# ==========================================
+# Q6: What routes are available between two stations, including required interchanges and lines used?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX ns1: <http://example.org/tfl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?startName ?route1Name ?endName
+WHERE {
+  { ?startStation rdfs:label ?startNameMatch } UNION { ?startStation :hasName ?startNameMatch }
+  FILTER(regex(str(?startNameMatch), "Start Station", "i"))
+  
+  { ?endStation rdfs:label ?endNameMatch } UNION { ?endStation :hasName ?endNameMatch }
+  FILTER(regex(str(?endNameMatch), "End Station", "i"))
+  
+  {
+    ?route1 :hasStop ?startStation ;
+            :hasStop ?endStation .
   }
   UNION
   {
-    ?segment a ex:RouteSegment .
-    ?segment ex:toStop ?station .
-    ?segment ex:fromStop ?connectedStation .
+    ?startStation ns1:directlyConnectedTo+ ?endStation .
+    OPTIONAL { ?startStation ns1:servedByLine ?route1 }
   }
-
-  ?segment ex:partOfRoute ?route .
-
-  FILTER(?station = ex:KingCross)  # replace with station IRI
+  
+  { ?startStation rdfs:label ?startName } UNION { ?startStation :hasName ?startName }
+  { ?endStation rdfs:label ?endName } UNION { ?endStation :hasName ?endName }
+  OPTIONAL { { ?route1 rdfs:label ?route1Name } UNION { ?route1 :hasName ?route1Name } }
 }
-ORDER BY ?connectedStation
 
-Which stations are located within a specific transport zone, and what services operate in that
-zone?
+# ==========================================
+# Q7: Which stations are located within a specific transport zone, and what services operate in that zone?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX ns1: <http://example.org/tfl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT DISTINCT ?station ?service
+SELECT DISTINCT ?stationName ?lineName
 WHERE {
-  ?station a ex:TrainStation .
-  ?station ex:hasZone ?zone .
-  ?station ex:servedByLine ?service .
-
-  FILTER(?zone = ex:Zone1)  # replace with your zone IRI
+  { ?zone :zoneNumber 1 } UNION { ?zone :zoneNumber "1"^^xsd:string } UNION { ?zone rdfs:label "1" }
+  
+  { ?station :hasZone ?zone } UNION { ?station ns1:locatedInZone ?zone }
+  
+  { ?station rdfs:label ?stationName } UNION { ?station :hasName ?stationName }
+  
+  OPTIONAL {
+    { ?line :hasStop ?station } UNION { ?station ns1:servedByLine ?line }
+    { ?line rdfs:label ?lineName } UNION { ?line :hasName ?lineName }
+  }
 }
-ORDER BY ?station ?service
+
+# ==========================================
+# Q8: Which stations provide accessibility features such as step-free access?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX ns1: <http://example.org/tfl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?stationName
+WHERE {
+  { ?feature rdfs:label ?featNameMatch } UNION { ?feature :hasName ?featNameMatch }
+  FILTER(regex(str(?featNameMatch), "Step-Free Access", "i"))
+  
+  { ?station :offersAccessibilityFeature ?feature } UNION { ?station ns1:offersAccessibilityFeature ?feature }
+  
+  { ?station rdfs:label ?stationName } UNION { ?station :hasName ?stationName }
+}
+
+# ==========================================
+# Q9: What fare options are available for travel between two stations, including peak and off-peak pricing?
+# ==========================================
+PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX ns1: <http://example.org/tfl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?startName ?endName ?fareCost ?fareType
+WHERE {
+  { ?startStation rdfs:label ?startNameMatch } UNION { ?startStation :hasName ?startNameMatch }
+  FILTER(regex(str(?startNameMatch), "Victoria Station", "i"))
+
+  { ?endStation rdfs:label ?endNameMatch } UNION { ?endStation :hasName ?endNameMatch }
+  FILTER(regex(str(?endNameMatch), "Oxford Circus Station", "i"))
+  
+  {
+    ?journey a <http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> ;
+             :startStation ?startStation ;
+             :endStation ?endStation ;
+             :hasFare ?fare .
+             
+    ?fare :fareCost ?fareCost .
+  } UNION {
+    ?startStation ns1:hasFare ?fare .
+    ?fare ns1:fareCost ?fareCost .
+  }
+  
+  OPTIONAL { ?fare a :PeakFare . BIND("Peak" AS ?typeP) }
+  OPTIONAL { ?fare a :OffPeakFare . BIND("Off-Peak" AS ?typeO) }
+  
+  BIND(COALESCE(?typeP, ?typeO, "Standard Fare") AS ?fareType)
+  
+  { ?startStation rdfs:label ?startName } UNION { ?startStation :hasName ?startName }
+  { ?endStation rdfs:label ?endName } UNION { ?endStation :hasName ?endName }
+}
