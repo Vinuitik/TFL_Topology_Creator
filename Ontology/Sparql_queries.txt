@@ -1,21 +1,22 @@
 # ---------------------------------------------------------
-# SPARQL Queries for Competency Questions (CQ1 - CQ9)
+# SPARQL Queries for Competency Questions (CQ1 - CQ20) But without CQ10
 # ---------------------------------------------------------
 # Base Prefix required for all queries:
-# PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+# PREFIX : <http://example.org/tfl#>
 # PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 # ---------------------------------------------------------
 
 # ==========================================
 # Q1: Which stations are served by a given underground line, and in which transport zones are they located?
 # ==========================================
-PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT ?stationName ?zoneNum
 WHERE {
-  ?line :hasName "Victoria Line"^^xsd:string ;
-        :hasStop ?station .
+  ?line :hasStop ?station ;
+        :hasName ?lineName .
+  FILTER(STR(?lineName) = "Victoria Line")
   ?station :hasName ?stationName ;
            :hasZone ?zone .
   ?zone :zoneNumber ?zoneNum .
@@ -24,12 +25,13 @@ WHERE {
 # ==========================================
 # Q2: Which underground lines serve a given station, and is the station an interchange?
 # ==========================================
-PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT ?lineName (IF(BOUND(?isInterchange), "Yes", "No") AS ?interchangeStatus)
 WHERE {
-  ?station :hasName "Oxford Circus Station"^^xsd:string .
+  ?station :hasName ?stationTarget .
+  FILTER(STR(?stationTarget) = "Oxford Circus Station")
   ?line :hasStop ?station ;
         :hasName ?lineName .
   OPTIONAL {
@@ -41,12 +43,13 @@ WHERE {
 # ==========================================
 # Q3: What is the ordered sequence of stops for a given bus route, including start and end points?
 # ==========================================
-PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT ?stopName ?seq
 WHERE {
-  ?route :hasName "Bus Route 25"^^xsd:string .
+  ?route :hasName ?routeTarget .
+  FILTER(STR(?routeTarget) = "Bus Route 25")
   ?stopSequence :belongsToRoute ?route ;
                 :stopSequenceNumber ?seq ;
                 :sequenceStop ?stop .
@@ -57,12 +60,13 @@ ORDER BY ASC(?seq)
 # ==========================================
 # Q4: Which stations are directly connected to a given station, and on which lines do these connections occur?
 # ==========================================
-PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT ?connectedStationName ?routeName
 WHERE {
-  ?station :hasName "Victoria Station"^^xsd:string .
+  ?station :hasName ?stationTarget .
+  FILTER(STR(?stationTarget) = "Victoria Station")
   
   # Find the sequence node for Victoria Station
   ?seqNode1 a :RouteStopSequence ;
@@ -85,7 +89,7 @@ WHERE {
 # ==========================================
 # Q5: Which stations act as interchanges between multiple lines or transport modes?
 # ==========================================
-PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT ?stationName (COUNT(?line) AS ?linesServed)
@@ -99,21 +103,30 @@ HAVING (COUNT(?line) > 1)
 
 # ==========================================
 # Q6: What routes are available between two stations, including required interchanges and lines used?
-# Handles direct routes (0 swaps), 1 interchange, or 2 interchanges.
+# Dynamic Output: Maps the exact sequence of interchanges required as a single formatted path array.
 # ==========================================
-PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT ?startName ?route1Name ?mid1Name ?route2Name ?mid2Name ?route3Name ?endName
+SELECT ?stationsList ?routesList
 WHERE {
-  ?startStation :hasName "Start Station"^^xsd:string .
-  ?endStation :hasName "End Station"^^xsd:string .
+  ?startStation :hasName ?startTarget .
+  ?endStation :hasName ?endTarget .
+  FILTER(STR(?startTarget) = "Start Station")
+  FILTER(STR(?endTarget) = "End Station")
   
   {
     # Option A: 0 Interchanges (Direct Route)
     ?seqStart1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numStart1 .
     ?seqEnd1 a :RouteStopSequence ; :sequenceStop ?endStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numEnd1 .
     FILTER(?numStart1 < ?numEnd1)
+    
+    ?startStation :hasName ?startName .
+    ?endStation :hasName ?endName .
+    ?route1 :hasName ?route1Name .
+    
+    BIND(CONCAT("[", ?startName, ", ", ?endName, "]") AS ?stationsList)
+    BIND(CONCAT("[", ?route1Name, "]") AS ?routesList)
   }
   UNION
   {
@@ -127,8 +140,14 @@ WHERE {
     FILTER(?numStart2 < ?numEnd2)
     FILTER(?route1 != ?route2)
     
+    ?startStation :hasName ?startName .
+    ?endStation :hasName ?endName .
+    ?route1 :hasName ?route1Name .
     ?mid1Station a :InterchangeStation ; :hasName ?mid1Name .
     ?route2 :hasName ?route2Name .
+    
+    BIND(CONCAT("[", ?startName, ", ", ?mid1Name, ", ", ?endName, "]") AS ?stationsList)
+    BIND(CONCAT("[", ?route1Name, ", ", ?route2Name, "]") AS ?routesList)
   }
   UNION
   {
@@ -147,21 +166,23 @@ WHERE {
     FILTER(?numStart3 < ?numEnd3)
     FILTER(?route2 != ?route3)
 
+    ?startStation :hasName ?startName .
+    ?endStation :hasName ?endName .
+    ?route1 :hasName ?route1Name .
     ?mid1Station a :InterchangeStation ; :hasName ?mid1Name .
     ?mid2Station a :InterchangeStation ; :hasName ?mid2Name .
     ?route2 :hasName ?route2Name .
     ?route3 :hasName ?route3Name .
+    
+    BIND(CONCAT("[", ?startName, ", ", ?mid1Name, ", ", ?mid2Name, ", ", ?endName, "]") AS ?stationsList)
+    BIND(CONCAT("[", ?route1Name, ", ", ?route2Name, ", ", ?route3Name, "]") AS ?routesList)
   }
-  
-  ?startStation :hasName ?startName .
-  ?endStation :hasName ?endName .
-  ?route1 :hasName ?route1Name .
 }
 
 # ==========================================
 # Q7: Which stations are located within a specific transport zone, and what services operate in that zone?
 # ==========================================
-PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT DISTINCT ?stationName ?lineName
@@ -176,12 +197,13 @@ WHERE {
 # ==========================================
 # Q8: Which stations provide accessibility features such as step-free access?
 # ==========================================
-PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT ?stationName
 WHERE {
-  ?feature :hasName "Step-Free Access"^^xsd:string .
+  ?feature :hasName ?featureTarget .
+  FILTER(STR(?featureTarget) = "Step-Free Access")
   ?station :offersAccessibilityFeature ?feature ;
            :hasName ?stationName .
 }
@@ -189,15 +211,17 @@ WHERE {
 # ==========================================
 # Q9: What fare options are available for travel between two stations, including peak and off-peak pricing?
 # ==========================================
-PREFIX : <urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#>
+PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT DISTINCT ?startName ?endName ?fareCost ?fareType
 WHERE {
-  ?startStation :hasName "Victoria Station"^^xsd:string .
-  ?endStation :hasName "Oxford Circus Station"^^xsd:string .
+  ?startStation :hasName ?startTarget .
+  ?endStation :hasName ?endTarget .
+  FILTER(STR(?startTarget) = "Victoria Station")
+  FILTER(STR(?endTarget) = "Oxford Circus Station")
   
-  ?journey a <http://webprotege.stanford.edu/R8gcQaW839Or2hVYprhpSK8> ;
+  ?journey a :Journey ;
            :startStation ?startStation ;
            :endStation ?endStation ;
            :hasFare ?fare .
@@ -213,3 +237,199 @@ WHERE {
   ?startStation :hasName ?startName .
   ?endStation :hasName ?endName .
 }
+
+# ==========================================
+# Q11: When were major underground lines constructed, and when were their most recent upgrades completed?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?lineName ?openingDate ?upgradeCompletionDate
+WHERE {
+  ?line rdf:type/rdfs:subClassOf* :Line ;
+        :hasName ?lineName ;
+        :openingDate ?openingDate .
+        
+  FILTER(STR(?lineName) = "Jubilee Line")
+        
+  OPTIONAL {
+    ?project a :LineExpansion ;
+             :targetsInfrastructure ?line ;
+             :expectedCompletionDate ?upgradeCompletionDate .
+  }
+}
+
+# ==========================================
+# Q12: Which stations or lines have scheduled maintenance or planned engineering works?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?affectedName ?statusLabel ?disruptionDate
+WHERE {
+  ?disruption rdf:type/rdfs:subClassOf* :PlannedDisruption ;
+              :hasCause ?cause ;
+              :hasStatus ?status ;
+              :disruptionDate ?disruptionDate .
+              
+  ?cause rdf:type/rdfs:subClassOf* :EngineeringWorks .
+  
+  { ?disruption :affectsStop ?affectedEntity . }
+  UNION
+  { ?disruption :affectsRoute ?affectedEntity . }
+  
+  ?affectedEntity :hasName ?affectedName .
+  ?status rdfs:label ?statusLabel .
+}
+
+# ==========================================
+# Q13: What are the typical opening and closing times of a given station or transport service?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?routeName ?openTime ?closeTime ?days
+WHERE {
+  ?route rdf:type/rdfs:subClassOf* :Route ;
+         :hasName ?routeName ;
+         :operationStartTime ?openTime ;
+         :operationEndTime ?closeTime ;
+         :operatingDays ?days .
+         
+  FILTER(STR(?routeName) = "Victoria Line")
+}
+
+# ==========================================
+# Q14: Which lines or stations are currently experiencing delays or service disruptions?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?affectedName ?statusLabel
+WHERE {
+  ?disruption a ?disruptionType ;
+              :hasStatus ?status .
+  
+  { ?disruption :affectsRoute ?affected . }
+  UNION 
+  { ?disruption :affectsStop ?affected . }
+  
+  ?affected :hasName ?affectedName .
+  ?status rdfs:label ?statusLabel .
+}
+
+# ==========================================
+# Q15: What major expansions or extensions have been made to a given underground line over time?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?lineName ?completionDate
+WHERE {
+  ?line rdf:type/rdfs:subClassOf* :Line ;
+        :hasName ?lineName .
+        
+  FILTER(STR(?lineName) = "Northern Line")
+        
+  ?project a :LineExpansion ;
+           :targetsInfrastructure ?line ;
+           :hasProjectStatus :Completed ;
+           :expectedCompletionDate ?completionDate .
+}
+
+# ==========================================
+# Q16: Which stations or lines are expected to undergo future upgrades or expansions?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?targetName ?projectType ?expectedDate
+WHERE {
+  ?project rdf:type/rdfs:subClassOf* :InfrastructureProject ;
+           :hasProjectStatus ?status ;
+           :targetsInfrastructure ?target ;
+           :expectedCompletionDate ?expectedDate .
+           
+  FILTER(?status != :Completed)
+  
+  ?target :hasName ?targetName .
+}
+
+# ==========================================
+# Q17: What are the peak and off-peak travel times for a given station or line?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?lineName ?peakStart ?peakEnd ?offPeakStart ?offPeakEnd
+WHERE {
+  ?line rdf:type/rdfs:subClassOf* :Line ;
+        :hasName ?lineName ;
+        :hasPeakPeriod ?peak ;
+        :hasOffPeakPeriod ?offPeak .
+        
+  FILTER(STR(?lineName) = "Victoria Line")
+        
+  ?peak :startTime ?peakStart ;
+        :endTime ?peakEnd .
+        
+  ?offPeak :startTime ?offPeakStart ;
+           :endTime ?offPeakEnd .
+}
+
+# ==========================================
+# Q18: Which transport services operate 24 hours, and which have limited operating hours?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?routeName (IF(?is24Hr, "24-Hour Service", "Limited Service") AS ?serviceType)
+WHERE {
+  ?route rdf:type/rdfs:subClassOf* :Route ;
+         :hasName ?routeName .
+         
+  OPTIONAL {
+    ?route :hasScheduleType :TwentyFourHourService .
+    BIND(true AS ?is24Hr)
+  }
+}
+
+# ==========================================
+# Q19: Which stations or lines have experienced significant disruptions or strikes in recent years?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?affectedName ?disruptionDate
+WHERE {
+  ?disruption rdf:type/rdfs:subClassOf* :SignificantDisruption ;
+              :hasCause ?cause ;
+              :disruptionDate ?disruptionDate .
+              
+  ?cause rdf:type/rdfs:subClassOf* :IndustrialAction .
+  
+  { ?disruption :affectsRoute ?affected . }
+  UNION
+  { ?disruption :affectsStop ?affected . }
+  
+  ?affected :hasName ?affectedName .
+}
+
+# ==========================================
+# Q20: What are the common causes of service disruptions on TfL lines (e.g., maintenance, strikes, technical faults)?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?causeClass (COUNT(DISTINCT ?disruption) AS ?totalIncidents)
+WHERE {
+  ?disruption rdf:type/rdfs:subClassOf* :ServiceDisruption ;
+              :hasCause ?cause .
+              
+  ?cause a ?causeClass .
+  
+  # Filter generic base classes to get specific fault types
+  FILTER(?causeClass != :DisruptionCause && ?causeClass != owl:NamedIndividual)
+}
+GROUP BY ?causeClass
+ORDER BY DESC(?totalIncidents)
