@@ -7,11 +7,15 @@ from difflib import SequenceMatcher
 from typing import Any, Dict, List, Tuple
 
 from schemas import PipelineState
+from .entity_classification import _is_literal
 
 
-_BASE_NS = "urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#"
+_BASE_NS = "http://example.org/tfl#"
 _XSD_INTEGER = "http://www.w3.org/2001/XMLSchema#integer"
 _XSD_DECIMAL = "http://www.w3.org/2001/XMLSchema#decimal"
+_XSD_DATE = "http://www.w3.org/2001/XMLSchema#date"
+_XSD_DATETIME = "http://www.w3.org/2001/XMLSchema#dateTime"
+_XSD_TIME = "http://www.w3.org/2001/XMLSchema#time"
 
 
 def _slug(value: str) -> str:
@@ -42,16 +46,24 @@ _XSD_BOOLEAN = "http://www.w3.org/2001/XMLSchema#boolean"
 def _literal_value(value: str) -> Tuple[str, str] | None:
     cleaned = value.strip().lower()
     if cleaned in ("true", "false", "yes", "no"):
-        return cleaned, _XSD_BOOLEAN
+        return ("true" if cleaned in ("true", "yes") else "false"), _XSD_BOOLEAN
     if re.fullmatch(r"-?\d+", cleaned):
         return cleaned, _XSD_INTEGER
     if re.fullmatch(r"-?\d+\.\d+", cleaned):
         return cleaned, _XSD_DECIMAL
+    if re.fullmatch(r"\d{4}[-_]\d{2}[-_]\d{2}", cleaned):
+        return value.strip().replace("_", "-"), _XSD_DATE
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}t\d{2}:\d{2}:\d{2}(\.\d+)?z?", cleaned):
+        return value.strip(), _XSD_DATETIME
+    if re.fullmatch(r"\d{2}:\d{2}(:\d{2})?", cleaned):
+        return value.strip(), _XSD_TIME
     if re.fullmatch(r"\d{4}s?", cleaned):
         return value.strip(), _XSD_STRING
     if re.fullmatch(r"(\d{1,2}\s+)?(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{4}", cleaned):
         return value.strip(), _XSD_STRING
     if re.search(r"^\d+\s*(mins?|minutes?|hrs?|hours?|seconds?|secs?)$", cleaned):
+        return value.strip(), _XSD_STRING
+    if re.fullmatch(r"zone\s+\d+(-?\d+)?", cleaned):
         return value.strip(), _XSD_STRING
     return None
 
@@ -63,112 +75,13 @@ _WP = "http://webprotege.stanford.edu/"
 
 
 def _default_predicate_catalog() -> List[Dict[str, str]]:
-    """All predicates defined in the TFL ontology (KE_CW2_Ontology.ttl).
-
-    Priority entries use the EXACT WebProtege UUID IRIs from the base ontology
-    so that SPARQL queries against properties like :hasStop, :hasZone,
-    :servedByLine work correctly. Fuzzy-match fallbacks follow.
-    """
-    return [
-        # ── EXACT UUID IRIs from KE_CW2_Ontology.ttl ────────────────────────
-        # These must come FIRST so fuzzy matching always prefers them.
-        {"label": "has stop",                      "iri": f"{_WP}R5vX3rRQHCFUQRqsCJpU7U"},   # hasStop
-        {"label": "connection line",               "iri": f"{_WP}R7jFYnKUCHBZlrbM3lXqSCf"},  # connectionLine
-        {"label": "has transport mode",            "iri": f"{_WP}R7v2UJSR5VRm9sY5m9mhjoD"},  # hasTransportMode
-        {"label": "has fare",                      "iri": f"{_WP}RBF7bBYX8buEHB8SURG8bAt"},  # hasFare
-        {"label": "offers accessibility feature",  "iri": f"{_WP}RBcEVIqolJplXGnyvK1Sg68"},  # offersAccessibilityFeature
-        {"label": "served by line",               "iri": f"{_WP}RCCYxhe5VfhDbpzKCYZDdJM"},  # servedByLine
-        {"label": "directly connected to",         "iri": f"{_WP}RCMwEsdqyKGYIXWhK3cknWo"},  # directlyConnectedTo
-        {"label": "provides service",              "iri": f"{_WP}RJAwTY1EBQrdbPNMCkPZE0"},   # providesService
-        {"label": "start station",                 "iri": f"{_WP}RObdgWrfvP7lOibVufoCGj"},   # startStation
-        {"label": "end station",                   "iri": f"{_WP}Rhira9cILzBTmJrEsO00c5"},   # endStation
-        # BASE_NS properties
-        {"label": "has zone",                      "iri": f"{_BASE_NS}hasZone"},
-        {"label": "end zone",                      "iri": f"{_BASE_NS}endZone"},
-        {"label": "start zone",                    "iri": f"{_BASE_NS}startZone"},
-        {"label": "belongs to route",              "iri": f"{_BASE_NS}belongsToRoute"},
-        {"label": "sequence stop",                 "iri": f"{_BASE_NS}sequenceStop"},
-        {"label": "has name",                      "iri": f"{_BASE_NS}hasName"},
-        {"label": "zone number",                   "iri": f"{_BASE_NS}zoneNumber"},
-        {"label": "stop sequence number",          "iri": f"{_BASE_NS}stopSequenceNumber"},
-        {"label": "fare cost",                     "iri": f"{_BASE_NS}fareCost"},
-        # ── Fuzzy-match aliases (lower priority) ─────────────────────────────
-        {"label": "serves",                        "iri": f"{_WP}R5vX3rRQHCFUQRqsCJpU7U"},   # → hasStop
-        {"label": "stops at",                      "iri": f"{_WP}R5vX3rRQHCFUQRqsCJpU7U"},   # → hasStop
-        {"label": "connected to",                  "iri": f"{_WP}RCMwEsdqyKGYIXWhK3cknWo"},  # → directlyConnectedTo
-        {"label": "connects",                      "iri": f"{_WP}RCMwEsdqyKGYIXWhK3cknWo"},  # → directlyConnectedTo
-        {"label": "located in zone",               "iri": f"{_BASE_NS}hasZone"},
-        {"label": "located in",                    "iri": f"{_BASE_NS}hasZone"},
-        {"label": "step free access",              "iri": f"{_WP}RBcEVIqolJplXGnyvK1Sg68"},  # → offersAccessibilityFeature
-        {"label": "accessibility",                 "iri": f"{_WP}RBcEVIqolJplXGnyvK1Sg68"},  # → offersAccessibilityFeature
-        {"label": "belongs to line",               "iri": f"{_BASE_NS}belongsToLine"},
-        {"label": "part of",                       "iri": f"{_BASE_NS}belongsToLine"},
-        {"label": "has start station",             "iri": f"{_WP}RObdgWrfvP7lOibVufoCGj"},
-        {"label": "has end station",               "iri": f"{_WP}Rhira9cILzBTmJrEsO00c5"},
-        {"label": "line length",                   "iri": f"{_BASE_NS}lineLength"},
-        {"label": "opened in",                     "iri": f"{_BASE_NS}openedIn"},
-        {"label": "inception",                     "iri": f"{_BASE_NS}openedIn"},
-        {"label": "operated by",                   "iri": f"{_BASE_NS}operatedBy"},
-        {"label": "operates",                      "iri": f"{_BASE_NS}operates"},
-        {"label": "is tfl service",                "iri": f"{_BASE_NS}isTflService"},
-        {"label": "is fare paying",                "iri": f"{_BASE_NS}isFarePaying"},
-        {"label": "is scheduled service",          "iri": f"{_BASE_NS}isScheduledService"},
-        {"label": "has penalty fare",              "iri": f"{_BASE_NS}hasPenaltyFare"},
-        {"label": "has compensation right",        "iri": f"{_BASE_NS}hasCompensationRight"},
-        {"label": "related to",                    "iri": f"{_BASE_NS}relatedTo"},
-    ]
+    """Strictly return nothing here; relying on rag_catalog populated from final_ontology.ttl."""
+    return []
 
 
 def _default_class_catalog() -> List[Dict[str, str]]:
-    """All classes defined in KE_CW2_Ontology.ttl.
-
-    Uses the EXACT WebProtege UUID IRIs for core classes so that individuals
-    generated by the pipeline match what the SPARQL queries expect (e.g.
-    ?station a TrainStation means the class IRI must be the WebProtege UUID).
-    """
-    return [
-        # ── Access points (exact WebProtege UUID IRIs) ───────────────────────
-        {"label": "Train Station",         "iri": f"{_WP}TrainStation"},
-        {"label": "TrainStation",          "iri": f"{_WP}TrainStation"},
-        {"label": "Station",               "iri": f"{_WP}TrainStation"},
-        {"label": "Underground Station",   "iri": f"{_WP}TrainStation"},
-        {"label": "Tube Station",          "iri": f"{_WP}TrainStation"},
-        {"label": "Bus Stop",              "iri": f"{_WP}R9TCSglVMKeAj22qlxYUozU"},
-        {"label": "BusStop",               "iri": f"{_WP}R9TCSglVMKeAj22qlxYUozU"},
-        {"label": "Transit Access Point",  "iri": f"{_BASE_NS}TransitAccessPoint"},
-        {"label": "TransitAccessPoint",    "iri": f"{_BASE_NS}TransitAccessPoint"},
-        {"label": "Interchange Station",   "iri": f"{_BASE_NS}InterchangeStation"},
-        {"label": "InterchangeStation",    "iri": f"{_BASE_NS}InterchangeStation"},
-        {"label": "Interchange",           "iri": f"{_BASE_NS}InterchangeStation"},
-        # ── Network (exact WebProtege UUID IRIs) ─────────────────────────────
-        {"label": "Line",                  "iri": f"{_WP}RDEVnVTugRbS0jlPdGiumAj"},
-        {"label": "Underground Line",      "iri": f"{_WP}RDEVnVTugRbS0jlPdGiumAj"},
-        {"label": "Route",                 "iri": f"{_WP}RIfSnBzsdC7fyIHQcX6Erd"},
-        {"label": "Bus Route",             "iri": f"{_WP}RIfSnBzsdC7fyIHQcX6Erd"},
-        {"label": "RouteStopSequence",     "iri": f"{_BASE_NS}RouteStopSequence"},
-        # ── Fares / zones (exact WebProtege UUID IRIs) ───────────────────────
-        {"label": "Zone",                  "iri": f"{_WP}R7cZlQsX1sMesyLmlHKw2lg"},
-        {"label": "Fare Zone",             "iri": f"{_WP}R7cZlQsX1sMesyLmlHKw2lg"},
-        {"label": "Fare",                  "iri": f"{_WP}RFQBoIMyODKarwW9fBl0aS"},
-        {"label": "Peak Fare",             "iri": f"{_BASE_NS}PeakFare"},
-        {"label": "Off Peak Fare",         "iri": f"{_BASE_NS}OffPeakFare"},
-        # ── Journey (exact WebProtege UUID IRI) ──────────────────────────────
-        {"label": "Journey",               "iri": f"{_WP}R8gcQaW839Or2hVYprhpSK8"},
-        # ── Operations ───────────────────────────────────────────────────────
-        {"label": "Transport Mode",        "iri": f"{_WP}R7mQXjcxy79h9g8J1fC0tjV"},
-        {"label": "TransportMode",         "iri": f"{_WP}R7mQXjcxy79h9g8J1fC0tjV"},
-        # ── Accessibility ─────────────────────────────────────────────────────
-        {"label": "Accessibility Feature", "iri": f"{_WP}R8suZp8urh3QUp7Gjq7I9vS"},
-        {"label": "AccessibilityFeature",  "iri": f"{_WP}R8suZp8urh3QUp7Gjq7I9vS"},
-        {"label": "Step Free Access",      "iri": f"{_WP}R8suZp8urh3QUp7Gjq7I9vS"},
-        # ── Passenger rights ──────────────────────────────────────────────────
-        {"label": "Ticket",                "iri": f"{_BASE_NS}Ticket"},
-        {"label": "Passenger Right",       "iri": f"{_BASE_NS}PassengerRight"},
-        {"label": "Regulation",            "iri": f"{_BASE_NS}Regulation"},
-        # ── Fallback ──────────────────────────────────────────────────────────
-        {"label": "TransportEntity",       "iri": f"{_BASE_NS}TransitAccessPoint"},
-        {"label": "Service",               "iri": f"{_WP}RDEVnVTugRbS0jlPdGiumAj"},
-    ]
+    """Strictly return nothing here; relying on rag_catalog populated from final_ontology.ttl."""
+    return []
 
 
 def run_schema_mapping(state: PipelineState) -> PipelineState:
@@ -188,44 +101,49 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
             entity_set.add(t.object)
     entity_labels = sorted(entity_set)
 
+    # Pre-map labels to IRIs and property types
+    label_to_iri: Dict[str, str] = {}
+    datatype_preds: Set[str] = set()
+    for entry in rag_catalog.get("classes", []) + rag_catalog.get("predicates", []):
+        if "label" in entry and "iri" in entry:
+            label_to_iri[entry["label"]] = entry["iri"]
+            if entry.get("property_type") == "datatype_property":
+                datatype_preds.add(entry["iri"])
+    
+    # Also check individuals in Redis/Catalog if possible, or just use the fuzzy matcher
     node_map: Dict[str, Dict[str, Any]] = {}
     for idx, label in enumerate(entity_labels, start=1):
         cat = entity_catalog.get(label, {})
-        kind = cat.get("kind", "individual")
         display_label = cat.get("label", label)
         comment = cat.get("comment", "")
 
-        if kind == "class":
-            # Entity IS the class — IRI doubles as both instance and class IRI
-            class_iri = f"{_BASE_NS}{_slug(label)}"
-            node_map[label] = {
-                "id": f"ent_{idx}",
-                "label": display_label,
-                "comment": comment,
-                "iri": class_iri,
-                "class_iri": class_iri,
-                "class_label": display_label,
-                "is_class": True,
-            }
+        # 1. Attempt to find the EXACT IRI from the ontology catalog
+        existing_iri = label_to_iri.get(label)
+        
+        # 2. Match to a class
+        class_match, class_score = _best_match(label, class_catalog)
+        if class_match and class_score >= 0.6:
+            class_iri = class_match["iri"]
+            class_label = class_match["label"]
         else:
-            # Individual — fuzzy-match to a class from the catalog
-            class_match, class_score = _best_match(label, class_catalog)
-            if class_match and class_score >= 0.6:
-                class_iri = class_match["iri"]
-                class_label = class_match["label"]
-            else:
-                class_iri = f"{_BASE_NS}TransportEntity"
-                class_label = "TransportEntity"
+            class_iri = f"{_BASE_NS}TransitAccessPoint"
+            class_label = "TransitAccessPoint"
 
-            node_map[label] = {
-                "id": f"ent_{idx}",
-                "label": display_label,
-                "comment": comment,
-                "iri": f"{_BASE_NS}{_slug(label)}",
-                "class_iri": class_iri,
-                "class_label": class_label,
-                "is_class": False,
-            }
+        # 3. Handle Datatype Properties (Force Literal)
+        is_literal = _is_literal(label)
+        if existing_iri in datatype_preds:
+            is_literal = True
+
+        node_map[label] = {
+            "id": f"ent_{idx}",
+            "label": display_label,
+            "comment": comment,
+            "iri": existing_iri if existing_iri else f"{_BASE_NS}{_slug(label)}",
+            "class_iri": class_iri,
+            "class_label": class_label,
+            "is_class": False,
+            "is_literal": is_literal,
+        }
 
     edges: List[Dict[str, Any]] = []
     unmapped_predicates: List[str] = []
@@ -251,13 +169,40 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
             "provenance_sentence": t.provenance_sentence,
         }
 
-        if obj_literal is not None:
+        # Strict Enforcement: Follow the catalog's property_type if available
+        catalog_entry = catalog_preds.get(pred_iri, {})
+        pred_type = catalog_entry.get("property_type")
+
+        if pred_type == "datatype_property":
+            # Must be a literal
+            if obj_literal is None:
+                # If we have an IRI but need a literal, take the IRI's label or the raw text
+                obj_literal = (t.object, _XSD_STRING)
             edge["object_literal"] = obj_literal[0]
             edge["object_datatype"] = obj_literal[1]
-            edge["predicate_kind"] = "datatype_property"  # FORCE DATATYPE OVERRIDE
-        else:
+            edge["predicate_kind"] = "datatype_property"
+        
+        elif pred_type == "object_property":
+            # Must be an IRI
             edge["object_id"] = node_map[t.object]["id"]
-            edge["object_iri"] = node_map[t.object]["iri"]
+            edge["object_iri"] = obj_iri
+            edge["predicate_kind"] = "object_property"
+            # Clear any literal info if it was mistakenly set
+            edge.pop("object_literal", None)
+            edge.pop("object_datatype", None)
+            
+        else:
+            # Unmapped property - use heuristic
+            if obj_literal is not None or _is_literal(t.object):
+                if obj_literal is None:
+                    obj_literal = (t.object, _XSD_STRING)
+                edge["object_literal"] = obj_literal[0]
+                edge["object_datatype"] = obj_literal[1]
+                edge["predicate_kind"] = "datatype_property"
+            else:
+                edge["object_id"] = node_map[t.object]["id"]
+                edge["object_iri"] = obj_iri
+                edge["predicate_kind"] = "object_property"
 
         edges.append(edge)
 

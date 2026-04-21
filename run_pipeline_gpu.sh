@@ -86,32 +86,48 @@ until docker exec ollama ollama list > /dev/null 2>&1; do
 done
 echo " up."
 
-# ── 6. Pull models ────────────────────────────────────────────────────────────
+# ── 6. Pull models from .env ──────────────────────────────────────────────────
 echo ""
-echo "[2/4] Checking Ollama models …"
+echo "[2/4] Syncing Ollama models with .env …"
+
+# Extract model names from .env
+ENTITY_MODEL=$(grep OLLAMA_ENTITY_MODEL .env | cut -d'=' -f2 | tr -d '\r')
+EMBED_MODEL=$(grep OLLAMA_EMBED_MODEL .env | cut -d'=' -f2 | tr -d '\r')
+
 MODEL_LIST=$(docker exec ollama ollama list 2>&1 || true)
 
-# Update these models to match what is defined in your .env file
-for MODEL in "mxbai-embed-large" "qwen2.5:3b"; do
-    if ! echo "$MODEL_LIST" | grep -q "${MODEL%%:*}"; then
-        echo "  Pulling $MODEL …"
-        docker exec ollama ollama pull "$MODEL"
-    else
-        echo "  $MODEL already cached."
+for MODEL in "$ENTITY_MODEL" "$EMBED_MODEL"; do
+    if [ -n "$MODEL" ]; then
+        # Use awk to get the first column (NAME) and grep -x for exact match
+        if ! echo "$MODEL_LIST" | awk '{print $1}' | grep -qx "$MODEL"; then
+            echo "  Pulling $MODEL …"
+            docker exec ollama ollama pull "$MODEL"
+        else
+            echo "  $MODEL already cached."
+        fi
     fi
 done
 
-# ── 7. Ingest ontology ────────────────────────────────────────────────────────
+# ── 7. Prepare Schema ─────────────────────────────────────────────────────────
 echo ""
-echo "[3/4] Ingesting OWL/TTL ontology …"
-# GPU is passed via NVIDIA_VISIBLE_DEVICES env var in docker-compose.gpu.yml
-# (docker compose run does not accept --gpus directly).
+echo "[3/4] Preparing ontology schema …"
+if [ -f "final_ontology.ttl" ]; then
+    mkdir -p inputs
+    cp "final_ontology.ttl" "inputs/final_ontology.ttl"
+    echo "  Synced final_ontology.ttl to inputs/ for ingestion."
+else
+    echo "  WARNING: final_ontology.ttl not found in root. Schema enforcement may be limited."
+fi
+
+# ── 8. Run Ingestion ──────────────────────────────────────────────────────────
+echo ""
+echo "[4/4] Starting pipeline ingestion (OWL/TTL → Redis) …"
 docker compose $COMPOSE_FILES run --rm llm-pipeline \
     python ingest_owl.py \
     --inputs-dir /app/inputs \
     --output-dir /app/outputs
 
-# ── 8. Run pipeline over all data sources ────────────────────────────────────
+# ── 9. Run pipeline over all data sources ────────────────────────────────────
 echo ""
 echo "[4/4] Running pipeline over all data sources (Structured + Unstructured) …"
 docker compose $COMPOSE_FILES run --rm llm-pipeline \

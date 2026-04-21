@@ -150,14 +150,14 @@ def _extract(g: rdflib.Graph) -> Tuple[List[Dict], List[Dict]]:
         if not isinstance(uri, rdflib.URIRef):
             continue
         lbl = _label(g, uri)
-        relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl)}
+        relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "property_type": "object_property"}
 
     # Datatype properties
     for uri in g.subjects(RDF.type, OWL.DatatypeProperty):
         if not isinstance(uri, rdflib.URIRef):
             continue
         lbl = _label(g, uri)
-        relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl)}
+        relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "property_type": "datatype_property"}
 
     return list(entities.values()), list(relations.values())
 
@@ -195,9 +195,17 @@ def _merge_catalog(catalog: Dict, entities: List[Dict], relations: List[Dict]) -
             new_classes += 1
 
     new_preds = 0
+    pred_index = {p["iri"]: i for i, p in enumerate(catalog.setdefault("predicates", []))}
     for r in relations:
-        if r["iri"] not in existing_pred_iris:
-            catalog.setdefault("predicates", []).append({"label": r["label"], "iri": r["iri"]})
+        entry = {
+            "label": r["label"],
+            "iri": r["iri"],
+            "property_type": r.get("property_type", "object_property")
+        }
+        if r["iri"] in pred_index:
+            catalog["predicates"][pred_index[r["iri"]]] = entry
+        else:
+            catalog["predicates"].append(entry)
             new_preds += 1
 
     return new_classes, new_preds

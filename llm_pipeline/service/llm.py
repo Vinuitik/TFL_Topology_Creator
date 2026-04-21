@@ -85,6 +85,8 @@ def call_llm(state_name: str, params: str, model: str | None = None) -> Any:
             elapsed = time.monotonic() - t0
             log.info("LLM ← state=%s attempt=%d status=%d elapsed=%.1fs",
                      state_name, attempt, response.status_code, elapsed)
+            if response.status_code != 200:
+                log.error("Ollama error response: %s", response.text)
             response.raise_for_status()
             raw = response.json().get("response", "")
             log.debug("LLM raw response: %r", raw)
