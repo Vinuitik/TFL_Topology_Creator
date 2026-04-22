@@ -43,12 +43,27 @@ def run_ontology_construction(state: PipelineState) -> PipelineState:
 
     triples: List[Dict[str, Any]] = []
 
+<<<<<<< HEAD
     # --- Ontology header ---
     _ONTOLOGY_IRI = "http://example.org/tfl/extracted"
     _OWL_IMPORTS = "http://www.w3.org/2002/07/owl#imports"
     _BASE_ONTOLOGY = "http://example.org/tfl"
     _add(triples, _ONTOLOGY_IRI, _RDF_TYPE, "http://www.w3.org/2002/07/owl#Ontology")
     _add(triples, _ONTOLOGY_IRI, _OWL_IMPORTS, _BASE_ONTOLOGY)
+=======
+    # --- Classes ---
+    seen_classes: set = set()
+    for node in nodes:
+        class_iri = node["class_iri"]
+        if class_iri in seen_classes:
+            continue
+        seen_classes.add(class_iri)
+        _add(triples, class_iri, _RDF_TYPE, _OWL_CLASS)
+        _add(triples, class_iri, _RDFS_LABEL, node.get("class_label", ""), is_literal=True)
+        # If the node itself IS the class, emit its comment too
+        if node.get("is_class") and node.get("comment"):
+            _add(triples, class_iri, _RDFS_COMMENT, node["comment"], is_literal=True)
+>>>>>>> reasoning-ontology-pipeline-v2
 
     # --- Individuals ---
     for node in nodes:
@@ -75,7 +90,7 @@ def run_ontology_construction(state: PipelineState) -> PipelineState:
                 datatype=edge.get("object_datatype", ""),
             )
 
-        stmt_iri = f"http://example.org/pt#stmt_{idx}"
+        stmt_iri = f"http://example.org/pt#stmt/{idx}"
         if edge.get("provenance_sentence"):
             _add(triples, stmt_iri, _PROV_FROM_TEXT, edge["provenance_sentence"], is_literal=True)
 

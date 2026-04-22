@@ -118,7 +118,7 @@ def _embed(text: str) -> List[float]:
 
 
 def _extract(g: rdflib.Graph) -> Tuple[List[Dict], List[Dict]]:
-    """Return (entities, relations) as lists of {label, iri, context_str}."""
+    """Return (entities, relations) as lists of {label, iri, context_str, kind}."""
     entities: Dict[str, Dict] = {}
     relations: Dict[str, Dict] = {}
 
@@ -127,14 +127,14 @@ def _extract(g: rdflib.Graph) -> Tuple[List[Dict], List[Dict]]:
         if not isinstance(uri, rdflib.URIRef):
             continue
         lbl = _label(g, uri)
-        entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl)}
+        entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "kind": "entities_class"}
 
-    # Named individuals + instances of extracted classes
+    # Named individuals
     for uri in g.subjects(RDF.type, OWL.NamedIndividual):
         if not isinstance(uri, rdflib.URIRef):
             continue
         lbl = _label(g, uri)
-        entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl)}
+        entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "kind": "entities_individual"}
 
     # Also catch rdf:type triples pointing to known classes
     known_class_iris = {e["iri"] for e in entities.values()}
@@ -143,21 +143,29 @@ def _extract(g: rdflib.Graph) -> Tuple[List[Dict], List[Dict]]:
             continue
         if str(cls) in known_class_iris and str(uri) not in {e["iri"] for e in entities.values()}:
             lbl = _label(g, uri)
-            entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl)}
+            entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "kind": "entities_individual"}
 
     # Object properties
     for uri in g.subjects(RDF.type, OWL.ObjectProperty):
         if not isinstance(uri, rdflib.URIRef):
             continue
         lbl = _label(g, uri)
+<<<<<<< HEAD
         relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "property_type": "object_property"}
+=======
+        relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "kind": "relations_object"}
+>>>>>>> reasoning-ontology-pipeline-v2
 
     # Datatype properties
     for uri in g.subjects(RDF.type, OWL.DatatypeProperty):
         if not isinstance(uri, rdflib.URIRef):
             continue
         lbl = _label(g, uri)
+<<<<<<< HEAD
         relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "property_type": "datatype_property"}
+=======
+        relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "kind": "relations_data"}
+>>>>>>> reasoning-ontology-pipeline-v2
 
     return list(entities.values()), list(relations.values())
 
@@ -179,6 +187,13 @@ def _write_to_redis(r: redis_lib.Redis, category: str, items: List[Dict]) -> int
         lbl = item["label"]
         vec = _embed(descriptions[lbl])
         r.set(f"{category}:emb:{lbl}", json.dumps(vec))
+
+        # Write canonical key using the OWL-typed sub-category so entity_linking
+        # treats this as already-resolved and never renames original ontology names.
+        kind = item.get("kind", category)
+        r.set(f"{kind}:canonical:{lbl}", lbl)
+        log.info("[%s] canonical protected: '%s'", kind, lbl)
+
         written += 1
 
     return written

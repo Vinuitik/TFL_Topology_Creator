@@ -1,0 +1,26 @@
+For each numbered name, write ONE short phrase (max 10 words) describing what it is in a public transport context.
+
+Rules:
+- One description per name. Never output a list for a single name.
+- Max 10 words per description. Be brief.
+- Output ONLY the JSON below. No explanation, no extra text.
+
+Response format:
+{"descriptions": ["phrase for 1", "phrase for 2", "phrase for 3"]}
+
+--- EXAMPLE ---
+
+Input:
+1. "Transport for London"
+2. "Northern line"
+3. "openedIn"
+4. "London Borough of Sutton"
+
+Output:
+{"descriptions": ["public body operating London transport", "London Underground line running south to north", "property indicating when an entity opened", "borough in south London"]}
+
+--- END OF EXAMPLE ---
+
+Now describe the following. Output ONLY the JSON.
+
+Input:

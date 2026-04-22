@@ -523,4 +523,9 @@ local:TransitAccessPoint a owl:Class ;
         geo1:SpatialThing ;
     owl:equivalentClass gtfs:Stop .
 
+<<<<<<< HEAD
+=======
+[] a owl:AllDisjointClasses ;
+    owl:members ( local:TransitAccessPoint local:Zone local:TransportMode local:Journey local:AccessibilityFeature local:Fare local:Route local:RouteStopSequence local:ServiceDisruption local:DisruptionCause local:DisruptionStatus local:ServiceSchedule local:TimeWindow local:InfrastructureProject local:ProjectStatus ) .
+>>>>>>> reasoning-ontology-pipeline-v2
 

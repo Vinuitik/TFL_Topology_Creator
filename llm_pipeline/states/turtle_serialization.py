@@ -9,23 +9,19 @@ from rdflib.namespace import OWL, RDF, RDFS, XSD
 
 from schemas import PipelineState
 
-_TFL = Namespace("urn:webprotege:ontology:c73d2ce1-09f8-451b-b6fd-d3ba1ee14c49#")
+_PT = Namespace("http://example.org/pt#")
 _PROV = Namespace("http://www.w3.org/ns/prov#")
-_GTFS = Namespace("http://vocab.gtfs.org/terms#")
-_SCHEMA = Namespace("https://schema.org/")
 
 
 def build_rdf_graph(triples: List[Dict[str, Any]]) -> Graph:
     """Shared helper: convert a list of triple dicts into a bound rdflib Graph."""
     graph = Graph()
-    graph.bind("tfl", _TFL)
+    graph.bind("pt", _PT)
     graph.bind("owl", OWL)
     graph.bind("rdf", RDF)
     graph.bind("rdfs", RDFS)
     graph.bind("xsd", XSD)
     graph.bind("prov", _PROV)
-    graph.bind("gtfs", _GTFS)
-    graph.bind("schema", _SCHEMA)
 
     for t in triples:
         s = t.get("subject", "")

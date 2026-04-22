@@ -65,6 +65,7 @@ services:
               capabilities: [gpu]
     environment:
       OLLAMA_HOST: "0.0.0.0:11434"
+      OLLAMA_MAX_LOADED_MODELS: "2"
       OLLAMA_NUM_PARALLEL: "5"
       OLLAMA_MAX_QUEUE: "50"
     ports:
