@@ -7,6 +7,20 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<http://example.org/tfl> a owl:Ontology .
+
+# External Property Declarations (for equivalence axioms)
+schema1:startTime a owl:DatatypeProperty .
+schema1:endTime a owl:DatatypeProperty .
+schema1:endDate a owl:DatatypeProperty .
+gtfs:stop a owl:ObjectProperty .
+gtfs:zone a owl:ObjectProperty .
+gtfs:stopSequence a owl:DatatypeProperty .
+dbo:openingDate a owl:DatatypeProperty .
+geo1:lat a owl:DatatypeProperty .
+geo1:long a owl:DatatypeProperty .
 
 local:BusRoute a owl:Class ;
     rdfs:label "Bus Route" ;
@@ -520,6 +534,4 @@ local:TransitAccessPoint a owl:Class ;
         geo1:SpatialThing ;
     owl:equivalentClass gtfs:Stop .
 
-[] a owl:AllDisjointClasses ;
-    owl:members ( local:TransitAccessPoint local:Zone local:TransportMode local:Journey local:AccessibilityFeature local:Fare local:Route local:RouteStopSequence local:ServiceDisruption local:DisruptionCause local:DisruptionStatus local:ServiceSchedule local:TimeWindow local:InfrastructureProject local:ProjectStatus ) .
 

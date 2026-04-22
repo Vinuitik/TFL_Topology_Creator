@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends g++ && rm -rf /
 COPY llm_pipeline/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt && \
     python -m spacy download en_core_web_lg
+RUN pip install --no-cache-dir torch>=2.2.0 --index-url https://download.pytorch.org/whl/cu118 
 
 # Generate gRPC client stubs from the coref service proto
 RUN pip install --no-cache-dir grpcio-tools>=1.60.0
