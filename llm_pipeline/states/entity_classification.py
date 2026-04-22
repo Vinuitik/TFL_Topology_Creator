@@ -416,7 +416,8 @@ def run_entity_classification(state: PipelineState) -> PipelineState:
             t_last = _progress("relations", batch_idx, total_r, t_last)
 
     # Step 3: annotate only newly classified items
-    new_names = set(entities_to_classify) | set(relations_to_classify)
+    entities_to_classify_set = set(entities_to_classify)
+    new_names = entities_to_classify_set | set(relations_to_classify)
     items_to_annotate = [{"name": n, "kind": catalog[n]["kind"]} for n in sorted(new_names) if n in catalog]
     total_a = max(1, (len(items_to_annotate) + _BATCH - 1) // _BATCH)
     t_last = time.monotonic()
@@ -427,7 +428,7 @@ def run_entity_classification(state: PipelineState) -> PipelineState:
             name = item["name"]
             catalog[name]["label"] = r.get("label", name) or name
             catalog[name]["comment"] = r.get("comment", "") or ""
-            cat = "entities" if name in set(entities_to_classify) else "relations"
+            cat = "entities" if name in entities_to_classify_set else "relations"
             _persist_annotation(cat, name, catalog[name])
         if batch_idx % max(1, total_a // 4) == 0 or batch_idx == total_a:
             t_last = _progress("annotate", batch_idx, total_a, t_last)

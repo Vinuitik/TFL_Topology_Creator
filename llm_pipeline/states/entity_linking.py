@@ -394,6 +394,7 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
                 embeds[name] = json.loads(cached)
             except json.JSONDecodeError:
                 pass
+    if needs_emb:
         log.info("[%s] embed done — %d embedded in %.1fs", category, len(needs_emb), time.monotonic() - t_emb)
     log.info("[%s] step 2 done — %d embeddings (%d newly embedded)", category, len(embeds), len(needs_emb))
 
