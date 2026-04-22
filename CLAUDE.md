@@ -7,7 +7,7 @@
 ## Project: KG2 — Knowledge Graph Pipeline
 
 ### What it does
-Extracts a knowledge graph (OWL/Turtle) from unstructured `.txt` files via a LangGraph pipeline.
+Extracts a knowledge graph (OWL/Turtle) from both unstructured `.txt` files and structured TfL API JSON/TSV files via a LangGraph pipeline. Pipeline has been successfully run end-to-end; `outputs/final.ttl` (~10k lines) and `outputs/final.owl` exist. Reasoner completed without errors.
 
 ### Stack
 - **LangGraph** state machine (`llm_pipeline/agent.py`)
@@ -72,8 +72,8 @@ Large inputs (`> CHUNK_MAX_WORDS`, default 600) are split on sentence boundaries
 - **Per-stage timing**: every LangGraph node wrapped with `@timed_node`; elapsed in `run_summary.json`
 
 ### Entry points
-- `run_pipeline.ps1` — Docker full run; reads `OLLAMA_ENTITY_MODEL` from `.env`
-- `run_tests.ps1` — pytest against `.venv` locally
+- `run_pipeline.ps1` — Docker full run (Windows)
+- `run_pipeline_gpu.sh` — Docker full run (Linux/Kishan's setup); GPU-aware, flushes Redis, `--build` on both compose run calls
 - `run_eval.ps1` — SPARQL tool-use eval against `outputs/final.ttl`
 - `llm_pipeline/agent.py` — batch runner
 - `llm_pipeline/ingest_owl.py` — seeds Redis + `rag_catalog.json` from `inputs/*.owl|ttl|rdf`
@@ -82,20 +82,51 @@ Large inputs (`> CHUNK_MAX_WORDS`, default 600) are split on sentence boundaries
 Drop `.owl`, `.ttl`, `.rdf` into `inputs/` — parsed by `ingest_owl.py`, entities embedded, written to Redis, merged into `rag_catalog.json`. Their `kind` field drives the canonical key namespace.
 
 ### Outputs
-- `outputs/runs/{idx}_{stem}.json` — per-file full pipeline state
+- `outputs/runs/{stem}.json` — per-file full pipeline state (no idx prefix; cache-robust)
 - `outputs/final.owl` / `outputs/final.ttl` — merged knowledge graph
 - `outputs/run_summary.json` — timestamps, triple counts, timings, cache hits
 - `outputs/rag_catalog.json` — accumulated class/predicate IRI catalog
 - `outputs/file_hashes.json` — SHA-256 cache index
 - `outputs/eval_results.json` — SPARQL eval results
 
+### Redis cache restore (added 2026-04-23)
+On startup, `run_pipeline*.sh/ps1` flushes Redis then runs `ingest_owl.py`. For each cached file (hash hit), `agent.py` calls `_restore_redis_from_cache()` before processing the next file — writes back `{category}:canonical:*`, `{category}:annotation:*`, `{category}:desc:*` from the saved `entity_catalog` in the run JSON. This preserves cross-file entity linking quality without storing embeddings (regenerated on demand).
+
+### Structured pipeline (Kishan's, merged in)
+`structured_ingestion` — reads TfL API JSON/TSV, deterministically converts to triplets (camelCase keys → predicate labels, name/id fields → subjects). Skips input_ingestion → coreference → REBEL entirely. Joins shared pipeline at entity_classification. Activated by pattern `*.json` in agent.py args.
+
+### Known bugs fixed
+- `UnicodeEncodeError '\udce7'` — lone surrogates from LLM output crashing Redis writes and LangGraph state serialization. Fixed in `agent.py` (input sanitize) and `entity_classification.py` (desc sanitize before Redis SET).
+
 ### Test state (as of 2026-04-22)
 - `llm_pipeline/tests/test_pipeline.py` — 20 unit tests, all passing
 - Tests are **pure/offline only** (no network, no model calls, no Redis)
 
 ### Current branch
-`reasoning-ontology-pipeline-v2`
+`reasoning-ontology-pipeline-v2` (merged with `reasoning-ontology-pipeline-kp`)
 
-### Pending work
-- Post-classification filter: when `ALLOW_NEW_ENTITIES=false`, demote new classes in `entity_catalog` before entity_linking runs (currently filtered only at schema_mapping time)
-- Literal handling: demoted classes retain their datatype property assertions via individual fuzzy-match to known classes
+### Next session goals
+**Primary:** Write a post-processing script that deduplicates and cleans the already-generated `outputs/final.ttl` — without re-running extraction (too slow). Goal is to make the SPARQL queries in `Ontology/Sparql_queries.txt` return meaningful results.
+
+**What the script should do (outline, not yet implemented):**
+- Load `final.ttl` via rdflib
+- Further deduplicate individuals/classes that entity_linking missed (fuzzy string match + embedding cosine on labels)
+- Merge duplicate IRIs → pick canonical, rewrite all triples pointing to aliases
+- Clean up empty labels, orphaned individuals, broken type assertions
+- Re-run reasoning on the cleaned graph
+- Serialize back to `outputs/final_clean.ttl`
+
+**Tools available:**
+- rdflib (already in requirements) — load, query, mutate, serialize
+- Redis (has embeddings from the run) — can reuse for cosine dedup without re-embedding
+- `outputs/runs/*.json` — per-file entity_catalog; source of truth for what was classified
+- `Ontology/Sparql_queries.txt` — the queries that need to pass; use as acceptance criteria
+
+### final.ttl analysis (TODO next session)
+`outputs/final.ttl` is ~10k lines. Useful grep patterns to work through it:
+- `grep -c "^<\|^ *<" final.ttl` — count subject blocks
+- `grep "rdf:type owl:Class" final.ttl` — all emitted classes
+- `grep "rdf:type owl:NamedIndividual" final.ttl` — all individuals
+- `grep "rdf:type owl:ObjectProperty\|rdf:type owl:DatatypeProperty" final.ttl` — all properties
+- `grep "prov:value" final.ttl | wc -l` — provenance triple count
+- `grep -v "^@\|^$\|prov:value\|rdfs:comment" final.ttl | wc -l` — substantive triple estimate
