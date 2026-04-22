@@ -1,0 +1,23 @@
+For each numbered name, write a short one-sentence description of what it likely refers to in a public transport or urban geography context.
+
+Response format — exactly this JSON, no explanation:
+{"descriptions": ["description for name 1", "description for name 2", ...]}
+
+One description per numbered input, in the same order. If a name is unclear or garbled, write "unknown entity".
+
+--- EXAMPLE ---
+
+Input:
+1. "Transport for London"
+2. "Northern line"
+3. "London Borough of Sutton"
+4. "openedIn"
+
+Output:
+{"descriptions": ["The public body responsible for operating London's transport network.", "A London Underground line running from Morden in the south to Edgware, Mill Hill East, or High Barnet in the north.", "A borough in south London within the Greater London administrative area.", "A property indicating the year or date an entity was opened."]}
+
+--- END OF EXAMPLE ---
+
+Now describe the following. Output ONLY the JSON.
+
+Input:

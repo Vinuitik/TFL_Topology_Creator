@@ -43,6 +43,13 @@ def run_ontology_construction(state: PipelineState) -> PipelineState:
 
     triples: List[Dict[str, Any]] = []
 
+    # --- Ontology header ---
+    _ONTOLOGY_IRI = "http://example.org/tfl/extracted"
+    _OWL_IMPORTS = "http://www.w3.org/2002/07/owl#imports"
+    _BASE_ONTOLOGY = "http://example.org/tfl"
+    _add(triples, _ONTOLOGY_IRI, _RDF_TYPE, "http://www.w3.org/2002/07/owl#Ontology")
+    _add(triples, _ONTOLOGY_IRI, _OWL_IMPORTS, _BASE_ONTOLOGY)
+
     # --- Classes ---
     seen_classes: set = set()
     for node in nodes:

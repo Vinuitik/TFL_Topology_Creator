@@ -1,7 +1,7 @@
 .mcp-debug-tools/
 .venv/
+venv/
 __pycache__/
 .claude
 .hf_cache
-
-outputs/*
+outputs/

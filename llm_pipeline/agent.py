@@ -7,11 +7,12 @@ import logging
 import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Tuple
+from typing import Any, Dict, List, Tuple
 
 import redis as redis_lib
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s %(message)s")
+log = logging.getLogger(__name__)
 
 from pydantic import BaseModel
 from langgraph.graph import END, StateGraph
@@ -28,6 +29,7 @@ from states import (
     # run_preprocessing,
     run_reasoning,
     run_schema_mapping,
+    # run_structured_ingestion,
     run_text_normalization,
     run_turtle_serialization,
     run_validation,
@@ -35,6 +37,7 @@ from states import (
 
 
 def build_graph() -> Any:
+    """Unstructured pipeline: text → coref → REBEL → entity_classification → entity_linking → … → TTL"""
     graph = StateGraph(PipelineState)
 
     graph.add_node("input_ingestion", run_input_ingestion)
@@ -57,9 +60,9 @@ def build_graph() -> Any:
     graph.add_edge("input_ingestion", "text_normalization")
     graph.add_edge("text_normalization", "coreference_resolution")
     graph.add_edge("coreference_resolution", "extraction")
-    graph.add_edge("extraction", "entity_linking")
-    graph.add_edge("entity_linking", "entity_classification")
-    graph.add_edge("entity_classification", "schema_mapping")
+    graph.add_edge("extraction", "entity_classification")
+    graph.add_edge("entity_classification", "entity_linking")
+    graph.add_edge("entity_linking", "schema_mapping")
     graph.add_edge("schema_mapping", "ontology_construction")
     graph.add_edge("ontology_construction", "reasoning")
     graph.add_edge("reasoning", "validation")
@@ -80,11 +83,17 @@ def build_graph() -> Any:
     return graph.compile()
 
 
+# def build_structured_graph() -> Any:
+#     """Structured pipeline — requires run_structured_ingestion (not currently available)."""
+#     pass
+
+
 def run_pipeline(
     raw_text: str,
     metadata: Dict[str, str] | None = None,
     rag_catalog: Dict[str, Any] | None = None,
 ) -> PipelineState:
+    """Run the unstructured pipeline (REBEL-based extraction)."""
     app = build_graph()
     initial_state: PipelineState = {
         "document": Document(raw_text=raw_text, metadata=metadata or {}),
@@ -96,9 +105,21 @@ def run_pipeline(
     return result
 
 
+# def run_structured_pipeline(...):
+#     """Requires build_structured_graph — not currently available."""
+#     pass
+
+
+
+def _clean_str(s: str) -> str:
+    return s.encode("utf-8", errors="ignore").decode("utf-8")
+
+
 def _jsonable(value: Any) -> Any:
+    if isinstance(value, str):
+        return _clean_str(value)
     if isinstance(value, BaseModel):
-        return value.model_dump()
+        return _jsonable(value.model_dump())
     if isinstance(value, dict):
         return {k: _jsonable(v) for k, v in value.items()}
     if isinstance(value, (list, tuple)):
@@ -155,6 +176,42 @@ def _update_catalog(catalog: Dict[str, Any], result: Dict[str, Any]) -> Dict[str
     return catalog
 
 
+_KIND_TO_CATEGORY = {
+    "class": "entities_class",
+    "individual": "entities_individual",
+    "object_property": "relations_object",
+    "datatype_property": "relations_data",
+}
+
+
+def _restore_redis_from_cache(result_json: Dict[str, Any], r: redis_lib.Redis) -> int:
+    """Write canonical, annotation, and description keys back to Redis from a cached run JSON.
+
+    Restores entity_catalog entries for all four OWL kinds so that entity_linking
+    on subsequent (uncached) files sees the same known-canonical universe as a full run.
+    Embeddings are not stored in the run JSON and will be regenerated on demand.
+    """
+    entity_catalog = result_json.get("entity_catalog", {})
+    if not entity_catalog:
+        return 0
+    pipe = r.pipeline(transaction=False)
+    restored = 0
+    for name, entry in entity_catalog.items():
+        if not isinstance(entry, dict):
+            continue
+        kind = entry.get("kind", "individual")
+        category = _KIND_TO_CATEGORY.get(kind, "entities_individual")
+        pipe.set(f"{category}:canonical:{name}", name)
+        annotation = {k: entry[k] for k in ("kind", "label", "comment", "symmetric", "transitive", "functional") if k in entry}
+        pipe.set(f"{category}:annotation:{name}", json.dumps(annotation))
+        comment = entry.get("comment", "")
+        if comment:
+            pipe.set(f"{category}:desc:{name}", comment)
+        restored += 1
+    pipe.execute()
+    return restored
+
+
 def _flush_annotation_cache() -> None:
     """Delete all *:annotation:* Redis keys so entity_classification always re-runs LLM calls."""
     r = redis_lib.from_url(os.getenv("REDIS_URL", "redis://redis:6379"), decode_responses=True)
@@ -175,7 +232,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Run KG pipeline across unstructured files.")
     parser.add_argument("--data-dir", default="../data_sources")
-    parser.add_argument("--pattern", default="Unstructured-*.txt")
+    parser.add_argument("--pattern", default="*.txt,*.json")
     parser.add_argument("--output-dir", default="../outputs")
     args = parser.parse_args()
 
@@ -184,9 +241,19 @@ if __name__ == "__main__":
     runs_dir = output_dir / "runs"
     rag_path = output_dir / "rag_catalog.json"
 
-    files = sorted(data_dir.glob(args.pattern))
+    patterns = [p.strip() for p in args.pattern.split(",") if p.strip()]
+    files: List[Path] = []
+    seen: set = set()
+    for pat in patterns:
+        for f in sorted(data_dir.glob(pat)):
+            if f not in seen:
+                seen.add(f)
+                files.append(f)
+    files.sort()
     if not files:
         raise FileNotFoundError(f"No files matching '{args.pattern}' in {data_dir}")
+
+    redis_client = redis_lib.from_url(os.getenv("REDIS_URL", "redis://redis:6379"), decode_responses=True)
 
     # Flush annotation cache so entity_classification always runs fresh LLM calls.
     # Canonical/desc/emb keys are intentionally kept — they are reused within this run.
@@ -202,14 +269,19 @@ if __name__ == "__main__":
     for idx, file_path in enumerate(files, start=1):
         raw_bytes = file_path.read_bytes()
         file_hash = hashlib.sha256(raw_bytes).hexdigest()
-        run_out = runs_dir / f"{idx:02d}_{file_path.stem}.json"
+        # Remove idx prefix so cache is robust to file additions/reordering
+        run_out = runs_dir / f"{file_path.stem}.json"
 
         if saved_hashes.get(file_path.name) == file_hash and run_out.exists():
-            logging.getLogger(__name__).info("CACHE HIT %s — skipping pipeline", file_path.name)
+            log.info("CACHE HIT %s — skipping pipeline", file_path.name)
             result_json = _load_json(run_out, {})
+            n = _restore_redis_from_cache(result_json, redis_client)
+            log.info("CACHE HIT %s — restored %d entity_catalog entries to Redis", file_path.name, n)
             cache_hit = True
         else:
             raw_text = raw_bytes.decode("utf-8", errors="ignore")
+            raw_text = raw_text.encode("utf-8", errors="ignore").decode("utf-8")
+
             result = run_pipeline(
                 raw_text=raw_text,
                 metadata={"source": file_path.name, "domain": "public-transport", "sequence": str(idx)},
@@ -219,6 +291,8 @@ if __name__ == "__main__":
             _save_json(run_out, result_json)
             saved_hashes[file_path.name] = file_hash
             _save_json(hashes_path, saved_hashes)
+            n = _restore_redis_from_cache(result_json, redis_client)
+            log.info("Persisted %d entity_catalog entries to Redis after fresh run", n)
             cache_hit = False
 
         rag_catalog = _update_catalog(rag_catalog, result_json)
@@ -262,4 +336,21 @@ if __name__ == "__main__":
         "rag_catalog_path": str(rag_path),
     }
     _save_json(output_dir / "run_summary.json", summary)
-    print(json.dumps(summary, indent=2))
+    
+    print("\n" + "="*50)
+    print(" PIPELINE PROFILING REPORT ".center(50, "="))
+    print("="*50)
+    print(f"{'Stage':<30} | {'Total Time (s)':>15}")
+    print("-" * 50)
+    
+    # Sort timings from slowest to fastest
+    sorted_timings = sorted(cumulative_timings.items(), key=lambda x: x[1], reverse=True)
+    total_pipeline_time = sum(cumulative_timings.values())
+    
+    for stage, t in sorted_timings:
+        print(f"{stage:<30} | {t:>14.2f}s")
+    
+    print("-" * 50)
+    print(f"{'TOTAL PIPELINE CPU/GPU TIME':<30} | {total_pipeline_time:>14.2f}s")
+    print("="*50 + "\n")
+    print(f"✅ Pipeline complete! Final graph saved to {ttl_path}")

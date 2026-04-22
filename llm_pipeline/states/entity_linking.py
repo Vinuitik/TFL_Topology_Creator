@@ -5,6 +5,8 @@ import logging
 import math
 import os
 import re
+import time
+from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
 from typing import Dict, Iterable, List, Set, Tuple
 
@@ -13,6 +15,7 @@ import requests
 
 from schemas import PipelineState
 from service.llm import call_llm
+from utils import is_literal as _is_literal_util
 
 log = logging.getLogger(__name__)
 
@@ -81,25 +84,47 @@ class _DSU:
 
 # --- helpers ---
 
-def _describe(name: str) -> str:
+def _describe_batch(names: List[str]) -> Dict[str, str]:
+    """Get descriptions for a batch of names in a single LLM call."""
+    lines = "\n".join(f'{i + 1}. "{n}"' for i, n in enumerate(names))
     try:
-        return call_llm("entity_linking_describe", f"\nName: {name}\n", model=_ENTITY_MODEL).get("description", name)
-    except Exception as exc:  # pragma: no cover - dependent on external runtime
-        log.warning("Description fallback for '%s': %s", name, exc)
-        return name
+        result = call_llm(
+            "entity_describe_batch", f"\n{lines}\n", model=_ENTITY_MODEL,
+            extra_options={"repeat_penalty": 1.4, "num_predict": 512},
+            timeout=120.0,
+        )
+        descs = result.get("descriptions", [])
+        if not isinstance(descs, list):
+            raise ValueError(f"Expected list, got {type(descs)}")
+        return {name: (str(descs[i]).strip() if i < len(descs) and descs[i] else name)
+                for i, name in enumerate(names)}
+    except Exception as exc:
+        log.warning("Batch describe failed: %s — using names as fallback", exc)
+        return {name: name for name in names}
+
+
+_EMBED_TIMEOUT = float(__import__("os").getenv("OLLAMA_TIMEOUT_SEC", "3600"))
 
 
 def _embed(text: str) -> List[float]:
-    try:
-        r = requests.post(_EMBED_URL, json={"model": _EMBED_MODEL, "prompt": text}, timeout=60)
-        r.raise_for_status()
-        return r.json().get("embedding", [])
-    except Exception as exc:  # pragma: no cover - network/model runtime dependent
-        log.warning("Embedding request failed: %s", exc)
-        return []
+    import time as _time
+    for attempt in range(3):
+        try:
+            r = requests.post(_EMBED_URL, json={"model": _EMBED_MODEL, "prompt": text}, timeout=_EMBED_TIMEOUT)
+            r.raise_for_status()
+            return r.json().get("embedding", [])
+        except Exception as exc:
+            if attempt < 2:
+                _time.sleep(0.5 * (attempt + 1))
+                continue
+            log.warning("Embedding request failed: %s", exc)
+            return []
+    return []
 
 
 _SAME_THRESHOLD = float(os.getenv("ENTITY_SAME_THRESHOLD", "0.88"))
+_DESCRIBE_BATCH = int(os.getenv("CLASSIFY_BATCH_SIZE", "15"))
+_EMBED_WORKERS = int(os.getenv("EMBED_WORKERS", "4"))
 
 
 def _compare_by_embedding(pairs: List[Tuple[str, str, str, str]], embeds: Dict[str, List[float]]) -> List[bool]:
@@ -245,13 +270,14 @@ def _scan_known_canonicals(category: str) -> Dict[str, str]:
 def _load_desc_emb(category: str, names: List[str], descs: Dict[str, str], embeds: Dict[str, List[float]]) -> None:
     """Populate descs/embeds for names that already have Redis entries. No generation."""
     r = _get_redis()
+    base = "entities" if category.startswith("entities") else "relations"
     for name in names:
         if name not in descs:
-            cached = r.get(f"{category}:desc:{name}")
+            cached = r.get(f"{category}:desc:{name}") or r.get(f"{base}:desc:{name}")
             if cached:
                 descs[name] = cached
         if name not in embeds:
-            cached = r.get(f"{category}:emb:{name}")
+            cached = r.get(f"{category}:emb:{name}") or r.get(f"{base}:emb:{name}")
             if cached:
                 try:
                     embeds[name] = json.loads(cached)
@@ -296,49 +322,81 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
             "consistency_conflicts": 0,
         }
 
-    # Step 1 — descriptions for truly new items only
+    # Derive the base namespace ("entities" or "relations") for cross-stage cache lookup.
+    # entity_classification stores under "entities:desc:*" / "relations:desc:*" regardless
+    # of sub-category, so we check that key first before regenerating.
+    _base = "entities" if category.startswith("entities") else "relations"
+
+    log.info("[%s] %d truly new, %d prior canonicals", category, len(truly_new), len(known_canonicals))
+
+    # Step 1 — descriptions for truly new items (batched LLM calls)
     descs: Dict[str, str] = {}
+    needs_desc: List[str] = []
     for name in truly_new:
-        key = f"{category}:desc:{name}"
-        cached = _get_redis().get(key)
+        cached = _get_redis().get(f"{category}:desc:{name}") or _get_redis().get(f"{_base}:desc:{name}")
         if cached is not None:
             descs[name] = cached
+            _get_redis().set(f"{category}:desc:{name}", cached)
         else:
-            generated = _describe(name)
-            _get_redis().set(key, generated)
-            descs[name] = generated
+            needs_desc.append(name)
 
-    # Load desc/emb for known canonicals from Redis (no regeneration)
+    total_desc_batches = max(1, (len(needs_desc) + _DESCRIBE_BATCH - 1) // _DESCRIBE_BATCH)
+    t_last = time.monotonic()
+    for batch_idx, i in enumerate(range(0, len(needs_desc), _DESCRIBE_BATCH), 1):
+        batch = needs_desc[i: i + _DESCRIBE_BATCH]
+        for name, desc in _describe_batch(batch).items():
+            descs[name] = desc
+            _get_redis().set(f"{category}:desc:{name}", desc)
+            _get_redis().set(f"{_base}:desc:{name}", desc)
+        if batch_idx % max(1, total_desc_batches // 4) == 0 or batch_idx == total_desc_batches:
+            now = time.monotonic()
+            log.info("[%s] describe %d/%d batches (%.0f%%) — %.1fs since last checkpoint",
+                     category, batch_idx, total_desc_batches,
+                     batch_idx / total_desc_batches * 100, now - t_last)
+            t_last = now
+
+    # Load descs for known canonicals (no regeneration)
     _load_desc_emb(category, sorted(known_canonicals), descs, {})
-    known_descs: Dict[str, str] = {}
-    _load_desc_emb(category, sorted(known_canonicals), known_descs, {})
-    descs.update(known_descs)
+    log.info("[%s] step 1 done — %d descriptions (%d newly generated)", category, len(descs), len(needs_desc))
 
-    # Step 2 — embeddings for truly new items only
+    # Step 2 — embeddings (parallel HTTP requests)
     embeds: Dict[str, List[float]] = {}
+    needs_emb: List[str] = []
     for name in truly_new:
-        key = f"{category}:emb:{name}"
-        cached = _get_redis().get(key)
-        if cached:
+        raw = _get_redis().get(f"{category}:emb:{name}") or _get_redis().get(f"{_base}:emb:{name}")
+        if raw:
             try:
-                embeds[name] = json.loads(cached)
+                embeds[name] = json.loads(raw)
+                _get_redis().set(f"{category}:emb:{name}", raw)
                 continue
             except json.JSONDecodeError:
                 pass
-        emb = _embed(descs[name])
-        embeds[name] = emb
-        _get_redis().set(key, json.dumps(emb))
+        needs_emb.append(name)
 
-    # Load embeddings for known canonicals (already in Redis)
-    known_embeds: Dict[str, List[float]] = {}
+    if needs_emb:
+        t_emb = time.monotonic()
+        log.info("[%s] embedding %d items...", category, len(needs_emb))
+
+        def _do_embed(name: str) -> tuple[str, List[float]]:
+            return name, _embed(descs.get(name, name))
+
+        with ThreadPoolExecutor(max_workers=_EMBED_WORKERS) as pool:
+            for name, emb in pool.map(_do_embed, needs_emb):
+                if emb:
+                    embeds[name] = emb
+                    _get_redis().set(f"{category}:emb:{name}", json.dumps(emb))
+
+    # Load embeddings for known canonicals
     for name in sorted(known_canonicals):
         cached = _get_redis().get(f"{category}:emb:{name}")
         if cached:
             try:
-                known_embeds[name] = json.loads(cached)
+                embeds[name] = json.loads(cached)
             except json.JSONDecodeError:
                 pass
-    embeds.update(known_embeds)
+    if needs_emb:
+        log.info("[%s] embed done — %d embedded in %.1fs", category, len(needs_emb), time.monotonic() - t_emb)
+    log.info("[%s] step 2 done — %d embeddings (%d newly embedded)", category, len(embeds), len(needs_emb))
 
     # Step 3 — pairs: (new × new) + (new × known_canonical); skip known × known
     universe = sorted(set(truly_new) | known_canonicals)
@@ -373,6 +431,39 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
     for a, b in same:
         dsu.union(a, b)
 
+    # Step 4b — LLM cluster judge: for each multi-member cluster, ask LLM to confirm
+    # all members are the same real-world entity. If not, disband the cluster.
+    raw_clusters = list(dsu.clusters().values())
+    disbands = 0
+    for members in raw_clusters:
+        if len(members) < 2:
+            continue
+        type_label = {
+            "entities_class": "class",
+            "entities_individual": "individual",
+            "relations_object": "object_property",
+            "relations_data": "datatype_property",
+        }.get(category, "individual")
+        try:
+            result = call_llm(
+                "entity_linking",
+                f"\nInput type: {type_label}\nNames: {json.dumps(members)}\n",
+                model=_ENTITY_MODEL,
+            )
+            if not result.get("same", True):
+                log.info("[%s] LLM DISBANDED cluster (size=%d): %s", category, len(members), members)
+                for m in members:
+                    dsu.p[m] = m  # reset each member to its own root
+                    dsu.rank[m] = 0
+                disbands += 1
+            else:
+                log.info("[%s] LLM CONFIRMED cluster (size=%d): %s", category, len(members), members)
+        except Exception as exc:
+            log.warning("[%s] LLM cluster judge failed for %s: %s — keeping cluster", category, members, exc)
+
+    if disbands:
+        log.info("[%s] LLM disbanded %d cluster(s)", category, disbands)
+
     clusters = list(dsu.clusters().values())
     conflicts = _conflicts_in_clusters(decisions, clusters)
     if conflicts:
@@ -405,6 +496,11 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
     }
 
 
+# --- helpers ---
+
+_is_literal = _is_literal_util
+
+
 # --- state ---
 
 def run_entity_linking(state: PipelineState) -> PipelineState:
@@ -412,24 +508,73 @@ def run_entity_linking(state: PipelineState) -> PipelineState:
     if not triplets:
         return state
 
-    # Surface normalisation: group plural/case variants before DSU
-    raw_entities = list({t.subject for t in triplets} | {t.object for t in triplets})
+    try:
+        return _run_entity_linking_impl(state, triplets)
+    except Exception:
+        log.error("entity_linking CRASHED — full traceback:", exc_info=True)
+        raise
+
+
+def _run_entity_linking_impl(state: PipelineState, triplets) -> PipelineState:
+    entity_catalog = state.get("entity_catalog", {})
+
+    # Exclude literal objects from entity linking
+    raw_entities = list(
+        {t.subject for t in triplets}
+        | {t.object for t in triplets if not _is_literal(t.object)}
+    )
     raw_relations = list({t.predicate for t in triplets})
 
-    ent_norm_map, ent_representatives = _group_by_surface(raw_entities)
-    rel_norm_map, rel_representatives = _group_by_surface(raw_relations)
+    log.info("entity_linking: %d raw entities, %d raw relations", len(raw_entities), len(raw_relations))
 
-    ce_repr, entities_stats = _process("entities", ent_representatives)
-    cr_repr, relations_stats = _process("relations", rel_representatives)
+    # Split entities by kind from catalog (default: individual)
+    classes = [e for e in raw_entities if entity_catalog.get(e, {}).get("kind") == "class"]
+    individuals = [e for e in raw_entities if entity_catalog.get(e, {}).get("kind") != "class"]
 
-    # Compose: original → representative → canonical
+    # Split relations by kind from catalog (default: object_property)
+    obj_props = [r for r in raw_relations if entity_catalog.get(r, {}).get("kind") != "datatype_property"]
+    data_props = [r for r in raw_relations if entity_catalog.get(r, {}).get("kind") == "datatype_property"]
+
+    log.info("entity_linking: classes=%d individuals=%d obj_props=%d data_props=%d",
+             len(classes), len(individuals), len(obj_props), len(data_props))
+
+    # Surface normalisation per group
+    cls_norm_map, cls_reps = _group_by_surface(classes)
+    ind_norm_map, ind_reps = _group_by_surface(individuals)
+    obj_norm_map, obj_reps = _group_by_surface(obj_props)
+    dat_norm_map, dat_reps = _group_by_surface(data_props)
+
+    # Process each group independently — no cross-type merging
+    log.info("entity_linking: processing entities_class (%d reps)...", len(cls_reps))
+    cc_repr, cls_stats = _process("entities_class", cls_reps)
+    log.info("entity_linking: processing entities_individual (%d reps)...", len(ind_reps))
+    ci_repr, ind_stats = _process("entities_individual", ind_reps)
+    log.info("entity_linking: processing relations_object (%d reps)...", len(obj_reps))
+    co_repr, obj_stats = _process("relations_object", obj_reps)
+    log.info("entity_linking: processing relations_data (%d reps)...", len(dat_reps))
+    cd_repr, dat_stats = _process("relations_data", dat_reps)
+    log.info("entity_linking: all groups processed")
+
     def _resolve_entity(name: str) -> str:
-        rep = ent_norm_map.get(name, name)
-        return ce_repr.get(rep, rep)
+        if entity_catalog.get(name, {}).get("kind") == "class":
+            rep = cls_norm_map.get(name, name)
+            return cc_repr.get(rep, rep)
+        rep = ind_norm_map.get(name, name)
+        return ci_repr.get(rep, rep)
 
     def _resolve_relation(name: str) -> str:
-        rep = rel_norm_map.get(name, name)
-        return cr_repr.get(rep, rep)
+        if entity_catalog.get(name, {}).get("kind") == "datatype_property":
+            rep = dat_norm_map.get(name, name)
+            return cd_repr.get(rep, rep)
+        rep = obj_norm_map.get(name, name)
+        return co_repr.get(rep, rep)
+
+    all_conflicts = (
+        cls_stats["consistency_conflicts"]
+        + ind_stats["consistency_conflicts"]
+        + obj_stats["consistency_conflicts"]
+        + dat_stats["consistency_conflicts"]
+    )
 
     return {
         **state,
@@ -437,14 +582,16 @@ def run_entity_linking(state: PipelineState) -> PipelineState:
             t.model_copy(update={
                 "subject": _resolve_entity(t.subject),
                 "predicate": _resolve_relation(t.predicate),
-                "object": _resolve_entity(t.object),
+                "object": _resolve_entity(t.object) if not _is_literal(t.object) else t.object,
             })
             for t in triplets
         ],
         "entity_linking_stats": {
-            "entities": entities_stats,
-            "relations": relations_stats,
+            "entities_class": cls_stats,
+            "entities_individual": ind_stats,
+            "relations_object": obj_stats,
+            "relations_data": dat_stats,
             "threshold": _EXACT_THRESHOLD,
         },
-        "linking_conflicts": entities_stats["consistency_conflicts"] + relations_stats["consistency_conflicts"],
+        "linking_conflicts": all_conflicts,
     }
