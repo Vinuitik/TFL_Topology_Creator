@@ -148,6 +148,7 @@ def _ensure_embeddings(category: str, names: List[str]) -> Dict[str, List[float]
         batch = needs_desc[i: i + _BATCH]
         batch_descs = _describe_batch(batch)
         for name, desc in batch_descs.items():
+            desc = desc.encode("utf-8", errors="ignore").decode("utf-8")
             descs[name] = desc
             r.set(f"{category}:desc:{name}", desc)
         pct = batch_idx / total_batches * 100
