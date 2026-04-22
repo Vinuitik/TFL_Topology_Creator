@@ -11,6 +11,17 @@
 
 <http://example.org/tfl> a owl:Ontology .
 
+# External Property Declarations (for equivalence axioms)
+schema1:startTime a owl:DatatypeProperty .
+schema1:endTime a owl:DatatypeProperty .
+schema1:endDate a owl:DatatypeProperty .
+gtfs:stop a owl:ObjectProperty .
+gtfs:zone a owl:ObjectProperty .
+gtfs:stopSequence a owl:DatatypeProperty .
+dbo:openingDate a owl:DatatypeProperty .
+geo1:lat a owl:DatatypeProperty .
+geo1:long a owl:DatatypeProperty .
+
 local:BusRoute a owl:Class ;
     rdfs:label "Bus Route" ;
     rdfs:comment "A specific numbered route followed by a bus service." ;

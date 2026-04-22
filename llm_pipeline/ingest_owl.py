@@ -189,9 +189,14 @@ def _merge_catalog(catalog: Dict, entities: List[Dict], relations: List[Dict]) -
     existing_pred_iris = {e["iri"] for e in catalog.get("predicates", [])}
 
     new_classes = 0
+    # Create a lookup for existing classes to avoid duplicates, but we will refresh them
+    class_index = {c["iri"]: i for i, c in enumerate(catalog.setdefault("classes", []))}
     for e in entities:
-        if e["iri"] not in existing_class_iris:
-            catalog.setdefault("classes", []).append({"label": e["label"], "iri": e["iri"]})
+        entry = {"label": e["label"], "iri": e["iri"]}
+        if e["iri"] in class_index:
+            catalog["classes"][class_index[e["iri"]]] = entry
+        else:
+            catalog["classes"].append(entry)
             new_classes += 1
 
     new_preds = 0

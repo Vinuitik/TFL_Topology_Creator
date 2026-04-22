@@ -132,7 +132,7 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
         existing_iri = label_to_iri.get(label)
         
         class_match, class_score = _best_match(label, class_catalog)
-        if class_match and class_score >= 0.6:
+        if class_match and class_score >= 0.4:
             class_iri = class_match["iri"]
             class_label = class_match["label"]
         else:
@@ -158,7 +158,7 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
         display_pred_label = cat.get("label", t.predicate)
 
         pred_match, pred_score = _best_match(t.predicate, predicate_catalog)
-        if pred_match and pred_score >= 0.66:
+        if pred_match and pred_score >= 0.5:
             pred_iri = pred_match["iri"]
         else:
             pred_iri = f"{_BASE_NS}{_slug(t.predicate)}"
