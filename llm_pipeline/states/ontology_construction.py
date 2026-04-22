@@ -43,18 +43,12 @@ def run_ontology_construction(state: PipelineState) -> PipelineState:
 
     triples: List[Dict[str, Any]] = []
 
-    # --- Classes ---
-    seen_classes: set = set()
-    for node in nodes:
-        class_iri = node["class_iri"]
-        if class_iri in seen_classes:
-            continue
-        seen_classes.add(class_iri)
-        _add(triples, class_iri, _RDF_TYPE, _OWL_CLASS)
-        _add(triples, class_iri, _RDFS_LABEL, node.get("class_label", ""), is_literal=True)
-        # If the node itself IS the class, emit its comment too
-        if node.get("is_class") and node.get("comment"):
-            _add(triples, class_iri, _RDFS_COMMENT, node["comment"], is_literal=True)
+    # --- Ontology header ---
+    _ONTOLOGY_IRI = "http://example.org/tfl/extracted"
+    _OWL_IMPORTS = "http://www.w3.org/2002/07/owl#imports"
+    _BASE_ONTOLOGY = "http://example.org/tfl"
+    _add(triples, _ONTOLOGY_IRI, _RDF_TYPE, "http://www.w3.org/2002/07/owl#Ontology")
+    _add(triples, _ONTOLOGY_IRI, _OWL_IMPORTS, _BASE_ONTOLOGY)
 
     # --- Individuals ---
     for node in nodes:
@@ -66,31 +60,6 @@ def run_ontology_construction(state: PipelineState) -> PipelineState:
         _add(triples, iri, _RDFS_LABEL, node["label"], is_literal=True)
         if node.get("comment"):
             _add(triples, iri, _RDFS_COMMENT, node["comment"], is_literal=True)
-
-    # --- Properties ---
-    seen_predicates: set = set()
-    for edge in edges:
-        pred_iri = edge["predicate_iri"]
-        if pred_iri in seen_predicates:
-            continue
-        seen_predicates.add(pred_iri)
-
-        kind = edge.get("predicate_kind", "object_property")
-        prop_type = _OWL_DATATYPE_PROPERTY if kind == "datatype_property" else _OWL_OBJECT_PROPERTY
-        _add(triples, pred_iri, _RDF_TYPE, prop_type)
-        _add(triples, pred_iri, _RDFS_LABEL, edge["predicate_label"], is_literal=True)
-
-        # Fetch comment from entity_catalog if available
-        entity_catalog: Dict[str, Any] = state.get("entity_catalog", {})
-        comment = entity_catalog.get(edge["predicate_label"], {}).get("comment", "")
-        if not comment:
-            # predicate_label may be the display label; try original canonical name via predicate_iri slug
-            for name, entry in entity_catalog.items():
-                if entry.get("label") == edge["predicate_label"]:
-                    comment = entry.get("comment", "")
-                    break
-        if comment:
-            _add(triples, pred_iri, _RDFS_COMMENT, comment, is_literal=True)
 
     # --- Relation triples ---
     for idx, edge in enumerate(edges, start=1):
@@ -106,7 +75,7 @@ def run_ontology_construction(state: PipelineState) -> PipelineState:
                 datatype=edge.get("object_datatype", ""),
             )
 
-        stmt_iri = f"http://example.org/pt#stmt/{idx}"
+        stmt_iri = f"http://example.org/pt#stmt_{idx}"
         if edge.get("provenance_sentence"):
             _add(triples, stmt_iri, _PROV_FROM_TEXT, edge["provenance_sentence"], is_literal=True)
 

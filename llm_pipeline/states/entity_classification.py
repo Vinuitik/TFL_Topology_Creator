@@ -15,6 +15,7 @@ import redis
 
 from schemas import PipelineState
 from service.llm import call_llm
+import config
 
 log = logging.getLogger(__name__)
 
@@ -31,6 +32,34 @@ def _get_redis() -> redis.Redis:
         _R = redis.from_url(_REDIS_URL, decode_responses=True)
     return _R
 
+def _run_batch(state_name: str, names: List[str], allowed_list: List[str]) -> List[Dict[str, str]]:
+    allowed_str = ", ".join(f'"{a}"' for a in allowed_list)
+    params = f"\nAllowed List: [{allowed_str}]\n"
+    params += "\n" + "\n".join(f'{i + 1}. "{n}"' for i, n in enumerate(names)) + "\n"
+    try:
+        result = call_llm(state_name, params, model=_ENTITY_MODEL)
+        results = result.get("results", [])
+        if len(results) < len(names):
+            results.extend([{}] * (len(names) - len(results)))
+        return results[: len(names)]
+    except Exception as exc:
+        log.warning("%s batch failed: %s", state_name, exc)
+        return [{}] * len(names)
+
+def _annotate_batch(items: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    params = "\n" + "\n".join(
+        f'{i + 1}. name="{item["name"]}" type="{item["kind"]}"'
+        for i, item in enumerate(items)
+    ) + "\n"
+    try:
+        result = call_llm("entity_annotate", params, model=_ENTITY_MODEL)
+        results = result.get("results", [])
+        if len(results) < len(items):
+            results.extend([{}] * (len(items) - len(results)))
+        return results[: len(items)]
+    except Exception as exc:
+        log.warning("entity_annotate batch failed: %s", exc)
+        return [{}] * len(items)
 
 def _load_annotation(category: str, name: str) -> Dict[str, str] | None:
     cached = _get_redis().get(f"{category}:annotation:{name}")
@@ -53,37 +82,53 @@ _VALID_RELATION_KINDS = {"object_property", "datatype_property"}
 
 
 def _is_literal(value: str) -> bool:
-    cleaned = value.strip()
-    return bool(re.fullmatch(r"-?\d+", cleaned) or re.fullmatch(r"-?\d+\.\d+", cleaned))
+    cleaned = value.strip().lower()
+    # Booleans
+    if cleaned in ("true", "false", "yes", "no"):
+        return True
+    # Numbers
+    if re.fullmatch(r"-?\d+(\.\d+)?", cleaned):
+        return True
+    # Zone numbers (e.g., "Zone 1", "Zone 1-6")
+    if re.fullmatch(r"zone\s+\d+(-?\d+)?", cleaned):
+        return True
+    # Dates/Years
+    if re.fullmatch(r"\d{4}s?", cleaned): # 2022, 1920s
+        return True
+    if re.fullmatch(r"\d{4}[-_]\d{2}[-_]\d{2}", cleaned): # 1870-05-30, 1870_05_30
+        return True
+    # ISO DateTime
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}t\d{2}:\d{2}:\d{2}(\.\d+)?z?", cleaned):
+        return True
+    if re.fullmatch(r"(\d{1,2}\s+)?(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{4}", cleaned):
+        return True
+    # Times / Durations
+    if re.search(r"^\d+\s*(mins?|minutes?|hrs?|hours?|seconds?|secs?)$", cleaned):
+        return True
+    if re.fullmatch(r"\d{2}:\d{2}(:\d{2})?", cleaned):
+        return True
+    return False
 
 
-def _run_batch(state_name: str, names: List[str]) -> List[Dict[str, str]]:
-    params = "\n" + "\n".join(f'{i + 1}. "{n}"' for i, n in enumerate(names)) + "\n"
+def _run_single(args: tuple[str, str]) -> Dict[str, str]:
+    state_name, name = args
+    params = f'\nname="{name}"\n'
     try:
         result = call_llm(state_name, params, model=_ENTITY_MODEL)
-        results = result.get("results", [])
-        if len(results) < len(names):
-            results.extend([{}] * (len(names) - len(results)))
-        return results[: len(names)]
+        return result
     except Exception as exc:
-        log.warning("%s batch failed: %s", state_name, exc)
-        return [{}] * len(names)
+        log.warning("%s failed for %r: %s", state_name, name, exc)
+        return {}
 
 
-def _annotate_batch(items: List[Dict[str, str]]) -> List[Dict[str, str]]:
-    params = "\n" + "\n".join(
-        f'{i + 1}. name="{item["name"]}" type="{item["kind"]}"'
-        for i, item in enumerate(items)
-    ) + "\n"
+def _annotate_single(item: Dict[str, str]) -> Dict[str, str]:
+    params = f'\nname="{item["name"]}" type="{item["kind"]}"\n'
     try:
         result = call_llm("entity_annotate", params, model=_ENTITY_MODEL)
-        results = result.get("results", [])
-        if len(results) < len(items):
-            results.extend([{}] * (len(items) - len(results)))
-        return results[: len(items)]
+        return result
     except Exception as exc:
-        log.warning("entity_annotate batch failed: %s", exc)
-        return [{}] * len(items)
+        log.warning("entity_annotate failed for %r: %s", item["name"], exc)
+        return {}
 
 
 def run_entity_classification(state: PipelineState) -> PipelineState:
@@ -124,25 +169,24 @@ def run_entity_classification(state: PipelineState) -> PipelineState:
         len(relation_names) - len(relations_to_classify), len(relation_names),
     )
 
-    # Step 1: classify new entities
-    for i in range(0, len(entities_to_classify), _BATCH):
-        batch = entities_to_classify[i : i + _BATCH]
-        results = _run_batch("entity_classify", batch)
-        for name, r in zip(batch, results):
-            kind = r.get("type", "individual")
-            if kind not in _VALID_ENTITY_KINDS:
-                kind = "individual"
-            catalog[name] = {"kind": kind, "label": name, "comment": ""}
+    # Step 1: Force all entities to be individuals
+    for name in entities_to_classify:
+        catalog[name] = {"kind": "individual", "label": name, "comment": ""}
 
-    # Step 2: classify new relations
+    # Step 2: Map to existing properties
+    rag_catalog = state.get("rag_catalog", {})
+    allowed_props = [p["label"] for p in rag_catalog.get("predicates", [])]
+    if not allowed_props:
+        allowed_props = ["hasName", "hasStop", "servedByRoute"] # fallback
+
     for i in range(0, len(relations_to_classify), _BATCH):
         batch = relations_to_classify[i : i + _BATCH]
-        results = _run_batch("relation_classify", batch)
+        results = _run_batch("relation_classify", batch, allowed_props)
         for name, r in zip(batch, results):
+            # The LLM should pick the 'property' from the allowed list
+            mapped_prop = r.get("property", name)
             kind = r.get("type", "object_property")
-            if kind not in _VALID_RELATION_KINDS:
-                kind = "object_property"
-            catalog[name] = {"kind": kind, "label": name, "comment": ""}
+            catalog[name] = {"kind": kind, "label": mapped_prop, "comment": ""}
 
     # Step 3: annotate only newly classified items (cached ones already have label+comment)
     new_names = set(entities_to_classify) | set(relations_to_classify)

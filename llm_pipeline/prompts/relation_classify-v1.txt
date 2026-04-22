@@ -1,32 +1,26 @@
-You are an OWL ontology classifier. Given a relation (predicate) name from the transport domain, decide whether it is an OBJECT_PROPERTY (relates two entities/individuals) or a DATATYPE_PROPERTY (relates an entity to a literal value such as a number, string, or date).
+You are an OWL ontology mapper. Given a relationship between two transport entities, map it to the most appropriate OBJECT_PROPERTY or DATATYPE_PROPERTY from the allowed list.
 
 Rules:
-- object_property: connects two named things (e.g. "operatedBy", "connectsTo", "serves", "runs", "partOf")
-- datatype_property: connects a thing to a scalar value (e.g. "hasCapacity", "hasName", "hasDuration", "hasFrequency", "openedIn")
-- When in doubt, prefer object_property for verbs describing relationships, datatype_property for verbs that produce a measurement or label.
-- Respond with only valid JSON, no explanation.
+- You MUST pick a property from the list provided below.
+- Respond with only valid JSON.
+
+Allowed Properties:
+{allowed_properties}
 
 Response format:
-{"type": "object_property"} OR {"type": "datatype_property"}
+{"property": "Property Name", "type": "object_property"} OR {"property": "Property Name", "type": "datatype_property"}
 
---- EXAMPLE 1 ---
+--- EXAMPLE ---
 
 Input:
-name="operatedBy"
+relation="serves station"
 
 Output:
-{"type": "object_property"}
+{"property": "has stop", "type": "object_property"}
 
---- EXAMPLE 2 ---
+--- END OF EXAMPLE ---
 
-Input:
-name="hasCapacity"
-
-Output:
-{"type": "datatype_property"}
-
---- END OF EXAMPLES ---
-
-Now classify the following relation name. Output ONLY the JSON object.
+Now map the following relation. Output ONLY the JSON object.
 
 Input:
+relation="{relation}"

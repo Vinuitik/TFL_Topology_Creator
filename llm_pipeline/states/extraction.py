@@ -165,7 +165,7 @@ def run_extraction(state: PipelineState) -> PipelineState:
     for sentence in sentences:
         rebel_triplets.extend(_extract_from_sentence(sentence))
     log.info("REBEL: %d triplet(s)", len(rebel_triplets))
-    _unload_model()  # free VRAM before spaCy
+    # _unload_model() — PERSIST in VRAM for speed if processing batch
 
     # spaCy NER: type-assertion triplets (runs on CPU, no VRAM)
     spacy_triplets = _extract_spacy_triplets(full_text, provenance=full_text[:200])

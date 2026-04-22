@@ -99,8 +99,8 @@ def _embed(text: str) -> List[float]:
         return []
 
 
-_SAME_THRESHOLD = float(os.getenv("ENTITY_SAME_THRESHOLD", "0.88"))
-
+import config
+_SAME_THRESHOLD = config.ENTITY_SAME_THRESHOLD
 
 def _compare_by_embedding(pairs: List[Tuple[str, str, str, str]], embeds: Dict[str, List[float]]) -> List[bool]:
     return [_cosine(embeds.get(na, []), embeds.get(nb, [])) >= _SAME_THRESHOLD for na, _, nb, _ in pairs]
