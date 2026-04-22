@@ -119,10 +119,15 @@ else
     echo "  WARNING: final_ontology.ttl not found in root. Schema enforcement may be limited."
 fi
 
-# ── 8. Run Ingestion ──────────────────────────────────────────────────────────
+# ── 8. Flush Redis for a clean run ───────────────────────────────────────────
+echo ""
+echo "[3.5/4] Flushing Redis for a clean run …"
+docker exec redis redis-cli FLUSHALL
+
+# ── 9. Run Ingestion ──────────────────────────────────────────────────────────
 echo ""
 echo "[4/4] Starting pipeline ingestion (OWL/TTL → Redis) …"
-docker compose $COMPOSE_FILES run --rm llm-pipeline \
+docker compose $COMPOSE_FILES run --rm --build llm-pipeline \
     python ingest_owl.py \
     --inputs-dir /app/inputs \
     --output-dir /app/outputs
@@ -130,7 +135,7 @@ docker compose $COMPOSE_FILES run --rm llm-pipeline \
 # ── 9. Run pipeline over all data sources ────────────────────────────────────
 echo ""
 echo "[4/4] Running pipeline over all data sources (Structured + Unstructured) …"
-docker compose $COMPOSE_FILES run --rm llm-pipeline \
+docker compose $COMPOSE_FILES run --rm --build llm-pipeline \
     python agent.py \
     --data-dir /app/data_sources \
     --pattern "*.txt,*.json" \
