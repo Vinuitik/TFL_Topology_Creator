@@ -28,6 +28,7 @@ _LLM_CHUNK_WORDS = 350  # words per chunk sent to LLM
 _ENTITY_MODEL = __import__("os").getenv("OLLAMA_ENTITY_MODEL")
 _EMBED_MODEL = __import__("os").getenv("OLLAMA_EMBED_MODEL")
 _OLLAMA_URL = __import__("os").getenv("OLLAMA_URL")
+_REBEL_BATCH = int(__import__("os").getenv("REBEL_BATCH_SIZE", "4"))
 
 # spaCy entity types to include; mapped to a transport-domain class name
 _SPACY_TYPE_MAP = {
@@ -152,14 +153,13 @@ def _parse_rebel_output(text: str) -> List[dict]:
     return triplets
 
 
-def _extract_from_sentence(sentence: str) -> List[Triplet]:
-    log.debug("Processing sentence: %r", sentence)
-
+def _extract_from_batch(batch: List[str]) -> List[Triplet]:
     inputs = _tokenizer(
-        sentence,
+        batch,
         return_tensors="pt",
         truncation=True,
         max_length=512,
+        padding=True,
     )
     inputs = {k: v.to(_device) for k, v in inputs.items()}
     outputs = _model.generate(
@@ -168,20 +168,18 @@ def _extract_from_sentence(sentence: str) -> List[Triplet]:
         num_beams=4,
         early_stopping=True,
     )
-    decoded = _tokenizer.decode(outputs[0], skip_special_tokens=False)
-    decoded = decoded.replace("<s>", "").replace("</s>", "")
-    log.debug("[REBEL raw] %r", decoded)
-
-    triplets = [
-        Triplet(
-            subject=t["subject"],
-            predicate=t["predicate"],
-            object=t["object"],
-            provenance_sentence=sentence,
-        )
-        for t in _parse_rebel_output(decoded)
-    ]
-    log.debug("Parsed %d triplet(s): %s", len(triplets), [(t.subject, t.predicate, t.object) for t in triplets])
+    triplets = []
+    for i, output in enumerate(outputs):
+        decoded = _tokenizer.decode(output, skip_special_tokens=False)
+        decoded = decoded.replace("<s>", "").replace("</s>", "")
+        log.debug("[REBEL raw] %r", decoded)
+        for t in _parse_rebel_output(decoded):
+            triplets.append(Triplet(
+                subject=t["subject"],
+                predicate=t["predicate"],
+                object=t["object"],
+                provenance_sentence=batch[i],
+            ))
     return triplets
 
 
@@ -280,12 +278,14 @@ def run_extraction(state: PipelineState) -> PipelineState:
         _evict_model(_EMBED_MODEL)
     _load_model()
     rebel_triplets: List[Triplet] = []
-    for sentence in sentences:
+    for i in range(0, len(sentences), _REBEL_BATCH):
+        batch = sentences[i: i + _REBEL_BATCH]
         try:
-            rebel_triplets.extend(_extract_from_sentence(sentence))
+            rebel_triplets.extend(_extract_from_batch(batch))
         except Exception as exc:
-            log.error("REBEL failed on sentence (skipping): %s | sentence=%.80r", exc, sentence)
-    log.info("REBEL: %d triplet(s)", len(rebel_triplets))
+            log.error("REBEL failed on batch (skipping): %s | batch=%.120r", exc, batch)
+    log.info("REBEL: %d triplet(s) from %d sentences in batches of %d",
+             len(rebel_triplets), len(sentences), _REBEL_BATCH)
     _unload_model()  # free VRAM before CPU-heavy stages
 
     # ── 2. spaCy NER: type-assertion triplets (CPU) ─────────────────────────

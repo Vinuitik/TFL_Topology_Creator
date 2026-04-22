@@ -16,6 +16,9 @@ _PROMPTS_DIR = Path(__file__).parent.parent / "prompts"
 _OLLAMA_URL = os.getenv("OLLAMA_URL")
 _MODEL = os.getenv("OLLAMA_ENTITY_MODEL")
 _TIMEOUT_SEC = float(os.getenv("OLLAMA_TIMEOUT_SEC"))
+_TEMPERATURE = float(os.getenv("OLLAMA_TEMPERATURE", "0.3"))
+_SEED = int(os.getenv("OLLAMA_SEED", "42"))
+_MAX_RETRIES = int(os.getenv("OLLAMA_MAX_RETRIES", "3"))
 
 
 def _find_latest_prompt(state_name: str) -> Path:
@@ -76,7 +79,7 @@ def call_llm(
     effective_model = model or _MODEL
     effective_timeout = timeout or _TIMEOUT_SEC
 
-    options = {"temperature": 0, "repeat_penalty": 1.15}
+    options = {"temperature": _TEMPERATURE, "seed": _SEED, "repeat_penalty": 1.15}
     if extra_options:
         options.update(extra_options)
 
@@ -91,36 +94,47 @@ def call_llm(
     log.debug("LLM → state=%s model=%s prompt_chars=%d timeout=%.0fs",
               state_name, effective_model, len(full_prompt), effective_timeout)
 
-    t0 = time.monotonic()
-    accumulated = ""
-    timed_out = False
+    for attempt in range(1, _MAX_RETRIES + 1):
+        seed = _SEED + (attempt - 1)
+        payload["options"] = {**options, "seed": seed}
 
-    try:
-        with requests.post(
-            _OLLAMA_URL, json=payload, stream=True,
-            timeout=effective_timeout,
-        ) as response:
-            response.raise_for_status()
-            deadline = t0 + effective_timeout
-            for line in response.iter_lines():
-                if time.monotonic() > deadline:
-                    timed_out = True
-                    log.warning("LLM stream timeout after %.0fs for state=%s — parsing partial response",
-                                effective_timeout, state_name)
-                    break
-                if line:
-                    chunk = json.loads(line)
-                    accumulated += chunk.get("response", "")
-                    if chunk.get("done"):
+        t0 = time.monotonic()
+        accumulated = ""
+        timed_out = False
+
+        try:
+            with requests.post(
+                _OLLAMA_URL, json=payload, stream=True,
+                timeout=effective_timeout,
+            ) as response:
+                response.raise_for_status()
+                deadline = t0 + effective_timeout
+                for line in response.iter_lines():
+                    if time.monotonic() > deadline:
+                        timed_out = True
+                        log.warning("LLM stream timeout after %.0fs for state=%s attempt=%d — parsing partial",
+                                    effective_timeout, state_name, attempt)
                         break
-    except requests.exceptions.Timeout:
-        timed_out = True
-        log.warning("LLM connect/read timeout after %.0fs for state=%s — parsing partial response",
-                    effective_timeout, state_name)
-    except requests.RequestException as exc:
-        raise RuntimeError(f"LLM request failed for state='{state_name}': {exc}") from exc
+                    if line:
+                        chunk = json.loads(line)
+                        accumulated += chunk.get("response", "")
+                        if chunk.get("done"):
+                            break
+        except requests.exceptions.Timeout:
+            timed_out = True
+            log.warning("LLM connect timeout for state=%s attempt=%d — parsing partial", state_name, attempt)
+        except requests.RequestException as exc:
+            raise RuntimeError(f"LLM request failed for state='{state_name}': {exc}") from exc
 
-    elapsed = time.monotonic() - t0
-    log.debug("LLM ← state=%s elapsed=%.1fs partial=%s", state_name, elapsed, timed_out)
+        elapsed = time.monotonic() - t0
+        log.debug("LLM ← state=%s attempt=%d seed=%d elapsed=%.1fs partial=%s",
+                  state_name, attempt, seed, elapsed, timed_out)
 
-    return _parse_json(accumulated)
+        try:
+            return _parse_json(accumulated)
+        except ValueError:
+            if attempt < _MAX_RETRIES:
+                log.warning("LLM bad JSON for state=%s attempt=%d seed=%d — retrying with seed=%d",
+                            state_name, attempt, seed, seed + 1)
+            else:
+                raise
