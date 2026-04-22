@@ -9,10 +9,11 @@ from difflib import SequenceMatcher
 from typing import Any, Dict, List, Tuple
 
 from schemas import PipelineState
+from utils import is_literal as _is_literal
 
 log = logging.getLogger(__name__)
 
-_BASE_NS = "http://example.org/pt#"
+_BASE_NS = "http://example.org/tfl#"
 _ALLOW_NEW_ENTITIES = os.getenv("ALLOW_NEW_ENTITIES", "false").lower() == "true"
 _XSD_INTEGER = "http://www.w3.org/2001/XMLSchema#integer"
 _XSD_DECIMAL = "http://www.w3.org/2001/XMLSchema#decimal"
@@ -85,7 +86,7 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
 
     entity_set = {t.subject for t in triplets}
     for t in triplets:
-        if _literal_value(t.object) is None:
+        if not _is_literal(t.object):
             entity_set.add(t.object)
     entity_labels = sorted(entity_set)
 
@@ -112,7 +113,6 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
             continue
 
         if kind == "class":
-            # Entity IS the class — IRI doubles as both instance and class IRI
             class_iri = f"{_BASE_NS}{_slug(label)}"
             node_map[label] = {
                 "id": f"ent_{idx}",
@@ -153,7 +153,10 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
         # Drop triplets whose subject or object node was filtered out
         if t.subject not in node_map:
             continue
-        obj_literal = _literal_value(t.object)
+        if _is_literal(t.object):
+            obj_literal = _literal_value(t.object) or (t.object, "http://www.w3.org/2001/XMLSchema#string")
+        else:
+            obj_literal = None
         if obj_literal is None and t.object not in node_map:
             continue
 

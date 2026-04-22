@@ -1,32 +1,27 @@
-You are an OWL ontology classifier. Given an entity name from the transport domain, decide whether it is a CLASS (an abstract concept or category) or an INDIVIDUAL (a specific named instance of a concept).
+You are an OWL ontology mapper. Given a specific transport entity (individual), assign it to the most appropriate CLASS from the provided list of allowed classes.
 
 Rules:
-- class: a generic concept or category that groups things (e.g. "Station", "Operator", "Line", "Regulation")
-- individual: a specific real-world named instance (e.g. "King's Cross", "Transport for London", "Victoria line")
-- When in doubt, prefer individual for proper nouns and class for common nouns.
-- Respond with only valid JSON, no explanation.
+- You MUST pick a class from the list provided below.
+- Respond with only valid JSON.
+- If no class fits perfectly, pick the closest parent (e.g., "Transit Access Point" for a generic stop).
+
+Allowed Classes:
+{allowed_classes}
 
 Response format:
-{"type": "class"} OR {"type": "individual"}
+{"class": "Class Name"}
 
---- EXAMPLE 1 ---
-
-Input:
-name="Station"
-
-Output:
-{"type": "class"}
-
---- EXAMPLE 2 ---
+--- EXAMPLE ---
 
 Input:
 name="Victoria line"
 
 Output:
-{"type": "individual"}
+{"class": "Line"}
 
---- END OF EXAMPLES ---
+--- END OF EXAMPLE ---
 
-Now classify the following name. Output ONLY the JSON object.
+Now assign a class to the following entity. Output ONLY the JSON object.
 
 Input:
+name="{name}"

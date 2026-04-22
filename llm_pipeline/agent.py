@@ -225,7 +225,8 @@ if __name__ == "__main__":
     for idx, file_path in enumerate(files, start=1):
         raw_bytes = file_path.read_bytes()
         file_hash = hashlib.sha256(raw_bytes).hexdigest()
-        run_out = runs_dir / f"{idx:02d}_{file_path.stem}.json"
+        # Remove idx prefix so cache is robust to file additions/reordering
+        run_out = runs_dir / f"{file_path.stem}.json"
 
         if saved_hashes.get(file_path.name) == file_hash and run_out.exists():
             log.info("CACHE HIT %s — skipping pipeline", file_path.name)
