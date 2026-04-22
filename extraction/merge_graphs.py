@@ -9,6 +9,42 @@ ONTOLOGY_TTL     = BASE_DIR.parent / "created_ontology.ttl"
 MERGED_OUTPUT    = BASE_DIR.parent / "knowledge_graph.ttl"
 ONTOLOGY_IRI     = URIRef("https://example.org/tfl-topology")
 
+def filter_hallucinations(extracted: Graph, ontology: Graph) -> Graph:
+    # Get all known classes from the ontology
+    known_classes = set(ontology.subjects(RDF.type, OWL.Class))
+    known_properties = (
+        set(ontology.subjects(RDF.type, OWL.ObjectProperty)) |
+        set(ontology.subjects(RDF.type, OWL.DatatypeProperty))
+    )
+
+    clean = Graph()
+    removed = 0
+
+    for s, p, o in extracted:
+        # Check type assertions use known classes
+        if p == RDF.type and isinstance(o, URIRef):
+            if o not in known_classes and str(o) not in [
+                "http://www.w3.org/2002/07/owl#NamedIndividual",
+                "http://www.w3.org/2002/07/owl#Class",
+            ]:
+                removed += 1
+                continue
+
+        # Check properties are known
+        if isinstance(p, URIRef) and p not in known_properties:
+            # Allow RDF/OWL/RDFS built-ins
+            if not any(str(p).startswith(ns) for ns in [
+                "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+                "http://www.w3.org/2000/01/rdf-schema#",
+                "http://www.w3.org/2002/07/owl#",
+            ]):
+                removed += 1
+                continue
+
+        clean.add((s, p, o))
+
+    print(f"    Removed {removed} hallucinated triples")
+    return clean
 
 def merge_graphs():
     #base ontology (schema + class definitions)
@@ -30,6 +66,7 @@ def merge_graphs():
         try:
             g = Graph()
             g.parse(ttl_file, format="turtle")
+            g = filter_hallucinations(g, merged)
 
             # Copy all triples into merged graph
             for triple in g:
