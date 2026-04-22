@@ -16,8 +16,6 @@ _PROMPTS_DIR = Path(__file__).parent.parent / "prompts"
 _OLLAMA_URL = os.getenv("OLLAMA_URL")
 _MODEL = os.getenv("OLLAMA_ENTITY_MODEL")
 _TIMEOUT_SEC = float(os.getenv("OLLAMA_TIMEOUT_SEC"))
-_MAX_RETRIES = int(os.getenv("OLLAMA_MAX_RETRIES"))
-_BACKOFF_SEC = float(os.getenv("OLLAMA_BACKOFF_SEC"))
 
 
 def _find_latest_prompt(state_name: str) -> Path:
@@ -47,15 +45,12 @@ def _parse_json(raw: str) -> Any:
         except json.JSONDecodeError:
             pass
 
-    # attempt 3: fix truncated JSON by progressively closing open brackets
+    # attempt 3: fix truncated JSON by closing open brackets (handles stream cutoff)
     stripped = raw.strip()
     if stripped.startswith("{"):
-        # count unclosed brackets and close them
         open_braces = stripped.count("{") - stripped.count("}")
         open_brackets = stripped.count("[") - stripped.count("]")
-        # strip any trailing incomplete token (e.g. mid-string or mid-key)
         candidate = stripped.rstrip(", \t\n\r")
-        # remove trailing incomplete object fragment like `{"subject": "foo`
         candidate = re.sub(r',\s*\{[^}]*$', '', candidate)
         suffix = "]" * max(open_brackets, 0) + "}" * max(open_braces, 0)
         for closing in [suffix, "]}", "}", ""]:
@@ -72,12 +67,14 @@ def call_llm(
     params: str,
     model: str | None = None,
     extra_options: dict | None = None,
+    timeout: float | None = None,
 ) -> Any:
     prompt_path = _find_latest_prompt(state_name)
     log.debug("Using prompt %s", prompt_path.name)
 
     full_prompt = prompt_path.read_text(encoding="utf-8") + params
     effective_model = model or _MODEL
+    effective_timeout = timeout or _TIMEOUT_SEC
 
     options = {"temperature": 0, "repeat_penalty": 1.15}
     if extra_options:
@@ -86,35 +83,44 @@ def call_llm(
     payload = {
         "model": effective_model,
         "prompt": full_prompt,
-        "stream": False,
+        "stream": True,
         "format": "json",
         "options": options,
     }
 
-    log.debug("LLM → state=%s model=%s url=%s prompt_chars=%d",
-              state_name, effective_model, _OLLAMA_URL, len(full_prompt))
-    last_exc: Exception | None = None
-    for attempt in range(1, _MAX_RETRIES + 1):
-        t0 = time.monotonic()
-        try:
-            response = requests.post(_OLLAMA_URL, json=payload, timeout=_TIMEOUT_SEC)
-            elapsed = time.monotonic() - t0
-            log.debug("LLM ← state=%s attempt=%d status=%d elapsed=%.1fs",
-                      state_name, attempt, response.status_code, elapsed)
-            response.raise_for_status()
-            raw = response.json().get("response", "")
-            log.debug("LLM raw response: %r", raw)
-            return _parse_json(raw)
-        except (requests.RequestException, ValueError) as exc:
-            elapsed = time.monotonic() - t0
-            last_exc = exc
-            if attempt >= _MAX_RETRIES:
-                break
-            sleep_s = _BACKOFF_SEC * attempt
-            log.warning(
-                "LLM call failed for state=%s attempt=%d/%d after %.1fs: %s: %s; retrying in %.1fs",
-                state_name, attempt, _MAX_RETRIES, elapsed, type(exc).__name__, exc, sleep_s,
-            )
-            time.sleep(sleep_s)
+    log.debug("LLM → state=%s model=%s prompt_chars=%d timeout=%.0fs",
+              state_name, effective_model, len(full_prompt), effective_timeout)
 
-    raise RuntimeError(f"LLM call failed for state='{state_name}' after {_MAX_RETRIES} attempts") from last_exc
+    t0 = time.monotonic()
+    accumulated = ""
+    timed_out = False
+
+    try:
+        with requests.post(
+            _OLLAMA_URL, json=payload, stream=True,
+            timeout=effective_timeout,
+        ) as response:
+            response.raise_for_status()
+            deadline = t0 + effective_timeout
+            for line in response.iter_lines():
+                if time.monotonic() > deadline:
+                    timed_out = True
+                    log.warning("LLM stream timeout after %.0fs for state=%s — parsing partial response",
+                                effective_timeout, state_name)
+                    break
+                if line:
+                    chunk = json.loads(line)
+                    accumulated += chunk.get("response", "")
+                    if chunk.get("done"):
+                        break
+    except requests.exceptions.Timeout:
+        timed_out = True
+        log.warning("LLM connect/read timeout after %.0fs for state=%s — parsing partial response",
+                    effective_timeout, state_name)
+    except requests.RequestException as exc:
+        raise RuntimeError(f"LLM request failed for state='{state_name}': {exc}") from exc
+
+    elapsed = time.monotonic() - t0
+    log.debug("LLM ← state=%s elapsed=%.1fs partial=%s", state_name, elapsed, timed_out)
+
+    return _parse_json(accumulated)

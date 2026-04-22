@@ -170,7 +170,7 @@ def _extract_from_sentence(sentence: str) -> List[Triplet]:
     )
     decoded = _tokenizer.decode(outputs[0], skip_special_tokens=False)
     decoded = decoded.replace("<s>", "").replace("</s>", "")
-    print(f"\n[REBEL raw] {decoded!r}")
+    log.debug("[REBEL raw] %r", decoded)
 
     triplets = [
         Triplet(

@@ -5,6 +5,7 @@ import logging
 import math
 import os
 import re
+import time
 from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
 from typing import Dict, Iterable, List, Set, Tuple
@@ -87,9 +88,15 @@ def _describe_batch(names: List[str]) -> Dict[str, str]:
     """Get descriptions for a batch of names in a single LLM call."""
     lines = "\n".join(f'{i + 1}. "{n}"' for i, n in enumerate(names))
     try:
-        result = call_llm("entity_describe_batch", f"\n{lines}\n", model=_ENTITY_MODEL)
+        result = call_llm(
+            "entity_describe_batch", f"\n{lines}\n", model=_ENTITY_MODEL,
+            extra_options={"repeat_penalty": 1.4, "num_predict": 512},
+            timeout=120.0,
+        )
         descs = result.get("descriptions", [])
-        return {name: (descs[i] if i < len(descs) and descs[i] else name)
+        if not isinstance(descs, list):
+            raise ValueError(f"Expected list, got {type(descs)}")
+        return {name: (str(descs[i]).strip() if i < len(descs) and descs[i] else name)
                 for i, name in enumerate(names)}
     except Exception as exc:
         log.warning("Batch describe failed: %s — using names as fallback", exc)
@@ -100,16 +107,24 @@ _EMBED_TIMEOUT = float(__import__("os").getenv("OLLAMA_TIMEOUT_SEC", "3600"))
 
 
 def _embed(text: str) -> List[float]:
-    try:
-        r = requests.post(_EMBED_URL, json={"model": _EMBED_MODEL, "prompt": text}, timeout=_EMBED_TIMEOUT)
-        r.raise_for_status()
-        return r.json().get("embedding", [])
-    except Exception as exc:  # pragma: no cover - network/model runtime dependent
-        log.warning("Embedding request failed: %s", exc)
-        return []
+    import time as _time
+    for attempt in range(3):
+        try:
+            r = requests.post(_EMBED_URL, json={"model": _EMBED_MODEL, "prompt": text}, timeout=_EMBED_TIMEOUT)
+            r.raise_for_status()
+            return r.json().get("embedding", [])
+        except Exception as exc:
+            if attempt < 2:
+                _time.sleep(0.5 * (attempt + 1))
+                continue
+            log.warning("Embedding request failed: %s", exc)
+            return []
+    return []
 
 
 _SAME_THRESHOLD = float(os.getenv("ENTITY_SAME_THRESHOLD", "0.88"))
+_DESCRIBE_BATCH = int(os.getenv("CLASSIFY_BATCH_SIZE", "15"))
+_EMBED_WORKERS = int(os.getenv("EMBED_WORKERS", "4"))
 
 
 def _compare_by_embedding(pairs: List[Tuple[str, str, str, str]], embeds: Dict[str, List[float]]) -> List[bool]:
@@ -325,12 +340,20 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
         else:
             needs_desc.append(name)
 
-    for i in range(0, len(needs_desc), 15):
-        batch = needs_desc[i: i + 15]
+    total_desc_batches = max(1, (len(needs_desc) + _DESCRIBE_BATCH - 1) // _DESCRIBE_BATCH)
+    t_last = time.monotonic()
+    for batch_idx, i in enumerate(range(0, len(needs_desc), _DESCRIBE_BATCH), 1):
+        batch = needs_desc[i: i + _DESCRIBE_BATCH]
         for name, desc in _describe_batch(batch).items():
             descs[name] = desc
             _get_redis().set(f"{category}:desc:{name}", desc)
             _get_redis().set(f"{_base}:desc:{name}", desc)
+        if batch_idx % max(1, total_desc_batches // 4) == 0 or batch_idx == total_desc_batches:
+            now = time.monotonic()
+            log.info("[%s] describe %d/%d batches (%.0f%%) — %.1fs since last checkpoint",
+                     category, batch_idx, total_desc_batches,
+                     batch_idx / total_desc_batches * 100, now - t_last)
+            t_last = now
 
     # Load descs for known canonicals (no regeneration)
     _load_desc_emb(category, sorted(known_canonicals), descs, {})
@@ -351,10 +374,13 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
         needs_emb.append(name)
 
     if needs_emb:
+        t_emb = time.monotonic()
+        log.info("[%s] embedding %d items...", category, len(needs_emb))
+
         def _do_embed(name: str) -> tuple[str, List[float]]:
             return name, _embed(descs.get(name, name))
 
-        with ThreadPoolExecutor(max_workers=4) as pool:
+        with ThreadPoolExecutor(max_workers=_EMBED_WORKERS) as pool:
             for name, emb in pool.map(_do_embed, needs_emb):
                 if emb:
                     embeds[name] = emb
@@ -368,6 +394,7 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
                 embeds[name] = json.loads(cached)
             except json.JSONDecodeError:
                 pass
+        log.info("[%s] embed done — %d embedded in %.1fs", category, len(needs_emb), time.monotonic() - t_emb)
     log.info("[%s] step 2 done — %d embeddings (%d newly embedded)", category, len(embeds), len(needs_emb))
 
     # Step 3 — pairs: (new × new) + (new × known_canonical); skip known × known

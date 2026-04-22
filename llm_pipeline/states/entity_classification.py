@@ -8,6 +8,7 @@ Runs after extraction, before entity_linking.
 import json
 import logging
 import os
+import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Dict, List, Set
 
@@ -24,10 +25,10 @@ _ENTITY_MODEL = os.getenv("OLLAMA_ENTITY_MODEL")
 _EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL")
 _EMBED_URL = os.getenv("OLLAMA_EMBED_URL")
 _EMBED_TIMEOUT = float(os.getenv("OLLAMA_TIMEOUT_SEC", "3600"))
-_BATCH = 15
+_BATCH = int(os.getenv("CLASSIFY_BATCH_SIZE", "15"))
+_KNN_K = int(os.getenv("CLASSIFY_KNN_K", "3"))
 _REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379")
 _MAX_USAGE_EXAMPLES = 3
-_KNN_K = 3
 
 _R: redis.Redis | None = None
 
@@ -87,9 +88,15 @@ def _describe_batch(names: List[str]) -> Dict[str, str]:
     """Get descriptions for a batch of names in a single LLM call."""
     lines = "\n".join(f'{i + 1}. "{n}"' for i, n in enumerate(names))
     try:
-        result = call_llm("entity_describe_batch", f"\n{lines}\n", model=_ENTITY_MODEL)
+        result = call_llm(
+            "entity_describe_batch", f"\n{lines}\n", model=_ENTITY_MODEL,
+            extra_options={"repeat_penalty": 1.4, "num_predict": 512},
+            timeout=120.0,
+        )
         descs = result.get("descriptions", [])
-        return {name: (descs[i] if i < len(descs) and descs[i] else name)
+        if not isinstance(descs, list):
+            raise ValueError(f"Expected list, got {type(descs)}")
+        return {name: (str(descs[i]).strip() if i < len(descs) and descs[i] else name)
                 for i, name in enumerate(names)}
     except Exception as exc:
         log.warning("Batch describe failed: %s — using names as fallback", exc)
@@ -97,20 +104,26 @@ def _describe_batch(names: List[str]) -> Dict[str, str]:
 
 
 def _embed(text: str) -> List[float]:
-    try:
-        r = requests.post(
-            _EMBED_URL,
-            json={"model": _EMBED_MODEL, "prompt": text},
-            timeout=_EMBED_TIMEOUT,
-        )
-        r.raise_for_status()
-        return r.json().get("embedding", [])
-    except Exception as exc:
-        log.warning("Embed failed for text %.40r: %s", text, exc)
-        return []
+    import time as _time
+    for attempt in range(3):
+        try:
+            r = requests.post(
+                _EMBED_URL,
+                json={"model": _EMBED_MODEL, "prompt": text},
+                timeout=_EMBED_TIMEOUT,
+            )
+            r.raise_for_status()
+            return r.json().get("embedding", [])
+        except Exception as exc:
+            if attempt < 2:
+                _time.sleep(0.5 * (attempt + 1))
+                continue
+            log.warning("Embed failed for text %.40r: %s", text, exc)
+            return []
+    return []
 
 
-_EMBED_WORKERS = 4
+_EMBED_WORKERS = int(os.getenv("EMBED_WORKERS", "4"))
 
 
 def _ensure_embeddings(category: str, names: List[str]) -> Dict[str, List[float]]:
@@ -129,12 +142,20 @@ def _ensure_embeddings(category: str, names: List[str]) -> Dict[str, List[float]
             needs_desc.append(name)
 
     # Pass 2: batch LLM describe for uncached names
-    for i in range(0, len(needs_desc), _BATCH):
+    total_batches = max(1, (len(needs_desc) + _BATCH - 1) // _BATCH)
+    t_last = time.monotonic()
+    for batch_idx, i in enumerate(range(0, len(needs_desc), _BATCH), 1):
         batch = needs_desc[i: i + _BATCH]
         batch_descs = _describe_batch(batch)
         for name, desc in batch_descs.items():
             descs[name] = desc
             r.set(f"{category}:desc:{name}", desc)
+        pct = batch_idx / total_batches * 100
+        if pct >= 100 or batch_idx % max(1, total_batches // 4) == 0:
+            now = time.monotonic()
+            log.info("[%s] describe %d/%d batches (%.0f%%) — %.1fs since last checkpoint",
+                     category, batch_idx, total_batches, pct, now - t_last)
+            t_last = now
 
     log.info("entity_classification: %d descriptions ready for %s (%d newly generated)",
              len(descs), category, len(needs_desc))
@@ -156,13 +177,14 @@ def _ensure_embeddings(category: str, names: List[str]) -> Dict[str, List[float]
         def _do_embed(name: str) -> tuple[str, List[float]]:
             return name, _embed(descs.get(name, name))
 
+        t_emb = time.monotonic()
+        log.info("[%s] embedding %d items (parallel workers=%d)...", category, len(needs_emb), _EMBED_WORKERS)
         with ThreadPoolExecutor(max_workers=_EMBED_WORKERS) as pool:
             for name, emb in pool.map(_do_embed, needs_emb):
                 if emb:
                     embeddings[name] = emb
                     r.set(f"{category}:emb:{name}", json.dumps(emb))
-
-        log.info("entity_classification: embedded %d new %s", len(needs_emb), category)
+        log.info("[%s] embed done — %d embedded in %.1fs", category, len(needs_emb), time.monotonic() - t_emb)
 
     return embeddings
 
@@ -342,8 +364,17 @@ def run_entity_classification(state: PipelineState) -> PipelineState:
         len(relation_names) - len(relations_to_classify), len(relation_names),
     )
 
+    def _progress(label: str, batch_idx: int, total_batches: int, t_last: float) -> float:
+        now = time.monotonic()
+        pct = batch_idx / total_batches * 100
+        log.info("[classify] %s %d/%d batches (%.0f%%) — %.1fs since last checkpoint",
+                 label, batch_idx, total_batches, pct, now - t_last)
+        return now
+
     # Step 1: classify new entities (context + embedding KNN)
-    for i in range(0, len(entities_to_classify), _BATCH):
+    total_e = max(1, (len(entities_to_classify) + _BATCH - 1) // _BATCH)
+    t_last = time.monotonic()
+    for batch_idx, i in enumerate(range(0, len(entities_to_classify), _BATCH), 1):
         batch = entities_to_classify[i : i + _BATCH]
         results = _run_entity_batch(batch, entity_context, labeled_entities, entity_embeddings)
         for name, r in zip(batch, results):
@@ -351,10 +382,14 @@ def run_entity_classification(state: PipelineState) -> PipelineState:
             if kind not in _VALID_ENTITY_KINDS:
                 kind = "individual"
             catalog[name] = {"kind": kind, "label": name, "comment": ""}
-            labeled_entities[name] = kind  # grow KNN pool within this run
+            labeled_entities[name] = kind
+        if batch_idx % max(1, total_e // 4) == 0 or batch_idx == total_e:
+            t_last = _progress("entities", batch_idx, total_e, t_last)
 
     # Step 2: classify new relations (context + embedding KNN + deterministic literal override)
-    for i in range(0, len(relations_to_classify), _BATCH):
+    total_r = max(1, (len(relations_to_classify) + _BATCH - 1) // _BATCH)
+    t_last = time.monotonic()
+    for batch_idx, i in enumerate(range(0, len(relations_to_classify), _BATCH), 1):
         batch = relations_to_classify[i : i + _BATCH]
         results = _run_relation_batch(batch, relation_context, has_literal, labeled_relations, relation_embeddings)
         for name, r in zip(batch, results):
@@ -377,11 +412,15 @@ def run_entity_classification(state: PipelineState) -> PipelineState:
                 "comment": "",
             }
             labeled_relations[name] = kind
+        if batch_idx % max(1, total_r // 4) == 0 or batch_idx == total_r:
+            t_last = _progress("relations", batch_idx, total_r, t_last)
 
     # Step 3: annotate only newly classified items
     new_names = set(entities_to_classify) | set(relations_to_classify)
     items_to_annotate = [{"name": n, "kind": catalog[n]["kind"]} for n in sorted(new_names) if n in catalog]
-    for i in range(0, len(items_to_annotate), _BATCH):
+    total_a = max(1, (len(items_to_annotate) + _BATCH - 1) // _BATCH)
+    t_last = time.monotonic()
+    for batch_idx, i in enumerate(range(0, len(items_to_annotate), _BATCH), 1):
         batch = items_to_annotate[i : i + _BATCH]
         results = _annotate_batch(batch)
         for item, r in zip(batch, results):
@@ -390,6 +429,8 @@ def run_entity_classification(state: PipelineState) -> PipelineState:
             catalog[name]["comment"] = r.get("comment", "") or ""
             cat = "entities" if name in set(entities_to_classify) else "relations"
             _persist_annotation(cat, name, catalog[name])
+        if batch_idx % max(1, total_a // 4) == 0 or batch_idx == total_a:
+            t_last = _progress("annotate", batch_idx, total_a, t_last)
 
     log.info(
         "entity_classification: %d entities (%d class, %d individual), "
