@@ -13,6 +13,7 @@ import requests
 
 from schemas import PipelineState
 from service.llm import call_llm
+from utils import is_literal as _is_literal_util
 
 log = logging.getLogger(__name__)
 
@@ -89,9 +90,12 @@ def _describe(name: str) -> str:
         return name
 
 
+_EMBED_TIMEOUT = float(__import__("os").getenv("OLLAMA_TIMEOUT_SEC", "3600"))
+
+
 def _embed(text: str) -> List[float]:
     try:
-        r = requests.post(_EMBED_URL, json={"model": _EMBED_MODEL, "prompt": text}, timeout=60)
+        r = requests.post(_EMBED_URL, json={"model": _EMBED_MODEL, "prompt": text}, timeout=_EMBED_TIMEOUT)
         r.raise_for_status()
         return r.json().get("embedding", [])
     except Exception as exc:  # pragma: no cover - network/model runtime dependent
@@ -245,13 +249,14 @@ def _scan_known_canonicals(category: str) -> Dict[str, str]:
 def _load_desc_emb(category: str, names: List[str], descs: Dict[str, str], embeds: Dict[str, List[float]]) -> None:
     """Populate descs/embeds for names that already have Redis entries. No generation."""
     r = _get_redis()
+    base = "entities" if category.startswith("entities") else "relations"
     for name in names:
         if name not in descs:
-            cached = r.get(f"{category}:desc:{name}")
+            cached = r.get(f"{category}:desc:{name}") or r.get(f"{base}:desc:{name}")
             if cached:
                 descs[name] = cached
         if name not in embeds:
-            cached = r.get(f"{category}:emb:{name}")
+            cached = r.get(f"{category}:emb:{name}") or r.get(f"{base}:emb:{name}")
             if cached:
                 try:
                     embeds[name] = json.loads(cached)
@@ -296,16 +301,25 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
             "consistency_conflicts": 0,
         }
 
+    # Derive the base namespace ("entities" or "relations") for cross-stage cache lookup.
+    # entity_classification stores under "entities:desc:*" / "relations:desc:*" regardless
+    # of sub-category, so we check that key first before regenerating.
+    _base = "entities" if category.startswith("entities") else "relations"
+
+    log.info("[%s] %d truly new, %d prior canonicals", category, len(truly_new), len(known_canonicals))
+
     # Step 1 — descriptions for truly new items only
     descs: Dict[str, str] = {}
     for name in truly_new:
         key = f"{category}:desc:{name}"
-        cached = _get_redis().get(key)
+        cached = _get_redis().get(key) or _get_redis().get(f"{_base}:desc:{name}")
         if cached is not None:
             descs[name] = cached
+            _get_redis().set(key, cached)  # mirror to category-specific key
         else:
             generated = _describe(name)
             _get_redis().set(key, generated)
+            _get_redis().set(f"{_base}:desc:{name}", generated)
             descs[name] = generated
 
     # Load desc/emb for known canonicals from Redis (no regeneration)
@@ -314,14 +328,17 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
     _load_desc_emb(category, sorted(known_canonicals), known_descs, {})
     descs.update(known_descs)
 
+    log.info("[%s] step 1 done — %d descriptions", category, len(descs))
+
     # Step 2 — embeddings for truly new items only
     embeds: Dict[str, List[float]] = {}
     for name in truly_new:
         key = f"{category}:emb:{name}"
-        cached = _get_redis().get(key)
-        if cached:
+        raw = _get_redis().get(key) or _get_redis().get(f"{_base}:emb:{name}")
+        if raw:
             try:
-                embeds[name] = json.loads(cached)
+                embeds[name] = json.loads(raw)
+                _get_redis().set(key, raw)  # mirror
                 continue
             except json.JSONDecodeError:
                 pass
@@ -339,6 +356,8 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
             except json.JSONDecodeError:
                 pass
     embeds.update(known_embeds)
+
+    log.info("[%s] step 2 done — %d embeddings", category, len(embeds))
 
     # Step 3 — pairs: (new × new) + (new × known_canonical); skip known × known
     universe = sorted(set(truly_new) | known_canonicals)
@@ -373,10 +392,40 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
     for a, b in same:
         dsu.union(a, b)
 
+    # Step 4b — LLM cluster judge: for each multi-member cluster, ask LLM to confirm
+    # all members are the same real-world entity. If not, disband the cluster.
+    raw_clusters = list(dsu.clusters().values())
+    disbands = 0
+    for members in raw_clusters:
+        if len(members) < 2:
+            continue
+        type_label = {
+            "entities_class": "class",
+            "entities_individual": "individual",
+            "relations_object": "object_property",
+            "relations_data": "datatype_property",
+        }.get(category, "individual")
+        try:
+            result = call_llm(
+                "entity_linking",
+                f"\nInput type: {type_label}\nNames: {json.dumps(members)}\n",
+                model=_ENTITY_MODEL,
+            )
+            if not result.get("same", True):
+                log.info("[%s] LLM DISBANDED cluster (size=%d): %s", category, len(members), members)
+                for m in members:
+                    dsu.p[m] = m  # reset each member to its own root
+                    dsu.rank[m] = 0
+                disbands += 1
+            else:
+                log.info("[%s] LLM CONFIRMED cluster (size=%d): %s", category, len(members), members)
+        except Exception as exc:
+            log.warning("[%s] LLM cluster judge failed for %s: %s — keeping cluster", category, members, exc)
+
+    if disbands:
+        log.info("[%s] LLM disbanded %d cluster(s)", category, disbands)
+
     clusters = list(dsu.clusters().values())
-    for members in clusters:
-        if len(members) >= 2:
-            log.info("[%s] LINKED cluster (size=%d): %s", category, len(members), members)
     conflicts = _conflicts_in_clusters(decisions, clusters)
     if conflicts:
         log.warning("[%s] consistency conflicts inside clusters: %d", category, len(conflicts))
@@ -410,13 +459,7 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
 
 # --- helpers ---
 
-_LITERAL_INT = re.compile(r"-?\d+")
-_LITERAL_FLOAT = re.compile(r"-?\d+\.\d+")
-
-
-def _is_literal(value: str) -> bool:
-    cleaned = value.strip()
-    return bool(_LITERAL_INT.fullmatch(cleaned) or _LITERAL_FLOAT.fullmatch(cleaned))
+_is_literal = _is_literal_util
 
 
 # --- state ---
@@ -426,6 +469,14 @@ def run_entity_linking(state: PipelineState) -> PipelineState:
     if not triplets:
         return state
 
+    try:
+        return _run_entity_linking_impl(state, triplets)
+    except Exception:
+        log.error("entity_linking CRASHED — full traceback:", exc_info=True)
+        raise
+
+
+def _run_entity_linking_impl(state: PipelineState, triplets) -> PipelineState:
     entity_catalog = state.get("entity_catalog", {})
 
     # Exclude literal objects from entity linking
@@ -435,6 +486,8 @@ def run_entity_linking(state: PipelineState) -> PipelineState:
     )
     raw_relations = list({t.predicate for t in triplets})
 
+    log.info("entity_linking: %d raw entities, %d raw relations", len(raw_entities), len(raw_relations))
+
     # Split entities by kind from catalog (default: individual)
     classes = [e for e in raw_entities if entity_catalog.get(e, {}).get("kind") == "class"]
     individuals = [e for e in raw_entities if entity_catalog.get(e, {}).get("kind") != "class"]
@@ -443,6 +496,9 @@ def run_entity_linking(state: PipelineState) -> PipelineState:
     obj_props = [r for r in raw_relations if entity_catalog.get(r, {}).get("kind") != "datatype_property"]
     data_props = [r for r in raw_relations if entity_catalog.get(r, {}).get("kind") == "datatype_property"]
 
+    log.info("entity_linking: classes=%d individuals=%d obj_props=%d data_props=%d",
+             len(classes), len(individuals), len(obj_props), len(data_props))
+
     # Surface normalisation per group
     cls_norm_map, cls_reps = _group_by_surface(classes)
     ind_norm_map, ind_reps = _group_by_surface(individuals)
@@ -450,10 +506,15 @@ def run_entity_linking(state: PipelineState) -> PipelineState:
     dat_norm_map, dat_reps = _group_by_surface(data_props)
 
     # Process each group independently — no cross-type merging
+    log.info("entity_linking: processing entities_class (%d reps)...", len(cls_reps))
     cc_repr, cls_stats = _process("entities_class", cls_reps)
+    log.info("entity_linking: processing entities_individual (%d reps)...", len(ind_reps))
     ci_repr, ind_stats = _process("entities_individual", ind_reps)
+    log.info("entity_linking: processing relations_object (%d reps)...", len(obj_reps))
     co_repr, obj_stats = _process("relations_object", obj_reps)
+    log.info("entity_linking: processing relations_data (%d reps)...", len(dat_reps))
     cd_repr, dat_stats = _process("relations_data", dat_reps)
+    log.info("entity_linking: all groups processed")
 
     def _resolve_entity(name: str) -> str:
         if entity_catalog.get(name, {}).get("kind") == "class":

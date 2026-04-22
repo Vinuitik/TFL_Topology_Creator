@@ -2,6 +2,7 @@ from __future__ import annotations
 
 """Run REBEL + spaCy NER + LLM to extract (subject, predicate, object) triplets from resolved text."""
 
+import gc
 import logging
 import re
 from typing import List, Optional
@@ -25,6 +26,8 @@ _nlp: Optional[spacy.language.Language] = None
 
 _LLM_CHUNK_WORDS = 350  # words per chunk sent to LLM
 _ENTITY_MODEL = __import__("os").getenv("OLLAMA_ENTITY_MODEL")
+_EMBED_MODEL = __import__("os").getenv("OLLAMA_EMBED_MODEL")
+_OLLAMA_URL = __import__("os").getenv("OLLAMA_URL")
 
 # spaCy entity types to include; mapped to a transport-domain class name
 _SPACY_TYPE_MAP = {
@@ -38,6 +41,25 @@ _SPACY_TYPE_MAP = {
 }
 
 _MIN_ENTITY_CHARS = 3
+
+
+# ── VRAM management ─────────────────────────────────────────────────────────
+
+def _evict_model(model_name: str) -> None:
+    """Ask Ollama to unload a model from VRAM immediately (keep_alive=0).
+    The model reloads automatically on next use."""
+    try:
+        import requests as _requests
+        _log_memory(f"pre-evict-{model_name}")
+        _requests.post(
+            _OLLAMA_URL,
+            json={"model": model_name, "keep_alive": 0},
+            timeout=15,
+        )
+        log.info("VRAM eviction requested for model '%s'", model_name)
+        _log_memory(f"post-evict-{model_name}")
+    except Exception as exc:
+        log.warning("Failed to evict model '%s' from VRAM: %s", model_name, exc)
 
 
 # ── memory diagnostics ──────────────────────────────────────────────────────
@@ -167,9 +189,20 @@ def _unload_model() -> None:
     global _tokenizer, _model
     _tokenizer = None
     _model = None
-    torch.cuda.empty_cache()
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.ipc_collect()
     _log_memory("post-rebel-unload")
     log.info("REBEL model unloaded, VRAM released")
+
+
+def _unload_spacy() -> None:
+    global _nlp
+    _nlp = None
+    gc.collect()
+    _log_memory("post-spacy-unload")
+    log.info("spaCy model unloaded")
 
 
 # ── LLM extraction ──────────────────────────────────────────────────────────
@@ -239,10 +272,19 @@ def run_extraction(state: PipelineState) -> PipelineState:
     _log_memory("extraction-start")
 
     # ── 1. REBEL: relation triplets (GPU) ───────────────────────────────────
+    # Evict all Ollama models first — they share the same GPU and will cause
+    # cudaErrorUnknown (silent OOM) during beam search if left resident.
+    if _ENTITY_MODEL:
+        _evict_model(_ENTITY_MODEL)
+    if _EMBED_MODEL:
+        _evict_model(_EMBED_MODEL)
     _load_model()
     rebel_triplets: List[Triplet] = []
     for sentence in sentences:
-        rebel_triplets.extend(_extract_from_sentence(sentence))
+        try:
+            rebel_triplets.extend(_extract_from_sentence(sentence))
+        except Exception as exc:
+            log.error("REBEL failed on sentence (skipping): %s | sentence=%.80r", exc, sentence)
     log.info("REBEL: %d triplet(s)", len(rebel_triplets))
     _unload_model()  # free VRAM before CPU-heavy stages
 
@@ -253,8 +295,14 @@ def run_extraction(state: PipelineState) -> PipelineState:
         log.error("spaCy extraction failed: %s", exc, exc_info=True)
         _log_memory("spacy-failure")
         spacy_triplets = []
+    finally:
+        _unload_spacy()
 
     # ── 3. LLM extraction: relation triplets (Ollama HTTP) ──────────────────
+    # Evict the embedding model before LLM extraction — it is not needed until
+    # entity_linking and would otherwise compete for VRAM with the entity model.
+    if _EMBED_MODEL:
+        _evict_model(_EMBED_MODEL)
     _log_memory("pre-llm-extraction")
     try:
         llm_triplets = _extract_llm_triplets(full_text)
