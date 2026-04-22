@@ -7,9 +7,6 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-
-<http://example.org/tfl> a owl:Ontology .
 
 local:BusRoute a owl:Class ;
     rdfs:label "Bus Route" ;
@@ -523,4 +520,6 @@ local:TransitAccessPoint a owl:Class ;
         geo1:SpatialThing ;
     owl:equivalentClass gtfs:Stop .
 
+[] a owl:AllDisjointClasses ;
+    owl:members ( local:TransitAccessPoint local:Zone local:TransportMode local:Journey local:AccessibilityFeature local:Fare local:Route local:RouteStopSequence local:ServiceDisruption local:DisruptionCause local:DisruptionStatus local:ServiceSchedule local:TimeWindow local:InfrastructureProject local:ProjectStatus ) .
 

@@ -3,6 +3,5 @@
 venv/
 __pycache__/
 .claude
-.hf_cache/
-
+.hf_cache
 outputs/

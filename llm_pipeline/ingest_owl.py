@@ -118,7 +118,7 @@ def _embed(text: str) -> List[float]:
 
 
 def _extract(g: rdflib.Graph) -> Tuple[List[Dict], List[Dict]]:
-    """Return (entities, relations) as lists of {label, iri, context_str}."""
+    """Return (entities, relations) as lists of {label, iri, context_str, kind}."""
     entities: Dict[str, Dict] = {}
     relations: Dict[str, Dict] = {}
 
@@ -127,14 +127,14 @@ def _extract(g: rdflib.Graph) -> Tuple[List[Dict], List[Dict]]:
         if not isinstance(uri, rdflib.URIRef):
             continue
         lbl = _label(g, uri)
-        entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl)}
+        entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "kind": "entities_class"}
 
-    # Named individuals + instances of extracted classes
+    # Named individuals
     for uri in g.subjects(RDF.type, OWL.NamedIndividual):
         if not isinstance(uri, rdflib.URIRef):
             continue
         lbl = _label(g, uri)
-        entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl)}
+        entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "kind": "entities_individual"}
 
     # Also catch rdf:type triples pointing to known classes
     known_class_iris = {e["iri"] for e in entities.values()}
@@ -143,21 +143,21 @@ def _extract(g: rdflib.Graph) -> Tuple[List[Dict], List[Dict]]:
             continue
         if str(cls) in known_class_iris and str(uri) not in {e["iri"] for e in entities.values()}:
             lbl = _label(g, uri)
-            entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl)}
+            entities[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "kind": "entities_individual"}
 
     # Object properties
     for uri in g.subjects(RDF.type, OWL.ObjectProperty):
         if not isinstance(uri, rdflib.URIRef):
             continue
         lbl = _label(g, uri)
-        relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "property_type": "object_property"}
+        relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "kind": "relations_object"}
 
     # Datatype properties
     for uri in g.subjects(RDF.type, OWL.DatatypeProperty):
         if not isinstance(uri, rdflib.URIRef):
             continue
         lbl = _label(g, uri)
-        relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "property_type": "datatype_property"}
+        relations[lbl] = {"label": lbl, "iri": str(uri), "context": _context_str(g, uri, lbl), "kind": "relations_data"}
 
     return list(entities.values()), list(relations.values())
 
@@ -179,6 +179,13 @@ def _write_to_redis(r: redis_lib.Redis, category: str, items: List[Dict]) -> int
         lbl = item["label"]
         vec = _embed(descriptions[lbl])
         r.set(f"{category}:emb:{lbl}", json.dumps(vec))
+
+        # Write canonical key using the OWL-typed sub-category so entity_linking
+        # treats this as already-resolved and never renames original ontology names.
+        kind = item.get("kind", category)
+        r.set(f"{kind}:canonical:{lbl}", lbl)
+        log.info("[%s] canonical protected: '%s'", kind, lbl)
+
         written += 1
 
     return written
@@ -189,28 +196,15 @@ def _merge_catalog(catalog: Dict, entities: List[Dict], relations: List[Dict]) -
     existing_pred_iris = {e["iri"] for e in catalog.get("predicates", [])}
 
     new_classes = 0
-    # Create a lookup for existing classes to avoid duplicates, but we will refresh them
-    class_index = {c["iri"]: i for i, c in enumerate(catalog.setdefault("classes", []))}
     for e in entities:
-        entry = {"label": e["label"], "iri": e["iri"]}
-        if e["iri"] in class_index:
-            catalog["classes"][class_index[e["iri"]]] = entry
-        else:
-            catalog["classes"].append(entry)
+        if e["iri"] not in existing_class_iris:
+            catalog.setdefault("classes", []).append({"label": e["label"], "iri": e["iri"]})
             new_classes += 1
 
     new_preds = 0
-    pred_index = {p["iri"]: i for i, p in enumerate(catalog.setdefault("predicates", []))}
     for r in relations:
-        entry = {
-            "label": r["label"],
-            "iri": r["iri"],
-            "property_type": r.get("property_type", "object_property")
-        }
-        if r["iri"] in pred_index:
-            catalog["predicates"][pred_index[r["iri"]]] = entry
-        else:
-            catalog["predicates"].append(entry)
+        if r["iri"] not in existing_pred_iris:
+            catalog.setdefault("predicates", []).append({"label": r["label"], "iri": r["iri"]})
             new_preds += 1
 
     return new_classes, new_preds
