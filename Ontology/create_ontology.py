@@ -251,7 +251,9 @@ datatype_properties = [
     (EX.isApplicableOnWeekends, "is applicable on weekends", "Indicates if the time window or fare applies on Saturdays and Sundays.", EX.TimeWindow, XSD.boolean, OWL.DatatypeProperty),
     (EX.expectedCompletionDate, "expected completion date", "The anticipated date when the upgrade or expansion will be finished.", EX.InfrastructureProject, XSD.date, OWL.DatatypeProperty),
     (EX.projectBudget, "project budget", "The estimated financial cost of the infrastructure project.", EX.InfrastructureProject, XSD.decimal, OWL.DatatypeProperty),
-    (EX.isPubliclyFunded, "is publicly funded", "Indicates if the project is financed by government or public taxes.", EX.InfrastructureProject, XSD.boolean, OWL.DatatypeProperty)
+    (EX.isPubliclyFunded, "is publicly funded", "Indicates if the project is financed by government or public taxes.", EX.InfrastructureProject, XSD.boolean, OWL.DatatypeProperty),
+    (EX.hasOpeningTime, "has opening time", "The daily time a station or stop becomes accessible to the public.", EX.Station, XSD.time, OWL.DatatypeProperty),
+    (EX.hasClosingTime, "has closing time", "The daily time a station or stop ceases operation for the night.", EX.Station, XSD.time, OWL.DatatypeProperty),
 ]
 
 for prop, label, comment, domain, range_type, p_type in datatype_properties:
