@@ -1,0 +1,4 @@
+@base <http://example.org/NOPREFIX/> .
+
+[] a <ex:TflNetwork> .
+

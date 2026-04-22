@@ -5,11 +5,19 @@ from rdflib.collection import Collection
 # Create graph
 g = Graph()
 
+ontology_iri = URIRef("https://example.org/tfl-topology")
+g.add((ontology_iri, RDF.type, OWL.Ontology))
+g.add((ontology_iri, RDFS.label, Literal("TfL Topology")))
+g.add((ontology_iri, RDFS.comment, Literal("Ontology for TfL network topology")))
+
 # Define namespace
 EX = Namespace("http://example.org/tfl#")
 g.bind("ex", EX)
 
 classes = [
+    # Root
+    (EX.TflNetwork, "TfL Network", "Top-level container for the TfL topology knowledge graph."),
+    
     # Core Infrastructure & Journey
     (EX.AccessibilityFeature, "Accessibility Feature", "Physical features or services providing access (e.g., step-free access)."),
     (EX.FareClass, "Fare Class", "The category of fare applicable to a journey."),
@@ -70,6 +78,7 @@ for cls, label, comment in classes:
     g.add((cls, RDF.type, OWL.Class))
     g.add((cls, RDFS.label, Literal(label)))
     g.add((cls, RDFS.comment, Literal(comment)))
+    g.add((cls, RDFS.subClassOf, OWL.Thing))
 
 # --- Class Hierarchy ---
 g.add((EX.LineSegment, RDFS.subClassOf, EX.SpatialThing))
@@ -112,6 +121,7 @@ g.add((EX.OffPeakPeriod, RDFS.subClassOf, EX.TimeWindow))
 g.add((EX.StationUpgrade, RDFS.subClassOf, EX.InfrastructureProject))
 g.add((EX.LineExpansion, RDFS.subClassOf, EX.InfrastructureProject))
 
+
 # --- Status Individuals ---
 statuses = [
     (EX.GoodService, "Good Service"),
@@ -147,7 +157,17 @@ Collection(g, disjoint_list_node, [
 g.add((disjoint_node, OWL.members, disjoint_list_node))
 
 # --- Object Properties ---
-properties = [
+tfl_network_properties = [
+    (EX.hasSpatialEntity, "has spatial entity", "Links the TfL network to its spatial components.", EX.TflNetwork, EX.SpatialThing, OWL.ObjectProperty),
+    (EX.hasRoute, "has route", "Links the TfL network to its routes.", EX.TflNetwork, EX.Route, OWL.ObjectProperty),
+    (EX.hasDisruption, "has disruption", "Links the TfL network to its service disruptions.", EX.TflNetwork, EX.ServiceDisruption, OWL.ObjectProperty),
+    (EX.hasFareType, "has fare type", "Links the TfL network to its fare structures.", EX.TflNetwork, EX.Fare, OWL.ObjectProperty),
+    (EX.hasSchedule, "has schedule", "Links the TfL network to its service schedules.", EX.TflNetwork, EX.ServiceSchedule, OWL.ObjectProperty),
+    (EX.hasTimeWindow, "has time window", "Links the TfL network to its time windows.", EX.TflNetwork, EX.TimeWindow, OWL.ObjectProperty),
+    (EX.hasProject, "has project", "Links the TfL network to its infrastructure projects.", EX.TflNetwork, EX.InfrastructureProject, OWL.ObjectProperty),
+]
+
+properties = tfl_network_properties + [
     (EX.belongsToRoute, "belongs to route", "Links a sequence of stops to the specific route they define.", EX.RouteStopSequence, EX.Route, OWL.ObjectProperty),
     (EX.directlyConnectedTo, "directly connected to", "Indicates a direct connection between two transit access points (e.g., adjacent stations).", EX.TransitAccessPoint, EX.TransitAccessPoint, [OWL.ObjectProperty, OWL.SymmetricProperty]),
     (EX.endPoint, "end point", "The final station or stop of a specific journey.", EX.Journey, EX.TransitAccessPoint, OWL.ObjectProperty),
@@ -177,7 +197,7 @@ properties = [
     (EX.hasOffPeakPeriod, "has off-peak period", "Links a station or line to its specific off-peak window.", [EX.Station, EX.Route], EX.OffPeakPeriod, OWL.ObjectProperty),
     (EX.targetsInfrastructure, "targets infrastructure", "Links a project to the specific station or line being improved.", EX.InfrastructureProject, [EX.Station, EX.Route], OWL.ObjectProperty),
     (EX.hasProjectStatus, "has project status", "Indicates the current lifecycle stage of an infrastructure project.", EX.InfrastructureProject, EX.ProjectStatus, OWL.ObjectProperty),
-    (EX.openingDate, "opening date", "The historical date a line or station first opened to the public.", [EX.Line, EX.Station], XSD.date, OWL.DatatypeProperty)
+    (EX.openingDate, "opening date", "The historical date a line or station first opened to the public.", [EX.Line, EX.Station], XSD.date, OWL.DatatypeProperty),
 ]
 
 for prop, label, comment, domain, range_type, p_type in properties:
@@ -187,11 +207,9 @@ for prop, label, comment, domain, range_type, p_type in properties:
             g.add((prop, RDF.type, t))
     else:
         g.add((prop, RDF.type, p_type))
-    
 
     g.add((prop, RDFS.label, Literal(label)))
     g.add((prop, RDFS.comment, Literal(comment)))
-    
 
     if domain:
         if isinstance(domain, list):
@@ -203,7 +221,6 @@ for prop, label, comment, domain, range_type, p_type in properties:
             g.add((prop, RDFS.domain, union_node))
         else:
             g.add((prop, RDFS.domain, domain))
-            
 
     if range_type:
         if isinstance(range_type, list):

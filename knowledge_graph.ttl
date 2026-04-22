@@ -589,6 +589,8 @@ ex:TransitAccessPoint a owl:Class ;
     rdfs:subClassOf ex:SpatialThing,
         owl:Thing .
 
+[] a <ex:TflNetwork> .
+
 [] a owl:AllDisjointClasses ;
     owl:members ( ex:TransitAccessPoint ex:Zone ex:TransportMode ex:Journey ex:AccessibilityFeature ex:Fare ex:Route ex:RouteStopSequence ex:ServiceDisruption ex:DisruptionCause ex:DisruptionStatus ex:ServiceSchedule ex:TimeWindow ex:InfrastructureProject ex:ProjectStatus ) .
 
