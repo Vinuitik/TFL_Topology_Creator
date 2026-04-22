@@ -5,6 +5,7 @@ import logging
 import math
 import os
 import re
+from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
 from typing import Dict, Iterable, List, Set, Tuple
 
@@ -82,12 +83,17 @@ class _DSU:
 
 # --- helpers ---
 
-def _describe(name: str) -> str:
+def _describe_batch(names: List[str]) -> Dict[str, str]:
+    """Get descriptions for a batch of names in a single LLM call."""
+    lines = "\n".join(f'{i + 1}. "{n}"' for i, n in enumerate(names))
     try:
-        return call_llm("entity_linking_describe", f"\nName: {name}\n", model=_ENTITY_MODEL).get("description", name)
-    except Exception as exc:  # pragma: no cover - dependent on external runtime
-        log.warning("Description fallback for '%s': %s", name, exc)
-        return name
+        result = call_llm("entity_describe_batch", f"\n{lines}\n", model=_ENTITY_MODEL)
+        descs = result.get("descriptions", [])
+        return {name: (descs[i] if i < len(descs) and descs[i] else name)
+                for i, name in enumerate(names)}
+    except Exception as exc:
+        log.warning("Batch describe failed: %s — using names as fallback", exc)
+        return {name: name for name in names}
 
 
 _EMBED_TIMEOUT = float(__import__("os").getenv("OLLAMA_TIMEOUT_SEC", "3600"))
@@ -308,56 +314,61 @@ def _process(category: str, items: List[str]) -> Tuple[Dict[str, str], Dict[str,
 
     log.info("[%s] %d truly new, %d prior canonicals", category, len(truly_new), len(known_canonicals))
 
-    # Step 1 — descriptions for truly new items only
+    # Step 1 — descriptions for truly new items (batched LLM calls)
     descs: Dict[str, str] = {}
+    needs_desc: List[str] = []
     for name in truly_new:
-        key = f"{category}:desc:{name}"
-        cached = _get_redis().get(key) or _get_redis().get(f"{_base}:desc:{name}")
+        cached = _get_redis().get(f"{category}:desc:{name}") or _get_redis().get(f"{_base}:desc:{name}")
         if cached is not None:
             descs[name] = cached
-            _get_redis().set(key, cached)  # mirror to category-specific key
+            _get_redis().set(f"{category}:desc:{name}", cached)
         else:
-            generated = _describe(name)
-            _get_redis().set(key, generated)
-            _get_redis().set(f"{_base}:desc:{name}", generated)
-            descs[name] = generated
+            needs_desc.append(name)
 
-    # Load desc/emb for known canonicals from Redis (no regeneration)
+    for i in range(0, len(needs_desc), 15):
+        batch = needs_desc[i: i + 15]
+        for name, desc in _describe_batch(batch).items():
+            descs[name] = desc
+            _get_redis().set(f"{category}:desc:{name}", desc)
+            _get_redis().set(f"{_base}:desc:{name}", desc)
+
+    # Load descs for known canonicals (no regeneration)
     _load_desc_emb(category, sorted(known_canonicals), descs, {})
-    known_descs: Dict[str, str] = {}
-    _load_desc_emb(category, sorted(known_canonicals), known_descs, {})
-    descs.update(known_descs)
+    log.info("[%s] step 1 done — %d descriptions (%d newly generated)", category, len(descs), len(needs_desc))
 
-    log.info("[%s] step 1 done — %d descriptions", category, len(descs))
-
-    # Step 2 — embeddings for truly new items only
+    # Step 2 — embeddings (parallel HTTP requests)
     embeds: Dict[str, List[float]] = {}
+    needs_emb: List[str] = []
     for name in truly_new:
-        key = f"{category}:emb:{name}"
-        raw = _get_redis().get(key) or _get_redis().get(f"{_base}:emb:{name}")
+        raw = _get_redis().get(f"{category}:emb:{name}") or _get_redis().get(f"{_base}:emb:{name}")
         if raw:
             try:
                 embeds[name] = json.loads(raw)
-                _get_redis().set(key, raw)  # mirror
+                _get_redis().set(f"{category}:emb:{name}", raw)
                 continue
             except json.JSONDecodeError:
                 pass
-        emb = _embed(descs[name])
-        embeds[name] = emb
-        _get_redis().set(key, json.dumps(emb))
+        needs_emb.append(name)
 
-    # Load embeddings for known canonicals (already in Redis)
-    known_embeds: Dict[str, List[float]] = {}
+    if needs_emb:
+        def _do_embed(name: str) -> tuple[str, List[float]]:
+            return name, _embed(descs.get(name, name))
+
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            for name, emb in pool.map(_do_embed, needs_emb):
+                if emb:
+                    embeds[name] = emb
+                    _get_redis().set(f"{category}:emb:{name}", json.dumps(emb))
+
+    # Load embeddings for known canonicals
     for name in sorted(known_canonicals):
         cached = _get_redis().get(f"{category}:emb:{name}")
         if cached:
             try:
-                known_embeds[name] = json.loads(cached)
+                embeds[name] = json.loads(cached)
             except json.JSONDecodeError:
                 pass
-    embeds.update(known_embeds)
-
-    log.info("[%s] step 2 done — %d embeddings", category, len(embeds))
+    log.info("[%s] step 2 done — %d embeddings (%d newly embedded)", category, len(embeds), len(needs_emb))
 
     # Step 3 — pairs: (new × new) + (new × known_canonical); skip known × known
     universe = sorted(set(truly_new) | known_canonicals)

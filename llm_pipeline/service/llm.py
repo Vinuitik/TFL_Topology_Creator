@@ -74,7 +74,7 @@ def call_llm(
     extra_options: dict | None = None,
 ) -> Any:
     prompt_path = _find_latest_prompt(state_name)
-    log.info("Using prompt %s", prompt_path.name)
+    log.debug("Using prompt %s", prompt_path.name)
 
     full_prompt = prompt_path.read_text(encoding="utf-8") + params
     effective_model = model or _MODEL
@@ -91,16 +91,16 @@ def call_llm(
         "options": options,
     }
 
-    log.info("LLM → state=%s model=%s url=%s prompt_chars=%d",
-             state_name, effective_model, _OLLAMA_URL, len(full_prompt))
+    log.debug("LLM → state=%s model=%s url=%s prompt_chars=%d",
+              state_name, effective_model, _OLLAMA_URL, len(full_prompt))
     last_exc: Exception | None = None
     for attempt in range(1, _MAX_RETRIES + 1):
         t0 = time.monotonic()
         try:
             response = requests.post(_OLLAMA_URL, json=payload, timeout=_TIMEOUT_SEC)
             elapsed = time.monotonic() - t0
-            log.info("LLM ← state=%s attempt=%d status=%d elapsed=%.1fs",
-                     state_name, attempt, response.status_code, elapsed)
+            log.debug("LLM ← state=%s attempt=%d status=%d elapsed=%.1fs",
+                      state_name, attempt, response.status_code, elapsed)
             response.raise_for_status()
             raw = response.json().get("response", "")
             log.debug("LLM raw response: %r", raw)

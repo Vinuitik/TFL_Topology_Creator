@@ -8,6 +8,7 @@ Runs after extraction, before entity_linking.
 import json
 import logging
 import os
+from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Dict, List, Set
 
 import redis
@@ -82,14 +83,17 @@ def _load_all_labeled(category: str) -> Dict[str, str]:
     return result
 
 
-def _describe(name: str) -> str:
+def _describe_batch(names: List[str]) -> Dict[str, str]:
+    """Get descriptions for a batch of names in a single LLM call."""
+    lines = "\n".join(f'{i + 1}. "{n}"' for i, n in enumerate(names))
     try:
-        return call_llm(
-            "entity_linking_describe", f"\nName: {name}\n", model=_ENTITY_MODEL
-        ).get("description", name)
+        result = call_llm("entity_describe_batch", f"\n{lines}\n", model=_ENTITY_MODEL)
+        descs = result.get("descriptions", [])
+        return {name: (descs[i] if i < len(descs) and descs[i] else name)
+                for i, name in enumerate(names)}
     except Exception as exc:
-        log.warning("Description fallback for '%s': %s", name, exc)
-        return name
+        log.warning("Batch describe failed: %s — using names as fallback", exc)
+        return {name: name for name in names}
 
 
 def _embed(text: str) -> List[float]:
@@ -106,40 +110,59 @@ def _embed(text: str) -> List[float]:
         return []
 
 
-def _ensure_embeddings(
-    category: str, names: List[str]
-) -> Dict[str, List[float]]:
-    """Generate description + embedding for every name not already in Redis.
-    Uses the same Redis keys as entity_linking so its work is reused there.
-    Returns {name: vector} for all names that have a valid embedding.
-    """
-    r = _get_redis()
-    embeddings: Dict[str, List[float]] = {}
-    total = len(names)
-    for idx, name in enumerate(names, 1):
-        # Description
-        desc_key = f"{category}:desc:{name}"
-        desc = r.get(desc_key)
-        if desc is None:
-            desc = _describe(name)
-            r.set(desc_key, desc)
+_EMBED_WORKERS = 4
 
-        # Embedding
-        emb_key = f"{category}:emb:{name}"
-        cached_emb = r.get(emb_key)
-        if cached_emb:
+
+def _ensure_embeddings(category: str, names: List[str]) -> Dict[str, List[float]]:
+    """Batch-describe then parallel-embed all names not already cached in Redis."""
+    r = _get_redis()
+    descs: Dict[str, str] = {}
+    embeddings: Dict[str, List[float]] = {}
+
+    # Pass 1: load cached descriptions, collect what needs generating
+    needs_desc: List[str] = []
+    for name in names:
+        cached = r.get(f"{category}:desc:{name}")
+        if cached is not None:
+            descs[name] = cached
+        else:
+            needs_desc.append(name)
+
+    # Pass 2: batch LLM describe for uncached names
+    for i in range(0, len(needs_desc), _BATCH):
+        batch = needs_desc[i: i + _BATCH]
+        batch_descs = _describe_batch(batch)
+        for name, desc in batch_descs.items():
+            descs[name] = desc
+            r.set(f"{category}:desc:{name}", desc)
+
+    log.info("entity_classification: %d descriptions ready for %s (%d newly generated)",
+             len(descs), category, len(needs_desc))
+
+    # Pass 3: load cached embeddings, collect what needs embedding
+    needs_emb: List[str] = []
+    for name in names:
+        cached = r.get(f"{category}:emb:{name}")
+        if cached:
             try:
-                embeddings[name] = json.loads(cached_emb)
+                embeddings[name] = json.loads(cached)
                 continue
             except json.JSONDecodeError:
                 pass
-        emb = _embed(desc)
-        if emb:
-            embeddings[name] = emb
-            r.set(emb_key, json.dumps(emb))
+        needs_emb.append(name)
 
-        if idx % 20 == 0 or idx == total:
-            log.info("entity_classification: embedded %d/%d %s", idx, total, category)
+    # Pass 4: parallel embed
+    if needs_emb:
+        def _do_embed(name: str) -> tuple[str, List[float]]:
+            return name, _embed(descs.get(name, name))
+
+        with ThreadPoolExecutor(max_workers=_EMBED_WORKERS) as pool:
+            for name, emb in pool.map(_do_embed, needs_emb):
+                if emb:
+                    embeddings[name] = emb
+                    r.set(f"{category}:emb:{name}", json.dumps(emb))
+
+        log.info("entity_classification: embedded %d new %s", len(needs_emb), category)
 
     return embeddings
 
