@@ -13,6 +13,7 @@ from .ontology_construction import run_ontology_construction
 from .preprocessing import run_preprocessing
 from .reasoning import run_reasoning
 from .schema_mapping import run_schema_mapping
+from .structured_ingestion import run_structured_ingestion
 from .text_normalization import run_text_normalization
 from .turtle_serialization import run_turtle_serialization
 from .validation import run_validation
@@ -38,6 +39,7 @@ def timed_node(name: str) -> Callable:
 
 run_input_ingestion = timed_node("input_ingestion")(run_input_ingestion)
 run_preprocessing = timed_node("preprocessing")(run_preprocessing)
+run_structured_ingestion = timed_node("structured_ingestion")(run_structured_ingestion)
 run_text_normalization = timed_node("text_normalization")(run_text_normalization)
 run_coreference_resolution = timed_node("coreference_resolution")(run_coreference_resolution)
 run_extraction = timed_node("extraction")(run_extraction)
@@ -52,6 +54,7 @@ run_turtle_serialization = timed_node("turtle_serialization")(run_turtle_seriali
 __all__ = [
     "run_input_ingestion",
     "run_preprocessing",
+    "run_structured_ingestion",
     "run_text_normalization",
     "run_coreference_resolution",
     "run_extraction",

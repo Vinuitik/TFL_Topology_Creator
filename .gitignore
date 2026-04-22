@@ -3,11 +3,6 @@
 venv/
 __pycache__/
 .claude
-<<<<<<< HEAD
 .hf_cache/
 
 outputs/
-=======
-.hf_cache
-outputs/
->>>>>>> reasoning-ontology-pipeline-v2

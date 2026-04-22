@@ -2,8 +2,6 @@ from __future__ import annotations
 
 """Map linked triplets into ontology-aligned nodes and edges."""
 
-import logging
-import os
 import re
 from difflib import SequenceMatcher
 from typing import Any, Dict, List, Tuple
@@ -11,10 +9,8 @@ from typing import Any, Dict, List, Tuple
 from schemas import PipelineState
 from .entity_classification import _is_literal
 
-log = logging.getLogger(__name__)
 
 _BASE_NS = "http://example.org/tfl#"
-_ALLOW_NEW_ENTITIES = os.getenv("ALLOW_NEW_ENTITIES", "false").lower() == "true"
 _XSD_INTEGER = "http://www.w3.org/2001/XMLSchema#integer"
 _XSD_DECIMAL = "http://www.w3.org/2001/XMLSchema#decimal"
 _XSD_DATE = "http://www.w3.org/2001/XMLSchema#date"
@@ -44,6 +40,9 @@ def _best_match(label: str, catalog: List[Dict[str, str]]) -> Tuple[Dict[str, st
     return best, best_score
 
 
+_XSD_STRING = "http://www.w3.org/2001/XMLSchema#string"
+_XSD_BOOLEAN = "http://www.w3.org/2001/XMLSchema#boolean"
+
 def _literal_value(value: str) -> Tuple[str, str] | None:
     cleaned = value.strip().lower()
     if cleaned in ("true", "false", "yes", "no"):
@@ -67,6 +66,12 @@ def _literal_value(value: str) -> Tuple[str, str] | None:
     if re.fullmatch(r"zone\s+\d+(-?\d+)?", cleaned):
         return value.strip(), _XSD_STRING
     return None
+
+
+# WebProtege UUID IRIs from KE_CW2_Ontology.ttl — these are the canonical IRIs
+# that must be used so pipeline triples are in the same property space as the
+# seed individuals already defined in the base ontology.
+_WP = "http://webprotege.stanford.edu/"
 
 
 def _default_predicate_catalog() -> List[Dict[str, str]]:
@@ -118,48 +123,21 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
 
     entity_labels = sorted(entity_set)
 
-    # When ALLOW_NEW_ENTITIES=false, build known sets from the catalog
-    known_class_labels: set = set()
-    known_pred_labels: set = set()
-    if not _ALLOW_NEW_ENTITIES:
-        known_class_labels = {_normalize_text(e.get("label", "")) for e in rag_catalog.get("classes", [])}
-        known_pred_labels = {_normalize_text(e.get("label", "")) for e in rag_catalog.get("predicates", [])}
-        log.info("ALLOW_NEW_ENTITIES=false — restricting to %d known classes, %d known predicates",
-                 len(known_class_labels), len(known_pred_labels))
-
+    # 3. Build Node Map
     node_map: Dict[str, Dict[str, Any]] = {}
-    skipped_new_classes = 0
     for idx, label in enumerate(entity_labels, start=1):
         cat = entity_catalog.get(label, {})
         display_label = cat.get("label", label)
         comment = cat.get("comment", "")
-
-        if kind == "class" and not _ALLOW_NEW_ENTITIES and _normalize_text(label) not in known_class_labels:
-            skipped_new_classes += 1
-            log.debug("Skipping new class '%s' (not in ontology catalog)", label)
-            continue
-
-        if kind == "class":
-            # Entity IS the class — IRI doubles as both instance and class IRI
-            class_iri = f"{_BASE_NS}{_slug(label)}"
-            node_map[label] = {
-                "id": f"ent_{idx}",
-                "label": display_label,
-                "comment": comment,
-                "iri": class_iri,
-                "class_iri": class_iri,
-                "class_label": display_label,
-                "is_class": True,
-            }
+        existing_iri = label_to_iri.get(label)
+        
+        class_match, class_score = _best_match(label, class_catalog)
+        if class_match and class_score >= 0.4:
+            class_iri = class_match["iri"]
+            class_label = class_match["label"]
         else:
-            # Individual — fuzzy-match to a class from the catalog
-            class_match, class_score = _best_match(label, class_catalog)
-            if class_match and class_score >= 0.6:
-                class_iri = class_match["iri"]
-                class_label = class_match["label"]
-            else:
-                class_iri = f"{_BASE_NS}TransportEntity"
-                class_label = "TransportEntity"
+            class_iri = f"{_BASE_NS}TransitAccessPoint"
+            class_label = "TransitAccessPoint"
 
         node_map[label] = {
             "id": f"ent_{idx}",
@@ -172,20 +150,10 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
             "is_literal": False, # These are all entities
         }
 
-    if skipped_new_classes:
-        log.info("Skipped %d new class node(s) (ALLOW_NEW_ENTITIES=false)", skipped_new_classes)
-
     edges: List[Dict[str, Any]] = []
     unmapped_predicates: List[str] = []
 
     for t in triplets:
-        # Drop triplets whose subject or object node was filtered out
-        if t.subject not in node_map:
-            continue
-        obj_literal = _literal_value(t.object)
-        if obj_literal is None and t.object not in node_map:
-            continue
-
         cat = entity_catalog.get(t.predicate, {})
         display_pred_label = cat.get("label", t.predicate)
 
