@@ -2,14 +2,18 @@ from __future__ import annotations
 
 """Map linked triplets into ontology-aligned nodes and edges."""
 
+import logging
+import os
 import re
 from difflib import SequenceMatcher
 from typing import Any, Dict, List, Tuple
 
 from schemas import PipelineState
 
+log = logging.getLogger(__name__)
 
 _BASE_NS = "http://example.org/pt#"
+_ALLOW_NEW_ENTITIES = os.getenv("ALLOW_NEW_ENTITIES", "false").lower() == "true"
 _XSD_INTEGER = "http://www.w3.org/2001/XMLSchema#integer"
 _XSD_DECIMAL = "http://www.w3.org/2001/XMLSchema#decimal"
 
@@ -85,12 +89,27 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
             entity_set.add(t.object)
     entity_labels = sorted(entity_set)
 
+    # When ALLOW_NEW_ENTITIES=false, build known sets from the catalog
+    known_class_labels: set = set()
+    known_pred_labels: set = set()
+    if not _ALLOW_NEW_ENTITIES:
+        known_class_labels = {_normalize_text(e.get("label", "")) for e in rag_catalog.get("classes", [])}
+        known_pred_labels = {_normalize_text(e.get("label", "")) for e in rag_catalog.get("predicates", [])}
+        log.info("ALLOW_NEW_ENTITIES=false — restricting to %d known classes, %d known predicates",
+                 len(known_class_labels), len(known_pred_labels))
+
     node_map: Dict[str, Dict[str, Any]] = {}
+    skipped_new_classes = 0
     for idx, label in enumerate(entity_labels, start=1):
         cat = entity_catalog.get(label, {})
         kind = cat.get("kind", "individual")
         display_label = cat.get("label", label)
         comment = cat.get("comment", "")
+
+        if kind == "class" and not _ALLOW_NEW_ENTITIES and _normalize_text(label) not in known_class_labels:
+            skipped_new_classes += 1
+            log.debug("Skipping new class '%s' (not in ontology catalog)", label)
+            continue
 
         if kind == "class":
             # Entity IS the class — IRI doubles as both instance and class IRI
@@ -124,10 +143,20 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
                 "is_class": False,
             }
 
+    if skipped_new_classes:
+        log.info("Skipped %d new class node(s) (ALLOW_NEW_ENTITIES=false)", skipped_new_classes)
+
     edges: List[Dict[str, Any]] = []
     unmapped_predicates: List[str] = []
 
     for t in triplets:
+        # Drop triplets whose subject or object node was filtered out
+        if t.subject not in node_map:
+            continue
+        obj_literal = _literal_value(t.object)
+        if obj_literal is None and t.object not in node_map:
+            continue
+
         cat = entity_catalog.get(t.predicate, {})
         display_pred_label = cat.get("label", t.predicate)
 
@@ -138,7 +167,6 @@ def run_schema_mapping(state: PipelineState) -> PipelineState:
             pred_iri = f"{_BASE_NS}{_slug(t.predicate)}"
             unmapped_predicates.append(t.predicate)
 
-        obj_literal = _literal_value(t.object)
         edge: Dict[str, Any] = {
             "subject_id": node_map[t.subject]["id"],
             "subject_iri": node_map[t.subject]["iri"],
