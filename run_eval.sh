@@ -3,6 +3,8 @@
 # Prerequisites: pipeline must have run and produced an output graph.
 set -euo pipefail
 
+GRAPH_PATH="${1:-}"
+
 echo "=== KG2 Evaluation ==="
 
 # Ensure services are up
@@ -12,9 +14,16 @@ docker compose wait ollama redis 2>/dev/null || true
 
 # Run eval inside a one-shot llm-pipeline container
 echo "Running evaluation..."
+ENV_ARGS=()
+if [ -n "$GRAPH_PATH" ]; then
+    BASENAME="$(basename "$GRAPH_PATH")"
+    ENV_ARGS=(-e "KG_TTL_PATH=/app/outputs/${BASENAME}")
+    echo "Graph override: $GRAPH_PATH"
+fi
 docker compose run --rm \
     -v "${PWD}/evaluation:/app/evaluation" \
     -v "${PWD}/outputs:/app/outputs" \
+    "${ENV_ARGS[@]}" \
     --workdir /app/evaluation \
     llm-pipeline \
     python run_eval.py

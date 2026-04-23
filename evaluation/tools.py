@@ -13,8 +13,9 @@ log = logging.getLogger(__name__)
 _graph: ConjunctiveGraph | None = None
 
 _ROOT = Path(__file__).parent.parent / "outputs"
+_kg_env = os.getenv("KG_TTL_PATH", "").strip()
 _CANDIDATES = [
-    Path(os.getenv("KG_TTL_PATH", "")) if os.getenv("KG_TTL_PATH") else None,
+    Path(_kg_env) if _kg_env else None,
     _ROOT / "final_clean.ttl",
     _ROOT / "final.ttl",
     _ROOT / "final.owl",

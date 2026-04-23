@@ -1,4 +1,8 @@
 #!/usr/bin/env pwsh
+param(
+    [string]$GraphPath = ""
+)
+
 # Run the KG evaluation against outputs/final_clean.ttl (falls back to final.ttl).
 # Prerequisites: pipeline must have run and produced an output graph.
 
@@ -13,9 +17,18 @@ docker compose wait ollama redis 2>$null
 
 # Run eval inside a one-shot llm-pipeline container (same image, same env)
 Write-Host "Running evaluation..." -ForegroundColor Yellow
+
+$envArgs = @()
+if ($GraphPath -and $GraphPath.Trim() -ne "") {
+    $resolvedGraph = Resolve-Path $GraphPath
+    $envArgs = @("-e", "KG_TTL_PATH=/app/outputs/$([System.IO.Path]::GetFileName($resolvedGraph.Path))")
+    Write-Host "Graph override: $($resolvedGraph.Path)" -ForegroundColor Yellow
+}
+
 docker compose run --rm `
     -v "${PWD}/evaluation:/app/evaluation" `
     -v "${PWD}/outputs:/app/outputs" `
+    @envArgs `
     --workdir /app/evaluation `
     llm-pipeline `
     python run_eval.py
