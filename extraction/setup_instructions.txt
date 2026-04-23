@@ -1,9 +1,0 @@
-cd extraction
-1. Install dependencies
-pip install -r requirements.txt
-2. Build the ROBOT Docker image
-docker build -t robot-owl .
-3.
-ollama pull qwen2.5:3b
-4.run extract.py
-5.run merge_graphs.py

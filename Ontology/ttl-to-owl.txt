@@ -1,5 +1,0 @@
-docker build -t robot-owl .
-
-docker run --rm -v "${PWD}:/data" robot-owl convert --input created_ontology.ttl --output created_ontology.ofn --format ofn
-
-ontogpt extract ` -i data.txt ` -t tfl_template.yaml ` -o output.yaml ` --target-class Line ` --model ollama/qwen2.5:3b
