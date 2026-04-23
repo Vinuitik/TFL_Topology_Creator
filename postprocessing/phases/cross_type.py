@@ -6,9 +6,9 @@ from typing import Dict, Set, Tuple
 
 from rdflib import OWL, RDF, Graph, URIRef
 
-from ..utils.config import POST_FUZZY_THRESHOLD
-from ..utils.graph import get_label, has_number, token_sort_ratio
-from ..utils.llm import call_llm
+from utils.config import POST_FUZZY_THRESHOLD
+from utils.graph import get_label, has_number, token_sort_ratio
+from utils.llm import call_llm
 
 log = logging.getLogger(__name__)
 

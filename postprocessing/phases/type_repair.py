@@ -6,7 +6,7 @@ from typing import List, Tuple
 
 from rdflib import OWL, RDF, Graph, URIRef
 
-from ..utils.graph import get_label
+from utils.graph import get_label
 
 log = logging.getLogger(__name__)
 
