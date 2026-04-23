@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "question": "Which stations are located in the London Borough of Sutton?",
+    "expected": "Sutton, Cheam, Belmont, Banstead",
+    "expected_type": "set"
+  },
+  {
+    "id": 2,
+    "question": "What lines serve Morden station?",
+    "expected": "Northern",
+    "expected_type": "string"
+  },
+  {
+    "id": 3,
+    "question": "Who operates the London Underground?",
+    "expected": "Transport for London",
+    "expected_type": "string"
+  },
+  {
+    "id": 4,
+    "question": "How many stations are in the knowledge graph?",
+    "expected": "count",
+    "expected_type": "count",
+    "expected_sparql": "SELECT (COUNT(DISTINCT ?s) AS ?n) WHERE { { ?s a <http://example.org/tfl#Station> } UNION { ?s a <http://example.org/tfl#UndergroundStation> } UNION { ?s a <http://example.org/tfl#TubeStation> } UNION { ?s a <http://example.org/tfl#BusStop> } }"
+  },
+  {
+    "id": 5,
+    "question": "What is the relationship between Battersea Power Station and Wandsworth?",
+    "expected": "located in|in borough|part of|Wandsworth",
+    "expected_type": "relation"
+  }
+]

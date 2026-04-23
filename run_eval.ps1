@@ -1,6 +1,6 @@
 #!/usr/bin/env pwsh
-# Run the KG evaluation against outputs/final.ttl using qwen2.5:3b + SPARQL tools.
-# Prerequisites: pipeline must have run and produced outputs/final.ttl
+# Run the KG evaluation against outputs/final_clean.ttl (falls back to final.ttl).
+# Prerequisites: pipeline must have run and produced an output graph.
 
 $ErrorActionPreference = "Stop"
 
@@ -14,9 +14,9 @@ docker compose wait ollama redis 2>$null
 # Run eval inside a one-shot llm-pipeline container (same image, same env)
 Write-Host "Running evaluation..." -ForegroundColor Yellow
 docker compose run --rm `
-    -v "${PWD}/evals:/app/evals" `
+    -v "${PWD}/evaluation:/app/evaluation" `
     -v "${PWD}/outputs:/app/outputs" `
-    --workdir /app/evals `
+    --workdir /app/evaluation `
     llm-pipeline `
     python run_eval.py
 
@@ -26,15 +26,21 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host ""
 Write-Host "=== Results ===" -ForegroundColor Cyan
-$results = Get-Content "outputs/eval_results.json" | ConvertFrom-Json
+$data = Get-Content "outputs/eval_results.json" | ConvertFrom-Json
+$summary = $data.summary
+$results = $data.results
+
+Write-Host "Score: $($summary.score)  |  Accuracy: $([math]::Round($summary.accuracy * 100, 1))%" `
+    -ForegroundColor Cyan
+Write-Host "By type: $($summary.by_type | ConvertTo-Json -Compress)" -ForegroundColor Cyan
+Write-Host ""
+
 foreach ($r in $results) {
-    $status = if ($r.answer) { "[OK]" } else { "[NO ANSWER]" }
-    Write-Host "$status Q$($r.id): $($r.question)" -ForegroundColor $(if ($r.answer) { "Green" } else { "Red" })
-    Write-Host "     Answer:   $($r.answer)"
-    Write-Host "     Expected: $($r.expected)"
+    $mark  = if ($r.correct) { "[PASS]" } else { "[FAIL]" }
+    $color = if ($r.correct) { "Green" } else { "Red" }
+    Write-Host "$mark Q$($r.id) [$($r.expected_type)]: $($r.question)" -ForegroundColor $color
+    Write-Host "     Answer:  $($r.answer)"
+    Write-Host "     Detail:  $($r.score_detail)"
     Write-Host "     Turns: $($r.turns.Count)  Time: $($r.elapsed_s)s"
     Write-Host ""
 }
-
-$answered = ($results | Where-Object { $_.answer }).Count
-Write-Host "Score: $answered / $($results.Count) answered" -ForegroundColor Cyan
