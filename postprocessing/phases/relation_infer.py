@@ -4,11 +4,19 @@ from __future__ import annotations
 import json
 import logging
 import re
+import time
+from concurrent.futures import ThreadPoolExecutor
 from typing import Dict, List, Set, Tuple
 
 from rdflib import OWL, RDF, Graph, URIRef
 
-from utils.config import POST_INFER_BATCH_SIZE, POST_INFER_COSINE_THRESHOLD
+
+from utils.config import (
+    POST_INFER_BATCH_SIZE,
+    POST_INFER_COSINE_THRESHOLD,
+    POST_MAX_WORKERS,
+    POST_PHASE_TIMEOUT_MINS,
+)
 from utils.embeddings import get_embeddings
 from utils.graph import cosine, get_label
 from utils.llm import call_llm
@@ -80,57 +88,81 @@ def phase_relation_infer(g: Graph, protected_iris: Set[URIRef]) -> int:
     )
 
     added = 0
-    for batch_start in range(0, len(candidates), POST_INFER_BATCH_SIZE):
-        batch = candidates[batch_start : batch_start + POST_INFER_BATCH_SIZE]
+    start_time = time.time()
+    limit_sec = POST_PHASE_TIMEOUT_MINS * 60
+    
+    batches = [
+        candidates[i : i + POST_INFER_BATCH_SIZE]
+        for i in range(0, len(candidates), POST_INFER_BATCH_SIZE)
+    ]
+    total_batches = len(batches)
+    log.info("Phase relation_infer: processing %d batch(es) with %d workers...", total_batches, POST_MAX_WORKERS)
+
+    def _process_batch(batch):
         pairs_input = [
             {"pair": idx + 1, "a": labels[a], "b": labels[b]}
             for idx, (a, b) in enumerate(batch)
         ]
-
-        result = call_llm(
+        res = call_llm(
             "post_relation_infer",
             json.dumps(pairs_input, ensure_ascii=False) + "\n",
         )
+        return batch, res
 
-        for item in result.get("results", []):
-            if not item.get("add"):
-                continue
+    with ThreadPoolExecutor(max_workers=POST_MAX_WORKERS) as pool:
+        for idx, (batch, result) in enumerate(pool.map(_process_batch, batches)):
+            if time.time() - start_time > limit_sec:
+                log.warning("Phase relation_infer: timeout reached (%d mins) — skipping remaining %d batch(es)",
+                            POST_PHASE_TIMEOUT_MINS, total_batches - idx)
+                break
 
-            pair_idx = int(item.get("pair", 0)) - 1
-            if pair_idx < 0 or pair_idx >= len(batch):
-                continue
+            # Progress bar
+            if total_batches > 0:
+                pct = (idx + 1) / total_batches
+                filled = int(20 * pct)
+                bar = "#" * filled + "." * (20 - filled)
+                if (idx + 1) % max(1, total_batches // 10) == 0 or idx + 1 == total_batches:
+                    log.info("Relation Infer progress: [%s] %.0f%%", bar, pct * 100)
 
-            iri_a, iri_b = batch[pair_idx]
-            s_label = str(item.get("s", ""))
-            p_label = str(item.get("p", ""))
-            o_label = str(item.get("o", ""))
+            for item in result.get("results", []):
+                if not item.get("add"):
+                    continue
 
-            # Resolve subject / object IRIs from the pair (exact then substring fallback)
-            norm_s = _normalize(s_label)
-            norm_a = _normalize(labels[iri_a])
-            norm_b = _normalize(labels[iri_b])
-            if norm_s == norm_a or norm_s in norm_a or norm_a in norm_s:
-                s_iri, o_iri = iri_a, iri_b
-            elif norm_s == norm_b or norm_s in norm_b or norm_b in norm_s:
-                s_iri, o_iri = iri_b, iri_a
-            else:
-                log.warning("relation_infer: cannot resolve subject '%s' — skip", s_label)
-                continue
+                pair_idx = int(item.get("pair", 0)) - 1
+                if pair_idx < 0 or pair_idx >= len(batch):
+                    continue
 
-            # Resolve property IRI
-            prop_iri = prop_map.get(_normalize(p_label))
-            if prop_iri is None:
-                log.warning("relation_infer: unknown property '%s' — skip", p_label)
-                continue
+                iri_a, iri_b = batch[pair_idx]
+                s_label = str(item.get("s", ""))
+                p_label = str(item.get("p", ""))
+                o_label = str(item.get("o", ""))
 
-            # Add only if genuinely new
-            if (s_iri, prop_iri, o_iri) not in g:
-                g.add((s_iri, prop_iri, o_iri))
-                added += 1
-                log.info(
-                    "relation_infer: + <%s> <%s> <%s>",
-                    labels[s_iri], p_label, labels[o_iri],
-                )
+                # Resolve subject / object IRIs from the pair (exact then substring fallback)
+                norm_s = _normalize(s_label)
+                norm_a = _normalize(labels[iri_a])
+                norm_b = _normalize(labels[iri_b])
+                if norm_s == norm_a or norm_s in norm_a or norm_a in norm_s:
+                    s_iri, o_iri = iri_a, iri_b
+                elif norm_s == norm_b or norm_s in norm_b or norm_b in norm_s:
+                    s_iri, o_iri = iri_b, iri_a
+                else:
+                    log.warning("relation_infer: cannot resolve subject '%s' — skip", s_label)
+                    continue
+
+                # Resolve property IRI
+                prop_iri = prop_map.get(_normalize(p_label))
+                if prop_iri is None:
+                    log.warning("relation_infer: unknown property '%s' — skip", p_label)
+                    continue
+
+                # Add only if genuinely new
+                if (s_iri, prop_iri, o_iri) not in g:
+                    g.add((s_iri, prop_iri, o_iri))
+                    added += 1
+                    log.info(
+                        "relation_infer: + <%s> <%s> <%s>",
+                        labels[s_iri], p_label, labels[o_iri],
+                    )
 
     log.info("Phase relation_infer: added %d new triple(s)", added)
     return added

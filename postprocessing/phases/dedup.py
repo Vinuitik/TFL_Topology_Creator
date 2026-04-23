@@ -3,12 +3,12 @@ from __future__ import annotations
 
 import json
 import logging
+import time
+from concurrent.futures import ThreadPoolExecutor
 from typing import Dict, List, Set, Tuple
 
 from rdflib import OWL, RDF, RDFS, Graph, Literal, URIRef
 
-from utils.config import POST_DEDUP_OVERRULE_COSINE, POST_ENTITY_SAME_THRESHOLD, POST_FUZZY_THRESHOLD
-from utils.embeddings import get_embeddings
 from utils.graph import (
     DSU,
     get_label,
@@ -17,7 +17,17 @@ from utils.graph import (
     token_sort_ratio,
     cosine,
 )
+
+from utils.config import (
+    POST_DEDUP_OVERRULE_COSINE,
+    POST_ENTITY_SAME_THRESHOLD,
+    POST_FUZZY_THRESHOLD,
+    POST_MAX_WORKERS,
+    POST_PHASE_TIMEOUT_MINS,
+)
+from utils.embeddings import get_embeddings
 from utils.llm import call_llm
+
 
 log = logging.getLogger(__name__)
 
@@ -125,49 +135,70 @@ def phase_dedup_type(
 
     alias_map: Dict[URIRef, URIRef] = {}
     merges = 0
-    for members in multi_clusters:
+    start_time = time.time()
+    limit_sec = POST_PHASE_TIMEOUT_MINS * 60
+
+    def _judge_cluster(members):
         member_entities = [
             {"name": labels[m], "description": descriptions.get(m, f"Unknown {type_label} entity.")}
             for m in members
         ]
-        result = call_llm(
+        res = call_llm(
             "post_dedup_judge",
             f"\nInput type: {type_label}\nEntities: {json.dumps(member_entities, ensure_ascii=False)}\n",
         )
-        llm_approved = result.get("same", False)
+        return members, res.get("same", False)
 
-        member_names = [labels[m] for m in members]
-        if not llm_approved:
-            # Check whether min pairwise cosine exceeds overrule threshold
-            member_list = list(members)
-            min_cos = min(
-                cosine(embeds.get(member_list[i], []), embeds.get(member_list[j], []))
-                for i in range(len(member_list))
-                for j in range(i + 1, len(member_list))
-            )
-            if min_cos >= POST_DEDUP_OVERRULE_COSINE:
-                log.warning(
-                    "Dedup [%s]: OVERRULED LLM rejection for %s (min_cosine=%.3f >= %.3f)",
-                    type_label, member_names, min_cos, POST_DEDUP_OVERRULE_COSINE,
+    total_clusters = len(multi_clusters)
+    log.info("Dedup [%s]: judging %d cluster(s) with %d workers...", type_label, total_clusters, POST_MAX_WORKERS)
+
+    with ThreadPoolExecutor(max_workers=POST_MAX_WORKERS) as pool:
+        for idx, (members, llm_approved) in enumerate(pool.map(_judge_cluster, multi_clusters)):
+            if time.time() - start_time > limit_sec:
+                log.warning("Dedup [%s]: Phase timeout reached (%d mins) — skipping remaining %d cluster(s)", 
+                            type_label, POST_PHASE_TIMEOUT_MINS, total_clusters - idx)
+                break
+
+            # Progress bar
+            if total_clusters > 0:
+                pct = (idx + 1) / total_clusters
+                filled = int(20 * pct)
+                bar = "#" * filled + "." * (20 - filled)
+                if (idx + 1) % max(1, total_clusters // 10) == 0 or idx + 1 == total_clusters:
+                    log.info("Dedup [%s] progress: [%s] %.0f%%", type_label, bar, pct * 100)
+
+            member_names = [labels[m] for m in members]
+            if not llm_approved:
+                # Check whether min pairwise cosine exceeds overrule threshold
+                member_list = list(members)
+                min_cos = min(
+                    cosine(embeds.get(member_list[i], []), embeds.get(member_list[j], []))
+                    for i in range(len(member_list))
+                    for j in range(i + 1, len(member_list))
                 )
-            else:
-                log.info("Dedup [%s]: LLM rejected merge of %s", type_label, member_names)
-                continue
+                if min_cos >= POST_DEDUP_OVERRULE_COSINE:
+                    log.warning(
+                        "Dedup [%s]: OVERRULED LLM rejection for %s (min_cosine=%.3f >= %.3f)",
+                        type_label, member_names, min_cos, POST_DEDUP_OVERRULE_COSINE,
+                    )
+                else:
+                    log.info("Dedup [%s]: LLM rejected merge of %s", type_label, member_names)
+                    continue
 
-        protected_in = [m for m in members if m in protected_iris]
-        canonical = (
-            protected_in[0]
-            if protected_in
-            else max(members, key=lambda m: graph_degree(g, m))
-        )
-        for m in members:
-            if m != canonical:
-                alias_map[m] = canonical
-                merges += 1
-        log.info(
-            "Dedup [%s]: merged %d → <%s> ('%s')",
-            type_label, len(members) - 1, canonical, labels[canonical],
-        )
+            protected_in = [m for m in members if m in protected_iris]
+            canonical = (
+                protected_in[0]
+                if protected_in
+                else max(members, key=lambda m: graph_degree(g, m))
+            )
+            for m in members:
+                if m != canonical:
+                    alias_map[m] = canonical
+                    merges += 1
+            log.info(
+                "Dedup [%s]: merged %d → <%s> ('%s')",
+                type_label, len(members) - 1, canonical, labels[canonical],
+            )
 
 
     log.info("Dedup [%s]: %d total alias(es)", type_label, len(alias_map))

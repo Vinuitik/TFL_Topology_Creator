@@ -31,4 +31,10 @@ def phase0_load(
     g = Graph()
     g.parse(input_path, format="turtle")
     log_stats("Initial graph", g)
+
+    # Merge ontology triples so properties are "known" in the graph
+    for t in pg:
+        g.add(t)
+    log.info("Merged %d ontology triples into working graph", len(pg))
+
     return g, protected_iris, protected_types
