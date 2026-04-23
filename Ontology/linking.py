@@ -9,10 +9,14 @@ LOCAL = Namespace("http://example.org/tfl#")
 GTFS = Namespace("http://vocab.gtfs.org/terms#")
 GEO = Namespace("http://www.w3.org/2003/01/geo/wgs84_pos#")
 XSD = Namespace("http://www.w3.org/2001/XMLSchema#")
+SCHEMA = Namespace("http://schema.org/")
+DBO = Namespace("http://dbpedia.org/ontology/")
 
 g.bind("local", LOCAL)
 g.bind("gtfs", GTFS)
 g.bind("geo", GEO)
+g.bind("schema", SCHEMA)
+g.bind("dbo", DBO)
 
 # --- Class Mappings ---
 g.add((LOCAL.Route, OWL.equivalentClass, GTFS.Route))
@@ -24,11 +28,22 @@ g.add((LOCAL.RouteStopSequence, OWL.equivalentClass, GTFS.StopTime))
 g.add((LOCAL.Zone, OWL.equivalentClass, GTFS.Zone))
 g.add((LOCAL.FareClass, RDFS.subClassOf, GTFS.FareClass))
 
+# --- Project, Event & Temporal Class Mappings ---
+g.add((LOCAL.ServiceDisruption, RDFS.subClassOf, SCHEMA.Event))
+g.add((LOCAL.InfrastructureProject, RDFS.subClassOf, SCHEMA.Project))
+g.add((LOCAL.ServiceSchedule, OWL.equivalentClass, SCHEMA.Schedule))
+
 # --- Property Mappings ---
 g.add((LOCAL.hasZone, OWL.equivalentProperty, GTFS.zone))
 g.add((LOCAL.stopSequenceNumber, OWL.equivalentProperty, GTFS.stopSequence))
 g.add((LOCAL.sequenceStop, OWL.equivalentProperty, GTFS.stop))
 g.add((LOCAL.hasName, RDFS.subPropertyOf, GTFS.shortName))
+
+# --- Temporal & Event Property Mappings ---
+g.add((LOCAL.operationStartTime, OWL.equivalentProperty, SCHEMA.startTime))
+g.add((LOCAL.operationEndTime, OWL.equivalentProperty, SCHEMA.endTime))
+g.add((LOCAL.expectedCompletionDate, OWL.equivalentProperty, SCHEMA.endDate))
+g.add((LOCAL.openingDate, OWL.equivalentProperty, DBO.openingDate))
 
 # --- GeoSpatial Property Mappings ---
 g.add((LOCAL.latitude, OWL.equivalentProperty, GEO.lat))
