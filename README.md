@@ -6,15 +6,24 @@ Extracts a structured OWL/Turtle knowledge graph from unstructured `.txt` files 
 
 ## Quick Start
 
-```powershell
-.\run_pipeline.ps1
-```
+See [RUN_ORDER.md](RUN_ORDER.md) for the full end-to-end sequence (pipeline → post-processing → eval → RAG completion → eval again).
 
-1. Starts Redis + Ollama via Docker Compose
-2. Pulls the configured LLM and embedding models
-3. Ingests any `.owl` / `.ttl` / `.rdf` files from `inputs/` into Redis + `rag_catalog.json`
-4. Runs the full pipeline over all `data_sources/Unstructured-*.txt` files
-5. Writes `outputs/final.owl`, `outputs/final.ttl`, `outputs/run_summary.json`
+```powershell
+# 1. Extract knowledge graph
+.\run_pipeline.ps1
+
+# 2. Post-process + clean
+.\post_processing.ps1
+
+# 3. Evaluate
+.\run_eval.ps1 outputs/final_clean.ttl
+
+# 4. RAG completion
+.\run_completion.ps1 outputs/final_clean.ttl outputs/final_completed.ttl
+
+# 5. Evaluate completed graph
+.\run_eval.ps1 outputs/final_completed.ttl
+```
 
 ```powershell
 .\run_tests.ps1   # offline unit tests (no Docker needed)
@@ -133,7 +142,7 @@ Drop `.owl`, `.ttl`, or `.rdf` files into `inputs/` before running. `ingest_owl.
 ## Evaluation
 
 ```powershell
-.\run_eval.ps1
+.\run_eval.ps1 outputs/final_clean.ttl
 ```
 
-Runs a SPARQL tool-use agent against `outputs/final.ttl`. Questions live in `evals/questions.json`; results are written to `outputs/eval_results.json`.
+Runs a SPARQL tool-use agent (schema discovery + structured queries) against the specified graph. Questions and expected answers live in `evaluation/questions.json`; scored results are written to `outputs/eval_results.json`. Supports four scoring types: `string`, `set`, `count`, and `relation`. Override the eval model via `EVAL_LLM_MODEL` in `.env` (default `qwen2.5:1.5b`).

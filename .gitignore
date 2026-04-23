@@ -7,3 +7,4 @@ __pycache__/
 # Ignore nested content under outputs/, but allow direct children (files at outputs/*)
 outputs/**
 !outputs/*
+CLAUDE.md
