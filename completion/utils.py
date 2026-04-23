@@ -62,7 +62,7 @@ def call_llm_json(instruction: str) -> dict[str, Any]:
         "prompt": instruction,
         "stream": False,
         "format": "json",
-        "options": {"temperature": 0.1, "repeat_penalty": 1.15, "num_predict": 700},
+        "options": {"temperature": 0.1, "repeat_penalty": 1.15, "num_predict": 700, "num_gpu": 0},
     }
     resp = requests.post(OLLAMA_URL, json=payload, timeout=OLLAMA_TIMEOUT_SEC)
     resp.raise_for_status()

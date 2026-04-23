@@ -25,7 +25,7 @@ done
 echo "Ollama is ready."
 
 # Ensure the eval model is present
-ENTITY_MODEL=$(grep "^OLLAMA_ENTITY_MODEL=" .env 2>/dev/null | cut -d'=' -f2 | tr -d '\r' || echo "qwen2.5:3b")
+ENTITY_MODEL=$(grep "^EVAL_LLM_MODEL=" .env 2>/dev/null | cut -d'=' -f2 | tr -d '\r' || echo "qwen2.5:1.5b")
 echo "Checking model '$ENTITY_MODEL'..."
 MODEL_LIST=$(docker compose exec -T ollama ollama list 2>&1 || true)
 if ! echo "$MODEL_LIST" | awk '{print $1}' | grep -qx "$ENTITY_MODEL"; then

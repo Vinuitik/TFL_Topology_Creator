@@ -14,7 +14,7 @@ from tools import TOOLS, call_tool
 
 log = logging.getLogger(__name__)
 
-_MODEL = os.getenv("OLLAMA_ENTITY_MODEL", "qwen2.5:3b")
+_MODEL = os.getenv("EVAL_LLM_MODEL", "qwen2.5:1.5b")
 _URL = os.getenv("OLLAMA_URL", "http://ollama:11434/api/generate")
 _TIMEOUT = float(os.getenv("OLLAMA_TIMEOUT_SEC", "120"))
 _MAX_TURNS = 6  # schema_info + up to 2 sparql attempts + answer

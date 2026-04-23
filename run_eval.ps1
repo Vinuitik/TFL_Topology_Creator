@@ -41,7 +41,7 @@ function Get-EnvValue($key, $default) {
             Select-Object -First 1
     if ($line) { return $line.Split("=", 2)[1].Trim() } else { return $default }
 }
-$evalModel = Get-EnvValue "OLLAMA_ENTITY_MODEL" "qwen2.5:3b"
+$evalModel = Get-EnvValue "EVAL_LLM_MODEL" "qwen2.5:1.5b"
 Write-Host "Checking model '$evalModel'..." -ForegroundColor Yellow
 $modelList  = docker compose exec -T ollama ollama list 2>$null
 $modelBase  = ($evalModel -split ":")[0]
