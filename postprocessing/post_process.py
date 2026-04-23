@@ -81,6 +81,7 @@ def main() -> None:
     alias_ind, n_ind_merges  = phase_dedup_type(g, OWL.NamedIndividual,   "entities_individual",  protected_iris)
     alias_obj, n_obj_merges  = phase_dedup_type(g, OWL.ObjectProperty,    "relations_object",     protected_iris)
     alias_dat, n_dat_merges  = phase_dedup_type(g, OWL.DatatypeProperty,  "relations_data",       protected_iris)
+    alias_ann, n_ann_merges  = phase_dedup_type(g, OWL.AnnotationProperty,"annotations",          protected_iris)
 
     # Phase 4 — cross-type demotion
     g, alias_cross = phase4_cross_type(g, protected_iris)
@@ -91,7 +92,7 @@ def main() -> None:
         n_domain_removed = phase_domain_filter(g, protected_iris)
 
     # Phase 5 — canonical rewriting
-    combined_alias = {**alias_cls, **alias_ind, **alias_obj, **alias_dat, **alias_cross}
+    combined_alias = {**alias_cls, **alias_ind, **alias_obj, **alias_dat, **alias_ann, **alias_cross}
     g = phase5_rewrite(g, combined_alias)
     log_stats("After dedup+rewrite", g)
 
@@ -126,6 +127,7 @@ def main() -> None:
     print(f"  Individual merges    : {n_ind_merges}")
     print(f"  Obj-prop merges      : {n_obj_merges}")
     print(f"  Data-prop merges     : {n_dat_merges}")
+    print(f"  Annotation merges    : {n_ann_merges}")
     print(f"  Cross-type demotions : {len(alias_cross)}")
     print(f"  Domain removed       : {n_domain_removed}")
     print(f"  Long-name removed    : {n_long_removed}")

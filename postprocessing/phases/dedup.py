@@ -26,6 +26,7 @@ _TYPE_LABEL = {
     OWL.NamedIndividual: "individual",
     OWL.ObjectProperty: "object_property",
     OWL.DatatypeProperty: "datatype_property",
+    OWL.AnnotationProperty: "annotation_property",
 }
 
 

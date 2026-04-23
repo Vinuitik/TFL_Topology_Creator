@@ -115,8 +115,8 @@ SELECT ?stationsList ?routesList
 WHERE {
   ?startStation :hasName ?startTarget .
   ?endStation :hasName ?endTarget .
-  FILTER(STR(?startTarget) = "Start Station")
-  FILTER(STR(?endTarget) = "End Station")
+  FILTER(STR(?startTarget) = "Brixton Station")
+  FILTER(STR(?endTarget) = "Canary Wharf Station")
   
   {
     # Option A: 0 Interchanges (Direct Route)

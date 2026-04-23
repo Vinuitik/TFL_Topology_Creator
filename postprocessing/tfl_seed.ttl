@@ -5,6 +5,54 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 # =============================================================================
+# CLASS HIERARCHY
+# Required so rdf:type/rdfs:subClassOf* SPARQL property paths resolve correctly.
+# =============================================================================
+
+:TransitAccessPoint a owl:Class ; rdfs:label "Transit Access Point" .
+:Station            a owl:Class ; rdfs:subClassOf :TransitAccessPoint ; rdfs:label "Station" .
+:TrainStation       a owl:Class ; rdfs:subClassOf :Station ; rdfs:label "Train Station" .
+:InterchangeStation a owl:Class ; rdfs:subClassOf :Station ; rdfs:label "Interchange Station" .
+
+:Route    a owl:Class ; rdfs:label "Route" .
+:Line     a owl:Class ; rdfs:subClassOf :Route ; rdfs:label "Line" .
+:BusRoute a owl:Class ; rdfs:subClassOf :Route ; rdfs:label "Bus Route" .
+
+:InfrastructureProject a owl:Class ; rdfs:label "Infrastructure Project" .
+:LineExpansion  a owl:Class ; rdfs:subClassOf :InfrastructureProject ; rdfs:label "Line Expansion" .
+:StationUpgrade a owl:Class ; rdfs:subClassOf :InfrastructureProject ; rdfs:label "Station Upgrade" .
+
+:ServiceDisruption   a owl:Class ; rdfs:label "Service Disruption" .
+:PlannedDisruption   a owl:Class ; rdfs:subClassOf :ServiceDisruption ; rdfs:label "Planned Disruption" .
+:UnplannedDisruption a owl:Class ; rdfs:subClassOf :ServiceDisruption ; rdfs:label "Unplanned Disruption" .
+:SignificantDisruption a owl:Class ; rdfs:subClassOf :ServiceDisruption ; rdfs:label "Significant Disruption" .
+
+:DisruptionCause  a owl:Class ; rdfs:label "Disruption Cause" .
+:SignalFailure    a owl:Class ; rdfs:subClassOf :DisruptionCause ; rdfs:label "Signal Failure" .
+:EngineeringWorks a owl:Class ; rdfs:subClassOf :DisruptionCause ; rdfs:label "Engineering Works" .
+:IndustrialAction a owl:Class ; rdfs:subClassOf :DisruptionCause ; rdfs:label "Industrial Action" .
+:RollingStockIssue a owl:Class ; rdfs:subClassOf :DisruptionCause ; rdfs:label "Rolling Stock Issue" .
+
+:Zone                a owl:Class ; rdfs:label "Zone" .
+:DisruptionStatus    a owl:Class ; rdfs:label "Disruption Status" .
+:ProjectStatus       a owl:Class ; rdfs:label "Project Status" .
+:AccessibilityFeature a owl:Class ; rdfs:label "Accessibility Feature" .
+:PeakPeriod          a owl:Class ; rdfs:label "Peak Period" .
+:OffPeakPeriod       a owl:Class ; rdfs:label "Off-Peak Period" .
+:Journey             a owl:Class ; rdfs:label "Journey" .
+:Fare                a owl:Class ; rdfs:label "Fare" .
+:PeakFare            a owl:Class ; rdfs:subClassOf :Fare ; rdfs:label "Peak Fare" .
+:OffPeakFare         a owl:Class ; rdfs:subClassOf :Fare ; rdfs:label "Off-Peak Fare" .
+:RouteStopSequence   a owl:Class ; rdfs:label "Route Stop Sequence" .
+:ServiceSchedule     a owl:Class ; rdfs:label "Service Schedule" .
+
+# OWL punning: TwentyFourHourService is both a class (subClassOf :ServiceSchedule)
+# and a named individual value used by :hasScheduleType (Q18)
+:TwentyFourHourService a owl:Class, owl:NamedIndividual ;
+    rdfs:subClassOf :ServiceSchedule ;
+    rdfs:label "24-Hour Service" ; :hasName "24-Hour Service" .
+
+# =============================================================================
 # PROJECT STATUSES  (Q15 checks :Completed, Q16 checks != :Completed)
 # =============================================================================
 
@@ -21,32 +69,32 @@
     rdfs:label "Approved" ; :hasName "Approved" .
 
 # =============================================================================
-# FARE ZONES  (Q7: ?zone :zoneNumber 1)
+# DISRUPTION STATUSES  (Q12/Q14 use ?status rdfs:label ?statusLabel)
 # =============================================================================
 
-:Zone_1 a owl:NamedIndividual, :Zone ;
-    rdfs:label "Zone 1" ; :hasName "Zone 1" ;
-    :zoneNumber 1 .
+:GoodService a owl:NamedIndividual, :DisruptionStatus ;
+    rdfs:label "Good Service" ; :hasName "Good Service" .
 
-:Zone_2 a owl:NamedIndividual, :Zone ;
-    rdfs:label "Zone 2" ; :hasName "Zone 2" ;
-    :zoneNumber 2 .
+:MinorDelays a owl:NamedIndividual, :DisruptionStatus ;
+    rdfs:label "Minor Delays" ; :hasName "Minor Delays" .
 
-:Zone_3 a owl:NamedIndividual, :Zone ;
-    rdfs:label "Zone 3" ; :hasName "Zone 3" ;
-    :zoneNumber 3 .
+:SevereDelays a owl:NamedIndividual, :DisruptionStatus ;
+    rdfs:label "Severe Delays" ; :hasName "Severe Delays" .
 
-:Zone_4 a owl:NamedIndividual, :Zone ;
-    rdfs:label "Zone 4" ; :hasName "Zone 4" ;
-    :zoneNumber 4 .
+:PartSuspended a owl:NamedIndividual, :DisruptionStatus ;
+    rdfs:label "Part Suspended" ; :hasName "Part Suspended" .
 
-:Zone_5 a owl:NamedIndividual, :Zone ;
-    rdfs:label "Zone 5" ; :hasName "Zone 5" ;
-    :zoneNumber 5 .
+# =============================================================================
+# FARE ZONES  (Q7: ?zone :zoneNumber 1)
+# NO rdfs:label on zones — prevents Q1 duplicates from (:zoneNumber|rdfs:label) path
+# =============================================================================
 
-:Zone_6 a owl:NamedIndividual, :Zone ;
-    rdfs:label "Zone 6" ; :hasName "Zone 6" ;
-    :zoneNumber 6 .
+:Zone_1 a owl:NamedIndividual, :Zone ; :hasName "Zone 1" ; :zoneNumber 1 .
+:Zone_2 a owl:NamedIndividual, :Zone ; :hasName "Zone 2" ; :zoneNumber 2 .
+:Zone_3 a owl:NamedIndividual, :Zone ; :hasName "Zone 3" ; :zoneNumber 3 .
+:Zone_4 a owl:NamedIndividual, :Zone ; :hasName "Zone 4" ; :zoneNumber 4 .
+:Zone_5 a owl:NamedIndividual, :Zone ; :hasName "Zone 5" ; :zoneNumber 5 .
+:Zone_6 a owl:NamedIndividual, :Zone ; :hasName "Zone 6" ; :zoneNumber 6 .
 
 # =============================================================================
 # ACCESSIBILITY FEATURES  (Q8: ?feature :hasName "Step-Free Access")
@@ -82,10 +130,12 @@
 
 # =============================================================================
 # DISRUPTION EVENTS
-# Q12: PlannedDisruption caused by EngineeringWorks
-# Q14: any disruption with status
-# Q19: SignificantDisruption caused by IndustrialAction
-# Q20: disruptions grouped by cause class
+# Q12: PlannedDisruption + EngineeringWorks cause
+# Q14: any disruption with :hasStatus (all qualify)
+# Q19: SignificantDisruption + IndustrialAction cause
+# Q20: grouped by cause class
+# Counter-Q12: :Disruption_Emergency_Works_2024 is UnplannedDisruption — must NOT appear in Q12
+# Counter-Q19: :Disruption_Fleet_Failure_2023 is SignificantDisruption from RollingStockIssue — must NOT appear in Q19
 # =============================================================================
 
 :Disruption_Track_Jan2024 a owl:NamedIndividual, :PlannedDisruption ;
@@ -133,11 +183,28 @@
     :affectsRoute :Elizabeth_Line ;
     :affectsRoute :Central_Line .
 
+# Counter-Q12: UnplannedDisruption from EngineeringWorks — NOT PlannedDisruption, must NOT appear in Q12
+:Disruption_Emergency_Works_2024 a owl:NamedIndividual, :UnplannedDisruption ;
+    rdfs:label "Emergency track repair Bakerloo Line June 2024" ;
+    :hasCause :Track_Works_2024 ;
+    :hasStatus :MinorDelays ;
+    :disruptionDate "2024-06-10T14:00:00"^^xsd:dateTime ;
+    :affectsRoute :Bakerloo_Line .
+
+# Counter-Q19: SignificantDisruption from RollingStockIssue — NOT IndustrialAction, must NOT appear in Q19
+:Disruption_Fleet_Failure_2023 a owl:NamedIndividual, :SignificantDisruption ;
+    rdfs:label "Central Line fleet failure November 2023" ;
+    :hasCause :Train_Fault_2024 ;
+    :hasStatus :SevereDelays ;
+    :disruptionDate "2023-11-15T08:00:00"^^xsd:dateTime ;
+    :affectsRoute :Central_Line .
+
 # =============================================================================
 # INFRASTRUCTURE PROJECTS
-# Q11: LineExpansion targeting Jubilee Line with expectedCompletionDate
-# Q15: Northern Line LineExpansion with :Completed status
-# Q16: future project with non-Completed status
+# Q11: :LineExpansion targeting :Jubilee_Line with :expectedCompletionDate
+# Q15: :Northern_Line target with :Completed status
+# Q16: future projects where status != :Completed
+# Counter-Q16: :Northern_Line_Extension and :Jubilee_Line_Extension are :Completed — must NOT appear in Q16
 # =============================================================================
 
 :Northern_Line_Extension a owl:NamedIndividual, :LineExpansion ;
@@ -183,7 +250,7 @@
     :expectedCompletionDate "2026-12-31"^^xsd:date .
 
 # =============================================================================
-# PEAK / OFF-PEAK PERIODS  (Q17: :hasPeakPeriod, :hasOffPeakPeriod, :startTime, :endTime)
+# PEAK / OFF-PEAK PERIODS  (Q17)
 # =============================================================================
 
 :AM_Peak a owl:NamedIndividual, :PeakPeriod ;
@@ -231,8 +298,10 @@
 
 # =============================================================================
 # STATIONS
-# (all stations have :hasName, :hasZone, typed appropriately)
-# Interchange stations serve multiple lines → Q5 COUNT > 1
+# Zone links use IRI references (:hasZone :Zone_N) — NOT bare zone number literals.
+# This ensures Q1 (:zoneNumber|rdfs:label) path returns only the integer, not duplicates.
+# Counter-Q1/Q7: Elephant and Castle is Zone 2, NOT on Victoria Line.
+# Counter-Q8: Brixton, Pimlico, Oval, Kennington have no :offersAccessibilityFeature.
 # =============================================================================
 
 # ── Zone 1 ──────────────────────────────────────────────────────────────────
@@ -268,6 +337,7 @@
     :hasZone :Zone_1 ;
     :offersAccessibilityFeature :Step_Free_Access .
 
+# Counter-Q8: no step-free access
 :Pimlico_Station a owl:NamedIndividual, :TrainStation ;
     rdfs:label "Pimlico Station" ; :hasName "Pimlico Station" ;
     :hasZone :Zone_1 .
@@ -335,6 +405,7 @@
     rdfs:label "Stockwell Station" ; :hasName "Stockwell Station" ;
     :hasZone :Zone_2 .
 
+# Counter-Q8: no step-free access; Counter-Q1 via adjacency (VL stop 1, not Zone 1)
 :Brixton_Station a owl:NamedIndividual, :TrainStation ;
     rdfs:label "Brixton Station" ; :hasName "Brixton Station" ;
     :hasZone :Zone_2 .
@@ -371,13 +442,22 @@
     rdfs:label "Notting Hill Gate Station" ; :hasName "Notting Hill Gate Station" ;
     :hasZone :Zone_2 .
 
+# Counter-Q8: no step-free access
 :Oval_Station a owl:NamedIndividual, :TrainStation ;
     rdfs:label "Oval Station" ; :hasName "Oval Station" ;
     :hasZone :Zone_2 .
 
+# Counter-Q8: no step-free access
 :Kennington_Station a owl:NamedIndividual, :TrainStation ;
     rdfs:label "Kennington Station" ; :hasName "Kennington Station" ;
     :hasZone :Zone_2 .
+
+# Counter-Q1/Q7: Zone 2, served by Bakerloo and Northern — must NOT appear in Victoria Line / Zone 1 queries
+:Elephant_Castle_Station a owl:NamedIndividual, :InterchangeStation ;
+    rdfs:label "Elephant and Castle Station" ;
+    :hasName "Elephant and Castle Station" ;
+    :hasZone :Zone_2 ;
+    :offersAccessibilityFeature :Step_Free_Access .
 
 # ── Zone 3 ──────────────────────────────────────────────────────────────────
 
@@ -407,9 +487,8 @@
 
 # =============================================================================
 # UNDERGROUND LINES
-# All have: :hasName, :openingDate, :hasStop (→ Q1 Q5 Q7),
-#           :operationStartTime/:EndTime/:operatingDays (→ Q13 Q18),
-#           :hasPeakPeriod/:hasOffPeakPeriod (→ Q17)
+# Counter-Q18: Jubilee, Northern, Bakerloo, Elizabeth have no :hasScheduleType
+#              :TwentyFourHourService → appear as "Limited Service" in Q18
 # =============================================================================
 
 :Victoria_Line a owl:NamedIndividual, :Line ;
@@ -440,6 +519,7 @@
     :hasStop :Blackhorse_Road_Station ;
     :hasStop :Walthamstow_Central_Station .
 
+# Counter-Q18: no :hasScheduleType :TwentyFourHourService → "Limited Service"
 :Jubilee_Line a owl:NamedIndividual, :Line ;
     rdfs:label "Jubilee Line" ; :hasName "Jubilee Line" ;
     :openingDate "1979-05-01"^^xsd:date ;
@@ -449,14 +529,15 @@
     :hasPeakPeriod :AM_Peak ;
     :hasPeakPeriod :PM_Peak ;
     :hasOffPeakPeriod :Off_Peak_Midday ;
+    :hasStop :Bond_Street_Station ;
     :hasStop :Green_Park_Station ;
     :hasStop :Westminster_Station ;
     :hasStop :Waterloo_Station ;
     :hasStop :London_Bridge_Station ;
     :hasStop :Canary_Wharf_Station ;
-    :hasStop :Stratford_Station ;
-    :hasStop :Bond_Street_Station .
+    :hasStop :Stratford_Station .
 
+# Counter-Q18: no :hasScheduleType :TwentyFourHourService → "Limited Service"
 :Northern_Line a owl:NamedIndividual, :Line ;
     rdfs:label "Northern Line" ; :hasName "Northern Line" ;
     :openingDate "1890-12-18"^^xsd:date ;
@@ -472,6 +553,7 @@
     :hasStop :Stockwell_Station ;
     :hasStop :Oval_Station ;
     :hasStop :Kennington_Station ;
+    :hasStop :Elephant_Castle_Station ;
     :hasStop :London_Bridge_Station ;
     :hasStop :Bank_Station ;
     :hasStop :Moorgate_Station ;
@@ -498,6 +580,7 @@
     :hasStop :Stratford_Station ;
     :hasStop :Mile_End_Station .
 
+# Counter-Q18: no :hasScheduleType :TwentyFourHourService → "Limited Service"
 :Bakerloo_Line a owl:NamedIndividual, :Line ;
     rdfs:label "Bakerloo Line" ; :hasName "Bakerloo Line" ;
     :openingDate "1906-03-10"^^xsd:date ;
@@ -507,11 +590,13 @@
     :hasPeakPeriod :AM_Peak ;
     :hasPeakPeriod :PM_Peak ;
     :hasOffPeakPeriod :Off_Peak_Midday ;
+    :hasStop :Paddington_Station ;
     :hasStop :Oxford_Circus_Station ;
     :hasStop :Waterloo_Station ;
-    :hasStop :London_Bridge_Station ;
-    :hasStop :Paddington_Station .
+    :hasStop :Elephant_Castle_Station ;
+    :hasStop :London_Bridge_Station .
 
+# Counter-Q18: no :hasScheduleType :TwentyFourHourService → "Limited Service"
 :Elizabeth_Line a owl:NamedIndividual, :Line ;
     rdfs:label "Elizabeth Line" ; :hasName "Elizabeth Line" ;
     :openingDate "2022-05-24"^^xsd:date ;
@@ -531,6 +616,7 @@
 
 # =============================================================================
 # BUS ROUTE 25  (Q3 filter: "Bus Route 25")
+# Counter-Q18: BusRoute — no :hasScheduleType :TwentyFourHourService → "Limited Service"
 # =============================================================================
 
 :Bus_Route_25 a owl:NamedIndividual, :BusRoute ;
@@ -548,99 +634,79 @@
 
 # =============================================================================
 # VICTORIA LINE ROUTE STOP SEQUENCES
-# Q3 (Bus Route 25 sequence) + Q4 (Victoria Station adjacency num±1)
-# Victoria Station is stop 5: adjacent = Pimlico (4) and Green Park (6)
+# Victoria = stop 5, adjacent: Pimlico (4) and Green Park (6)  → Q4
 # =============================================================================
 
 :VL_Seq_01 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 1 ;
-    :sequenceStop :Brixton_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 1 ; :sequenceStop :Brixton_Station .
 :VL_Seq_02 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 2 ;
-    :sequenceStop :Stockwell_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 2 ; :sequenceStop :Stockwell_Station .
 :VL_Seq_03 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 3 ;
-    :sequenceStop :Vauxhall_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 3 ; :sequenceStop :Vauxhall_Station .
 :VL_Seq_04 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 4 ;
-    :sequenceStop :Pimlico_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 4 ; :sequenceStop :Pimlico_Station .
 :VL_Seq_05 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 5 ;
-    :sequenceStop :Victoria_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 5 ; :sequenceStop :Victoria_Station .
 :VL_Seq_06 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 6 ;
-    :sequenceStop :Green_Park_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 6 ; :sequenceStop :Green_Park_Station .
 :VL_Seq_07 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 7 ;
-    :sequenceStop :Oxford_Circus_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 7 ; :sequenceStop :Oxford_Circus_Station .
 :VL_Seq_08 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 8 ;
-    :sequenceStop :Warren_Street_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 8 ; :sequenceStop :Warren_Street_Station .
 :VL_Seq_09 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 9 ;
-    :sequenceStop :Euston_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 9 ; :sequenceStop :Euston_Station .
 :VL_Seq_10 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 10 ;
-    :sequenceStop :Kings_Cross_St_Pancras_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 10 ; :sequenceStop :Kings_Cross_St_Pancras_Station .
 :VL_Seq_11 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 11 ;
-    :sequenceStop :Highbury_And_Islington_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 11 ; :sequenceStop :Highbury_And_Islington_Station .
 :VL_Seq_12 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 12 ;
-    :sequenceStop :Finsbury_Park_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 12 ; :sequenceStop :Finsbury_Park_Station .
 :VL_Seq_13 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 13 ;
-    :sequenceStop :Seven_Sisters_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 13 ; :sequenceStop :Seven_Sisters_Station .
 :VL_Seq_14 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 14 ;
-    :sequenceStop :Tottenham_Hale_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 14 ; :sequenceStop :Tottenham_Hale_Station .
 :VL_Seq_15 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 15 ;
-    :sequenceStop :Blackhorse_Road_Station .
-
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 15 ; :sequenceStop :Blackhorse_Road_Station .
 :VL_Seq_16 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 16 ;
-    :sequenceStop :Walthamstow_Central_Station .
+    :belongsToRoute :Victoria_Line ; :stopSequenceNumber 16 ; :sequenceStop :Walthamstow_Central_Station .
 
-# Bus Route 25 sequences  (Q3: "Bus Route 25", ordered stops)
+# =============================================================================
+# BUS ROUTE 25 STOP SEQUENCES  (Q3: ordered stops)
+# =============================================================================
+
 :BR25_Seq_01 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 1 ;
-    :sequenceStop :Stratford_Station .
-
+    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 1 ; :sequenceStop :Stratford_Station .
 :BR25_Seq_02 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 2 ;
-    :sequenceStop :Mile_End_Station .
-
+    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 2 ; :sequenceStop :Mile_End_Station .
 :BR25_Seq_03 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 3 ;
-    :sequenceStop :Whitechapel_Station .
-
+    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 3 ; :sequenceStop :Whitechapel_Station .
 :BR25_Seq_04 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 4 ;
-    :sequenceStop :Liverpool_Street_Station .
-
+    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 4 ; :sequenceStop :Liverpool_Street_Station .
 :BR25_Seq_05 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 5 ;
-    :sequenceStop :Bank_Station .
-
+    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 5 ; :sequenceStop :Bank_Station .
 :BR25_Seq_06 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 6 ;
-    :sequenceStop :Holborn_Station .
-
+    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 6 ; :sequenceStop :Holborn_Station .
 :BR25_Seq_07 a owl:NamedIndividual, :RouteStopSequence ;
-    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 7 ;
-    :sequenceStop :Oxford_Circus_Station .
+    :belongsToRoute :Bus_Route_25 ; :stopSequenceNumber 7 ; :sequenceStop :Oxford_Circus_Station .
+
+# =============================================================================
+# JUBILEE LINE STOP SEQUENCES
+# Q6: Brixton Station → Canary Wharf Station via 1 interchange at Green Park
+#   Option B path: Victoria Line Brixton(1)→Green Park(6), Jubilee Line Green Park(2)→Canary Wharf(6)
+#   Green Park is :InterchangeStation ✓   route1(VL) != route2(JL) ✓
+# =============================================================================
+
+:JL_Seq_01 a owl:NamedIndividual, :RouteStopSequence ;
+    :belongsToRoute :Jubilee_Line ; :stopSequenceNumber 1 ; :sequenceStop :Bond_Street_Station .
+:JL_Seq_02 a owl:NamedIndividual, :RouteStopSequence ;
+    :belongsToRoute :Jubilee_Line ; :stopSequenceNumber 2 ; :sequenceStop :Green_Park_Station .
+:JL_Seq_03 a owl:NamedIndividual, :RouteStopSequence ;
+    :belongsToRoute :Jubilee_Line ; :stopSequenceNumber 3 ; :sequenceStop :Westminster_Station .
+:JL_Seq_04 a owl:NamedIndividual, :RouteStopSequence ;
+    :belongsToRoute :Jubilee_Line ; :stopSequenceNumber 4 ; :sequenceStop :Waterloo_Station .
+:JL_Seq_05 a owl:NamedIndividual, :RouteStopSequence ;
+    :belongsToRoute :Jubilee_Line ; :stopSequenceNumber 5 ; :sequenceStop :London_Bridge_Station .
+:JL_Seq_06 a owl:NamedIndividual, :RouteStopSequence ;
+    :belongsToRoute :Jubilee_Line ; :stopSequenceNumber 6 ; :sequenceStop :Canary_Wharf_Station .
+:JL_Seq_07 a owl:NamedIndividual, :RouteStopSequence ;
+    :belongsToRoute :Jubilee_Line ; :stopSequenceNumber 7 ; :sequenceStop :Stratford_Station .
