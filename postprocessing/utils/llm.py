@@ -10,12 +10,12 @@ from pathlib import Path
 import requests
 
 from .config import (
-    OLLAMA_ENTITY_MODEL,
     OLLAMA_MAX_RETRIES,
     OLLAMA_SEED,
     OLLAMA_TEMPERATURE,
     OLLAMA_TIMEOUT_SEC,
     OLLAMA_URL,
+    POST_LLM_MODEL,
 )
 
 log = logging.getLogger(__name__)
@@ -68,7 +68,7 @@ def call_llm(prompt_name: str, params: str) -> dict:
 
     full_prompt = prompt_path.read_text(encoding="utf-8") + params
     payload = {
-        "model": OLLAMA_ENTITY_MODEL,
+        "model": POST_LLM_MODEL,
         "prompt": full_prompt,
         "stream": True,
         "format": "json",

@@ -1,4 +1,4 @@
-"""Phases 5a/5a2/5b: filter long names, bare literals, and clean labels/comments."""
+"""Phases 5a/5a2/5b/5c: filter long names, bare literals, clean labels/comments, bridge hasName."""
 from __future__ import annotations
 
 import logging
@@ -6,13 +6,14 @@ import math
 import re
 from typing import List, Set
 
-from rdflib import OWL, RDF, RDFS, Graph, Literal, URIRef
+from rdflib import OWL, RDF, RDFS, Graph, Literal, Namespace, URIRef
 
 from ..utils.config import POST_LABEL_LENGTH_STDDEV
 from ..utils.graph import get_label
 
 log = logging.getLogger(__name__)
 
+_TFL = Namespace("http://www.semanticweb.org/tfl/ontologies/2024/tfl-knowledge-graph#")
 _PAD_RE = re.compile(r"\s*<pad>\s*", re.IGNORECASE)
 _WS_RE = re.compile(r"\s{2,}")
 
@@ -32,35 +33,49 @@ _BARE_LITERAL_RE = re.compile(
 # Phase 5a: Long-name filter
 # ---------------------------------------------------------------------------
 
-def phase5a_filter_long_names(g: Graph, protected_iris: Set[URIRef]) -> int:
-    individuals = [
-        s for s in g.subjects(RDF.type, OWL.NamedIndividual)
+def _filter_long_names_for_type(
+    g: Graph,
+    protected_iris: Set[URIRef],
+    owl_type,
+    type_label: str,
+) -> int:
+    items = [
+        s for s in g.subjects(RDF.type, owl_type)
         if isinstance(s, URIRef) and s not in protected_iris
     ]
-    if not individuals:
+    if not items:
         return 0
 
-    lengths = [len(get_label(g, ind)) for ind in individuals]
+    lengths = [len(get_label(g, s)) for s in items]
     mean = sum(lengths) / len(lengths)
     std = math.sqrt(sum((l - mean) ** 2 for l in lengths) / len(lengths))
     threshold = mean + POST_LABEL_LENGTH_STDDEV * std
 
     removed = 0
-    for ind, length in zip(individuals, lengths):
+    for s, length in zip(items, lengths):
         if length > threshold:
-            label = get_label(g, ind)
-            for t in list(g.triples((ind, None, None))):
+            label = get_label(g, s)
+            for t in list(g.triples((s, None, None))):
                 g.remove(t)
-            for t in list(g.triples((None, None, ind))):
+            for t in list(g.triples((None, None, s))):
                 g.remove(t)
             removed += 1
-            log.info("Long-name removed: '%s' (len=%d > %.0f)", label[:70], length, threshold)
+            log.info("Long-name removed (%s): '%s' (len=%d > %.0f)", type_label, label[:70], length, threshold)
 
     log.info(
-        "Phase 5a: removed %d long-name individual(s) (mean=%.0f std=%.0f threshold=%.0f)",
-        removed, mean, std, threshold,
+        "Long-name filter (%s): removed %d (mean=%.0f std=%.0f threshold=%.0f)",
+        type_label, removed, mean, std, threshold,
     )
     return removed
+
+
+def phase5a_filter_long_names(g: Graph, protected_iris: Set[URIRef]) -> int:
+    total = 0
+    total += _filter_long_names_for_type(g, protected_iris, OWL.NamedIndividual, "individual")
+    total += _filter_long_names_for_type(g, protected_iris, OWL.ObjectProperty,  "object_property")
+    total += _filter_long_names_for_type(g, protected_iris, OWL.DatatypeProperty, "datatype_property")
+    log.info("Phase 5a: removed %d long-name entities total", total)
+    return total
 
 
 # ---------------------------------------------------------------------------
@@ -150,3 +165,34 @@ def phase5b_label_cleanup(g: Graph) -> int:
 
     log.info("Phase 5b label cleanup: %d operation(s)", ops)
     return ops
+
+
+# ---------------------------------------------------------------------------
+# Phase 5c: rdfs:label → :hasName bridge
+# ---------------------------------------------------------------------------
+
+def phase5c_hasname_bridge(g: Graph) -> int:
+    """Copy rdfs:label values to :hasName for every typed entity that lacks one."""
+    has_name = _TFL.hasName
+    added = 0
+
+    all_entities: List[URIRef] = list({
+        s for s in (
+            list(g.subjects(RDF.type, OWL.Class))
+            + list(g.subjects(RDF.type, OWL.NamedIndividual))
+        )
+        if isinstance(s, URIRef)
+    })
+
+    for s in all_entities:
+        existing = set(str(v) for v in g.objects(s, has_name))
+        for label in g.objects(s, RDFS.label):
+            if not isinstance(label, Literal):
+                continue
+            if str(label) not in existing:
+                g.add((s, has_name, Literal(str(label))))
+                existing.add(str(label))
+                added += 1
+
+    log.info("Phase 5c hasName bridge: %d triple(s) added", added)
+    return added
