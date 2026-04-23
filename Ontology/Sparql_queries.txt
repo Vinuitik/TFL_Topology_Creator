@@ -242,6 +242,23 @@ WHERE {
 }
 
 # ==========================================
+# Q10: What are the geographic coordinates (latitude and longitude) of a given station or set of stations?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?stationName ?latitude ?longitude
+WHERE {
+  ?station rdf:type/rdfs:subClassOf* :TransitAccessPoint ;
+           :hasName ?stationName ;
+           :latitude ?latitude ;
+           :longitude ?longitude .
+           
+  # Example Filter targeting a specific core interchange
+  FILTER(STR(?stationName) = "Victoria Station")
+}
+
+# ==========================================
 # Q11: When were major underground lines constructed, and when were their most recent upgrades completed?
 # ==========================================
 PREFIX : <http://example.org/tfl#>
