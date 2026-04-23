@@ -21,8 +21,9 @@ Phase map:
   5c hasname       Bridge rdfs:label → :hasName for all typed entities
   6  type-repair   Infer rdf:type for orphan individuals from label keywords
   7  reasoning     Inverse/symmetric properties + one-step subClassOf propagation
-  8  serialize     Write final_clean.ttl
+  8b relation-inf  Cosine-filter individual pairs → batch LLM → infer new triples
   9  seed-merge    Merge tfl_seed.ttl authoritative topology into graph
+  8  serialize     Write final_clean.ttl
 """
 
 from __future__ import annotations
@@ -43,6 +44,7 @@ from phases.rewrite import phase5_rewrite
 from phases.cleanup import phase5a_filter_long_names, phase5a2_filter_bare_literals, phase5b_label_cleanup, phase5c_hasname_bridge
 from phases.type_repair import phase6_type_repair
 from phases.reasoning import phase7_reasoning
+from phases.relation_infer import phase_relation_infer
 from phases.seed_merge import phase9_seed_merge
 
 logging.basicConfig(
@@ -59,6 +61,7 @@ def main() -> None:
     parser.add_argument("--output", default="/app/outputs/final_clean.ttl")
     parser.add_argument("--seed", default="/app/postprocessing/tfl_seed.ttl")
     parser.add_argument("--no-domain-filter", action="store_true", help="Skip out-of-domain class removal")
+    parser.add_argument("--no-relation-infer", action="store_true", help="Skip cosine+LLM relation inference")
     args = parser.parse_args()
 
     log.info("=== KG2 Post-Processing ===")
@@ -114,6 +117,11 @@ def main() -> None:
     # Phase 7 — reasoning
     n_inferred = phase7_reasoning(g)
 
+    # Phase 8b — relation inference
+    n_inferred_relations = 0
+    if not args.no_relation_infer:
+        n_inferred_relations = phase_relation_infer(g, protected_iris)
+
     # Phase 9 — seed merge (authoritative TfL topology)
     n_seed = phase9_seed_merge(g, args.seed)
 
@@ -136,6 +144,7 @@ def main() -> None:
     print(f"  hasName bridge       : {n_hasname}")
     print(f"  Type repairs         : {n_repairs}")
     print(f"  Inferred triples     : {n_inferred}")
+    print(f"  Inferred relations   : {n_inferred_relations}")
     print(f"  Seed triples added   : {n_seed}")
     print(f"  Output               : {args.output}")
 

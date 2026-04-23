@@ -52,7 +52,7 @@ SELECT ?stopName ?seq
 WHERE {
   ?route (:hasName|rdfs:label) ?routeTarget .
   FILTER(STR(?routeTarget) = "Bus Route 25")
-  ?stopSequence (:belongsToRoute|^:hasStopSequence) ?route ;
+  ?stopSequence :belongsToRoute ?route ;
                 (:stopSequenceNumber|:sequence) ?seq ;
                 :sequenceStop ?stop .
   ?stop (:hasName|rdfs:label) ?stopName .
@@ -106,79 +106,40 @@ HAVING (COUNT(?line) > 1)
 
 # ==========================================
 # Q6: What routes are available between two stations, including required interchanges and lines used?
-# Dynamic Output: Maps the exact sequence of interchanges required as a single formatted path array.
 # ==========================================
 PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT ?stationsList ?routesList
+SELECT DISTINCT ?startName ?interchangeName ?endName ?line1Name ?line2Name
 WHERE {
   ?startStation :hasName ?startTarget .
-  ?endStation :hasName ?endTarget .
+  ?endStation   :hasName ?endTarget .
   FILTER(STR(?startTarget) = "Brixton Station")
   FILTER(STR(?endTarget) = "Canary Wharf Station")
-  
+  ?startStation :hasName ?startName .
+  ?endStation   :hasName ?endName .
   {
-    # Option A: 0 Interchanges (Direct Route)
-    ?seqStart1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numStart1 .
-    ?seqEnd1 a :RouteStopSequence ; :sequenceStop ?endStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numEnd1 .
-    FILTER(?numStart1 < ?numEnd1)
-    
-    ?startStation :hasName ?startName .
-    ?endStation :hasName ?endName .
-    ?route1 :hasName ?route1Name .
-    
-    BIND(CONCAT("[", ?startName, ", ", ?endName, "]") AS ?stationsList)
-    BIND(CONCAT("[", ?route1Name, "]") AS ?routesList)
+    # Option A: Direct route (0 interchanges)
+    ?seq1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?line1 ; :stopSequenceNumber ?n1 .
+    ?seq2 a :RouteStopSequence ; :sequenceStop ?endStation   ; :belongsToRoute ?line1 ; :stopSequenceNumber ?n2 .
+    FILTER(?n1 < ?n2)
+    ?line1 :hasName ?line1Name .
+    BIND("Direct" AS ?line2Name)
+    BIND("None"   AS ?interchangeName)
   }
   UNION
   {
-    # Option B: 1 Interchange
-    ?seqStart1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numStart1 .
-    ?seqEnd1 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numEnd1 .
-    FILTER(?numStart1 < ?numEnd1)
-    
-    ?seqStart2 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numStart2 .
-    ?seqEnd2 a :RouteStopSequence ; :sequenceStop ?endStation ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numEnd2 .
-    FILTER(?numStart2 < ?numEnd2)
-    FILTER(?route1 != ?route2)
-    
-    ?startStation :hasName ?startName .
-    ?endStation :hasName ?endName .
-    ?route1 :hasName ?route1Name .
-    ?mid1Station a :InterchangeStation ; :hasName ?mid1Name .
-    ?route2 :hasName ?route2Name .
-    
-    BIND(CONCAT("[", ?startName, ", ", ?mid1Name, ", ", ?endName, "]") AS ?stationsList)
-    BIND(CONCAT("[", ?route1Name, ", ", ?route2Name, "]") AS ?routesList)
-  }
-  UNION
-  {
-    # Option C: 2 Interchanges
-    ?seqStart1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numStart1 .
-    ?seqEnd1 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numEnd1 .
-    FILTER(?numStart1 < ?numEnd1)
-    
-    ?seqStart2 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numStart2 .
-    ?seqEnd2 a :RouteStopSequence ; :sequenceStop ?mid2Station ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numEnd2 .
-    FILTER(?numStart2 < ?numEnd2)
-    FILTER(?route1 != ?route2)
-
-    ?seqStart3 a :RouteStopSequence ; :sequenceStop ?mid2Station ; :belongsToRoute ?route3 ; :stopSequenceNumber ?numStart3 .
-    ?seqEnd3 a :RouteStopSequence ; :sequenceStop ?endStation ; :belongsToRoute ?route3 ; :stopSequenceNumber ?numEnd3 .
-    FILTER(?numStart3 < ?numEnd3)
-    FILTER(?route2 != ?route3)
-
-    ?startStation :hasName ?startName .
-    ?endStation :hasName ?endName .
-    ?route1 :hasName ?route1Name .
-    ?mid1Station a :InterchangeStation ; :hasName ?mid1Name .
-    ?mid2Station a :InterchangeStation ; :hasName ?mid2Name .
-    ?route2 :hasName ?route2Name .
-    ?route3 :hasName ?route3Name .
-    
-    BIND(CONCAT("[", ?startName, ", ", ?mid1Name, ", ", ?mid2Name, ", ", ?endName, "]") AS ?stationsList)
-    BIND(CONCAT("[", ?route1Name, ", ", ?route2Name, ", ", ?route3Name, "]") AS ?routesList)
+    # Option B: 1 interchange
+    ?seqS1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?line1 ; :stopSequenceNumber ?nS1 .
+    ?seqM1 a :RouteStopSequence ; :sequenceStop ?interchange  ; :belongsToRoute ?line1 ; :stopSequenceNumber ?nM1 .
+    FILTER(?nS1 < ?nM1)
+    ?seqM2 a :RouteStopSequence ; :sequenceStop ?interchange  ; :belongsToRoute ?line2 ; :stopSequenceNumber ?nM2 .
+    ?seqE2 a :RouteStopSequence ; :sequenceStop ?endStation   ; :belongsToRoute ?line2 ; :stopSequenceNumber ?nE2 .
+    FILTER(?nM2 < ?nE2)
+    FILTER(?line1 != ?line2)
+    ?interchange :hasName ?interchangeName .
+    ?line1 :hasName ?line1Name .
+    ?line2 :hasName ?line2Name .
   }
 }
 
