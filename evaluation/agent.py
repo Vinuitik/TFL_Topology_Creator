@@ -5,6 +5,7 @@ import json
 import logging
 import os
 import re
+import time
 from typing import Any
 
 import requests
@@ -37,18 +38,26 @@ Rules:
 
 
 def _llm(prompt: str) -> str:
+    started = time.time()
+    log.info("LLM request start (timeout=%.1fs, prompt_chars=%d)", _TIMEOUT, len(prompt))
     resp = requests.post(
         _URL,
         json={
             "model": _MODEL,
             "prompt": prompt,
             "stream": False,
-            "options": {"temperature": 0.1, "repeat_penalty": 1.15, "num_predict": 512},
+            "options": {"temperature": 0.1, "repeat_penalty": 1.15, "num_predict": 512, "num_gpu": 0},
         },
         timeout=_TIMEOUT,
     )
     resp.raise_for_status()
-    return resp.json().get("response", "").strip()
+    text = resp.json().get("response", "").strip()
+    log.info(
+        "LLM request done (%.2fs, response_chars=%d)",
+        time.time() - started,
+        len(text),
+    )
+    return text
 
 
 def _parse(text: str) -> dict[str, Any] | None:
@@ -67,24 +76,37 @@ def run(question: str) -> dict[str, Any]:
     """Run the agent for one question. Returns {answer, turns}."""
     history = f"{_SYSTEM}\n\nQuestion: {question}\n"
     turns = []
+    log.info("Agent start: max_turns=%d", _MAX_TURNS)
 
     for turn in range(_MAX_TURNS):
+        log.info("Turn %d/%d: calling LLM", turn + 1, _MAX_TURNS)
         raw = _llm(history)
         log.debug("Turn %d raw: %s", turn + 1, raw)
         parsed = _parse(raw)
 
         if parsed is None:
+            log.warning("Turn %d: unparseable LLM output", turn + 1)
             turns.append({"turn": turn + 1, "raw": raw, "error": "unparseable"})
             break
 
         if "answer" in parsed:
+            log.info("Turn %d: final answer received", turn + 1)
             turns.append({"turn": turn + 1, "answer": parsed["answer"]})
             return {"answer": parsed["answer"], "turns": turns}
 
         if "tool" in parsed:
             tool_name = parsed["tool"]
             tool_params = {k: v for k, v in parsed.items() if k != "tool"}
+            if tool_name == "sparql_query":
+                query_preview = str(tool_params.get("query", "")).replace("\n", " ")
+                log.info("Turn %d: tool sparql_query start | %s", turn + 1, query_preview[:220])
+            else:
+                log.info("Turn %d: tool %s start", turn + 1, tool_name)
+
+            tool_started = time.time()
             result = call_tool(tool_name, tool_params)
+            log.info("Turn %d: tool %s done (%.2fs)", turn + 1, tool_name, time.time() - tool_started)
+
             turns.append(
                 {"turn": turn + 1, "tool": tool_name, "params": tool_params, "result": result}
             )
@@ -96,9 +118,10 @@ def run(question: str) -> dict[str, Any]:
             else:
                 result_str = json.dumps(result)
             history += f"\nAssistant: {raw}\nTool result: {result_str}\n"
-            log.info("Turn %d: %s", turn + 1, tool_name)
         else:
+            log.warning("Turn %d: unknown response format", turn + 1)
             turns.append({"turn": turn + 1, "raw": raw, "error": "unknown format"})
             break
 
+    log.warning("Agent exited without final answer after %d turn(s)", len(turns))
     return {"answer": None, "turns": turns}

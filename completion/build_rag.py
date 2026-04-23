@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from pathlib import Path
 
 from config import COMPLETION_DIR, DATA_SOURCES_DIR, RAG_CHUNK_CHARS, RAG_CHUNK_OVERLAP
@@ -46,10 +47,16 @@ def run() -> Path:
         ]
     )
 
-    log.info("RAG build: %d source file(s)", len(src_files))
-    for src in src_files:
+    total_files = len(src_files)
+    log.info("RAG build: %d source file(s)", total_files)
+    all_started = time.time()
+    for file_idx, src in enumerate(src_files, start=1):
+        file_started = time.time()
+        log.info("RAG build [%d/%d] reading %s", file_idx, total_files, src.name)
         raw = _read_source(src)
         chunks = _chunk_text(raw, RAG_CHUNK_CHARS, RAG_CHUNK_OVERLAP)
+        log.info("RAG build [%d/%d] %s -> %d chunk(s)", file_idx, total_files, src.name, len(chunks))
+        before_count = len(records)
         for idx, chunk in enumerate(chunks):
             vec = embed(chunk)
             if not vec:
@@ -63,9 +70,28 @@ def run() -> Path:
                     "embedding": vec,
                 }
             )
+            if (idx + 1) % 25 == 0:
+                log.info(
+                    "RAG build [%d/%d] %s progress: %d/%d chunks",
+                    file_idx,
+                    total_files,
+                    src.name,
+                    idx + 1,
+                    len(chunks),
+                )
+
+        added_for_file = len(records) - before_count
+        log.info(
+            "RAG build [%d/%d] %s done: indexed=%d (%.2fs)",
+            file_idx,
+            total_files,
+            src.name,
+            added_for_file,
+            time.time() - file_started,
+        )
 
     out.write_text(json.dumps({"records": records}, ensure_ascii=True), encoding="utf-8")
-    log.info("RAG build complete: %d chunks -> %s", len(records), out)
+    log.info("RAG build complete: %d chunks -> %s (%.2fs)", len(records), out, time.time() - all_started)
     return out
 
 

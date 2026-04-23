@@ -53,6 +53,8 @@ def _load_graph() -> ConjunctiveGraph:
 def sparql_query(query: str) -> list[dict[str, Any]]:
     """Execute a SPARQL SELECT query. Returns list of row dicts."""
     g = _load_graph()
+    compact_query = " ".join(query.split())
+    log.info("SPARQL start: %s", compact_query[:260])
     try:
         results = g.query(_PREFIXES + "\n" + query)
         rows = [{str(var): str(val) for var, val in zip(results.vars, row)} for row in results]
@@ -66,6 +68,7 @@ def sparql_query(query: str) -> list[dict[str, Any]]:
 def schema_info() -> dict[str, Any]:
     """Return classes, properties, and sample IRIs to help write SPARQL queries."""
     g = _load_graph()
+    log.info("schema_info start")
 
     classes = []
     for cls, lbl in g.query(
@@ -94,13 +97,21 @@ def schema_info() -> dict[str, Any]:
     ):
         samples.append({"iri": str(ind), "label": str(lbl)})
 
-    return {
+    payload = {
         "note": "Use PREFIX : <http://example.org/tfl#> in your queries.",
         "classes": classes,
         "object_properties": obj_props,
         "datatype_properties": dt_props,
         "sample_individuals": samples,
     }
+    log.info(
+        "schema_info done: classes=%d object_props=%d datatype_props=%d sample_individuals=%d",
+        len(classes),
+        len(obj_props),
+        len(dt_props),
+        len(samples),
+    )
+    return payload
 
 
 TOOLS = {

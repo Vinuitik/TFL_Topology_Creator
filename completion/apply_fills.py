@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from pathlib import Path
 
 from rdflib import ConjunctiveGraph, OWL, RDF, RDFS, URIRef
@@ -37,13 +38,16 @@ def run() -> tuple[Path, Path]:
     proposals_path = COMPLETION_DIR / "proposals.json"
     report_path = COMPLETION_DIR / "completion_report.json"
 
+    started = time.time()
     g = _load_graph(KG_INPUT_PATH)
     allowed = _allowed_predicates(g)
     proposals = json.loads(proposals_path.read_text(encoding="utf-8")).get("proposals", [])
+    total_props = len(proposals)
+    log.info("Apply stage: loaded %d proposal(s), %d allowed predicate(s)", total_props, len(allowed))
 
     accepted = []
     rejected = []
-    for p in proposals:
+    for idx, p in enumerate(proposals, start=1):
         subj = p.get("subject", "")
         pred = p.get("predicate", "")
         obj = p.get("object", "")
@@ -76,6 +80,15 @@ def run() -> tuple[Path, Path]:
             }
         )
 
+        if idx % 25 == 0 or idx == total_props:
+            log.info(
+                "Apply stage progress: %d/%d processed (accepted=%d rejected=%d)",
+                idx,
+                total_props,
+                len(accepted),
+                len(rejected),
+            )
+
     KG_OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     g.serialize(destination=str(KG_OUTPUT_PATH), format="turtle")
 
@@ -89,10 +102,11 @@ def run() -> tuple[Path, Path]:
     }
     report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     log.info(
-        "Apply complete: accepted=%d rejected=%d output=%s",
+        "Apply complete: accepted=%d rejected=%d output=%s (%.2fs)",
         len(accepted),
         len(rejected),
         KG_OUTPUT_PATH,
+        time.time() - started,
     )
     return KG_OUTPUT_PATH, report_path
 

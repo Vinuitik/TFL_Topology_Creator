@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from pathlib import Path
 
 from config import COMPLETION_DIR, ONTOLOGY_PATH, RAG_TOP_K
@@ -53,12 +54,28 @@ def run() -> Path:
     records = _load_records(index_path)
     ontology_hint = ONTOLOGY_PATH.read_text(encoding="utf-8", errors="ignore")[:8000] if ONTOLOGY_PATH.exists() else ""
 
+    started = time.time()
     all_props = []
-    for gap in gaps:
+    total_gaps = len(gaps)
+    log.info("Proposal generation: %d gap(s), %d RAG record(s), top_k=%d", total_gaps, len(records), RAG_TOP_K)
+
+    for idx, gap in enumerate(gaps, start=1):
+        log.info(
+            "Proposal generation [%d/%d] gap_type=%s subject=%s",
+            idx,
+            total_gaps,
+            gap.get("gap_type", ""),
+            gap.get("subject", ""),
+        )
         q = f"{gap.get('gap_type','')} {gap.get('label','')} {gap.get('subject','')}"
         ev = _retrieve(records, q, RAG_TOP_K)
+        log.info("Proposal generation [%d/%d] retrieved %d evidence chunk(s)", idx, total_gaps, len(ev))
         prompt = _prompt_for_gap(gap, ev, ontology_hint)
+
+        llm_started = time.time()
         resp = call_llm_json(prompt)
+        log.info("Proposal generation [%d/%d] LLM done (%.2fs)", idx, total_gaps, time.time() - llm_started)
+
         props = resp.get("proposals", []) if isinstance(resp, dict) else []
         if not isinstance(props, list):
             props = []
@@ -70,10 +87,17 @@ def run() -> Path:
             if "subject" not in p or not p.get("subject"):
                 p["subject"] = gap.get("subject")
         all_props.extend(props)
+        log.info(
+            "Proposal generation [%d/%d] produced %d proposal(s), running_total=%d",
+            idx,
+            total_gaps,
+            len(props),
+            len(all_props),
+        )
 
     payload = {"count": len(all_props), "proposals": all_props}
     out.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    log.info("Proposal generation complete: %d proposal(s) -> %s", len(all_props), out)
+    log.info("Proposal generation complete: %d proposal(s) -> %s (%.2fs)", len(all_props), out, time.time() - started)
     return out
 
 

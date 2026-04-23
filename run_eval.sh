@@ -10,7 +10,40 @@ echo "=== KG2 Evaluation ==="
 # Ensure services are up
 echo "Starting services..."
 docker compose up -d ollama redis
-docker compose wait ollama redis 2>/dev/null || true
+
+# docker compose wait blocks until containers stop; use explicit readiness checks instead.
+echo "Waiting for Ollama API..."
+deadline=$((SECONDS + 90))
+until curl -sf http://localhost:11434/api/tags >/dev/null 2>&1; do
+    if [ $SECONDS -ge $deadline ]; then
+        echo "ERROR: Ollama did not become ready within 90s" >&2
+        exit 1
+    fi
+    echo "  ...still waiting for Ollama"
+    sleep 2
+done
+echo "Ollama is ready."
+
+# Ensure the eval model is present
+ENTITY_MODEL=$(grep "^OLLAMA_ENTITY_MODEL=" .env 2>/dev/null | cut -d'=' -f2 | tr -d '\r' || echo "qwen2.5:3b")
+echo "Checking model '$ENTITY_MODEL'..."
+MODEL_LIST=$(docker compose exec -T ollama ollama list 2>&1 || true)
+if ! echo "$MODEL_LIST" | awk '{print $1}' | grep -qx "$ENTITY_MODEL"; then
+    echo "  Pulling '$ENTITY_MODEL'..."
+    docker compose exec -T ollama ollama pull "$ENTITY_MODEL"
+else
+    echo "  Model '$ENTITY_MODEL' already cached."
+fi
+
+# Evict all loaded models so the eval model fits in VRAM
+echo "Restarting Ollama to free VRAM..."
+docker compose restart ollama
+deadline2=$((SECONDS + 60))
+until curl -sf http://localhost:11434/api/tags >/dev/null 2>&1; do
+    [ $SECONDS -ge $deadline2 ] && { echo "ERROR: Ollama did not recover after restart" >&2; exit 1; }
+    sleep 2
+done
+echo "Ollama restarted."
 
 # Run eval inside a one-shot llm-pipeline container
 echo "Running evaluation..."
@@ -21,12 +54,13 @@ if [ -n "$GRAPH_PATH" ]; then
     echo "Graph override: $GRAPH_PATH"
 fi
 docker compose run --rm \
+    -e PYTHONUNBUFFERED=1 \
     -v "${PWD}/evaluation:/app/evaluation" \
     -v "${PWD}/outputs:/app/outputs" \
     "${ENV_ARGS[@]}" \
     --workdir /app/evaluation \
     llm-pipeline \
-    python run_eval.py
+    python -u run_eval.py
 
 echo ""
 echo "=== Results ==="

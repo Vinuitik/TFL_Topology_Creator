@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from pathlib import Path
 
 from rdflib import ConjunctiveGraph
@@ -24,10 +25,13 @@ def run() -> Path:
     COMPLETION_DIR.mkdir(parents=True, exist_ok=True)
     out = COMPLETION_DIR / "gaps.json"
 
+    started = time.time()
     g = _load_graph(KG_INPUT_PATH)
+    log.info("Gap detection: loaded graph %s (%d triples)", KG_INPUT_PATH, len(g))
     gaps = []
 
     # Instance gaps
+    log.info("Gap detection: query missing_specific_type start")
     rows = sparql_rows(
         g,
         """
@@ -39,6 +43,7 @@ def run() -> Path:
         LIMIT 120
         """,
     )
+    log.info("Gap detection: query missing_specific_type -> %d row(s)", len(rows))
     for r in rows:
         gaps.append(
             {
@@ -50,6 +55,7 @@ def run() -> Path:
             }
         )
 
+    log.info("Gap detection: query station_missing_zone start")
     rows = sparql_rows(
         g,
         """
@@ -61,6 +67,7 @@ def run() -> Path:
         LIMIT 120
         """,
     )
+    log.info("Gap detection: query station_missing_zone -> %d row(s)", len(rows))
     for r in rows:
         gaps.append(
             {
@@ -72,6 +79,7 @@ def run() -> Path:
             }
         )
 
+    log.info("Gap detection: query line_missing_mode start")
     rows = sparql_rows(
         g,
         """
@@ -83,6 +91,7 @@ def run() -> Path:
         LIMIT 120
         """,
     )
+    log.info("Gap detection: query line_missing_mode -> %d row(s)", len(rows))
     for r in rows:
         gaps.append(
             {
@@ -95,6 +104,7 @@ def run() -> Path:
         )
 
     # Ontology-ish coverage gaps (class exists but no/low instances)
+    log.info("Gap detection: query class_without_instances start")
     rows = sparql_rows(
         g,
         """
@@ -107,6 +117,7 @@ def run() -> Path:
         LIMIT 200
         """,
     )
+    log.info("Gap detection: query class_without_instances -> %d row(s)", len(rows))
     for r in rows:
         gaps.append(
             {
@@ -119,7 +130,7 @@ def run() -> Path:
         )
 
     out.write_text(json.dumps({"input_graph": str(KG_INPUT_PATH), "gaps": gaps}, indent=2), encoding="utf-8")
-    log.info("Gap detection complete: %d gap(s) -> %s", len(gaps), out)
+    log.info("Gap detection complete: %d gap(s) -> %s (%.2fs)", len(gaps), out, time.time() - started)
     return out
 
 

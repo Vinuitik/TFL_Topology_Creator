@@ -4,4 +4,6 @@ venv/
 __pycache__/
 .claude
 .hf_cache
-outputs/
+# Ignore nested content under outputs/, but allow direct children (files at outputs/*)
+outputs/**
+!outputs/*
