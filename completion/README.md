@@ -17,6 +17,13 @@ From project root:
 - Windows: `./run_completion.ps1`
 - Linux: `./run_completion.sh`
 
+Optional graph overrides:
+
+- Windows: `./run_completion.ps1 outputs/final_clean.ttl outputs/final_completed.ttl`
+- Linux: `./run_completion.sh outputs/final_clean.ttl outputs/final_completed.ttl`
+
+If no args are passed, completion uses `outputs/final.ttl` as input and writes `outputs/final_completed.ttl`.
+
 ## Evaluate Both Graphs
 
 Baseline:
