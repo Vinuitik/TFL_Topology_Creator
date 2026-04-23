@@ -7,7 +7,7 @@ from typing import Dict, List, Set, Tuple
 
 from rdflib import OWL, RDF, Graph, URIRef
 
-from utils.config import POST_ENTITY_SAME_THRESHOLD, POST_FUZZY_THRESHOLD
+from utils.config import POST_DEDUP_OVERRULE_COSINE, POST_ENTITY_SAME_THRESHOLD, POST_FUZZY_THRESHOLD
 from utils.embeddings import get_embeddings
 from utils.graph import (
     DSU,
@@ -87,9 +87,24 @@ def phase_dedup_type(
             "post_dedup_judge",
             f"\nInput type: {type_label}\nNames: {json.dumps(member_labels)}\n",
         )
-        if not result.get("same", False):
-            log.info("Dedup [%s]: LLM rejected merge of %s", type_label, member_labels)
-            continue
+        llm_approved = result.get("same", False)
+
+        if not llm_approved:
+            # Check whether min pairwise cosine exceeds overrule threshold
+            member_list = list(members)
+            min_cos = min(
+                cosine(embeds.get(member_list[i], []), embeds.get(member_list[j], []))
+                for i in range(len(member_list))
+                for j in range(i + 1, len(member_list))
+            )
+            if min_cos >= POST_DEDUP_OVERRULE_COSINE:
+                log.warning(
+                    "Dedup [%s]: OVERRULED LLM rejection for %s (min_cosine=%.3f >= %.3f)",
+                    type_label, member_labels, min_cos, POST_DEDUP_OVERRULE_COSINE,
+                )
+            else:
+                log.info("Dedup [%s]: LLM rejected merge of %s", type_label, member_labels)
+                continue
 
         protected_in = [m for m in members if m in protected_iris]
         canonical = (
