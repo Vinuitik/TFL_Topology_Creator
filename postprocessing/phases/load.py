@@ -6,7 +6,7 @@ from typing import Dict, Set, Tuple
 
 from rdflib import OWL, RDF, Graph, URIRef
 
-from ..utils.graph import log_stats
+from utils.graph import log_stats
 
 log = logging.getLogger(__name__)
 

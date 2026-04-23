@@ -2804,27 +2804,10 @@ ns1:1938_Stock_Trains a ns1:TransportEntity,
     rdfs:label "1938 Stock Trains" ;
     ns1:item 1938 .
 
-ns1:1941_24 a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "1941.[24" ;
-    ns1:item ns1:item .
-
 ns1:1959_stock_train a ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "1959_stock_train" ;
     ns1:item 1959 .
-
-ns1:1984_26 a pt:ConnectedEntity,
-        ns1:1986_77,
-        owl:NamedIndividual ;
-    rdfs:label "1984.[26" ;
-    ns1:item ns1:item .
-
-ns1:2003_96 a pt:ConnectedEntity,
-        owl:NamedIndividual ;
-    rdfs:label "2003.[96" ;
-    ns1:item ns1:item .
 
 ns1:2005_Route_Development a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -2839,7 +2822,7 @@ ns1:2008_Summer_Olympics a ns1:TransportEntity,
     ns1:point_in_time 2008 .
 
 ns1:2_Zone_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "2-Zone Station" ;
     ns1:subClassOf ns1:item .
@@ -2927,24 +2910,25 @@ ns1:Aldgate_East a pt:ConnectedEntity,
     rdfs:label "Aldgate East" ;
     ns1:item ns1:item .
 
+ns1:Aldgate_Station a pt:ConnectedEntity,
+        ns1:Station,
+        owl:NamedIndividual ;
+    rdfs:label "Aldgate Station" ;
+    ns1:Connecting_Line ns1:Metropolitan_Line .
+
 ns1:Alexandra_Palace_Branch_Line a ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Alexandra Palace Branch Line" ;
+    rdfs:label "Alexandra Palace Branch Line",
+        "Alexandra Palace Branch Line Via Highgate Surface Platforms" ;
+    ns1:ceasedPassengerTrafficOn 1954 ;
     ns1:item "3 July 1954"^^xsd:string .
 
-ns1:Alexandra_Palace_Branch_Line_Via_Highgate_Surface_Platforms a ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Alexandra Palace Branch Line Via Highgate Surface Platforms" ;
-    ns1:ceasedPassengerTrafficOn 1954 .
-
 ns1:Algate_Station a pt:ConnectedEntity,
-        ns1:InterchangeStation,
+        ns1:Station,
         owl:NamedIndividual ;
-    rdfs:label "Aldgate Station",
-        "Algate Station" ;
-    ns1:Connecting_Line ns1:Metropolitan_Line ;
+    rdfs:label "Algate Station" ;
     ns1:connectsWith ns1:Central_Line,
-        ns1:Hammersmith_and_City ;
+        ns1:Hammersmith_City_Line ;
     ns1:item "18 November 1876"^^xsd:string ;
     ns1:locatedIn ns1:London .
 
@@ -2962,10 +2946,13 @@ ns1:American_Express a pt:ConnectedEntity,
 
 ns1:Amersham a pt:ConnectedEntity,
         ns1:Amersham_Chesham,
+        ns1:Station,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Amersham" ;
+    rdfs:label "Amersham",
+        "Amersham station" ;
     ns1:Connecting_Line ns1:Metropolitan_Line ;
+    ns1:isInFareZone ns1:Seven_Eight_Nine_Services ;
     ns1:item ns1:item .
 
 ns1:Amersham_Chesham_Branch_of_Metropolitan_Line a pt:ConnectedEntity,
@@ -2974,12 +2961,6 @@ ns1:Amersham_Chesham_Branch_of_Metropolitan_Line a pt:ConnectedEntity,
     rdfs:label "Amersham / Chesham Branch of Metropolitan Line" ;
     ns1:item ns1:Harrow_on_the_Hill .
 
-ns1:Amersham_station a pt:ConnectedEntity,
-        ns1:InterchangeStation,
-        owl:NamedIndividual ;
-    rdfs:label "Amersham station" ;
-    ns1:isInFareZone ns1:Seven_Eight_Nine_Services .
-
 ns1:AndroidPay a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -2987,8 +2968,8 @@ ns1:AndroidPay a pt:ConnectedEntity,
     ns1:item ns1:London .
 
 ns1:Angel_tube_station a pt:ConnectedEntity,
-        ns1:InterchangeStation,
         ns1:Kennington_tube_station,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Angel tube station" ;
     ns1:item ns1:Circle_Line,
@@ -3044,18 +3025,6 @@ ns1:Baker_Street a pt:ConnectedEntity,
     ns1:item ns1:Metropolitan_Line,
         ns1:item .
 
-ns1:Balham_Railway a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Balham Railway" ;
-    ns1:item ns1:item .
-
-ns1:Balham_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
-        owl:NamedIndividual ;
-    rdfs:label "Balham Station" ;
-    ns1:operatedBy ns1:National_Rail_Services .
-
 ns1:Bank a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -3066,19 +3035,13 @@ ns1:Bank a pt:ConnectedEntity,
         1900 ;
     ns1:operatedBy ns1:London_Overground .
 
-ns1:Bank_Station a ns1:TrainStation,
+ns1:Bank_Station a ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Bank Station" ;
     ns1:DateOfOfficialOpening "6 October 1884"^^xsd:string .
 
-ns1:Bank_Station_Escalator_Connection_to_Monument_Docklands_Light_Rail a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Bank Station Escalator Connection to Monument Docklands Light Rail" ;
-    ns1:connectsWith ns1:Docklands_Light_Railway .
-
 ns1:Bank_Tube_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Bank Tube Station" ;
     ns1:item ns1:Circle_Line .
@@ -3095,13 +3058,13 @@ ns1:Barbican_Crossing a pt:ConnectedEntity,
     rdfs:label "Barbican Crossing" ;
     ns1:item ns1:item .
 
-ns1:Barbican_Station a ns1:TrainStation,
+ns1:Barbican_Station a ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Barbican Station" ;
     ns1:inception "23 December 1865"^^xsd:string .
 
 ns1:Barbicen_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Barbicen Station" ;
     ns1:changedNameTo ns1:item ;
@@ -3118,7 +3081,7 @@ ns1:Barking_Sidings a pt:ConnectedEntity,
     ns1:hasFare ns1:Victoria_Line .
 
 ns1:Barking_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Barking Station" ;
     ns1:Connecting_Line ns1:Circle_Line .
@@ -3142,7 +3105,7 @@ ns1:Battersea a pt:ConnectedEntity,
         "20 September 2021"^^xsd:string .
 
 ns1:Battersea_Branch_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Battersea Branch Station" ;
     ns1:Connecting_Line ns1:Charing_Cross_branch .
@@ -3245,14 +3208,11 @@ ns1:Boston_Manor a pt:ConnectedEntity,
 
 ns1:Bounds_Green a pt:ConnectedEntity,
         ns1:Golders_Green,
+        ns1:Station,
         owl:NamedIndividual ;
-    rdfs:label "Bounds Green" ;
-    ns1:item ns1:item .
-
-ns1:Bounds_Green_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
-        owl:NamedIndividual ;
-    rdfs:label "Bounds Green Station" ;
+    rdfs:label "Bounds Green",
+        "Bounds Green Station" ;
+    ns1:item ns1:item ;
     ns1:operatedBy ns1:London_Underground .
 
 ns1:Bow_Road a pt:ConnectedEntity,
@@ -3295,12 +3255,6 @@ ns1:Brighton_to_Luton_Tickets a pt:ConnectedEntity,
     rdfs:label "Brighton to Luton Tickets" ;
     ns1:operatedBy ns1:London_Underground_Fare_Zones .
 
-ns1:Brixton a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Brixton" ;
-    ns1:item ns1:item .
-
 ns1:Broad_Street a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -3324,15 +3278,6 @@ ns1:Brockley_Hill_Extension_Work a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Brockley Hill Extension Work" ;
     ns1:item ns1:Viaduct_at_Brockley_Hill_and_Tunnel_Near_Elstrie_South .
-
-ns1:Bromley_by_Bow a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Bromley by Bow",
-        "Bromley-by-Bow" ;
-    ns1:locatedIn ns1:Zone_3 ;
-    ns1:located_in_the_administrative_territorial_entity ns1:Newham_London,
-        ns1:West_Ham_United_Football_Club .
 
 ns1:Bull_and_Bush a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -3394,22 +3339,10 @@ ns1:Canning_Town a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Canning Town" ;
-    ns1:connecting_line ns1:Metropolitan_Line ;
+    ns1:Connecting_Line ns1:Metropolitan_Line ;
     ns1:item ns1:item ;
     ns1:locatedIn ns1:Zone_3 ;
     ns1:located_in_the_administrative_territorial_entity ns1:Newham_London .
-
-ns1:Cannon_Street_Main_Line_Station a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Cannon Street Main Line Station" ;
-    ns1:ownedBy ns1:National_Rail .
-
-ns1:Cannon_Street_Railway_Station a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Cannon Street Railway Station" ;
-    ns1:item ns1:item .
 
 ns1:Capital_Card a pt:ConnectedEntity,
         ns1:Day_Travelcard,
@@ -3463,17 +3396,19 @@ ns1:Channel_Tunnel a pt:ConnectedEntity,
 ns1:Charing_Cross_Branch_of_Northern_Line a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Charing Cross Branch of Northern Line",
-        "Charing Cross branch of the Northern Line" ;
-    ns1:fundedByPrivateDevelopers ns1:item ;
+    rdfs:label "Charing Cross Branch of Northern Line" ;
     ns1:terminatesAt ns1:Battersea_Power_Station .
 
 ns1:Charing_Cross_Euston_and_Hampstead_Railway a pt:ConnectedEntity,
+        ns1:Hampstead,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Charing Cross Euston and Hampstead Railway",
-        "Charing Cross, Euston and Hampstead Railway" ;
+        "Charing Cross, Euston and Hampstead Railway",
+        "Euston and Hampstead Railway",
+        "Hampstead Railway" ;
     ns1:inception 1907 ;
+    ns1:item ns1:item ;
     ns1:replacedBy ns1:City_and_South_London_Railway ;
     ns1:replaces ns1:City_and_South_London_Railway ;
     ns1:terminatesAt ns1:Camden_Town .
@@ -3483,6 +3418,12 @@ ns1:Charing_Cross_National_Rail_Station_Bakerloo a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Charing Cross National Rail Station Bakerloo" ;
     ns1:item ns1:item .
+
+ns1:Charing_Cross_branch_of_the_Northern_Line a pt:ConnectedEntity,
+        ns1:TransportEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Charing Cross branch of the Northern Line" ;
+    ns1:fundedByPrivateDevelopers ns1:item .
 
 ns1:Charles_Yerkes a pt:ConnectedEntity,
         ns1:Charles_Holden,
@@ -3520,7 +3461,11 @@ ns1:Circle_Line_Trains a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Circle Line Trains" ;
-    ns1:item ns1:Hammersmith_and_City .
+    ns1:item ns1:Hammersmith_City_Line .
+
+ns1:Circle_Line_and_Waterloo_City_Line a ns1:Waterloo_City_Line,
+        owl:NamedIndividual ;
+    rdfs:label "Circle Line and Waterloo & City Line" .
 
 ns1:Circle_and_Bakerloo a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -3546,11 +3491,6 @@ ns1:City_Widened_Lines a pt:ConnectedEntity,
     rdfs:label "City Widened Lines" ;
     ns1:item ns1:item .
 
-ns1:City_and_South_London_Railway_train_1890 a ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "City and South London Railway train, 1890" ;
-    ns1:point_in_time 1890 .
-
 ns1:CitywidenedLines a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -3567,19 +3507,6 @@ ns1:Clapham a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Clapham" ;
     ns1:item ns1:item .
-
-ns1:Clapham_Common_Station a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Clapham Common Station" ;
-    ns1:instanceOf ns1:Air_Raid_Shelter ;
-    ns1:item ns1:item,
-        1926 .
-
-ns1:Clapham_South_Station a ns1:Clapham_North,
-        owl:NamedIndividual ;
-    rdfs:label "Clapham South Station" ;
-    ns1:item "13 September 1926"^^xsd:string .
 
 ns1:Class_345_Trains a ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -3600,12 +3527,6 @@ ns1:Colindale a pt:ConnectedEntity,
     ns1:item ns1:Hendon,
         ns1:item .
 
-ns1:Colliers_Wood_station a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Colliers Wood station" ;
-    ns1:item ns1:South_Wimbledon_Merton .
-
 ns1:CommunicationsBasedTrainControl a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -3614,12 +3535,6 @@ ns1:CommunicationsBasedTrainControl a pt:ConnectedEntity,
 
 ns1:Connecting_Line a owl:ObjectProperty ;
     rdfs:label "Connecting Line" .
-
-ns1:Contactless_Payment a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Contactless Payment" ;
-    ns1:instanceOf ns1:Weekly_Travel_Card .
 
 ns1:Country a owl:ObjectProperty ;
     rdfs:label "Country" .
@@ -3705,13 +3620,19 @@ ns1:Dartford_Line a pt:ConnectedEntity,
         ns1:item .
 
 ns1:DateOfOfficialOpening a owl:ObjectProperty ;
-    rdfs:label "dateOfOfficialOpening" .
+    rdfs:label "DateOfOfficialOpening" .
 
 ns1:Deep_Level_Tube_Railway a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Deep-Level Tube Railway" ;
     ns1:located_in_the_administrative_territorial_entity ns1:London .
+
+ns1:Depots_Northern_Line a pt:ConnectedEntity,
+        ns1:TransportEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Depots Northern Line" ;
+    ns1:instanceOf ns1:item .
 
 ns1:Derby a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -3734,11 +3655,21 @@ ns1:District_B_Stock a pt:ConnectedEntity,
     rdfs:label "District B Stock" ;
     ns1:item ns1:item .
 
+ns1:District_Line_and_Circle_Line_from_Bayswater a ns1:TransportEntity,
+        owl:NamedIndividual ;
+    rdfs:label "District Line and Circle Line from Bayswater" .
+
 ns1:District_System a pt:ConnectedEntity,
         ns1:District_Line,
         owl:NamedIndividual ;
     rdfs:label "District System" ;
     ns1:subClassOf ns1:item .
+
+ns1:District_and_Metropolitan_Railway a pt:ConnectedEntity,
+        ns1:Metropolitan_Railway,
+        owl:NamedIndividual ;
+    rdfs:label "District and Metropolitan Railway" ;
+    ns1:item ns1:item .
 
 ns1:Docklands_Light_Railway_Central a pt:ConnectedEntity,
         ns1:Docklands_Light_Railway,
@@ -3826,15 +3757,13 @@ ns1:Ebbsfleet a pt:ConnectedEntity,
 
 ns1:Edgware_Branch a pt:ConnectedEntity,
         ns1:Edgware_Road,
+        ns1:Station,
         owl:NamedIndividual ;
-    rdfs:label "Edgware Branch" ;
-    ns1:date_of_official_opening "20 September 2021"^^xsd:string ;
+    rdfs:label "Edgware Branch",
+        "Edgware Branch Station" ;
+    ns1:date_of_official_opening "18 August 1924"^^xsd:string,
+        "20 September 2021"^^xsd:string ;
     ns1:item ns1:item .
-
-ns1:Edgware_Branch_Station a ns1:TrainStation,
-        owl:NamedIndividual ;
-    rdfs:label "Edgware Branch Station" ;
-    ns1:date_of_official_opening "18 August 1924"^^xsd:string .
 
 ns1:Edgware_Park a pt:ConnectedEntity,
         ns1:Edgware_Road,
@@ -3915,12 +3844,6 @@ ns1:Elizabeth_Line_Moorgate a pt:ConnectedEntity,
     ns1:facet_of ns1:National_Rail ;
     ns1:item ns1:item .
 
-ns1:Elizabeth_Line_Off_Peak_Weekday_Service_Route_from_Reading_or_Heathrow_Airport_to_Abbey_Wood a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Elizabeth Line Off-Peak Weekday Service Route from Reading or Heathrow Airport to Abbey Wood" ;
-    ns1:operatedBy ns1:Elizabeth_Line .
-
 ns1:Elstree_South a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Elstree South" ;
@@ -3938,7 +3861,7 @@ ns1:Embayment_Pier a pt:ConnectedEntity,
     ns1:item ns1:item .
 
 ns1:Embayment_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Embayment Station" ;
     ns1:item ns1:Charing_Cross_Embankment .
@@ -4000,12 +3923,6 @@ ns1:Euston_Square a pt:ConnectedEntity,
     rdfs:label "Euston Square" ;
     ns1:item ns1:item .
 
-ns1:Euston_Square_Hammersmith_City_Line_Metropolitan_Line_Euston_Watford_DC_Line_National_Rail_Sloane_Square a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Euston Square Hammersmith & City Line Metropolitan Line | Euston Watford DC Line National Rail Sloane Square" ;
-    ns1:item ns1:item .
-
 ns1:Euston_Square_Monument a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -4019,22 +3936,14 @@ ns1:Euston_Square_Station a pt:ConnectedEntity,
     ns1:item ns1:51_31_26_N_000_08_38_W .
 
 ns1:Euston_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
-        owl:NamedIndividual ;
-    rdfs:label "Euston Station" ;
-    ns1:connectsWith ns1:Victoria_Line ;
-    ns1:item "12 May 1907"^^xsd:string .
-
-ns1:Euston_Station_London_Overground a ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Euston Station London Overground" ;
-    ns1:date_of_official_opening "12 May 1907"^^xsd:string .
-
-ns1:Euston_and_Hampstead_Railway a pt:ConnectedEntity,
+        ns1:Station,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Euston and Hampstead Railway" ;
-    ns1:item ns1:item .
+    rdfs:label "Euston Station",
+        "Euston Station London Overground" ;
+    ns1:connectsWith ns1:Victoria_Line ;
+    ns1:date_of_official_opening "12 May 1907"^^xsd:string ;
+    ns1:item "12 May 1907"^^xsd:string .
 
 ns1:Ewell a pt:ConnectedEntity,
         ns1:Clerkenwell,
@@ -4188,13 +4097,10 @@ ns1:Golders_Green_and_Highgate a pt:ConnectedEntity,
 ns1:Goldhawk_Road a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Goldhawk Road" ;
+    rdfs:label "Goldhawk Road",
+        "Goldhawk Road Station" ;
+    ns1:inception 1914 ;
     ns1:item ns1:item .
-
-ns1:Goldhawk_Road_Station a ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Goldhawk Road Station" ;
-    ns1:inception 1914 .
 
 ns1:Gower_Street a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -4220,17 +4126,11 @@ ns1:Great_Northern_and_City_Railway_subsidiary a pt:ConnectedEntity,
     rdfs:label "Great Northern and City Railway subsidiary" ;
     ns1:operatedBy ns1:Morden_Edgware_Line .
 
-ns1:Great_Portland_Street_Station a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Great Portland Street Station" ;
-    ns1:item ns1:item .
-
 ns1:Great_Western_Railway_service a pt:ConnectedEntity,
         ns1:Great_Western_Railway,
         owl:NamedIndividual ;
     rdfs:label "Great Western Railway service" ;
-    ns1:operatedBy ns1:Hammersmith_and_City ;
+    ns1:operatedBy ns1:Hammersmith_City_Line ;
     ns1:terminatesAt ns1:Kensington_Olympia_Addison_Road .
 
 ns1:Great_Western_Railway_service_to_Paddington_and_Woking a pt:ConnectedEntity,
@@ -4278,6 +4178,13 @@ ns1:Hammersmith_Rolling_Stock_S7_Stock a pt:ConnectedEntity,
     rdfs:label "Hammersmith Rolling Stock S7 Stock" ;
     ns1:item ns1:item .
 
+ns1:Hammersmith_and_City_Line a pt:ConnectedEntity,
+        ns1:Northern_City_Line,
+        owl:NamedIndividual ;
+    rdfs:label "Hammersmith and City Line" ;
+    ns1:hasServiceFrequencyIncreased ns1:item ;
+    ns1:item ns1:item .
+
 ns1:Hammersmith_and_West_London_Line a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -4285,10 +4192,10 @@ ns1:Hammersmith_and_West_London_Line a pt:ConnectedEntity,
     ns1:item ns1:item .
 
 ns1:Hammersmith_station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Hammersmith station" ;
-    ns1:Connecting_Line ns1:Hammersmith_and_City ;
+    ns1:Connecting_Line ns1:Hammersmith_City_Line ;
     ns1:inception 1864 ;
     ns1:locatedIn ns1:London .
 
@@ -4297,12 +4204,6 @@ ns1:Hammersmith_to_Westbourne_Park_section_of_line a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Hammersmith to Westbourne Park section of line" ;
     ns1:item ns1:20_Foot_High_Brick_Viaduct .
-
-ns1:Hampstead_Railway a pt:ConnectedEntity,
-        ns1:Hampstead,
-        owl:NamedIndividual ;
-    rdfs:label "Hampstead Railway" ;
-    ns1:item ns1:item .
 
 ns1:Hampstead_Tube a pt:ConnectedEntity,
         ns1:Hampstead,
@@ -4327,21 +4228,9 @@ ns1:Haringey a pt:ConnectedEntity,
     rdfs:label "Haringey" ;
     ns1:item ns1:item .
 
-ns1:Harrow a pt:ConnectedEntity,
-        ns1:Heathrow,
-        owl:NamedIndividual ;
-    rdfs:label "Harrow" ;
-    ns1:item ns1:item .
-
 ns1:Harrow_District a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Harrow District" ;
-    ns1:item ns1:item .
-
-ns1:Harrow_and_Wealdstone a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Harrow and Wealdstone" ;
     ns1:item ns1:item .
 
 ns1:Hatton_Cross a pt:ConnectedEntity,
@@ -4395,12 +4284,6 @@ ns1:Heathrow_Terminals_2_and_3 a pt:ConnectedEntity,
     rdfs:label "Heathrow Terminals 2 and 3" ;
     ns1:item ns1:item .
 
-ns1:Heathrow_Terminals_2_and_3_Hayes_and_Harlington_Southall_Hanwell_West a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Heathrow Terminals 2 and 3, Hayes and Harlington, Southall, Hanwell, West" ;
-    ns1:item ns1:item .
-
 ns1:Heathrow_Terminals_2_and_3_Heathrow_Airport_Heathrow_Express a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -4419,12 +4302,16 @@ ns1:Hendon_Central_Disabled_Access_Map_Opened a pt:ConnectedEntity,
     rdfs:label "Hendon Central Disabled Access Map (Opened)" ;
     ns1:item ns1:Brent .
 
+ns1:Hendon_Colindale_Underground_Part a ns1:TransportEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Hendon-Colindale Underground Part" .
+
 ns1:Hertsmere a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Hertsmere" ;
     ns1:item ns1:item .
 
-ns1:High_Barnet_Branch_Station a ns1:TrainStation,
+ns1:High_Barnet_Branch_Station a ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "High Barnet Branch Station" ;
     ns1:openedForServiceOn "1 April 1872"^^xsd:string .
@@ -4434,31 +4321,11 @@ ns1:High_Barnet_Branch_Terminus a ns1:TransportEntity,
     rdfs:label "High Barnet Branch Terminus" ;
     ns1:date_of_official_opening "1 April 1872"^^xsd:string .
 
-ns1:High_Speed_2 a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "High Speed 2",
-        "High-Speed-2" ;
-    ns1:instance_of ns1:station ;
-    ns1:item ns1:item .
-
 ns1:High_Street_Kensington_Station a pt:ConnectedEntity,
         ns1:Kensington_Station,
         owl:NamedIndividual ;
     rdfs:label "High Street Kensington Station" ;
     ns1:Connecting_Line ns1:Metropolitan_Railway .
-
-ns1:Highbury a pt:ConnectedEntity,
-        ns1:High_Barnet,
-        owl:NamedIndividual ;
-    rdfs:label "Highbury" ;
-    ns1:item ns1:item .
-
-ns1:Highbury_and_Islington a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Highbury and Islington" ;
-    ns1:item ns1:item .
 
 ns1:Highgate a pt:ConnectedEntity,
         ns1:High_Barnet,
@@ -4526,9 +4393,6 @@ ns1:Ilford_EMU_Depot_85_86_Service a pt:ConnectedEntity,
     rdfs:label "Ilford EMU Depot [85][86] Service" ;
     ns1:item ns1:item .
 
-ns1:Inception a owl:ObjectProperty ;
-    rdfs:label "Inception" .
-
 ns1:Independent a pt:ConnectedEntity,
         ns1:LineSegment,
         owl:NamedIndividual ;
@@ -4561,9 +4425,13 @@ ns1:Investment_Programme_of_London_Underground a pt:ConnectedEntity,
     ns1:item ns1:item .
 
 ns1:Islington a pt:ConnectedEntity,
+        ns1:High_Barnet,
         ns1:Kennington,
+        ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Islington" ;
+    rdfs:label "Highbury",
+        "Highbury and Islington",
+        "Islington" ;
     ns1:instance_of ns1:item ;
     ns1:item ns1:item .
 
@@ -4585,7 +4453,7 @@ ns1:John_F_Kennedy_School_of_Government a pt:ConnectedEntity,
     ns1:Country ns1:item ;
     ns1:facet_of ns1:Harvard_University .
 
-ns1:Joint_Station a ns1:TrainStation,
+ns1:Joint_Station a ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Joint Station" ;
     ns1:date_of_official_opening "6 October 1884"^^xsd:string .
@@ -4594,12 +4462,6 @@ ns1:Journal_of_Scholarly_Publishing a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Journal of Scholarly Publishing" ;
-    ns1:item ns1:item .
-
-ns1:Jubilee_Line_Docklands_Light_Rail a pt:ConnectedEntity,
-        ns1:Docklands_Light_Railway,
-        owl:NamedIndividual ;
-    rdfs:label "Jubilee Line (Docklands Light Rail)" ;
     ns1:item ns1:item .
 
 ns1:Kennington_to_Battersea_Power a pt:ConnectedEntity,
@@ -4702,7 +4564,7 @@ ns1:Latimer_Road a pt:ConnectedEntity,
     ns1:inception 1872 ;
     ns1:item ns1:item .
 
-ns1:Latimer_Road_Station a ns1:InterchangeStation,
+ns1:Latimer_Road_Station a ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Latimer Road Station" ;
     ns1:item 2011 .
@@ -4735,30 +4597,11 @@ ns1:Liberty a pt:ConnectedEntity,
     rdfs:label "Liberty" ;
     ns1:item ns1:item .
 
-ns1:Liverpool a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Liverpool" ;
-    ns1:item ns1:item .
-
 ns1:Liverpool_Street_Main_Line_Terminus a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Liverpool Street Main Line Terminus" ;
     ns1:terminus ns1:Gidea_Park .
-
-ns1:Liverpool_Street_Mainline_Station a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Liverpool Street Mainline Station" ;
-    ns1:connectingLine ns1:Central .
-
-ns1:Liverpool_Street_Station a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Liverpool Street Station" ;
-    ns1:connectingLine ns1:Elizabeth_Line ;
-    ns1:item ns1:item .
 
 ns1:London_1_Central a pt:ConnectedEntity,
         ns1:Hendon_Central,
@@ -4766,22 +4609,24 @@ ns1:London_1_Central a pt:ConnectedEntity,
     rdfs:label "London 1 Central" ;
     ns1:item ns1:item .
 
-ns1:London_Boroughs a pt:ConnectedEntity,
+ns1:London_Borough a pt:ConnectedEntity,
         ns1:London_Borough_of_Barnet,
+        owl:NamedIndividual ;
+    rdfs:label "London Borough" ;
+    ns1:item ns1:item .
+
+ns1:London_Borough_of a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "London Borough",
-        "London Borough of",
-        "London Boroughs" ;
-    ns1:item ns1:Circle_Line,
-        ns1:Waterloo_City_Line,
-        ns1:item .
+    rdfs:label "London Borough of" ;
+    ns1:item ns1:item .
 
-ns1:London_Bridge_Station a pt:ConnectedEntity,
-        ns1:InterchangeStation,
+ns1:London_Boroughs a pt:ConnectedEntity,
+        ns1:London_Borough_of_Barnet,
         owl:NamedIndividual ;
-    rdfs:label "London Bridge Station" ;
-    ns1:item ns1:Circle_Line .
+    rdfs:label "London Boroughs" ;
+    ns1:item ns1:Circle_Line,
+        ns1:Waterloo_City_line .
 
 ns1:London_Buses a pt:ConnectedEntity,
         ns1:London,
@@ -4828,6 +4673,14 @@ ns1:London_Street_of_the_Year a pt:ConnectedEntity,
     rdfs:label "London Street of the Year" ;
     ns1:operatedBy ns1:Royal_Institute_of_British_Architects .
 
+ns1:London_Transport a pt:ConnectedEntity,
+        ns1:London_Heathrow_Airport,
+        owl:NamedIndividual ;
+    rdfs:label "London Transport" ;
+    ns1:item ns1:Greater_London_Authority,
+        ns1:item,
+        "22 May 1983"^^xsd:string .
+
 ns1:London_Transport_Executive a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -4852,18 +4705,6 @@ ns1:London_Underground_District_Line a pt:ConnectedEntity,
         "London Underground District Line" ;
     ns1:item ns1:item .
 
-ns1:London_Underground_District_Line_Acton_Main_Line_National_Rail_Old_Oak_Common a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "London Underground (District Line, Acton Main Line, National Rail, Old Oak Common)" ;
-    ns1:item ns1:item .
-
-ns1:London_Underground_District_Line_Hammersmith_City_Line_Paddington a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "London Underground District Line Hammersmith & City Line Paddington" ;
-    ns1:item ns1:item .
-
 ns1:London_Underground_District_Line_Notting_Hill_Gate a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -4884,16 +4725,13 @@ ns1:London_Underground_headquarters_offices a pt:ConnectedEntity,
     ns1:item ns1:Charing_Cross_Embankment_Station .
 
 ns1:Lothbury a pt:ConnectedEntity,
+        ns1:Station,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Lothbury" ;
+    rdfs:label "Lothbury",
+        "Lothbury Station" ;
+    ns1:item ns1:Line ;
     ns1:operatedBy ns1:London_Underground .
-
-ns1:Lothbury_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
-        owl:NamedIndividual ;
-    rdfs:label "Lothbury Station" ;
-    ns1:item ns1:Line .
 
 ns1:Luton a pt:ConnectedEntity,
         ns1:Euston,
@@ -4962,26 +4800,9 @@ ns1:Manor_Park a pt:ConnectedEntity,
     rdfs:label "Manor Park" ;
     ns1:item ns1:item .
 
-ns1:Mansion_House_Station a ns1:Kennington_tube_station,
-        owl:NamedIndividual ;
-    rdfs:label "Mansion House Station" ;
-    ns1:inception 1871 .
-
-ns1:Mark_II_Stock a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Mark II Stock" ;
-    ns1:item ns1:item .
-
 ns1:Maryland a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Maryland" ;
-    ns1:item ns1:item .
-
-ns1:Maryland_Docklands_Light_Railway a pt:ConnectedEntity,
-        ns1:Docklands_Light_Railway,
-        owl:NamedIndividual ;
-    rdfs:label "Maryland Docklands Light Railway" ;
     ns1:item ns1:item .
 
 ns1:Mastercard a pt:ConnectedEntity,
@@ -5035,25 +4856,27 @@ ns1:Metropolitan_Railway_Station_at_Angel a ns1:TransportEntity,
     rdfs:label "Metropolitan Railway Station at Angel" ;
     ns1:item "17 November 1901"^^xsd:string .
 
-ns1:Metropolitan_and_District_Railways_City_Lines_and_Extensions_Act_1879 a pt:ConnectedEntity,
+ns1:Metropolitan_and_District_Gloucester_Road_Railway a pt:ConnectedEntity,
+        ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Metropolitan and District Railways (City Lines and Extensions) Act 1879" ;
-    ns1:item ns1:The_District_Railway,
-        1879 .
+    rdfs:label "Metropolitan and District Gloucester Road Railway" ;
+    ns1:item ns1:item .
+
+ns1:Metropolitan_and_District_Gloucester_Road_Station a pt:ConnectedEntity,
+        ns1:TransportEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Metropolitan and District Gloucester Road Station" ;
+    ns1:connectsWith ns1:Piccadilly_Line .
 
 ns1:Metropolitan_and_District_Railways_Gloucester_Road_Station a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Metropolitan and District Gloucester Road Railway",
-        "Metropolitan and District Gloucester Road Station",
-        "Metropolitan and District Railways Gloucester Road Station" ;
+    rdfs:label "Metropolitan and District Railways Gloucester Road Station" ;
     ns1:connectsWith ns1:Central_Line,
         ns1:District_Line_Edgware_Road_Branch,
         ns1:District_lines,
-        ns1:Elizabeth_Line,
-        ns1:Piccadilly_Line ;
+        ns1:Elizabeth_Line ;
     ns1:inception 1868 ;
-    ns1:item ns1:item ;
     ns1:locatedIn ns1:51_29_39_N_000_10_26_W_Gloucester_Road .
 
 ns1:Metropolitan_terminus_at_Aldgate a ns1:Metropolitan_Railway,
@@ -5116,20 +4939,8 @@ ns1:Monthly_Travel_Card a pt:ConnectedEntity,
     rdfs:label "Monthly Travel Card" ;
     ns1:item ns1:Annual_Travel_Card .
 
-ns1:Monument a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Monument" ;
-    ns1:location ns1:Tower_Hill .
-
-ns1:Monument_Circle a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Monument Circle" ;
-    ns1:item ns1:item .
-
 ns1:Moorgate_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Moorgate Station" ;
     ns1:hasFare ns1:item ;
@@ -5144,24 +4955,12 @@ ns1:Moorgate_Tube_Station a pt:ConnectedEntity,
     rdfs:label "Moorgate Tube Station" ;
     ns1:item ns1:Circle_Line .
 
-ns1:Morden_Depot a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Morden Depot" ;
-    ns1:location ns1:Morden .
-
 ns1:Morden_South_Connection_to_Wimbledon_and_Sutton_Rail a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Morden South Connection to Wimbledon and Sutton Rail",
         "South Morden Connection to Wimbledon and Sutton Rail" ;
     ns1:item ns1:Line .
-
-ns1:Morden_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
-        owl:NamedIndividual ;
-    rdfs:label "Morden Station" ;
-    ns1:hasFacilityType ns1:item .
 
 ns1:Morden_to_Edgware a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -5180,12 +4979,6 @@ ns1:Naptan_Metro a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Naptan Metro" ;
     ns1:located_in_the_administrative_territorial_entity ns1:NAPTAN .
-
-ns1:National_Rail_Bakerloo_Line_Jubilee_Line_Waterloo_City_Line_London_River_Services a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "National Rail Bakerloo Line, Jubilee Line, Waterloo & City Line, London River Services" ;
-    ns1:item ns1:item .
 
 ns1:National_Rail_Connection_to_Morden_South a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -5231,7 +5024,7 @@ ns1:National_Rail_Station_Sutton_Common_Cheam a pt:ConnectedEntity,
     ns1:item ns1:item .
 
 ns1:National_Rail_Stations a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "National Rail Stations" ;
     ns1:item ns1:station .
@@ -5261,7 +5054,7 @@ ns1:National_Rail_Victoria_Line a pt:ConnectedEntity,
     ns1:item ns1:item .
 
 ns1:Neasden a pt:ConnectedEntity,
-        ns1:Camden,
+        ns1:Camden_Town,
         owl:NamedIndividual ;
     rdfs:label "Neasden" ;
     ns1:item ns1:item .
@@ -5289,7 +5082,7 @@ ns1:Night_Tube a pt:ConnectedEntity,
     ns1:item ns1:Charing_Cross_branch,
         ns1:item .
 
-ns1:Nine_Elms_Station a ns1:InterchangeStation,
+ns1:Nine_Elms_Station a ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Nine Elms Station" ;
     ns1:item "20 September 2021"^^xsd:string .
@@ -5351,12 +5144,6 @@ ns1:Northern_City a pt:ConnectedEntity,
     rdfs:label "Northern City" ;
     ns1:item ns1:item .
 
-ns1:Northern_Heights_Stations a pt:ConnectedEntity,
-        ns1:InterchangeStation,
-        owl:NamedIndividual ;
-    rdfs:label "Northern Heights Stations" ;
-    ns1:operatedBy ns1:LNER_Highgate .
-
 ns1:Northern_Line_Depot_Morden a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -5366,11 +5153,9 @@ ns1:Northern_Line_Depot_Morden a pt:ConnectedEntity,
 ns1:Northern_Line_Depots a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Depots Northern Line",
-        "Northern Line Depots" ;
-    ns1:hasDepotAt ns1:Morden_tube_station,
-        ns1:item ;
-    ns1:instanceOf ns1:item .
+    rdfs:label "Northern Line Depots" ;
+    ns1:hasDepotAt ns1:Morden,
+        ns1:item .
 
 ns1:Northern_Line_Extension_From_Charing_Cross a ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -5381,7 +5166,7 @@ ns1:Northern_Line_Extension_Project a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Northern Line Extension Project" ;
-    ns1:approvedInWandsworthCouncilAndTransportForLondon ns1:item .
+    ns1:approvedByWandsworthCouncilAndTransportForLondon ns1:item .
 
 ns1:Northern_Line_Extension_To_Battersea_Project a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -5392,8 +5177,7 @@ ns1:Northern_Line_Extension_To_Battersea_Project a pt:ConnectedEntity,
 ns1:Northern_Line_Hendon_Central_Golders_Green_Section a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Northern Line (Hendon Central - Golders Green Section)" ;
-    ns1:item ns1:High_Barnet_East_Finchley_Mill_Hill_East_Branch_Edgware_Colindale_and_Hendon_Central_Golders_Green .
+    rdfs:label "Northern Line (Hendon Central - Golders Green Section)" .
 
 ns1:Northern_Line_Kennington_Extension a ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -5410,30 +5194,6 @@ ns1:Northern_Line_Stockwell_to_Borough_Section a ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Northern Line Stockwell to Borough Section" ;
     ns1:inception 1890 .
-
-ns1:Northern_Line_Tottenham_Court_Road_London_Underground_Circle_line a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Northern Line (Tottenham Court Road, London Underground, Circle line)}" ;
-    ns1:item ns1:item .
-
-ns1:Northern_Line_Tunnel_from_Morden_to_East_Finchley_via_Bank_Section a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Northern Line Tunnel from Morden to East Finchley via Bank Section" ;
-    ns1:isPartOf ns1:Hendon_Colindale_Underground_Part .
-
-ns1:Northern_Line_from_Chalk_Farm_to_Edgware_via_Golders_Green_section a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Northern Line (from Chalk Farm to Edgware via Golders Green section)" ;
-    ns1:becameFullyAutomatedBy ns1:item .
-
-ns1:Northern_Line_pre_1923_railway_companies_merging_into_ownership a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Northern Line (pre-1923 railway companies merging into ownership)" ;
-    ns1:item ns1:Northern_Line .
 
 ns1:Northern_and_Central a pt:ConnectedEntity,
         ns1:Hendon_Central,
@@ -5487,9 +5247,13 @@ ns1:Oakwood a pt:ConnectedEntity,
 ns1:OffPeakDayTravelcard a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "OffPeakDayTravelcard",
-        "OffPeakTravelCards" ;
-    ns1:instanceOf ns1:Travel_Cards ;
+    rdfs:label "OffPeakDayTravelcard" ;
+    ns1:instanceOf ns1:Travel_Cards .
+
+ns1:OffPeakTravelCards a pt:ConnectedEntity,
+        ns1:TransportEntity,
+        owl:NamedIndividual ;
+    rdfs:label "OffPeakTravelCards" ;
     ns1:item ns1:item .
 
 ns1:Old_Oak_Common a pt:ConnectedEntity,
@@ -5511,19 +5275,7 @@ ns1:Old_Oak_Common_Railway_Station a pt:ConnectedEntity,
     ns1:inception 2024 ;
     ns1:item ns1:item,
         "2030s"^^xsd:string ;
-    ns1:operates ns1:High_Speed_2_service .
-
-ns1:Old_Street_National_Rail a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Old Street (National Rail)" ;
-    ns1:item ns1:item .
-
-ns1:Old_Street_Tube_Station a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Old Street Tube Station" ;
-    ns1:item ns1:Circle_Line .
+    ns1:operates ns1:High_Speed_2 .
 
 ns1:Olympia a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -5562,15 +5314,11 @@ ns1:Oyster_Card_Users_Who_Fail_To_Touch_In a pt:ConnectedEntity,
 ns1:Oyster_Pay_As_You_Go a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Oyster Pay As You Go" ;
+    rdfs:label "Oyster Pay As You Go",
+        "Oyster Pay As You Go Area" ;
+    ns1:hasStartPoint ns1:item ;
     ns1:notAcceptedOnTheWesternSectionOfElizabethLineDueTo ns1:ticketingIntegration ;
     ns1:notAcceptedOnWesternSectionOfElizabethLineDueIntegrationWithOtherLondonTransportSystems ns1:item .
-
-ns1:Oyster_Pay_As_You_Go_Area a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Oyster Pay As You Go Area" ;
-    ns1:hasStartPoint ns1:item .
 
 ns1:Oyster_Pre_Pay_Fares a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -5590,12 +5338,6 @@ ns1:Oyster_Travelcard a pt:ConnectedEntity,
     rdfs:label "Oyster Travelcard" ;
     ns1:item ns1:item .
 
-ns1:Oyster_and_Contactless_Payment a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Oyster and Contactless Payment" ;
-    ns1:item ns1:item .
-
 ns1:PPP a pt:ConnectedEntity,
         owl:Class ;
     rdfs:label "PPP" ;
@@ -5613,6 +5355,10 @@ ns1:Paddington_Main_Line_Station a pt:ConnectedEntity,
     rdfs:label "Paddington Main Line Station" ;
     ns1:connectingLine ns1:Elizabeth_Line ;
     ns1:operates ns1:Bakerloo_and_District .
+
+ns1:Paddington_Main_Line_Terminus a ns1:TransportEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Paddington Main Line Terminus" .
 
 ns1:Paddington_Western_Extension a ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -5713,12 +5459,6 @@ ns1:Pr_d_Street_Junction a pt:ConnectedEntity,
     ns1:Connecting_Line ns1:District_Line ;
     ns1:item ns1:item .
 
-ns1:Pr_d_Street_Junction_where_the_line_meets_other_lines_section_of_line a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Préd Street Junction where the line meets other lines section of line" ;
-    ns1:item ns1:District_Line_and_Circle_Line_from_Bayswater .
-
 ns1:Praed_Street_Junction_section_of_line a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -5785,23 +5525,9 @@ ns1:Reading_Interchange a pt:ConnectedEntity,
     rdfs:label "Reading Interchange" ;
     ns1:item ns1:item .
 
-ns1:Reading_to_Abbey_Wood_2_Twyford_Maidencastle_Taplow_Burnham_Slough_Langley_West_Drayton_Hayes_Harlington_Southall_Hanwell_West_Ealing_Acton_Main_Line a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Reading to Abbey Wood 2 Twyford Maidencastle Taplow Burnham Slough Langley West Drayton Hayes & Harlington Southall Hanwell West Ealing Acton Main Line" ;
-    ns1:terminus ns1:Paddington_Main_Line_Terminus .
-
 ns1:Redbridge a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Redbridge" ;
-    ns1:item ns1:item .
-
-ns1:Regent_s_and_Great_Portland_Street a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Great Portland Street and Regent's Park",
-        "Regent's and Great Portland Street" ;
-    ns1:inception 1863 ;
     ns1:item ns1:item .
 
 ns1:Richmond a pt:ConnectedEntity,
@@ -5854,32 +5580,25 @@ ns1:Royal_Docks_Manor_Park_Railway a pt:ConnectedEntity,
     ns1:item ns1:item .
 
 ns1:Royal_Oak a pt:ConnectedEntity,
+        ns1:Station,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Royal Oak" ;
+    rdfs:label "Royal Oak",
+        "Royal Oak station" ;
+    ns1:hasIslandPlatformNextToMainLineTrack ns1:Paddington_Station ;
     ns1:item ns1:item .
-
-ns1:Royal_Oak_station a pt:ConnectedEntity,
-        ns1:TrainStation,
-        owl:NamedIndividual ;
-    rdfs:label "Royal Oak station" ;
-    ns1:hasIslandPlatformNextToMainLineTrack ns1:Paddington_Station .
 
 ns1:Ruislip a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Ruislip" ;
+    rdfs:label "Ruislip",
+        "Ruislip Manor",
+        "West Ruislip" ;
     ns1:item ns1:item .
 
 ns1:Ruislip_Gardens a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Ruislip Gardens" ;
-    ns1:item ns1:item .
-
-ns1:Ruislip_Manor a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Ruislip Manor" ;
     ns1:item ns1:item .
 
 ns1:S_Bahn_Systems_of_German_Speaking_Countries a pt:ConnectedEntity,
@@ -5891,14 +5610,10 @@ ns1:S_Bahn_Systems_of_German_Speaking_Countries a pt:ConnectedEntity,
 ns1:SelTrac_S40 a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "SelTrac S40" ;
+    rdfs:label "SelTrac S40",
+        "Seltrac" ;
+    ns1:item ns1:item ;
     ns1:manufacturer ns1:Alstom .
-
-ns1:Seltrac a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Seltrac" ;
-    ns1:item ns1:item .
 
 ns1:September_2015_56 a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -6042,11 +5757,11 @@ ns1:St_Pancras a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "St Pancras" ;
-    ns1:Connecting_Line ns1:National_and_International_Rail_Services ;
+    ns1:Connecting_Line ns1:National_Rail_Services ;
     ns1:item ns1:item .
 
 ns1:St_Pancras_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "St Pancras Station" ;
     ns1:item ns1:item .
@@ -6104,8 +5819,8 @@ ns1:Stonebridge_Park a pt:ConnectedEntity,
     ns1:item ns1:item .
 
 ns1:Stratford_International a pt:ConnectedEntity,
+        ns1:Station,
         ns1:Stratford_High_Street,
-        ns1:TrainStation,
         owl:NamedIndividual ;
     rdfs:label "Stratford International" ;
     ns1:item ns1:item .
@@ -6119,12 +5834,6 @@ ns1:Stratford_on_Avon a pt:ConnectedEntity,
 ns1:Streatham_Hill a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Streatham Hill" ;
-    ns1:item ns1:item .
-
-ns1:Street_Tottenham_Court_Road_Farringdon_Liverpool_Street_Whitechapel_Canary_Wharf_Custom_House_Woolwich_Maidenhead a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Street Tottenham Court Road Farringdon Liverpool Street Whitechapel Canary Wharf Custom House Woolwich Maidenhead" ;
     ns1:item ns1:item .
 
 ns1:Sudbury a pt:ConnectedEntity,
@@ -6171,12 +5880,6 @@ ns1:T5_Langley_Airport a pt:ConnectedEntity,
 ns1:Terminus a pt:ConnectedEntity,
         owl:Class ;
     rdfs:label "Terminus" ;
-    ns1:item ns1:item .
-
-ns1:Terminus_Morden a pt:ConnectedEntity,
-        ns1:TransportMode,
-        owl:NamedIndividual ;
-    rdfs:label "Terminus Morden" ;
     ns1:item ns1:item .
 
 ns1:Thales a pt:ConnectedEntity,
@@ -6226,18 +5929,6 @@ ns1:Tokyo_Metro a pt:ConnectedEntity,
     rdfs:label "Tokyo Metro" ;
     ns1:item ns1:item .
 
-ns1:Tooting_Broadway_Platform a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Tooting Broadway Platform" ;
-    ns1:item ns1:terminus_for_trains_heading_south .
-
-ns1:Totteridge_and_Whetstone_Northern a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Totteridge and Whetstone (Northern)" ;
-    ns1:item ns1:item .
-
 ns1:Tower_Gateway a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -6276,34 +5967,36 @@ ns1:Train_Protection_and_Warning_System a pt:ConnectedEntity,
     ns1:item ns1:item .
 
 ns1:Trains_to_Gatwick a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Trains to Gatwick" ;
     ns1:item ns1:item .
 
 ns1:Tramlink a pt:ConnectedEntity,
+        ns1:Central_London,
         ns1:Thameslink,
         owl:NamedIndividual ;
-    rdfs:label "Tramlink" ;
+    rdfs:label "Tramlink",
+        "Tramlink, London" ;
     ns1:item ns1:item ;
     ns1:operatedBy ns1:Public_Transport_in_London .
-
-ns1:Tramlink_London a pt:ConnectedEntity,
-        ns1:Central_London,
-        owl:NamedIndividual ;
-    rdfs:label "Tramlink, London" ;
-    ns1:item ns1:item .
 
 ns1:Transport a pt:ConnectedEntity,
         owl:Class ;
     rdfs:label "Transport" ;
     ns1:item ns1:item .
 
+ns1:Transport_for_London_API a pt:ConnectedEntity,
+        ns1:Transport_for_London,
+        owl:NamedIndividual ;
+    rdfs:label "Transport for London API" ;
+    ns1:type ns1:Organization .
+
 ns1:Transport_for_London_Fare_Zones a pt:ConnectedEntity,
         ns1:Transport_for_London,
         owl:NamedIndividual ;
     rdfs:label "Transport for London Fare Zones" ;
-    ns1:instance_of_pad_pad_pad ns1:Zone .
+    ns1:instance_of_pad_pad_pad ns1:zones .
 
 ns1:Travelcard_Main a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -6407,7 +6100,7 @@ ns1:Victoria_Embankment a pt:ConnectedEntity,
     ns1:item ns1:item .
 
 ns1:Victoria_Main_Line_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Victoria Main Line Station" ;
     ns1:Connecting_Line ns1:Victoria_Line .
@@ -6453,12 +6146,6 @@ ns1:Wanstead_Park_Connaught_Road a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Wanstead Park Connaught Road" ;
     ns1:item ns1:item .
-
-ns1:Warren_Street_Station a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Warren Street Station" ;
-    ns1:item ns1:Archway_station .
 
 ns1:Warwick_Avenue a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -6551,7 +6238,7 @@ ns1:West_Hampstead a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "West Hampstead" ;
-    ns1:connecting_line ns1:Jubilee_Line ;
+    ns1:Connecting_Line ns1:Jubilee_Line ;
     ns1:item ns1:London_Thamesline,
         ns1:item .
 
@@ -6576,12 +6263,6 @@ ns1:West_London a pt:ConnectedEntity,
         ns1:South_London,
         owl:NamedIndividual ;
     rdfs:label "West London" ;
-    ns1:item ns1:item .
-
-ns1:West_Ruislip a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "West Ruislip" ;
     ns1:item ns1:item .
 
 ns1:West_Sussex a pt:ConnectedEntity,
@@ -6610,7 +6291,7 @@ ns1:Westminster_Bridge a pt:ConnectedEntity,
     ns1:item ns1:item .
 
 ns1:Westminster_Bridge_Station a pt:ConnectedEntity,
-        ns1:InterchangeStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Westminster Bridge Station" ;
     ns1:item ns1:Westminster .
@@ -6630,12 +6311,6 @@ ns1:Wikidata_RouteTerminiWest a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Wikidata.RouteTerminiWest" ;
-    ns1:item ns1:item .
-
-ns1:Wikimedia_Foundation_Inc a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Wikimedia Foundation, Inc." ;
     ns1:item ns1:item .
 
 ns1:Wikipedia a pt:ConnectedEntity,
@@ -6668,15 +6343,17 @@ ns1:Wood_Lane_White_City a ns1:TransportEntity,
     ns1:item "1 May 1908"^^xsd:string .
 
 ns1:Wood_Lane_station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Wood Lane station" ;
     ns1:item ns1:White_City .
 
 ns1:Woolwich a pt:ConnectedEntity,
         ns1:TransportEntity,
+        ns1:Waterloo_National_Rail,
         owl:NamedIndividual ;
-    rdfs:label "Woolwich" ;
+    rdfs:label "Woolwich",
+        "Woolwich National Rail Station" ;
     ns1:item ns1:item .
 
 ns1:Woolwich_Arsenal a pt:ConnectedEntity,
@@ -6688,12 +6365,6 @@ ns1:Woolwich_Arsenal_Football_Club a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Woolwich Arsenal Football Club" ;
-    ns1:item ns1:item .
-
-ns1:Woolwich_National_Rail_Station a pt:ConnectedEntity,
-        ns1:Waterloo_National_Rail,
-        owl:NamedIndividual ;
-    rdfs:label "Woolwich National Rail Station" ;
     ns1:item ns1:item .
 
 ns1:World_s_First_Underground_Line a ns1:TransportEntity,
@@ -6720,12 +6391,6 @@ ns1:Zone1 a pt:ConnectedEntity,
     rdfs:label "Zone1" ;
     ns1:item ns1:item .
 
-ns1:Zone_4_5_and_6 a pt:ConnectedEntity,
-        ns1:Zones_1_and_2,
-        owl:NamedIndividual ;
-    rdfs:label "Zone 4, 5 and 6" ;
-    ns1:item ns1:Parts_of_Essex_Hertfordshire_and_Surrey .
-
 ns1:affectedBy a owl:DatatypeProperty ;
     rdfs:label "affectedBy" .
 
@@ -6736,10 +6401,8 @@ ns1:announcedThatCompletionWouldNotOccurBefore a owl:ObjectProperty ;
     rdfs:label "announcedThatCompletionWouldNotOccurBefore" .
 
 ns1:approvedByWandsworthCouncilAndTransportForLondon a owl:ObjectProperty ;
-    rdfs:label "approvedByWandsworthCouncilAndTransportForLondon" .
-
-ns1:approvedInWandsworthCouncilAndTransportForLondon a owl:ObjectProperty ;
-    rdfs:label "approvedInWandsworthCouncilAndTransportForLondon" .
+    rdfs:label "approvedByWandsworthCouncilAndTransportForLondon",
+        "approvedInWandsworthCouncilAndTransportForLondon" .
 
 ns1:architecture a owl:ObjectProperty ;
     rdfs:label "architecture" .
@@ -6769,9 +6432,6 @@ ns1:coach a pt:ConnectedEntity,
 ns1:connectingLine a owl:ObjectProperty ;
     rdfs:label "connectedToLineBy",
         "connectingLine" .
-
-ns1:connecting_line a owl:ObjectProperty ;
-    rdfs:label "connecting line" .
 
 ns1:connectsWith a owl:ObjectProperty ;
     rdfs:label "connects with",
@@ -6807,9 +6467,6 @@ ns1:cycleHire a pt:ConnectedEntity,
     rdfs:label "cycleHire" ;
     ns1:item ns1:True,
         ns1:item .
-
-ns1:dateOfOfficialOpening a owl:ObjectProperty ;
-    rdfs:label "dateOfOfficialOpening" .
 
 ns1:date_of_official_opening a owl:DatatypeProperty,
         owl:ObjectProperty ;
@@ -6897,10 +6554,7 @@ ns1:hasStationsWithAccessibilityLevel a owl:DatatypeProperty ;
 
 ns1:inception a owl:DatatypeProperty,
         owl:ObjectProperty ;
-    rdfs:label "inception" .
-
-ns1:inception_pad_pad a owl:DatatypeProperty ;
-    rdfs:label "inception" .
+    rdfs:label "Inception" .
 
 ns1:includedInContractFor a owl:ObjectProperty ;
     rdfs:label "includedInContractFor",
@@ -6977,12 +6631,6 @@ ns1:manufacturer a owl:DatatypeProperty,
         owl:ObjectProperty ;
     rdfs:label "manufacturer" .
 
-ns1:night_tube_service_on_friday_and_saturday_nights_between_edgware_and_high_barnet_to_morden a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "\"night tube\" service on friday and saturday nights between edgware and high barnet to morden" ;
-    ns1:item ns1:item .
-
 ns1:none_of_the_above a owl:ObjectProperty ;
     rdfs:label "none_of_the_above" .
 
@@ -7033,12 +6681,6 @@ ns1:parentOrganization a owl:ObjectProperty ;
 
 ns1:participatedInConstructionBy a owl:ObjectProperty ;
     rdfs:label "participatedInConstructionBy" .
-
-ns1:payAsYouGoCredit a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "payAsYouGoCredit" ;
-    ns1:item ns1:item .
 
 ns1:penalty_Fare_And_Evasion_System a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -7225,7 +6867,7 @@ ns1:travelCard a pt:ConnectedEntity,
         ns1:Day_Travelcard,
         owl:NamedIndividual ;
     rdfs:label "travelCard" ;
-    ns1:inception_pad_pad "22 May 1983"^^xsd:string ;
+    ns1:inception "22 May 1983"^^xsd:string ;
     ns1:item ns1:item .
 
 ns1:type a owl:ObjectProperty ;
@@ -7300,17 +6942,13 @@ ns1:1967_stock a pt:ConnectedEntity,
 ns1:1972_Mark_II_Stock a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "1972 Mark II Stock" ;
+    rdfs:label "1972 Mark II Stock",
+        "Mark II Stock" ;
     ns1:item ns1:item .
 
 ns1:1983_stock a ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "1983_stock" .
-
-ns1:1986_77 a pt:ConnectedEntity,
-        owl:NamedIndividual ;
-    rdfs:label "1986.[77" ;
-    ns1:item ns1:item .
 
 ns1:1992_stock a ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -7383,7 +7021,7 @@ ns1:Annual_Travel_Card a ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Annual Travel Card" .
 
-ns1:Archway_station a ns1:InterchangeStation,
+ns1:Archway_station a ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Archway station" .
 
@@ -7406,17 +7044,24 @@ ns1:Bakerloo_line_National_Rail a ns1:Bakerloo_Line,
     rdfs:label "Bakerloo line (National Rail)" .
 
 ns1:Balham a pt:ConnectedEntity,
+        ns1:Station,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Balham" ;
+    rdfs:label "Balham",
+        "Balham Railway",
+        "Balham Station" ;
     ns1:Connecting_Line ns1:Piccadilly_Line ;
-    ns1:item ns1:item .
+    ns1:item ns1:item ;
+    ns1:operatedBy ns1:National_Rail_Services .
 
 ns1:Bank_Monument a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Bank Monument" ;
-    ns1:item ns1:item .
+    rdfs:label "Bank Monument",
+        "Monument",
+        "Monument Circle" ;
+    ns1:item ns1:item ;
+    ns1:location ns1:Tower_Hill .
 
 ns1:Barbican a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -7481,16 +7126,26 @@ ns1:British_Main_Lines a pt:ConnectedEntity,
     rdfs:label "British Main Lines" ;
     ns1:connectsWith ns1:Circle_Line .
 
-ns1:Brixton_station a ns1:TrainStation,
+ns1:Brixton a pt:ConnectedEntity,
+        ns1:Station,
+        ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Brixton station" ;
-    ns1:item 2002 .
+    rdfs:label "Brixton",
+        "Brixton station" ;
+    ns1:item ns1:item,
+        2002 .
 
-ns1:Bromley a pt:ConnectedEntity,
-        ns1:Bromley,
+ns1:Bromley_by_Bow a pt:ConnectedEntity,
+        ns1:Bromley_by_Bow,
+        ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Bromley" ;
-    ns1:item ns1:item .
+    rdfs:label "Bromley",
+        "Bromley by Bow",
+        "Bromley-by-Bow" ;
+    ns1:item ns1:item ;
+    ns1:locatedIn ns1:Zone_3 ;
+    ns1:located_in_the_administrative_territorial_entity ns1:Newham_London,
+        ns1:West_Ham_United_Football_Club .
 
 ns1:Buckinghamshire a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -7512,7 +7167,7 @@ ns1:California a ns1:TransportEntity,
     rdfs:label "California" .
 
 ns1:Camden_Town_Station a pt:ConnectedEntity,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Camden Town Station" ;
     ns1:Connecting_Line ns1:Northern_Line ;
@@ -7529,8 +7184,11 @@ ns1:Camden_Town_to_Morden a ns1:TransportEntity,
 ns1:Cannon_Street a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Cannon Street" ;
-    ns1:item ns1:item .
+    rdfs:label "Cannon Street",
+        "Cannon Street Main Line Station",
+        "Cannon Street Railway Station" ;
+    ns1:item ns1:item ;
+    ns1:ownedBy ns1:National_Rail .
 
 ns1:Central_zone a ns1:Central_London,
         owl:NamedIndividual ;
@@ -7558,10 +7216,6 @@ ns1:Charing_Cross_Embankment_Station a pt:ConnectedEntity,
     rdfs:label "Charing Cross Embankment Station" ;
     ns1:item ns1:Charing_Cross .
 
-ns1:Circle_Line_and_Waterloo_City_Line a ns1:Waterloo_City_Line,
-        owl:NamedIndividual ;
-    rdfs:label "Circle Line and Waterloo & City Line" .
-
 ns1:Circular a ns1:Circle,
         owl:NamedIndividual ;
     rdfs:label "Circular" .
@@ -7570,10 +7224,13 @@ ns1:Clapham_Common a pt:ConnectedEntity,
         ns1:Clapham_North,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Clapham Common" ;
+    rdfs:label "Clapham Common",
+        "Clapham Common Station" ;
     ns1:Connecting_Line ns1:Piccadilly_Line ;
     ns1:inception 1900 ;
-    ns1:item ns1:item .
+    ns1:instanceOf ns1:Air_Raid_Shelter ;
+    ns1:item ns1:item,
+        1926 .
 
 ns1:Clapham_Junction a pt:ConnectedEntity,
         ns1:Clapham_North,
@@ -7583,11 +7240,14 @@ ns1:Clapham_Junction a pt:ConnectedEntity,
     ns1:operatedBy ns1:London_Overground .
 
 ns1:Clapham_South a pt:ConnectedEntity,
+        ns1:Clapham_North,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Clapham South" ;
-    ns1:Inception "13 September 1926 13 September 1926"^^xsd:string ;
-    ns1:item ns1:item .
+    rdfs:label "Clapham South",
+        "Clapham South Station" ;
+    ns1:inception "13 September 1926 13 September 1926"^^xsd:string ;
+    ns1:item ns1:item,
+        "13 September 1926"^^xsd:string .
 
 ns1:Clerkenwell a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -7597,9 +7257,11 @@ ns1:Clerkenwell a pt:ConnectedEntity,
 ns1:Colliers_Wood a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Colliers Wood" ;
+    rdfs:label "Colliers Wood",
+        "Colliers Wood station" ;
     ns1:connectingLine ns1:Piccadilly_Line ;
-    ns1:item ns1:item .
+    ns1:item ns1:South_Wimbledon_Merton,
+        ns1:item .
 
 ns1:Common a ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -7637,10 +7299,6 @@ ns1:David_Mitchell a pt:ConnectedEntity,
 ns1:District_Line_Edgware_Road_Branch a ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "District Line Edgware Road Branch" .
-
-ns1:District_Line_and_Circle_Line_from_Bayswater a ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "District Line and Circle Line from Bayswater" .
 
 ns1:District_Metro a ns1:District_Line,
         owl:NamedIndividual ;
@@ -7696,10 +7354,6 @@ ns1:Embayment a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Embayment" ;
     ns1:item ns1:item .
-
-ns1:Epping_Forest_Essex a ns1:Epping_Forest,
-        owl:NamedIndividual ;
-    rdfs:label "Epping Forest (Essex)" .
 
 ns1:Epsom a pt:ConnectedEntity,
         ns1:Epsom,
@@ -7778,8 +7432,12 @@ ns1:Great_Northern_and_Metropolitan_Railway a ns1:TransportEntity,
 ns1:Great_Portland_Street a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Great Portland Street" ;
+    rdfs:label "Great Portland Street",
+        "Great Portland Street Station",
+        "Great Portland Street and Regent's Park",
+        "Regent's and Great Portland Street" ;
     ns1:DateOfOfficialOpening "10 January 1863"^^xsd:string ;
+    ns1:inception 1863 ;
     ns1:item ns1:Great_Portland_Street,
         ns1:Portland_Road,
         ns1:item .
@@ -7849,7 +7507,7 @@ ns1:Heathrow_Terminal_5 a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Heathrow Terminal 5" ;
-    ns1:Connecting_Line ns1:Paddington_Central_line ;
+    ns1:Connecting_Line ns1:Central_Line ;
     ns1:connectingLine ns1:Elizabeth_Line ;
     ns1:item ns1:item .
 
@@ -7858,10 +7516,6 @@ ns1:Hendon a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Hendon" ;
     ns1:item ns1:item .
-
-ns1:Hendon_Colindale_Underground_Part a ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Hendon-Colindale Underground Part" .
 
 ns1:Hertford_East a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -7873,13 +7527,15 @@ ns1:Hertfordshire_and_Essex a ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Hertfordshire and Essex" .
 
-ns1:High_Barnet_East_Finchley_Mill_Hill_East_Branch_Edgware_Colindale_and_Hendon_Central_Golders_Green a ns1:TransportEntity,
+ns1:High_Speed_2 a pt:ConnectedEntity,
+        ns1:NightService,
+        ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "High Barnet – East Finchley, Mill Hill East Branch, Edgware – Colindale and Hendon Central – Golders Green" .
-
-ns1:High_Speed_2_service a ns1:NightService,
-        owl:NamedIndividual ;
-    rdfs:label "High Speed 2 service" .
+    rdfs:label "High Speed 2",
+        "High Speed 2 service",
+        "High-Speed-2" ;
+    ns1:instance_of ns1:station ;
+    ns1:item ns1:item .
 
 ns1:High_Street_Kensington a pt:ConnectedEntity,
         ns1:South_Kensington,
@@ -7941,13 +7597,13 @@ ns1:King_s_Cross a pt:ConnectedEntity,
         ns1:King_s,
         owl:NamedIndividual ;
     rdfs:label "King's Cross" ;
-    ns1:Connecting_Line ns1:National_and_International_Rail_Services ;
+    ns1:Connecting_Line ns1:National_Rail_Services ;
     ns1:DateOfOfficialOpening "10 January 1863"^^xsd:string ;
     ns1:item ns1:item .
 
 ns1:King_s_Cross_Station a pt:ConnectedEntity,
         ns1:Kensington_Station,
-        ns1:TrainStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "King's Cross Station" ;
     ns1:inception 1863 ;
@@ -7989,10 +7645,14 @@ ns1:Liverpool_Passenger_Transport_Board a pt:ConnectedEntity,
 ns1:Liverpool_Street a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Liverpool Street" ;
-    ns1:Connecting_Line ns1:Elizabeth_Line,
-        ns1:Paddington_Central_line ;
-    ns1:connectingLine ns1:Elizabeth_Line ;
+    rdfs:label "Liverpool",
+        "Liverpool Street",
+        "Liverpool Street Mainline Station",
+        "Liverpool Street Station" ;
+    ns1:Connecting_Line ns1:Central_Line,
+        ns1:Elizabeth_Line ;
+    ns1:connectingLine ns1:Central,
+        ns1:Elizabeth_Line ;
     ns1:hasLines ns1:Central,
         ns1:Circle,
         ns1:Elizabeth,
@@ -8007,11 +7667,14 @@ ns1:London_Boroughs_Suspended a ns1:London_Borough_of_Barnet,
     rdfs:label "London Boroughs Suspended" .
 
 ns1:London_Bridge a pt:ConnectedEntity,
+        ns1:Station,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "London Bridge" ;
+    rdfs:label "London Bridge",
+        "London Bridge Station" ;
     ns1:connectingLine ns1:Jubilee_Line ;
-    ns1:item ns1:item ;
+    ns1:item ns1:Circle_Line,
+        ns1:item ;
     ns1:locatedInOrNextToBodyOfWater ns1:London_River .
 
 ns1:London_Heathrow_Airport a pt:ConnectedEntity,
@@ -8078,10 +7741,13 @@ ns1:MTR_under_the_Transport_for_London_Rail_brand a ns1:Transport_for_London,
     rdfs:label "MTR under the Transport for London Rail brand" .
 
 ns1:Mansion_House a pt:ConnectedEntity,
+        ns1:Kennington_tube_station,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Mansion House" ;
-    ns1:inception "3 July 1871"^^xsd:string ;
+    rdfs:label "Mansion House",
+        "Mansion House Station" ;
+    ns1:inception 1871,
+        "3 July 1871"^^xsd:string ;
     ns1:item ns1:item ;
     ns1:located_in_the_administrative_territorial_entity ns1:Paddington .
 
@@ -8105,9 +7771,23 @@ ns1:Metropolitan_Green_Belt a pt:ConnectedEntity,
     ns1:inception 1950 ;
     ns1:item ns1:item .
 
+ns1:Metropolitan_Railway_District a pt:ConnectedEntity,
+        ns1:Metropolitan_Railway,
+        owl:Class,
+        owl:NamedIndividual ;
+    rdfs:label "Metropolitan District Railway",
+        "Metropolitan Railway District" ;
+    ns1:item ns1:item .
+
 ns1:Metropolitan_Railway_Electric_Multiple_Units a ns1:Metropolitan_Railway,
         owl:NamedIndividual ;
     rdfs:label "Metropolitan Railway Electric Multiple Units" .
+
+ns1:Metropolitan_and_District_Railways a pt:ConnectedEntity,
+        ns1:Metropolitan_Railway,
+        owl:NamedIndividual ;
+    rdfs:label "Metropolitan and District Railways" ;
+    ns1:item ns1:item .
 
 ns1:Middlesex a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -8132,13 +7812,6 @@ ns1:Moorgate_Street a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Moorgate Street" ;
     ns1:item ns1:item .
-
-ns1:Morden_tube_station a pt:ConnectedEntity,
-        ns1:Kennington_tube_station,
-        owl:NamedIndividual ;
-    rdfs:label "Morden (tube station)" ;
-    ns1:item ns1:Northern_Line ;
-    ns1:location ns1:Morden .
 
 ns1:Multiple_Unit_Stock a ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -8209,11 +7882,14 @@ ns1:Northern_City_Line a pt:ConnectedEntity,
         ns1:item .
 
 ns1:Northern_Heights a pt:ConnectedEntity,
+        ns1:Station,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Northern Heights" ;
+    rdfs:label "Northern Heights",
+        "Northern Heights Stations" ;
     ns1:facet_of ns1:item ;
-    ns1:item ns1:item .
+    ns1:item ns1:item ;
+    ns1:operatedBy ns1:LNER_Highgate .
 
 ns1:Northwest_Territory a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -8225,9 +7901,15 @@ ns1:O_Stock a ns1:Stockwell,
         owl:NamedIndividual ;
     rdfs:label "O'Stock" .
 
-ns1:Old_Street a ns1:Golders_Green,
+ns1:Old_Street_National_Rail a pt:ConnectedEntity,
+        ns1:Golders_Green,
+        ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Old Street" .
+    rdfs:label "Old Street",
+        "Old Street (National Rail)",
+        "Old Street Tube Station" ;
+    ns1:item ns1:Circle_Line,
+        ns1:item .
 
 ns1:Ontario a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -8271,10 +7953,6 @@ ns1:Paddington_Main_Line a ns1:Acton_Main_Line,
         owl:NamedIndividual ;
     rdfs:label "Paddington Main Line" .
 
-ns1:Paddington_Main_Line_Terminus a ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Paddington Main Line Terminus" .
-
 ns1:Paper_and_Electronic_Smart_Card a ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Paper and Electronic Smart-Card" .
@@ -8295,10 +7973,6 @@ ns1:Parts_of_Essex_Hertfordshire_and_Surrey a ns1:TransportEntity,
 ns1:Peckham_Rye_and_Streatham_Hill a ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Peckham Rye and Streatham Hill" .
-
-ns1:Piccadilly_Line_Waterloo_City_Docklands_Light_Railway_Monument_Circle_Line_District_Line_National_Rail_Bakerloo_Line a ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Piccadilly Line (Waterloo & City) Docklands Light Railway Monument Circle Line District Line National Rail Bakerloo Line" .
 
 ns1:Police a ns1:Line,
         owl:NamedIndividual ;
@@ -8400,7 +8074,7 @@ ns1:Staines a pt:ConnectedEntity,
     ns1:item ns1:item .
 
 ns1:Stockwell_Station a pt:ConnectedEntity,
-        ns1:InterchangeStation,
+        ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "Stockwell Station" ;
     ns1:hasServiceToOrFrom ns1:Victoria_Line ;
@@ -8423,7 +8097,7 @@ ns1:Technical_Line a pt:ConnectedEntity,
     rdfs:label "Technical Line" ;
     ns1:item ns1:item .
 
-ns1:TfL_Presentation a ns1:TrainStation,
+ns1:TfL_Presentation a ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "TfL Presentation" .
 
@@ -8450,13 +8124,16 @@ ns1:Tooting_Bec a pt:ConnectedEntity,
 ns1:Tooting_Broadway a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Tooting Broadway" ;
-    ns1:Connecting_Line ns1:Piccadilly_Line .
+    rdfs:label "Tooting Broadway",
+        "Tooting Broadway Platform" ;
+    ns1:Connecting_Line ns1:Piccadilly_Line ;
+    ns1:item ns1:terminus_for_trains_heading_south .
 
 ns1:Totteridge_and_Whetstone a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Totteridge and Whetstone" ;
+    rdfs:label "Totteridge and Whetstone",
+        "Totteridge and Whetstone (Northern)" ;
     ns1:item ns1:item .
 
 ns1:Tout_Tout_Tout a ns1:TransportEntity,
@@ -8472,12 +8149,6 @@ ns1:Two_Southern_Branches a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Two Southern Branches" ;
     ns1:terminus ns1:Morden .
-
-ns1:UK_Government_s_Implementation_of_Lockdown_Restrictions_on_Non_Essential_Travel a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "UK Government's Implementation of Lockdown Restrictions on Non-Essential Travel" ;
-    ns1:item ns1:Circle_Line_and_Waterloo_City_Line .
 
 ns1:Underground a pt:ConnectedEntity,
         owl:Class ;
@@ -8501,8 +8172,10 @@ ns1:Viaduct_at_Brockley_Hill_and_Tunnel_Near_Elstrie_South a ns1:TransportEntity
 ns1:Warren_Street a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Warren Street" ;
-    ns1:item ns1:item .
+    rdfs:label "Warren Street",
+        "Warren Street Station" ;
+    ns1:item ns1:Archway_station,
+        ns1:item .
 
 ns1:Waterloo_Pier a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -8543,7 +8216,8 @@ ns1:Whitechapel a pt:ConnectedEntity,
 ns1:Wikimedia_Foundation a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Wikimedia Foundation" ;
+    rdfs:label "Wikimedia Foundation",
+        "Wikimedia Foundation, Inc." ;
     ns1:instanceOf ns1:Non_Profit_Organization ;
     ns1:item ns1:item .
 
@@ -8576,9 +8250,13 @@ ns1:Zone_2_Zone_3 a ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Zone 2 Zone 3" .
 
-ns1:Zone_4 a ns1:Zone_6,
+ns1:Zone_4_5_and_6 a pt:ConnectedEntity,
+        ns1:Zone_6,
+        ns1:Zones_1_and_2,
         owl:NamedIndividual ;
-    rdfs:label "Zone 4" .
+    rdfs:label "Zone 4",
+        "Zone 4, 5 and 6" ;
+    ns1:item ns1:Parts_of_Essex_Hertfordshire_and_Surrey .
 
 ns1:Zone_5 a ns1:Zone_6,
         owl:NamedIndividual ;
@@ -8600,12 +8278,6 @@ ns1:bus a pt:ConnectedEntity,
     ns1:scheduledService ns1:True,
         ns1:item .
 
-ns1:contactless_Payment_Cards a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "contactless Payment Cards" ;
-    ns1:Use ns1:payAsYouGo .
-
 ns1:electricMultipleUnit a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -8626,7 +8298,7 @@ ns1:fare_inspector a ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "fare inspector" .
 
-ns1:interchangeBy a ns1:InterchangeStation,
+ns1:interchangeBy a ns1:Station,
         owl:NamedIndividual ;
     rdfs:label "interchangeBy" .
 
@@ -8699,6 +8371,13 @@ ns1:zonal_Fares_and_Caps a ns1:Zones_1_and_2,
         owl:NamedIndividual ;
     rdfs:label "zonal Fares and Caps" .
 
+ns1:zones a pt:ConnectedEntity,
+        owl:Class ;
+    rdfs:label "zones" ;
+    ns1:extendsInto ns1:Buckinghamshire,
+        ns1:Essex,
+        ns1:Hertfordshire .
+
 ns1:Battersea_Power_Station a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -8749,12 +8428,6 @@ ns1:Buses a pt:ConnectedEntity,
 ns1:CCE_HR a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "CCE&HR" ;
-    ns1:item ns1:item .
-
-ns1:Camden a pt:ConnectedEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Camden" ;
-    ns1:instance_of ns1:item ;
     ns1:item ns1:item .
 
 ns1:CanaryWharf a pt:ConnectedEntity,
@@ -8884,16 +8557,6 @@ ns1:Metronet a pt:ConnectedEntity,
     ns1:inception 2003 ;
     ns1:item ns1:item .
 
-ns1:Metropolitan_and_District_Railways a pt:ConnectedEntity,
-        ns1:Metropolitan_Railway,
-        owl:Class,
-        owl:NamedIndividual ;
-    rdfs:label "District and Metropolitan Railway",
-        "Metropolitan District Railway",
-        "Metropolitan Railway District",
-        "Metropolitan and District Railways" ;
-    ns1:item ns1:item .
-
 ns1:Moorgate a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -8913,13 +8576,6 @@ ns1:National_Express a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "National Express" ;
     ns1:item ns1:item .
-
-ns1:National_and_International_Rail_Services a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "National and International Rail Services" ;
-    ns1:item ns1:item ;
-    ns1:terminus ns1:King_s_Cross .
 
 ns1:Network_Rail a pt:ConnectedEntity,
         ns1:TransportEntity,
@@ -8943,7 +8599,7 @@ ns1:Oyster a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Oyster" ;
     ns1:instanceOf ns1:Travel_Cards,
-        ns1:contactless_Payment_Cards,
+        ns1:contactless,
         ns1:item ;
     ns1:item ns1:Daily_Travel_Card,
         ns1:London,
@@ -8972,7 +8628,7 @@ ns1:Paddington_Station a pt:ConnectedEntity,
     ns1:architecture ns1:item ;
     ns1:callsTrainsAtAfterPassingThroughAldgateStationOnMetropolitanLine ns1:Westminster ;
     ns1:connectingLine ns1:Great_Western_Main_Line ;
-    ns1:connectsWith ns1:Hammersmith_and_City,
+    ns1:connectsWith ns1:Hammersmith_City_Line,
         ns1:Paddington_Main_Line ;
     ns1:inception 1868 ;
     ns1:item ns1:item ;
@@ -9036,6 +8692,11 @@ ns1:Underground_Electric_Railways_of_London a pt:ConnectedEntity,
     rdfs:label "Underground Electric Railways of London" ;
     ns1:item ns1:item .
 
+ns1:Waterloo_City_line a pt:ConnectedEntity,
+        ns1:Waterloo_City_Line,
+        owl:NamedIndividual ;
+    rdfs:label "Waterloo & City line" .
+
 ns1:West_Ham_United_Football_Club a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
@@ -9043,31 +8704,21 @@ ns1:West_Ham_United_Football_Club a pt:ConnectedEntity,
     ns1:connectingLine ns1:Zone_2_Zone_3 ;
     ns1:locatedIn ns1:Zone_2 .
 
-ns1:Zone a pt:ConnectedEntity,
-        owl:Class ;
-    rdfs:label "Zone",
-        "zones" ;
-    ns1:extendsInto ns1:Buckinghamshire,
-        ns1:Essex,
-        ns1:Hertfordshire .
+ns1:Zone a owl:Class ;
+    rdfs:label "Zone" .
 
 ns1:Zones_1_and_2 a pt:ConnectedEntity,
-        owl:Class ;
+        owl:NamedIndividual ;
     rdfs:label "Zones 1 and 2" ;
     ns1:item ns1:item .
-
-ns1:contactless a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "contactless" ;
-    ns1:item ns1:Oyster,
-        ns1:item .
 
 ns1:payAsYouGo a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "payAsYouGo" ;
-    ns1:item ns1:Oyster ;
+    rdfs:label "payAsYouGo",
+        "payAsYouGoCredit" ;
+    ns1:item ns1:Oyster,
+        ns1:item ;
     ns1:subClassOf ns1:item .
 
 ns1:15_9Billion a ns1:TransportEntity,
@@ -9122,7 +8773,8 @@ ns1:Day_Travelcard a pt:ConnectedEntity,
 ns1:Epping_Forest a pt:ConnectedEntity,
         ns1:Epping_Forest,
         owl:NamedIndividual ;
-    rdfs:label "Epping Forest" ;
+    rdfs:label "Epping Forest",
+        "Epping Forest (Essex)" ;
     ns1:item ns1:item .
 
 ns1:Euston a pt:ConnectedEntity,
@@ -9162,17 +8814,14 @@ ns1:Reading a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Reading" ;
-    ns1:Connecting_Line ns1:Elizabeth_Line,
-        ns1:Paddington_Central_line ;
+    ns1:Connecting_Line ns1:Central_Line,
+        ns1:Elizabeth_Line ;
     ns1:item ns1:item .
 
 ns1:Southern_Railway a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Southern Railway" ;
     ns1:item ns1:item .
-
-ns1:Station a owl:Class ;
-    rdfs:label "Station" .
 
 ns1:Tower_Hill a pt:ConnectedEntity,
         ns1:Stockwell,
@@ -9221,6 +8870,18 @@ ns1:Zone_3 a pt:ConnectedEntity,
     rdfs:label "Zone 3" ;
     ns1:item ns1:item .
 
+ns1:contactless a pt:ConnectedEntity,
+        ns1:TransportEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Contactless Payment",
+        "Oyster and Contactless Payment",
+        "contactless",
+        "contactless Payment Cards" ;
+    ns1:Use ns1:payAsYouGo ;
+    ns1:instanceOf ns1:Weekly_Travel_Card ;
+    ns1:item ns1:Oyster,
+        ns1:item .
+
 ns1:station a pt:ConnectedEntity,
         ns1:Station,
         owl:NamedIndividual ;
@@ -9249,18 +8910,21 @@ ns1:Charing_Cross_branch a pt:ConnectedEntity,
 
 ns1:City_and_South_London_Railway a pt:ConnectedEntity,
         ns1:City_and_South_London_Railway,
+        ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "City and South London Railway" ;
+    rdfs:label "City and South London Railway",
+        "City and South London Railway train, 1890" ;
     ns1:item ns1:item ;
     ns1:operatedBy ns1:Underground_Electric_Railways_of_London,
         ns1:University_of_Edinburgh_Rail_Link ;
+    ns1:point_in_time 1890 ;
     ns1:providedIntermediateStationFor ns1:Waterloo .
 
 ns1:Clapham_North a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Clapham North" ;
     ns1:Connecting_Line ns1:Piccadilly_Line ;
-    ns1:dateOfOfficialOpening "3 June 1900"^^xsd:string ;
+    ns1:DateOfOfficialOpening "3 June 1900"^^xsd:string ;
     ns1:item ns1:item .
 
 ns1:District a pt:ConnectedEntity,
@@ -9294,11 +8958,15 @@ ns1:Great_Western_Railway a pt:ConnectedEntity,
     ns1:replacedBy ns1:Metropolitan_Railway .
 
 ns1:Harrow_on_the_Hill a pt:ConnectedEntity,
+        ns1:Heathrow,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Harrow on the Hill",
+    rdfs:label "Harrow",
+        "Harrow and Wealdstone",
+        "Harrow on the Hill",
         "Harrow-on-the-Hill" ;
-    ns1:item ns1:North_Harrow .
+    ns1:item ns1:North_Harrow,
+        ns1:item .
 
 ns1:Kennington a pt:ConnectedEntity,
         ns1:Kennington,
@@ -9322,17 +8990,14 @@ ns1:Leicester_Square a pt:ConnectedEntity,
     rdfs:label "Leicester Square" ;
     ns1:item ns1:item .
 
-ns1:London_Borough_of_Barnet a owl:NamedIndividual ;
-    rdfs:label "London Borough of Barnet" .
-
 ns1:Paddington a pt:ConnectedEntity,
         ns1:Kennington,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Paddington" ;
-    ns1:Connecting_Line ns1:Elizabeth_Line,
-        ns1:Loop,
-        ns1:Paddington_Central_line ;
+    ns1:Connecting_Line ns1:Central_Line,
+        ns1:Elizabeth_Line,
+        ns1:Loop ;
     ns1:connectingLine ns1:Elizabeth_Line ;
     ns1:hasLines ns1:Bakerloo,
         ns1:Circle,
@@ -9347,8 +9012,8 @@ ns1:Shenfield a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Shenfield" ;
-    ns1:Connecting_Line ns1:Elizabeth_Line,
-        ns1:Paddington_Central_line ;
+    ns1:Connecting_Line ns1:Central_Line,
+        ns1:Elizabeth_Line ;
     ns1:item ns1:Elizabeth_Line,
         ns1:item ;
     ns1:sharesBorderWith ns1:Abbey_Wood_4 .
@@ -9395,34 +9060,14 @@ ns1:Waterloo_National_Rail a pt:ConnectedEntity,
     rdfs:label "Waterloo National Rail" ;
     ns1:item ns1:item .
 
-ns1:Camden_Town a pt:ConnectedEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Camden Town" ;
-    ns1:item ns1:item ;
-    ns1:operates ns1:CCE_HR .
-
-ns1:Central_Line a pt:ConnectedEntity,
-        ns1:Central,
-        ns1:Central_London,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Central Line" ;
-    ns1:facet_of ns1:London_Underground ;
-    ns1:item "1 October 1868"^^xsd:string ;
-    ns1:located_in_the_administrative_territorial_entity ns1:Greater_London ;
-    ns1:operatedBy ns1:London_Underground,
-        ns1:Transport_for_London,
-        ns1:Zone_2 ;
-    ns1:providedBy ns1:1992_stock .
-
 ns1:Charing_Cross a pt:ConnectedEntity,
         ns1:Charing,
         ns1:TransportEntity,
         owl:NamedIndividual ;
     rdfs:label "Charing Cross" ;
     ns1:Connecting_Line ns1:Northern_Line ;
+    ns1:DateOfOfficialOpening "6 April 1914"^^xsd:string ;
     ns1:connectingLine ns1:Victoria_Line ;
-    ns1:dateOfOfficialOpening "6 April 1914"^^xsd:string ;
     ns1:item ns1:item,
         ns1:seymour_street .
 
@@ -9441,6 +9086,9 @@ ns1:Heathrow a pt:ConnectedEntity,
     rdfs:label "Heathrow" ;
     ns1:item ns1:item .
 
+ns1:London_Borough_of_Barnet a owl:NamedIndividual ;
+    rdfs:label "London Borough of Barnet" .
+
 ns1:London_North_Eastern_Railway a pt:ConnectedEntity,
         ns1:TransportEntity,
         owl:Class,
@@ -9452,10 +9100,6 @@ ns1:London_North_Eastern_Railway a pt:ConnectedEntity,
 
 ns1:NightService a owl:Class ;
     rdfs:label "Night Service" .
-
-ns1:Paddington_Central_line a ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Paddington Central line" .
 
 ns1:Piccadilly a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -9475,6 +9119,21 @@ ns1:South_Kensington a pt:ConnectedEntity,
     ns1:item ns1:item,
         1868 .
 
+ns1:The_District_Railway a pt:ConnectedEntity,
+        ns1:The_District_Railway,
+        owl:Class,
+        owl:NamedIndividual ;
+    rdfs:label "District Railway",
+        "The District Railway" ;
+    ns1:connectsWith ns1:Metropolitan_Line ;
+    ns1:item ns1:Mansion_House,
+        ns1:Metropolitan_Railway,
+        ns1:Metropolitan_Railway_District,
+        ns1:Whitechapel,
+        ns1:item,
+        "30 May 1870"^^xsd:string ;
+    ns1:openedLinesFrom ns1:West_Brompton .
+
 ns1:Ticket a owl:NamedIndividual ;
     rdfs:label "Ticket" .
 
@@ -9483,6 +9142,23 @@ ns1:East_Finchley a pt:ConnectedEntity,
     rdfs:label "East Finchley" ;
     ns1:item ns1:item ;
     ns1:sharesBorderWith ns1:High_Barnet .
+
+ns1:Hammersmith_City_Line a pt:ConnectedEntity,
+        ns1:Waterloo_City_Line,
+        owl:Class,
+        owl:NamedIndividual ;
+    rdfs:label "Hammersmith & City line" ;
+    ns1:connectsWith ns1:Circle_Line ;
+    ns1:item ns1:item .
+
+ns1:Hammersmith_and_City a pt:ConnectedEntity,
+        ns1:TransportEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Hammersmith and City" ;
+    ns1:connectsWith ns1:District_Metro ;
+    ns1:item ns1:Circle_Line,
+        ns1:item ;
+    ns1:operatedBy ns1:National_Rail_Services .
 
 ns1:Jubilee a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -9494,24 +9170,9 @@ ns1:Newham_London a ns1:North_London,
         owl:NamedIndividual ;
     rdfs:label "Newham, London" .
 
-ns1:The_District_Railway a pt:ConnectedEntity,
-        ns1:The_District_Railway,
-        owl:Class,
-        owl:NamedIndividual ;
-    rdfs:label "District Railway",
-        "The District Railway" ;
-    ns1:connectsWith ns1:Metropolitan_Line ;
-    ns1:item ns1:Mansion_House,
-        ns1:Metropolitan_Railway,
-        ns1:Metropolitan_and_District_Railways,
-        ns1:Whitechapel,
-        ns1:item,
-        "30 May 1870"^^xsd:string ;
-    ns1:openedLinesFrom ns1:West_Brompton .
-
 ns1:Bakerloo_Line a pt:ConnectedEntity,
         owl:NamedIndividual ;
-    rdfs:label "Bakerloo Line" ;
+    rdfs:label "Bakerloo line" ;
     ns1:item ns1:Jubilee_Line ;
     ns1:operatedBy ns1:National_Rail,
         ns1:Transport_for_London ;
@@ -9519,6 +9180,14 @@ ns1:Bakerloo_Line a pt:ConnectedEntity,
         ns1:Transport_for_London ;
     ns1:receivedStockTrainsBy ns1:Northern_Line ;
     ns1:terminatesAt ns1:Charing_Cross .
+
+ns1:Camden_Town a pt:ConnectedEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Camden",
+        "Camden Town" ;
+    ns1:instance_of ns1:item ;
+    ns1:item ns1:item ;
+    ns1:operates ns1:CCE_HR .
 
 ns1:Central_London a pt:ConnectedEntity,
         owl:Class ;
@@ -9536,10 +9205,12 @@ ns1:High_Barnet a pt:ConnectedEntity,
     ns1:sharesBorderWith ns1:East_Finchley .
 
 ns1:Jubilee_Line a pt:ConnectedEntity,
+        ns1:Docklands_Light_Railway,
         ns1:Jubilee,
         ns1:TransportEntity,
         owl:NamedIndividual ;
-    rdfs:label "Jubilee Line" ;
+    rdfs:label "Jubilee Line",
+        "Jubilee Line (Docklands Light Rail)" ;
     ns1:connectsWith ns1:Bakerloo_Line ;
     ns1:hasFare ns1:item ;
     ns1:item ns1:item ;
@@ -9561,6 +9232,17 @@ ns1:National_Rail a pt:ConnectedEntity,
         ns1:London ;
     ns1:owned_by ns1:Department_for_Transport .
 
+ns1:Waterloo_City_Line a pt:ConnectedEntity,
+        ns1:TransportEntity,
+        ns1:Waterloo_City_Line,
+        owl:NamedIndividual ;
+    rdfs:label "Waterloo & City Line" ;
+    ns1:date_of_official_opening "8 August 1898"^^xsd:string ;
+    ns1:item ns1:item ;
+    ns1:operatedBy ns1:National_Rail_Services ;
+    ns1:terminatesAt ns1:Central_Line,
+        ns1:Elephant_and_Castle .
+
 ns1:Westminster a pt:ConnectedEntity,
         ns1:Westminster,
         owl:NamedIndividual ;
@@ -9571,6 +9253,19 @@ ns1:Central a pt:ConnectedEntity,
         owl:Class ;
     rdfs:label "Central" ;
     ns1:item ns1:item .
+
+ns1:Docklands_Light_Railway a pt:ConnectedEntity,
+        ns1:Docklands_Light_Railway,
+        ns1:TransportEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Docklands Light Railway",
+        "Maryland Docklands Light Railway" ;
+    ns1:Connecting_Line ns1:Docklands_Light_Railway ;
+    ns1:instanceOf ns1:Metro ;
+    ns1:item ns1:London_Overground,
+        ns1:Monument_Circle_line_London_Underground,
+        ns1:item ;
+    ns1:owned_by ns1:Transport_for_London .
 
 ns1:Elizabeth a owl:NamedIndividual ;
     rdfs:label "Elizabeth" .
@@ -9586,14 +9281,25 @@ ns1:Line a pt:ConnectedEntity,
     ns1:facet_of ns1:London_Underground .
 
 ns1:Morden a pt:ConnectedEntity,
-        ns1:Camden,
+        ns1:Camden_Town,
+        ns1:Kennington_tube_station,
+        ns1:Station,
+        ns1:TransportEntity,
+        ns1:TransportMode,
         owl:NamedIndividual ;
-    rdfs:label "Morden" ;
+    rdfs:label "Morden",
+        "Morden (tube station)",
+        "Morden Depot",
+        "Morden Station",
+        "Terminus Morden" ;
     ns1:Connecting_Line ns1:Northern_Line,
         ns1:Two_Southern_Branches ;
+    ns1:hasFacilityType ns1:item ;
     ns1:item ns1:Edgware,
+        ns1:Northern_Line,
         ns1:item ;
     ns1:located_in_the_administrative_territorial_entity ns1:Merton ;
+    ns1:location ns1:Morden ;
     ns1:sharesBorderWith ns1:Camden_Town ;
     ns1:terminus ns1:Morden .
 
@@ -9601,23 +9307,12 @@ ns1:Tfl_Rail a pt:ConnectedEntity,
         ns1:British_Rail,
         owl:Class,
         owl:NamedIndividual ;
-    rdfs:label "Tfl Rail" ;
+    rdfs:label "TfL Rail" ;
     ns1:inception "May 2015"^^xsd:string ;
     ns1:item ns1:item .
 
-ns1:Waterloo_City_Line a pt:ConnectedEntity,
-        ns1:TransportEntity,
-        ns1:Waterloo_City_Line,
+ns1:Zone_6 a ns1:Zone,
         owl:NamedIndividual ;
-    rdfs:label "Waterloo & City line" ;
-    ns1:date_of_official_opening "8 August 1898"^^xsd:string ;
-    ns1:item ns1:UK_Government_s_Implementation_of_Lockdown_Restrictions_on_Non_Essential_Travel,
-        ns1:item ;
-    ns1:operatedBy ns1:National_Rail_Services ;
-    ns1:terminatesAt ns1:Central_Line,
-        ns1:Elephant_and_Castle .
-
-ns1:Zone_6 a owl:NamedIndividual ;
     rdfs:label "Zone 6" .
 
 ns1:Circle a pt:ConnectedEntity,
@@ -9644,17 +9339,6 @@ ns1:Kensington_Station a pt:ConnectedEntity,
     ns1:locatedIn ns1:London ;
     ns1:owned_by ns1:Metropolitan_and_District_Railways .
 
-ns1:National_Rail_Services a pt:ConnectedEntity,
-        ns1:London_River_Services,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "National Rail Services" ;
-    ns1:connectsWith ns1:Bakerloo_Line,
-        ns1:Jubilee_Line,
-        ns1:Northern_Line,
-        ns1:Piccadilly_Line,
-        ns1:Thameslink_Services .
-
 ns1:Piccadilly_Line a pt:ConnectedEntity,
         ns1:Piccadilly,
         ns1:TransportEntity,
@@ -9675,6 +9359,21 @@ ns1:Thameslink a pt:ConnectedEntity,
     ns1:item ns1:item ;
     ns1:located_in_the_administrative_territorial_entity ns1:Greater_London .
 
+ns1:Central_Line a pt:ConnectedEntity,
+        ns1:Central,
+        ns1:Central_London,
+        ns1:TransportEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Central Line",
+        "Paddington Central line" ;
+    ns1:facet_of ns1:London_Underground ;
+    ns1:item "1 October 1868"^^xsd:string ;
+    ns1:located_in_the_administrative_territorial_entity ns1:Greater_London ;
+    ns1:operatedBy ns1:London_Underground,
+        ns1:Transport_for_London,
+        ns1:Zone_2 ;
+    ns1:providedBy ns1:1992_stock .
+
 ns1:District_Line a pt:ConnectedEntity,
         ns1:District_Line,
         ns1:IndustrialAction,
@@ -9685,28 +9384,13 @@ ns1:District_Line a pt:ConnectedEntity,
     ns1:item ns1:item ;
     ns1:operatedBy ns1:Transport_for_London .
 
-ns1:Docklands_Light_Railway a pt:ConnectedEntity,
-        ns1:Docklands_Light_Railway,
-        ns1:TransportEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Docklands Light Railway" ;
-    ns1:Connecting_Line ns1:Docklands_Light_Railway ;
-    ns1:instanceOf ns1:Metro ;
-    ns1:item ns1:London_Overground,
-        ns1:Monument_Circle_line_London_Underground,
-        ns1:item ;
-    ns1:owned_by ns1:Transport_for_London .
-
 ns1:Edgware_Road a pt:ConnectedEntity,
         owl:NamedIndividual ;
     rdfs:label "Edgware Road" ;
     ns1:connectingLine ns1:Circle_Line ;
-    ns1:connectsWith ns1:Hammersmith_and_City,
+    ns1:connectsWith ns1:Hammersmith_City_Line,
         ns1:Paddington ;
     ns1:item ns1:item .
-
-ns1:InterchangeStation a owl:Class ;
-    rdfs:label "Interchange Station" .
 
 ns1:Metropolitan_Line a pt:ConnectedEntity,
         ns1:Bakerloo_Line,
@@ -9723,19 +9407,19 @@ ns1:Metropolitan_Line a pt:ConnectedEntity,
     ns1:operates ns1:Hammersmith_and_City,
         ns1:The_District_Railway .
 
-ns1:Hammersmith_and_City a pt:ConnectedEntity,
-        ns1:Northern_City_Line,
+ns1:National_Rail_Services a pt:ConnectedEntity,
+        ns1:London_River_Services,
         ns1:TransportEntity,
-        ns1:Waterloo_City_Line,
-        owl:Class,
         owl:NamedIndividual ;
-    rdfs:label "Hammersmith and City Line" ;
-    ns1:connectsWith ns1:Circle_Line,
-        ns1:District_Metro ;
-    ns1:hasServiceFrequencyIncreased ns1:item ;
-    ns1:item ns1:Circle_Line,
-        ns1:item ;
-    ns1:operatedBy ns1:National_Rail_Services .
+    rdfs:label "National Rail Services",
+        "National and International Rail Services" ;
+    ns1:connectsWith ns1:Bakerloo_Line,
+        ns1:Jubilee_Line,
+        ns1:Northern_Line,
+        ns1:Piccadilly_Line,
+        ns1:Thameslink_Services ;
+    ns1:item ns1:item ;
+    ns1:terminus ns1:King_s_Cross .
 
 ns1:Metropolitan_Railway a pt:ConnectedEntity,
         owl:NamedIndividual ;
@@ -9798,40 +9482,6 @@ ns1:Circle_Line a pt:ConnectedEntity,
     ns1:serves ns1:railway ;
     ns1:terminus ns1:Hammersmith .
 
-ns1:London_Underground a pt:ConnectedEntity,
-        ns1:London_Overground,
-        ns1:TransportEntity,
-        owl:NamedIndividual,
-        owl:ObjectProperty ;
-    rdfs:label "London Underground" ;
-    ns1:Different_From ns1:Buses ;
-    ns1:London_Underground ns1:item ;
-    ns1:connects_with_connects_with ns1:London_Overground_Elizabeth_Line ;
-    ns1:coversAreasWithinGreaterLondonBoundaryWithInZones ns1:Zones_1to6 ;
-    ns1:hasFare ns1:Circle_Line,
-        ns1:Piccadilly_Line_Waterloo_City_Docklands_Light_Railway_Monument_Circle_Line_District_Line_National_Rail_Bakerloo_Line,
-        ns1:Zone_6 ;
-    ns1:hasFareZone1BoundariesWith ns1:Circle ;
-    ns1:instanceOf ns1:Metro,
-        ns1:item ;
-    ns1:item ns1:Camden_Town_Tube_Station_Upgrade_Plan,
-        ns1:Central_Line,
-        ns1:Elizabeth_Line,
-        ns1:Line,
-        ns1:Northern_Line,
-        ns1:True,
-        ns1:item ;
-    ns1:not_applicable ns1:Greater_London ;
-    ns1:operatedBy ns1:London_Underground,
-        ns1:Public_Transport,
-        ns1:Public_Transport_in_London ;
-    ns1:operates ns1:National_Rail,
-        ns1:National_Rail_Enquiries,
-        ns1:Transport_for_London ;
-    ns1:owned_by ns1:Transport_for_London,
-        ns1:item ;
-    ns1:usesTicketingSystem ns1:Paper_and_Electronic_Smart_Card .
-
 ns1:Elizabeth_Line a pt:ConnectedEntity,
         ns1:Elizabeth,
         ns1:TransportEntity,
@@ -9870,6 +9520,39 @@ ns1:Elizabeth_Line a pt:ConnectedEntity,
         ns1:Heathrow_Terminal_5,
         ns1:Shenfield ;
     ns1:usesPowerSupplyForOverheadLines ns1:item .
+
+ns1:London_Underground a pt:ConnectedEntity,
+        ns1:London_Overground,
+        ns1:TransportEntity,
+        owl:NamedIndividual,
+        owl:ObjectProperty ;
+    rdfs:label "London Underground" ;
+    ns1:Different_From ns1:Buses ;
+    ns1:London_Underground ns1:item ;
+    ns1:connects_with_connects_with ns1:London_Overground_Elizabeth_Line ;
+    ns1:coversAreasWithinGreaterLondonBoundaryWithInZones ns1:Zones_1to6 ;
+    ns1:hasFare ns1:Circle_Line,
+        ns1:Zone_6 ;
+    ns1:hasFareZone1BoundariesWith ns1:Circle ;
+    ns1:instanceOf ns1:Metro,
+        ns1:item ;
+    ns1:item ns1:Camden_Town_Tube_Station_Upgrade_Plan,
+        ns1:Central_Line,
+        ns1:Elizabeth_Line,
+        ns1:Line,
+        ns1:Northern_Line,
+        ns1:True,
+        ns1:item ;
+    ns1:not_applicable ns1:Greater_London ;
+    ns1:operatedBy ns1:London_Underground,
+        ns1:Public_Transport,
+        ns1:Public_Transport_in_London ;
+    ns1:operates ns1:National_Rail,
+        ns1:National_Rail_Enquiries,
+        ns1:Transport_for_London ;
+    ns1:owned_by ns1:Transport_for_London,
+        ns1:item ;
+    ns1:usesTicketingSystem ns1:Paper_and_Electronic_Smart_Card .
 
 ns1:Northern_Line a pt:ConnectedEntity,
         ns1:Northern_Line,
@@ -9911,7 +9594,7 @@ ns1:Northern_Line a pt:ConnectedEntity,
         ns1:Moorgate,
         ns1:Morden,
         ns1:Mornington_Crescent,
-        ns1:Old_Street,
+        ns1:Old_Street_National_Rail,
         ns1:Oval,
         ns1:Stockwell,
         ns1:Tooting_Bec,
@@ -9949,31 +9632,27 @@ ns1:Northern_Line a pt:ConnectedEntity,
         ns1:High_Barnet ;
     ns1:terminus ns1:Charing_Cross .
 
-ns1:TrainStation a owl:Class ;
-    rdfs:label "Train Station" .
-
 ns1:Transport_for_London a pt:ConnectedEntity,
-        ns1:London_Heathrow_Airport,
         ns1:Transport_for_London,
         owl:NamedIndividual ;
-    rdfs:label "London Transport",
-        "Transport for London",
-        "Transport for London API" ;
+    rdfs:label "Transport for London" ;
     ns1:Estimated_Total_Annual_Revenues_From_Line_By_2024_25_After_Adjustments_For_Pandemic_Impact ns1:item ;
     ns1:Industry ns1:Railway_Services ;
     ns1:Predicted_Total_Annual_Revenues_From_Line_By_2024_25_After_Adjustments_For_Pandemic_Impact ns1:item ;
     ns1:instanceOf ns1:item ;
     ns1:item ns1:Central_London,
-        ns1:Greater_London_Authority,
         ns1:London_Underground,
         ns1:Northern_Line,
-        ns1:item,
-        "22 May 1983"^^xsd:string ;
+        ns1:item ;
     ns1:located_in_the_administrative_territorial_entity ns1:Greater_London ;
     ns1:planned_Expansion_Of_Station ns1:Camden_Town_Station ;
     ns1:predictedUpgradeCompletionBy ns1:item ;
-    ns1:tookOverResponsibilitiesFromMetronet_Consortium 2007 ;
-    ns1:type ns1:Organization .
+    ns1:tookOverResponsibilitiesFromMetronet_Consortium 2007 .
+
+ns1:Station a owl:Class ;
+    rdfs:label "Interchange Station",
+        "Station",
+        "Train Station" .
 
 ns1:TransportEntity a owl:Class ;
     rdfs:label "TransportEntity" .
@@ -9987,7 +9666,7 @@ ns1:item a pt:ConnectedEntity,
         ns1:station ;
     ns1:Number_of_Participants 41 ;
     ns1:Product_Or_Material_Produced ns1:item ;
-    ns1:affectedBy ns1:Waterloo_City_Line ;
+    ns1:affectedBy ns1:Waterloo_City_line ;
     ns1:announcedThatCompletionWouldNotOccurBefore ns1:15_9Billion ;
     ns1:facet_of ns1:Four_Lines_Modernisation,
         ns1:London_Underground,
@@ -10003,11 +9682,11 @@ ns1:item a pt:ConnectedEntity,
     ns1:item ns1:15_9Billion,
         ns1:1906_stock,
         ns1:Alstom,
-        ns1:Brixton_station,
+        ns1:Brixton,
         ns1:Camden_Town,
         ns1:Circular,
         ns1:David_Mitchell,
-        ns1:Epping_Forest_Essex,
+        ns1:Epping_Forest,
         ns1:Four_Rail_DC_System,
         ns1:Great_Western_Main_Line,
         ns1:Greater_London_Authority,
@@ -10026,7 +9705,7 @@ ns1:item a pt:ConnectedEntity,
         ns1:Wikimedia_Foundation,
         ns1:Zone_1,
         ns1:Zone_3,
-        ns1:Zone_4,
+        ns1:Zone_4_5_and_6,
         ns1:Zone_5,
         ns1:item,
         ns1:operatedBy,

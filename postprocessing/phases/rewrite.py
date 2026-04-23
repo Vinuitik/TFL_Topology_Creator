@@ -6,7 +6,7 @@ from typing import Dict, Set
 
 from rdflib import Graph, URIRef
 
-from ..utils.graph import copy_namespaces
+from utils.graph import copy_namespaces
 
 log = logging.getLogger(__name__)
 

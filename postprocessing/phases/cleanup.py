@@ -8,8 +8,8 @@ from typing import List, Set
 
 from rdflib import OWL, RDF, RDFS, Graph, Literal, URIRef
 
-from ..utils.config import POST_LABEL_LENGTH_STDDEV
-from ..utils.graph import get_label
+from utils.config import POST_LABEL_LENGTH_STDDEV
+from utils.graph import get_label
 
 log = logging.getLogger(__name__)
 

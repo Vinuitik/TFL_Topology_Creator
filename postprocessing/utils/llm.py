@@ -9,7 +9,7 @@ from pathlib import Path
 
 import requests
 
-from .config import (
+from utils.config import (
     OLLAMA_ENTITY_MODEL,
     OLLAMA_MAX_RETRIES,
     OLLAMA_SEED,

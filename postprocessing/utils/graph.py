@@ -8,7 +8,7 @@ from typing import Dict, List, Set, Tuple
 
 from rdflib import OWL, RDF, RDFS, Graph, Namespace, URIRef
 
-from .config import POST_FUZZY_THRESHOLD
+from utils.config import POST_FUZZY_THRESHOLD
 
 LOCAL = Namespace("http://example.org/tfl#")
 

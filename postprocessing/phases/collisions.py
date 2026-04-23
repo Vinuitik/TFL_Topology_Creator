@@ -6,8 +6,8 @@ from typing import Dict, Set, Tuple
 
 from rdflib import OWL, Graph, URIRef
 
-from ..utils.graph import get_label, has_number
-from ..utils.llm import call_llm
+from utils.graph import get_label, has_number
+from utils.llm import call_llm
 
 log = logging.getLogger(__name__)
 

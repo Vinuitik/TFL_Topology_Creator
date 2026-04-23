@@ -11,7 +11,7 @@ import redis
 import requests
 from rdflib import URIRef
 
-from .config import EMBED_WORKERS, OLLAMA_EMBED_MODEL, OLLAMA_EMBED_URL, OLLAMA_TIMEOUT_SEC, REDIS_URL
+from utils.config import EMBED_WORKERS, OLLAMA_EMBED_MODEL, OLLAMA_EMBED_URL, OLLAMA_TIMEOUT_SEC, REDIS_URL
 
 log = logging.getLogger(__name__)
 

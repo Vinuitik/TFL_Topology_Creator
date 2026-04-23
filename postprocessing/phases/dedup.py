@@ -7,9 +7,9 @@ from typing import Dict, List, Set, Tuple
 
 from rdflib import OWL, RDF, Graph, URIRef
 
-from ..utils.config import POST_ENTITY_SAME_THRESHOLD, POST_FUZZY_THRESHOLD
-from ..utils.embeddings import get_embeddings
-from ..utils.graph import (
+from utils.config import POST_ENTITY_SAME_THRESHOLD, POST_FUZZY_THRESHOLD
+from utils.embeddings import get_embeddings
+from utils.graph import (
     DSU,
     get_label,
     graph_degree,
@@ -17,7 +17,7 @@ from ..utils.graph import (
     token_sort_ratio,
     cosine,
 )
-from ..utils.llm import call_llm
+from utils.llm import call_llm
 
 log = logging.getLogger(__name__)
 
