@@ -53,6 +53,34 @@
     rdfs:label "24-Hour Service" ; :hasName "24-Hour Service" .
 
 # =============================================================================
+# OBJECT PROPERTIES
+# Declared so _build_prop_map in relation_infer.py can resolve LLM-suggested labels.
+# =============================================================================
+
+:hasStop               a owl:ObjectProperty ; rdfs:label "hasStop" .
+:hasZone               a owl:ObjectProperty ; rdfs:label "hasZone" .
+:hasFare               a owl:ObjectProperty ; rdfs:label "hasFare" .
+:hasCause              a owl:ObjectProperty ; rdfs:label "hasCause" .
+:hasStatus             a owl:ObjectProperty ; rdfs:label "hasStatus" .
+:hasProjectStatus      a owl:ObjectProperty ; rdfs:label "hasProjectStatus" .
+:hasPeakPeriod         a owl:ObjectProperty ; rdfs:label "hasPeakPeriod" .
+:hasOffPeakPeriod      a owl:ObjectProperty ; rdfs:label "hasOffPeakPeriod" .
+:hasScheduleType       a owl:ObjectProperty ; rdfs:label "hasScheduleType" .
+:affectsRoute          a owl:ObjectProperty ; rdfs:label "affectsRoute" .
+:affectsStop           a owl:ObjectProperty ; rdfs:label "affectsStop" .
+:targetsInfrastructure a owl:ObjectProperty ; rdfs:label "targetsInfrastructure" .
+:startStation          a owl:ObjectProperty ; rdfs:label "startStation" .
+:endStation            a owl:ObjectProperty ; rdfs:label "endStation" .
+:belongsToRoute        a owl:ObjectProperty ; rdfs:label "belongsToRoute" .
+:sequenceStop          a owl:ObjectProperty ; rdfs:label "sequenceStop" .
+:offersAccessibilityFeature a owl:ObjectProperty ; rdfs:label "offersAccessibilityFeature" .
+:operatedBy            a owl:ObjectProperty ; rdfs:label "operatedBy" .
+:isConnectedTo         a owl:ObjectProperty ; rdfs:label "isConnectedTo" .
+:startZone             a owl:ObjectProperty ; rdfs:label "startZone" .
+:endZone               a owl:ObjectProperty ; rdfs:label "endZone" .
+:appliesDuring         a owl:ObjectProperty ; rdfs:label "appliesDuring" .
+
+# =============================================================================
 # PROJECT STATUSES  (Q15 checks :Completed, Q16 checks != :Completed)
 # =============================================================================
 
