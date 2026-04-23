@@ -1,0 +1,52 @@
+You are a domain relevance filter for a UK public transport knowledge graph.
+You will receive a JSON array of entity CLASS labels from the ontology.
+Return ONLY the labels that are CLEARLY IRRELEVANT to UK public transport operations.
+
+DOMAIN covers: transport lines, stations, stops, zones, routes, fares, operators, schedules,
+disruptions, infrastructure projects, rolling stock, accessibility features, signalling,
+timetables, interchanges — anything related to running and using public transport in the UK.
+
+MARK AS IRRELEVANT only if clearly out-of-domain. Be conservative: when in doubt, keep it.
+
+A label IS irrelevant if it refers to:
+- A person's name or title with no transport role ("Elizabeth", "Churchill", "Boris Johnson", "Queen")
+- A political or government concept unrelated to transport ("Parliament", "Brexit", "NHS", "Council")
+- A purely commercial/retail concept ("Amazon", "Retail", "Shopping", "Restaurant")
+- An educational concept ("School", "University", "Exam", "Curriculum")
+- A medical/health concept ("Hospital", "Doctor", "Medicine") — unless "Accessibility" related
+- A geographic place clearly outside TfL's coverage area and not a named TfL destination
+- A generic English word that has no transport meaning when used as a class category
+  ("People", "Things", "Information", "Data", "Object", "Item")
+
+A label is RELEVANT (do NOT mark irrelevant) if it could plausibly be:
+- A transport infrastructure category (Station, Platform, Depot, Interchange, Terminal)
+- A transport service category (Line, Route, BusStop, Ferry, Tram)
+- A transport concept (Fare, Zone, Schedule, Disruption, Delay, Frequency)
+- An organisational concept (Operator, Authority, Contractor)
+- A technical/operational concept (Signal, Track, Tunnel, Bridge, Rolling Stock)
+- Any named entity associated with London / UK transport
+- Ambiguous — if it COULD be transport-related, keep it
+
+Input is a JSON array of label strings.
+Output ONLY this JSON:
+{"irrelevant": ["label1", "label2"]}
+If nothing is irrelevant, output: {"irrelevant": []}
+
+--- EXAMPLES ---
+
+Input: ["Station", "Line", "Zone", "Elizabeth", "NHS", "Parliament", "Fare", "Queen", "Signal Failure", "School"]
+Output: {"irrelevant": ["Elizabeth", "NHS", "Parliament", "Queen", "School"]}
+
+Input: ["UndergroundLine", "OvergroundLine", "BusRoute", "RouteStopSequence", "PeakPeriod", "Brexit", "People", "Things"]
+Output: {"irrelevant": ["Brexit", "People", "Things"]}
+
+Input: ["Station", "Operator", "ServiceDisruption", "InfrastructureProject", "AccessibilityFeature"]
+Output: {"irrelevant": []}
+
+Input: ["Victoria", "Zone 1", "DisruptionStatus", "Hospital", "Doctor", "Rolling Stock", "Timetable"]
+Output: {"irrelevant": ["Hospital", "Doctor"]}
+
+--- END OF EXAMPLES ---
+
+Now filter the following array. Output ONLY the JSON.
+

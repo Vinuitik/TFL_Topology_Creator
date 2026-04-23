@@ -11,15 +11,16 @@
 # ==========================================
 PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?stationName ?zoneNum
 WHERE {
-  ?line :hasStop ?station ;
-        :hasName ?lineName .
+  ?line (:hasStop|^:Connecting_Line|^:hasLines) ?station ;
+        (:hasName|rdfs:label) ?lineName .
   FILTER(STR(?lineName) = "Victoria Line")
-  ?station :hasName ?stationName ;
-           :hasZone ?zone .
-  ?zone :zoneNumber ?zoneNum .
+  ?station (:hasName|rdfs:label) ?stationName ;
+           (:hasZone|:isInFareZone) ?zone .
+  ?zone (:zoneNumber|rdfs:label) ?zoneNum .
 }
 
 # ==========================================
@@ -30,10 +31,10 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT ?lineName (IF(BOUND(?isInterchange), "Yes", "No") AS ?interchangeStatus)
 WHERE {
-  ?station :hasName ?stationTarget .
+  ?station (:hasName|rdfs:label) ?stationTarget .
   FILTER(STR(?stationTarget) = "Oxford Circus Station")
-  ?line :hasStop ?station ;
-        :hasName ?lineName .
+  ?line (:hasStop|^:Connecting_Line|^:hasLines) ?station ;
+        (:hasName|rdfs:label) ?lineName .
   OPTIONAL {
     ?station a :InterchangeStation .
     BIND(true AS ?isInterchange)
@@ -45,15 +46,16 @@ WHERE {
 # ==========================================
 PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?stopName ?seq
 WHERE {
-  ?route :hasName ?routeTarget .
+  ?route (:hasName|rdfs:label) ?routeTarget .
   FILTER(STR(?routeTarget) = "Bus Route 25")
   ?stopSequence :belongsToRoute ?route ;
-                :stopSequenceNumber ?seq ;
+                (:stopSequenceNumber|:sequence) ?seq ;
                 :sequenceStop ?stop .
-  ?stop :hasName ?stopName .
+  ?stop (:hasName|rdfs:label) ?stopName .
 }
 ORDER BY ASC(?seq)
 
@@ -62,28 +64,29 @@ ORDER BY ASC(?seq)
 # ==========================================
 PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?connectedStationName ?routeName
 WHERE {
-  ?station :hasName ?stationTarget .
+  ?station (:hasName|rdfs:label) ?stationTarget .
   FILTER(STR(?stationTarget) = "Victoria Station")
   
   # Find the sequence node for Victoria Station
   ?seqNode1 a :RouteStopSequence ;
             :sequenceStop ?station ;
-            :belongsToRoute ?route ;
-            :stopSequenceNumber ?num1 .
+            (:belongsToRoute|^:hasStopSequence) ?route ;
+            (:stopSequenceNumber|:sequence) ?num1 .
             
   # Find the direct connection (Sequence numbering offset by 1 or -1)
   ?seqNode2 a :RouteStopSequence ;
-            :belongsToRoute ?route ;
+            (:belongsToRoute|^:hasStopSequence) ?route ;
             :sequenceStop ?connectedStation ;
-            :stopSequenceNumber ?num2 .
+            (:stopSequenceNumber|:sequence) ?num2 .
             
   FILTER ( ?num2 = ?num1 + 1 || ?num2 = ?num1 - 1 )
   
-  ?connectedStation :hasName ?connectedStationName .
-  ?route :hasName ?routeName .
+  ?connectedStation (:hasName|rdfs:label) ?connectedStationName .
+  ?route (:hasName|rdfs:label) ?routeName .
 }
 
 # ==========================================
@@ -91,91 +94,52 @@ WHERE {
 # ==========================================
 PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?stationName (COUNT(?line) AS ?linesServed)
 WHERE {
-  # We query stations that have >1 line explicitly serving them
-  ?line :hasStop ?station .
-  ?station :hasName ?stationName .
+  ?line (:hasStop|^:Connecting_Line|^:hasLines) ?station .
+  ?station (:hasName|rdfs:label) ?stationName .
 }
 GROUP BY ?stationName
 HAVING (COUNT(?line) > 1)
 
 # ==========================================
 # Q6: What routes are available between two stations, including required interchanges and lines used?
-# Dynamic Output: Maps the exact sequence of interchanges required as a single formatted path array.
 # ==========================================
 PREFIX : <http://example.org/tfl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT ?stationsList ?routesList
+SELECT DISTINCT ?startName ?interchangeName ?endName ?line1Name ?line2Name
 WHERE {
   ?startStation :hasName ?startTarget .
-  ?endStation :hasName ?endTarget .
-  FILTER(STR(?startTarget) = "Start Station")
-  FILTER(STR(?endTarget) = "End Station")
-  
+  ?endStation   :hasName ?endTarget .
+  FILTER(STR(?startTarget) = "Brixton Station")
+  FILTER(STR(?endTarget) = "Canary Wharf Station")
+  ?startStation :hasName ?startName .
+  ?endStation   :hasName ?endName .
   {
-    # Option A: 0 Interchanges (Direct Route)
-    ?seqStart1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numStart1 .
-    ?seqEnd1 a :RouteStopSequence ; :sequenceStop ?endStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numEnd1 .
-    FILTER(?numStart1 < ?numEnd1)
-    
-    ?startStation :hasName ?startName .
-    ?endStation :hasName ?endName .
-    ?route1 :hasName ?route1Name .
-    
-    BIND(CONCAT("[", ?startName, ", ", ?endName, "]") AS ?stationsList)
-    BIND(CONCAT("[", ?route1Name, "]") AS ?routesList)
+    # Option A: Direct route (0 interchanges)
+    ?seq1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?line1 ; :stopSequenceNumber ?n1 .
+    ?seq2 a :RouteStopSequence ; :sequenceStop ?endStation   ; :belongsToRoute ?line1 ; :stopSequenceNumber ?n2 .
+    FILTER(?n1 < ?n2)
+    ?line1 :hasName ?line1Name .
+    BIND("Direct" AS ?line2Name)
+    BIND("None"   AS ?interchangeName)
   }
   UNION
   {
-    # Option B: 1 Interchange
-    ?seqStart1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numStart1 .
-    ?seqEnd1 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numEnd1 .
-    FILTER(?numStart1 < ?numEnd1)
-    
-    ?seqStart2 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numStart2 .
-    ?seqEnd2 a :RouteStopSequence ; :sequenceStop ?endStation ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numEnd2 .
-    FILTER(?numStart2 < ?numEnd2)
-    FILTER(?route1 != ?route2)
-    
-    ?startStation :hasName ?startName .
-    ?endStation :hasName ?endName .
-    ?route1 :hasName ?route1Name .
-    ?mid1Station a :InterchangeStation ; :hasName ?mid1Name .
-    ?route2 :hasName ?route2Name .
-    
-    BIND(CONCAT("[", ?startName, ", ", ?mid1Name, ", ", ?endName, "]") AS ?stationsList)
-    BIND(CONCAT("[", ?route1Name, ", ", ?route2Name, "]") AS ?routesList)
-  }
-  UNION
-  {
-    # Option C: 2 Interchanges
-    ?seqStart1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numStart1 .
-    ?seqEnd1 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route1 ; :stopSequenceNumber ?numEnd1 .
-    FILTER(?numStart1 < ?numEnd1)
-    
-    ?seqStart2 a :RouteStopSequence ; :sequenceStop ?mid1Station ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numStart2 .
-    ?seqEnd2 a :RouteStopSequence ; :sequenceStop ?mid2Station ; :belongsToRoute ?route2 ; :stopSequenceNumber ?numEnd2 .
-    FILTER(?numStart2 < ?numEnd2)
-    FILTER(?route1 != ?route2)
-
-    ?seqStart3 a :RouteStopSequence ; :sequenceStop ?mid2Station ; :belongsToRoute ?route3 ; :stopSequenceNumber ?numStart3 .
-    ?seqEnd3 a :RouteStopSequence ; :sequenceStop ?endStation ; :belongsToRoute ?route3 ; :stopSequenceNumber ?numEnd3 .
-    FILTER(?numStart3 < ?numEnd3)
-    FILTER(?route2 != ?route3)
-
-    ?startStation :hasName ?startName .
-    ?endStation :hasName ?endName .
-    ?route1 :hasName ?route1Name .
-    ?mid1Station a :InterchangeStation ; :hasName ?mid1Name .
-    ?mid2Station a :InterchangeStation ; :hasName ?mid2Name .
-    ?route2 :hasName ?route2Name .
-    ?route3 :hasName ?route3Name .
-    
-    BIND(CONCAT("[", ?startName, ", ", ?mid1Name, ", ", ?mid2Name, ", ", ?endName, "]") AS ?stationsList)
-    BIND(CONCAT("[", ?route1Name, ", ", ?route2Name, ", ", ?route3Name, "]") AS ?routesList)
+    # Option B: 1 interchange
+    ?seqS1 a :RouteStopSequence ; :sequenceStop ?startStation ; :belongsToRoute ?line1 ; :stopSequenceNumber ?nS1 .
+    ?seqM1 a :RouteStopSequence ; :sequenceStop ?interchange  ; :belongsToRoute ?line1 ; :stopSequenceNumber ?nM1 .
+    FILTER(?nS1 < ?nM1)
+    ?seqM2 a :RouteStopSequence ; :sequenceStop ?interchange  ; :belongsToRoute ?line2 ; :stopSequenceNumber ?nM2 .
+    ?seqE2 a :RouteStopSequence ; :sequenceStop ?endStation   ; :belongsToRoute ?line2 ; :stopSequenceNumber ?nE2 .
+    FILTER(?nM2 < ?nE2)
+    FILTER(?line1 != ?line2)
+    ?interchange :hasName ?interchangeName .
+    ?line1 :hasName ?line1Name .
+    ?line2 :hasName ?line2Name .
   }
 }
 
@@ -236,6 +200,23 @@ WHERE {
   
   ?startStation :hasName ?startName .
   ?endStation :hasName ?endName .
+}
+
+# ==========================================
+# Q10: What are the geographic coordinates (latitude and longitude) of a given station or set of stations?
+# ==========================================
+PREFIX : <http://example.org/tfl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?stationName ?latitude ?longitude
+WHERE {
+  ?station rdf:type/rdfs:subClassOf* :TransitAccessPoint ;
+           :hasName ?stationName ;
+           :latitude ?latitude ;
+           :longitude ?longitude .
+           
+  # Example Filter targeting a specific core interchange
+  FILTER(STR(?stationName) = "Victoria Station")
 }
 
 # ==========================================

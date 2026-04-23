@@ -1,0 +1,610 @@
+name: tfl-topology
+description: tfl-topology
+id: https://example.org/tfl-topology
+imports:
+- linkml:types
+prefixes:
+  linkml: https://w3id.org/linkml/
+  tfl: https://example.org/tfl-topology/
+default_prefix: tfl
+slots:
+  affectsRoute:
+    comments:
+    - Links a service disruption to the specific route it is impacting.
+    slot_uri: ex:affectsRoute
+    range: Route
+    multivalued: true
+  affectsStop:
+    comments:
+    - Links a service disruption to a specific station or stop.
+    slot_uri: ex:affectsStop
+    range: TransitAccessPoint
+    multivalued: true
+  appliesDuring:
+    comments:
+    - Links a fare or a service restriction to a specific time window.
+    slot_uri: ex:appliesDuring
+    range: TimeWindow
+    multivalued: true
+  belongsToRoute:
+    comments:
+    - Links a sequence of stops to the specific route they define.
+    slot_uri: ex:belongsToRoute
+    range: Route
+    multivalued: true
+  directlyConnectedTo:
+    comments:
+    - Indicates a direct connection between two transit access points (e.g., adjacent
+      stations).
+    slot_uri: ex:directlyConnectedTo
+    range: TransitAccessPoint
+    multivalued: true
+  endPoint:
+    comments:
+    - The final station or stop of a specific journey.
+    slot_uri: ex:endPoint
+    range: TransitAccessPoint
+    multivalued: true
+  endZone:
+    comments:
+    - The fare zone where a journey concludes.
+    slot_uri: ex:endZone
+    range: Zone
+    multivalued: true
+  hasCause:
+    comments:
+    - The underlying reason for a disruption (e.g., strike, fault).
+    slot_uri: ex:hasCause
+    range: DisruptionCause
+    multivalued: true
+  hasDisruption:
+    comments:
+    - Links the TfL network to its service disruptions.
+    slot_uri: ex:hasDisruption
+    range: ServiceDisruption
+    multivalued: true
+  hasEndPoint:
+    comments:
+    - The ending point of a specific line segment.
+    slot_uri: ex:hasEndPoint
+    range: TransitAccessPoint
+    multivalued: true
+  hasFare:
+    comments:
+    - Links a journey to the applicable fare object.
+    slot_uri: ex:hasFare
+    range: Fare
+    multivalued: true
+  hasFareType:
+    comments:
+    - Links the TfL network to its fare structures.
+    slot_uri: ex:hasFareType
+    range: Fare
+    multivalued: true
+  hasOffPeakPeriod:
+    comments:
+    - Links a station or line to its specific off-peak window.
+    slot_uri: ex:hasOffPeakPeriod
+    range: OffPeakPeriod
+    multivalued: true
+  hasPeakPeriod:
+    comments:
+    - Links a station or line to its specific peak demand window.
+    slot_uri: ex:hasPeakPeriod
+    range: PeakPeriod
+    multivalued: true
+  hasProject:
+    comments:
+    - Links the TfL network to its infrastructure projects.
+    slot_uri: ex:hasProject
+    range: InfrastructureProject
+    multivalued: true
+  hasProjectStatus:
+    comments:
+    - Indicates the current lifecycle stage of an infrastructure project.
+    slot_uri: ex:hasProjectStatus
+    range: ProjectStatus
+    multivalued: true
+  hasRoute:
+    comments:
+    - Links the TfL network to its routes.
+    slot_uri: ex:hasRoute
+    range: Route
+    multivalued: true
+  hasSchedule:
+    comments:
+    - Links the TfL network to its service schedules.
+    slot_uri: ex:hasSchedule
+    range: ServiceSchedule
+    multivalued: true
+  hasScheduleType:
+    comments:
+    - Links a route or line to its operating schedule category (e.g., 24-hour or Limited).
+    slot_uri: ex:hasScheduleType
+    range: ServiceSchedule
+    multivalued: true
+  hasSeverity:
+    comments:
+    - The scale of impact a disruption has on the network.
+    slot_uri: ex:hasSeverity
+    multivalued: true
+  hasSpatialEntity:
+    comments:
+    - Links the TfL network to its spatial components.
+    slot_uri: ex:hasSpatialEntity
+    range: SpatialThing
+    multivalued: true
+  hasStartPoint:
+    comments:
+    - The beginning point of a specific line segment.
+    slot_uri: ex:hasStartPoint
+    range: TransitAccessPoint
+    multivalued: true
+  hasStatus:
+    comments:
+    - The current operational status of the service during a disruption.
+    slot_uri: ex:hasStatus
+    range: DisruptionStatus
+    multivalued: true
+  hasStop:
+    comments:
+    - Links a route to the stations or stops that it serves.
+    slot_uri: ex:hasStop
+    range: TransitAccessPoint
+    multivalued: true
+  hasTimeWindow:
+    comments:
+    - Links the TfL network to its time windows.
+    slot_uri: ex:hasTimeWindow
+    range: TimeWindow
+    multivalued: true
+  hasTransportMode:
+    comments:
+    - Indicates the mode of transport available at an access point (e.g., Tube, Bus).
+    slot_uri: ex:hasTransportMode
+    range: TransportMode
+    multivalued: true
+  hasZone:
+    comments:
+    - Assigns a geographic fare zone to a station or stop.
+    slot_uri: ex:hasZone
+    range: Zone
+    multivalued: true
+  offersAccessibilityFeature:
+    comments:
+    - Links a station to its available accessibility services (e.g., elevators).
+    slot_uri: ex:offersAccessibilityFeature
+    range: AccessibilityFeature
+    multivalued: true
+  onRoute:
+    comments:
+    - Links a line segment to its parent route.
+    slot_uri: ex:onRoute
+    range: Route
+    multivalued: true
+  reachableFrom:
+    comments:
+    - Indicates a station can be reached from another, potentially across multiple
+      segments.
+    slot_uri: ex:reachableFrom
+    range: TransitAccessPoint
+    multivalued: true
+  sequenceStop:
+    comments:
+    - Links a specific position in a route sequence to a transit stop.
+    slot_uri: ex:sequenceStop
+    range: TransitAccessPoint
+    multivalued: true
+  servedByRoute:
+    comments:
+    - Links a station or stop to the routes that pass through it.
+    slot_uri: ex:servedByRoute
+    range: Route
+    multivalued: true
+  startPoint:
+    comments:
+    - The station or stop where a journey begins.
+    slot_uri: ex:startPoint
+    range: TransitAccessPoint
+    multivalued: true
+  startZone:
+    comments:
+    - The fare zone where a journey begins.
+    slot_uri: ex:startZone
+    range: Zone
+    multivalued: true
+  targetsInfrastructure:
+    comments:
+    - Links a project to the specific station or line being improved.
+    slot_uri: ex:targetsInfrastructure
+    multivalued: true
+  disruptionDate:
+    comments:
+    - The date and time when a disruption event occurred.
+    - The date and time when a service disruption occurred.
+    slot_uri: ex:disruptionDate
+    multivalued: true
+  endTime:
+    comments:
+    - The conclusion of a time window.
+    slot_uri: ex:endTime
+    multivalued: true
+  expectedCompletionDate:
+    comments:
+    - The anticipated date when the upgrade or expansion will be finished.
+    slot_uri: ex:expectedCompletionDate
+    multivalued: true
+  fareCost:
+    comments:
+    - The monetary price of a fare.
+    slot_uri: ex:fareCost
+    multivalued: true
+  hasName:
+    comments:
+    - the human-readable name of an entity (e.g., station name, line name).
+    slot_uri: ex:hasName
+    multivalued: true
+  isApplicableOnWeekends:
+    comments:
+    - Indicates if the time window or fare applies on Saturdays and Sundays.
+    slot_uri: ex:isApplicableOnWeekends
+    multivalued: true
+  isNightService:
+    comments:
+    - Indicates if the service is a night-specific variant (e.g., Night Tube).
+    slot_uri: ex:isNightService
+    multivalued: true
+  isPubliclyFunded:
+    comments:
+    - Indicates if the project is financed by government or public taxes.
+    slot_uri: ex:isPubliclyFunded
+    multivalued: true
+  latitude:
+    comments:
+    - The geographic latitude coordinate of a transit point.
+    slot_uri: ex:latitude
+    multivalued: true
+  longitude:
+    comments:
+    - The geographic longitude coordinate of a transit point.
+    slot_uri: ex:longitude
+    multivalued: true
+  openingDate:
+    comments:
+    - The historical date a line or station first opened to the public.
+    slot_uri: ex:openingDate
+    multivalued: true
+  operatingDays:
+    comments:
+    - Textual description of the days the service is active (e.g., 'Mon-Fri').
+    slot_uri: ex:operatingDays
+    multivalued: true
+  operationEndTime:
+    comments:
+    - The time a service ends daily operations.
+    slot_uri: ex:operationEndTime
+    multivalued: true
+  operationStartTime:
+    comments:
+    - The time a service begins daily operations.
+    slot_uri: ex:operationStartTime
+    multivalued: true
+  projectBudget:
+    comments:
+    - The estimated financial cost of the infrastructure project.
+    slot_uri: ex:projectBudget
+    multivalued: true
+  startTime:
+    comments:
+    - The beginning of a time window.
+    slot_uri: ex:startTime
+    multivalued: true
+  stopSequenceNumber:
+    comments:
+    - The numerical order of a stop within a route.
+    slot_uri: ex:stopSequenceNumber
+    multivalued: true
+  zoneNumber:
+    comments:
+    - The identifying number of a fare zone.
+    slot_uri: ex:zoneNumber
+    multivalued: true
+classes:
+  Thing:
+    description: Base class for all entities
+    class_uri: owl:Thing
+  AccessibilityFeature:
+    comments:
+    - Physical features or services providing access (e.g., step-free access).
+    is_a: Thing
+    class_uri: ex:AccessibilityFeature
+  BusRoute:
+    comments:
+    - A specific numbered route followed by a bus service.
+    is_a: Route
+    class_uri: ex:BusRoute
+  BusStop:
+    comments:
+    - A designated place where buses stop for passengers.
+    is_a: TransitAccessPoint
+    class_uri: ex:BusStop
+  DisruptionCause:
+    comments:
+    - The underlying reason for a service disruption.
+    is_a: Thing
+    class_uri: ex:DisruptionCause
+  DisruptionStatus:
+    comments:
+    - The operational state of a line (e.g., Severe Delays).
+    is_a: Thing
+    class_uri: ex:DisruptionStatus
+  EngineeringWorks:
+    comments:
+    - Planned maintenance or construction on infrastructure.
+    is_a: DisruptionCause
+    class_uri: ex:EngineeringWorks
+  Fare:
+    comments:
+    - The cost associated with a journey.
+    is_a: Thing
+    slots:
+    - appliesDuring
+    - fareCost
+    class_uri: ex:Fare
+  FareClass:
+    comments:
+    - The category of fare applicable to a journey.
+    is_a: Thing
+    class_uri: ex:FareClass
+  IndustrialAction:
+    comments:
+    - Strikes or labor-related service withdrawals.
+    is_a: DisruptionCause
+    class_uri: ex:IndustrialAction
+  InfrastructureProject:
+    comments:
+    - A planned endeavor to improve or expand the transport network.
+    is_a: Thing
+    slots:
+    - hasProjectStatus
+    - targetsInfrastructure
+    - expectedCompletionDate
+    - isPubliclyFunded
+    - projectBudget
+    class_uri: ex:InfrastructureProject
+  InterchangeStation:
+    comments:
+    - A station where passengers can switch between different lines.
+    is_a: TrainStation
+    class_uri: ex:InterchangeStation
+  Journey:
+    comments:
+    - A specific instance of travel from an origin to a destination.
+    is_a: Thing
+    slots:
+    - endPoint
+    - endZone
+    - hasFare
+    - startPoint
+    - startZone
+    class_uri: ex:Journey
+  LimitedService:
+    comments:
+    - A service with restricted operating hours, such as daytime-only or peak-hour
+      only services.
+    is_a: ServiceSchedule
+    class_uri: ex:LimitedService
+  Line:
+    comments:
+    - A named transport line, such as a specific Tube or DLR line.
+    is_a: Route
+    slots:
+    - openingDate
+    class_uri: ex:Line
+  LineExpansion:
+    comments:
+    - The construction of new tracks or the extension of an existing line to new areas.
+    is_a: InfrastructureProject
+    class_uri: ex:LineExpansion
+  LineSegment:
+    comments:
+    - A specific portion of a transport line between two points.
+    is_a: SpatialThing
+    slots:
+    - hasEndPoint
+    - hasStartPoint
+    - onRoute
+    class_uri: ex:LineSegment
+  NightService:
+    comments:
+    - A specific service pattern that operates during late-night and early-morning
+      hours.
+    is_a: ServiceSchedule
+    class_uri: ex:NightService
+  OffPeakFare:
+    comments:
+    - Discounted pricing applied during lower-demand periods.
+    is_a: Fare
+    class_uri: ex:OffPeakFare
+  OffPeakPeriod:
+    comments:
+    - Lower-demand travel times where discounted fares typically apply.
+    is_a: TimeWindow
+    class_uri: ex:OffPeakPeriod
+  PeakFare:
+    comments:
+    - Higher pricing applied during high-demand morning and evening periods.
+    is_a: Fare
+    class_uri: ex:PeakFare
+  PeakPeriod:
+    comments:
+    - High-demand travel times (e.g., morning and evening rush hours) where higher
+      fares often apply.
+    is_a: TimeWindow
+    class_uri: ex:PeakPeriod
+  PlannedDisruption:
+    comments:
+    - A disruption scheduled in advance, like maintenance.
+    is_a: ServiceDisruption
+    class_uri: ex:PlannedDisruption
+  Point:
+    comments:
+    - A specific geographic coordinate.
+    is_a: SpatialThing
+    class_uri: ex:Point
+  ProjectStatus:
+    comments:
+    - The current stage of a project (e.g., Proposed, Under Construction, Completed).
+    is_a: Thing
+    class_uri: ex:ProjectStatus
+  RollingStockIssue:
+    comments:
+    - Mechanical problems with the vehicles (trains/buses).
+    is_a: TechnicalFault
+    class_uri: ex:RollingStockIssue
+  Route:
+    comments:
+    - A path or course followed by a public transport service.
+    is_a: Thing
+    slots:
+    - appliesDuring
+    - hasOffPeakPeriod
+    - hasPeakPeriod
+    - hasScheduleType
+    - hasStop
+    - isNightService
+    - operatingDays
+    - operationEndTime
+    - operationStartTime
+    class_uri: ex:Route
+  RouteStopSequence:
+    comments:
+    - The ordered list of stops that define a specific route.
+    is_a: Thing
+    slots:
+    - belongsToRoute
+    - sequenceStop
+    - stopSequenceNumber
+    class_uri: ex:RouteStopSequence
+  ServiceDisruption:
+    comments:
+    - An event that interferes with normal operation.
+    is_a: Thing
+    slots:
+    - affectsRoute
+    - affectsStop
+    - hasCause
+    - hasSeverity
+    - hasStatus
+    - disruptionDate
+    class_uri: ex:ServiceDisruption
+  ServiceSchedule:
+    comments:
+    - The timeframe and frequency under which a transport service operates.
+    is_a: Thing
+    class_uri: ex:ServiceSchedule
+  SignalFailure:
+    comments:
+    - A specific technical fault in the signaling system.
+    is_a: TechnicalFault
+    class_uri: ex:SignalFailure
+  SignificantDisruption:
+    comments:
+    - A major event causing widespread impact over time.
+    is_a: ServiceDisruption
+    class_uri: ex:SignificantDisruption
+  SpatialThing:
+    comments:
+    - Anything with a physical location or spatial extent.
+    is_a: Thing
+    class_uri: ex:SpatialThing
+  Station:
+    comments:
+    - A designated stopping place for trains.
+    is_a: TransitAccessPoint
+    slots:
+    - hasOffPeakPeriod
+    - hasPeakPeriod
+    - openingDate
+    class_uri: ex:Station
+  StationUpgrade:
+    comments:
+    - Improvements to existing stations, such as adding step-free access or increasing
+      capacity.
+    is_a: InfrastructureProject
+    class_uri: ex:StationUpgrade
+  StopTime:
+    comments:
+    - The scheduled arrival or departure time at a specific stop.
+    is_a: Thing
+    class_uri: ex:StopTime
+  TechnicalFault:
+    comments:
+    - Mechanical or electronic equipment failure.
+    is_a: DisruptionCause
+    class_uri: ex:TechnicalFault
+  TflNetwork:
+    comments:
+    - Top-level container for the TfL topology knowledge graph.
+    is_a: Thing
+    slots:
+    - hasDisruption
+    - hasFareType
+    - hasProject
+    - hasRoute
+    - hasSchedule
+    - hasSpatialEntity
+    - hasTimeWindow
+    class_uri: ex:TflNetwork
+    tree_root: true
+  TimeWindow:
+    comments:
+    - A defined period of time during the day used for scheduling or fare calculation.
+    is_a: Thing
+    slots:
+    - endTime
+    - isApplicableOnWeekends
+    - startTime
+    class_uri: ex:TimeWindow
+  TrainStation:
+    comments:
+    - A station specifically for heavy or light rail services.
+    is_a: Station
+    class_uri: ex:TrainStation
+  TransitAccessPoint:
+    comments:
+    - A physical location where passengers enter or exit the system.
+    is_a: SpatialThing
+    slots:
+    - directlyConnectedTo
+    - hasTransportMode
+    - hasZone
+    - offersAccessibilityFeature
+    - reachableFrom
+    - servedByRoute
+    - latitude
+    - longitude
+    class_uri: ex:TransitAccessPoint
+  TransportMode:
+    comments:
+    - The type of vehicle used (e.g., Tube, Bus, DLR).
+    is_a: Thing
+    class_uri: ex:TransportMode
+  TwentyFourHourService:
+    comments:
+    - A service that operates continuously throughout a 24-hour period (e.g., Night
+      Tube, 24-hour buses).
+    is_a: ServiceSchedule
+    class_uri: ex:TwentyFourHourService
+  UnplannedDisruption:
+    comments:
+    - An unexpected disruption, like a technical fault.
+    is_a: ServiceDisruption
+    class_uri: ex:UnplannedDisruption
+  Zone:
+    comments:
+    - A geographic area used for fare calculation.
+    is_a: Thing
+    slots:
+    - zoneNumber
+    class_uri: ex:Zone
