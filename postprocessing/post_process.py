@@ -117,13 +117,14 @@ def main() -> None:
     # Phase 7 — reasoning
     n_inferred = phase7_reasoning(g)
 
+    # Phase 9 — seed merge (authoritative TfL topology — must run before relation_infer
+    # so seed-defined ObjectProperties like hasStop are in the graph)
+    n_seed = phase9_seed_merge(g, args.seed)
+
     # Phase 8b — relation inference
     n_inferred_relations = 0
     if not args.no_relation_infer:
         n_inferred_relations = phase_relation_infer(g, protected_iris)
-
-    # Phase 9 — seed merge (authoritative TfL topology)
-    n_seed = phase9_seed_merge(g, args.seed)
 
     # Phase 8 — serialize
     g.serialize(destination=args.output, format="turtle")

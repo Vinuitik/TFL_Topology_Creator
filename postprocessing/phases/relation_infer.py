@@ -105,10 +105,13 @@ def phase_relation_infer(g: Graph, protected_iris: Set[URIRef]) -> int:
             p_label = str(item.get("p", ""))
             o_label = str(item.get("o", ""))
 
-            # Resolve subject / object IRIs from the pair
-            if _normalize(s_label) == _normalize(labels[iri_a]):
+            # Resolve subject / object IRIs from the pair (exact then substring fallback)
+            norm_s = _normalize(s_label)
+            norm_a = _normalize(labels[iri_a])
+            norm_b = _normalize(labels[iri_b])
+            if norm_s == norm_a or norm_s in norm_a or norm_a in norm_s:
                 s_iri, o_iri = iri_a, iri_b
-            elif _normalize(s_label) == _normalize(labels[iri_b]):
+            elif norm_s == norm_b or norm_s in norm_b or norm_b in norm_s:
                 s_iri, o_iri = iri_b, iri_a
             else:
                 log.warning("relation_infer: cannot resolve subject '%s' — skip", s_label)

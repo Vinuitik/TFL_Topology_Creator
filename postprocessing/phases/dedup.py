@@ -5,7 +5,7 @@ import json
 import logging
 from typing import Dict, List, Set, Tuple
 
-from rdflib import OWL, RDF, Graph, URIRef
+from rdflib import OWL, RDF, RDFS, Graph, Literal, URIRef
 
 from utils.config import POST_DEDUP_OVERRULE_COSINE, POST_ENTITY_SAME_THRESHOLD, POST_FUZZY_THRESHOLD
 from utils.embeddings import get_embeddings
@@ -20,6 +20,47 @@ from utils.graph import (
 from utils.llm import call_llm
 
 log = logging.getLogger(__name__)
+
+_DESCRIBE_BATCH = 16  # entities per LLM describe call
+
+
+def _batch_describe(g: Graph, iris: List[URIRef], labels: Dict[URIRef, str], type_label: str) -> Dict[URIRef, str]:
+    """Fetch rdfs:comment for each IRI; batch-generate via LLM for any that are missing."""
+    descriptions: Dict[URIRef, str] = {}
+    missing: List[URIRef] = []
+
+    for iri in iris:
+        comment = next((str(o) for o in g.objects(iri, RDFS.comment)), None)
+        if comment:
+            descriptions[iri] = comment
+        else:
+            missing.append(iri)
+
+    if not missing:
+        return descriptions
+
+    log.info("Dedup describe: generating descriptions for %d entity/ies", len(missing))
+    label_to_iri = {labels[iri]: iri for iri in missing}
+
+    for start in range(0, len(missing), _DESCRIBE_BATCH):
+        batch = missing[start : start + _DESCRIBE_BATCH]
+        payload = [{"name": labels[iri], "type": type_label} for iri in batch]
+        result = call_llm("post_describe", json.dumps(payload, ensure_ascii=False) + "\n")
+        for item in result.get("results", []):
+            name = str(item.get("name", ""))
+            desc = str(item.get("description", ""))
+            iri = label_to_iri.get(name)
+            if iri and desc:
+                descriptions[iri] = desc
+                g.add((iri, RDFS.comment, Literal(desc)))
+
+    # Fallback for any still missing
+    for iri in missing:
+        if iri not in descriptions:
+            descriptions[iri] = f"Unknown {type_label} entity."
+
+    return descriptions
+
 
 _TYPE_LABEL = {
     OWL.Class: "class",
@@ -77,18 +118,25 @@ def phase_dedup_type(
         dsu.union(a, b)
 
     # Step 4 — LLM judge per cluster
+    # Pre-collect descriptions for all cluster members (batch-generate missing ones)
+    multi_clusters = [list(m) for m in dsu.clusters().values() if len(m) >= 2]
+    all_cluster_iris: List[URIRef] = list({m for members in multi_clusters for m in members})
+    descriptions = _batch_describe(g, all_cluster_iris, labels, type_label)
+
     alias_map: Dict[URIRef, URIRef] = {}
     merges = 0
-    for members in dsu.clusters().values():
-        if len(members) < 2:
-            continue
-        member_labels = [labels[m] for m in members]
+    for members in multi_clusters:
+        member_entities = [
+            {"name": labels[m], "description": descriptions.get(m, f"Unknown {type_label} entity.")}
+            for m in members
+        ]
         result = call_llm(
             "post_dedup_judge",
-            f"\nInput type: {type_label}\nNames: {json.dumps(member_labels)}\n",
+            f"\nInput type: {type_label}\nEntities: {json.dumps(member_entities, ensure_ascii=False)}\n",
         )
         llm_approved = result.get("same", False)
 
+        member_names = [labels[m] for m in members]
         if not llm_approved:
             # Check whether min pairwise cosine exceeds overrule threshold
             member_list = list(members)
@@ -100,10 +148,10 @@ def phase_dedup_type(
             if min_cos >= POST_DEDUP_OVERRULE_COSINE:
                 log.warning(
                     "Dedup [%s]: OVERRULED LLM rejection for %s (min_cosine=%.3f >= %.3f)",
-                    type_label, member_labels, min_cos, POST_DEDUP_OVERRULE_COSINE,
+                    type_label, member_names, min_cos, POST_DEDUP_OVERRULE_COSINE,
                 )
             else:
-                log.info("Dedup [%s]: LLM rejected merge of %s", type_label, member_labels)
+                log.info("Dedup [%s]: LLM rejected merge of %s", type_label, member_names)
                 continue
 
         protected_in = [m for m in members if m in protected_iris]
@@ -120,6 +168,7 @@ def phase_dedup_type(
             "Dedup [%s]: merged %d → <%s> ('%s')",
             type_label, len(members) - 1, canonical, labels[canonical],
         )
+
 
     log.info("Dedup [%s]: %d total alias(es)", type_label, len(alias_map))
     return alias_map, merges
