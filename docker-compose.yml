@@ -1,4 +1,16 @@
 services:
+  coref-service:
+    build:
+      context: .
+      dockerfile: coref_service/Dockerfile
+    container_name: coref-service
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; s=socket.create_connection(('localhost',50051),timeout=3); s.close()"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
   llm-pipeline:
     build:
       context: .
@@ -6,3 +18,67 @@ services:
     container_name: llm-pipeline
     working_dir: /app/llm_pipeline
     command: ["python", "agent.py"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    env_file:
+      - .env
+    volumes:
+      - ./data_sources:/app/data_sources
+      - ./inputs:/app/inputs
+      - ./outputs:/app/outputs
+      - ./.hf_cache:/app/.hf_cache
+    depends_on:
+      ollama:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      coref-service:
+        condition: service_healthy
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      OLLAMA_HOST: "0.0.0.0:11434"
+      OLLAMA_MAX_LOADED_MODELS: "2"
+      OLLAMA_NUM_PARALLEL: "5"
+      OLLAMA_MAX_QUEUE: "50"
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
+
+volumes:
+  ollama_data:
+  redis_data:

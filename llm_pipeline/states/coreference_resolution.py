@@ -1,13 +1,35 @@
 from __future__ import annotations
 
-"""Replace pronouns with canonical entities while preserving original spans."""
+import logging
+import os
+from typing import Any
 
-import re
+import grpc
 
+import coref_pb2
+import coref_pb2_grpc
 from schemas import PipelineState, ResolvedDocument
 
+log = logging.getLogger(__name__)
 
-_PRONOUNS = {"he", "she", "it", "they", "him", "her", "them"}
+_COREF_HOST = os.getenv("COREF_SERVICE_HOST", "coref-service:50051")
+
+_channel: Any = None
+_stub: Any = None
+
+
+def _get_stub() -> coref_pb2_grpc.CoreferenceServiceStub:
+    global _channel, _stub
+    if _stub is None:
+        _channel = grpc.insecure_channel(_COREF_HOST)
+        _stub = coref_pb2_grpc.CoreferenceServiceStub(_channel)
+    return _stub
+
+
+def _resolve(text: str) -> str:
+    stub = _get_stub()
+    response = stub.Resolve(coref_pb2.ResolveRequest(text=text))
+    return response.resolved_text
 
 
 def run_coreference_resolution(state: PipelineState) -> PipelineState:
@@ -16,27 +38,17 @@ def run_coreference_resolution(state: PipelineState) -> PipelineState:
         return {}
 
     text = normalized.text
-    tokens = re.findall(r"\b\w+\b", text)
-    candidates = [t for t in tokens if t and t[0].isupper()]
-    canonical = candidates[0] if candidates else "UnknownEntity"
-
-    mapping = {}
-    preserved_spans = []
-    resolved_text = text
-
-    for match in re.finditer(r"\b\w+\b", text):
-        word = match.group(0)
-        if word.lower() in _PRONOUNS:
-            mapping[word] = canonical
-            preserved_spans.append((match.start(), match.end(), word))
-
-    for pronoun, target in mapping.items():
-        resolved_text = re.sub(rf"\b{re.escape(pronoun)}\b", target, resolved_text)
+    try:
+        resolved_text = _resolve(text)
+        log.info("Coreference resolution complete (chars: %d → %d)", len(text), len(resolved_text))
+    except Exception as exc:
+        log.warning("Coreference resolution failed, using raw text: %s", exc)
+        resolved_text = text
 
     return {
         "resolved_document": ResolvedDocument(
             text=resolved_text,
-            coref_mapping=mapping,
-            preserved_spans=preserved_spans,
+            coref_mapping={},
+            preserved_spans=[],
         )
     }

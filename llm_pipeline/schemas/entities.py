@@ -1,39 +1,11 @@
 from __future__ import annotations
 
-from typing import List
-
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
-class Entity(BaseModel):
-    id: str
-    type: str
-    mentions: List[str] = Field(default_factory=list)
-    confidence: float = 0.0
-
-
-class CanonicalEntity(BaseModel):
-    id: str
-    canonical_name: str
-    type: str
-    aliases: List[str] = Field(default_factory=list)
-    confidence: float = 0.0
-
-
-class Relation(BaseModel):
-    id: str
-    subject_id: str
+class Triplet(BaseModel):
+    subject: str
     predicate: str
-    object_id: str
-    confidence: float = 0.0
-    provenance_sentence: str = ""
-
-
-class Attribute(BaseModel):
-    id: str
-    entity_id: str
-    key: str
-    value: str
-    datatype: str = "string"
-    confidence: float = 0.0
+    object: str
+    # confidence: float = 0.0  # REBEL never sets this; always 0.0 — commented until extraction provides real scores
     provenance_sentence: str = ""

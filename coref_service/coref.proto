@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package coref;
+
+service CoreferenceService {
+  rpc Resolve (ResolveRequest) returns (ResolveResponse);
+}
+
+message ResolveRequest {
+  string text = 1;
+}
+
+message ResolveResponse {
+  string resolved_text = 1;
+}

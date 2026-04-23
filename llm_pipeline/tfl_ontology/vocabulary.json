@@ -1,0 +1,11 @@
+{
+  "entity_types": {
+    "Person": ["passenger", "customer", "staff", "inspector", "officer"],
+    "Organization": ["tfl", "transport for london", "national rail", "operator", "authority", "train operating company", "orr"],
+    "Location": ["station", "train", "platform", "london", "network"],
+    "Document": ["ticket", "pass", "regulation", "guidance", "rights", "nrcot", "condition"],
+    "Penalty": ["penalty fare", "fine", "charge"],
+    "Monetary": ["£", "pound", "pence"],
+    "Temporal": ["days", "hours", "minutes", "weeks"]
+  }
+}

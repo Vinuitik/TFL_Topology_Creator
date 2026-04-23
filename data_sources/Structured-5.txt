@@ -1,0 +1,109 @@
+	
+0	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	true
+isFarePaying	true
+isScheduledService	true
+modeName	"bus"
+1	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	true
+isFarePaying	true
+isScheduledService	true
+modeName	"cable-car"
+2	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	false
+isFarePaying	true
+isScheduledService	true
+modeName	"coach"
+3	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	false
+isFarePaying	false
+isScheduledService	false
+modeName	"cycle"
+4	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	true
+isFarePaying	true
+isScheduledService	false
+modeName	"cycle-hire"
+5	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	true
+isFarePaying	true
+isScheduledService	true
+modeName	"dlr"
+6	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	true
+isFarePaying	true
+isScheduledService	true
+modeName	"elizabeth-line"
+7	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	false
+isFarePaying	false
+isScheduledService	false
+modeName	"interchange-keep-sitting"
+8	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	false
+isFarePaying	false
+isScheduledService	false
+modeName	"interchange-secure"
+9	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	false
+isFarePaying	true
+isScheduledService	true
+modeName	"national-rail"
+10	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	true
+isFarePaying	true
+isScheduledService	true
+modeName	"overground"
+11	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	true
+isFarePaying	true
+isScheduledService	true
+modeName	"replacement-bus"
+12	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	true
+isFarePaying	true
+isScheduledService	true
+modeName	"river-bus"
+13	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	true
+isFarePaying	true
+isScheduledService	true
+modeName	"river-tour"
+14	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	false
+isFarePaying	false
+isScheduledService	false
+modeName	"taxi"
+15	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	true
+isFarePaying	true
+isScheduledService	true
+modeName	"tram"
+16	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	true
+isFarePaying	true
+isScheduledService	true
+modeName	"tube"
+17	
+$type	"Tfl.Api.Presentation.Entities.Mode, Tfl.Api.Presentation.Entities"
+isTflService	false
+isFarePaying	false
+isScheduledService	false
+modeName	"walking"

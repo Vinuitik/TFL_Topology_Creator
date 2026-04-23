@@ -13,11 +13,15 @@ def route_after_validation(state: PipelineState) -> str:
     if iteration >= _MAX_ITERATIONS:
         return "end"
 
+    target = state.get("reroute_target")
+    if target in {"coreference_resolution", "extraction", "entity_linking", "schema_mapping"}:
+        return target
+
     if state.get("failed_validation"):
-        return "relation_extraction"
+        return "entity_linking"
 
     if state.get("missing_relations"):
-        return "entity_extraction"
+        return "extraction"
 
     if state.get("low_confidence"):
         return "coreference_resolution"

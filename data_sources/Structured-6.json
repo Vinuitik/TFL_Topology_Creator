@@ -1,0 +1,344 @@
+{
+  "network": "London Underground",
+  "operator": "Transport for London",
+  "lines": [
+    {
+      "name": "Bakerloo line",
+      "colour": "brown",
+      "stations_in_order": [
+        "Harrow & Wealdstone", "Kenton", "South Kenton", "North Wembley",
+        "Wembley Central", "Stonebridge Park", "Harlesden", "Willesden Junction",
+        "Kensal Green", "Queen's Park", "Kilburn Park", "Maida Vale",
+        "Warwick Avenue", "Paddington", "Edgware Road", "Marylebone",
+        "Baker Street", "Regent's Park", "Oxford Circus", "Piccadilly Circus",
+        "Charing Cross", "Embankment", "Waterloo", "Lambeth North",
+        "Elephant & Castle"
+      ]
+    },
+    {
+      "name": "Central line",
+      "colour": "red",
+      "stations_in_order": [
+        "West Ruislip", "Ruislip Gardens", "South Ruislip", "Northolt",
+        "Greenford", "Perivale", "Hanger Lane", "North Acton",
+        "East Acton", "White City", "Shepherd's Bush", "Holland Park",
+        "Notting Hill Gate", "Queensway", "Lancaster Gate", "Marble Arch",
+        "Bond Street", "Oxford Circus", "Tottenham Court Road", "Holborn",
+        "Chancery Lane", "St Paul's", "Bank", "Liverpool Street",
+        "Bethnal Green", "Mile End", "Stratford", "Leyton",
+        "Leytonstone", "Wanstead", "Redbridge", "Gants Hill",
+        "Newbury Park", "Barkingside", "Fairlop", "Hainault",
+        "Chigwell", "Roding Valley", "Woodford", "South Woodford",
+        "Snaresbrook", "Ealing Broadway", "West Acton"
+      ],
+      "note": "Branches at Leytonstone (Hainault loop) and at North Acton (Ealing Broadway branch)"
+    },
+    {
+      "name": "Circle line",
+      "colour": "yellow",
+      "stations_in_order": [
+        "Hammersmith", "Goldhawk Road", "Shepherd's Bush Market", "Wood Lane",
+        "Latimer Road", "Ladbroke Grove", "Westbourne Park", "Royal Oak",
+        "Paddington", "Edgware Road", "Baker Street", "Great Portland Street",
+        "Euston Square", "King's Cross St. Pancras", "Farringdon", "Barbican",
+        "Moorgate", "Liverpool Street", "Aldgate", "Tower Hill",
+        "Monument", "Cannon Street", "Mansion House", "Blackfriars",
+        "Temple", "Embankment", "Westminster", "St. James's Park",
+        "Victoria", "Sloane Square", "South Kensington", "Gloucester Road",
+        "High Street Kensington", "Notting Hill Gate", "Bayswater", "Paddington"
+      ],
+      "note": "Loop line — Paddington appears at both ends to indicate the circuit"
+    },
+    {
+      "name": "District line",
+      "colour": "green",
+      "branches": [
+        {
+          "branch": "Main (Upminster to Earl's Court)",
+          "stations_in_order": [
+            "Upminster", "Upminster Bridge", "Hornchurch", "Elm Park",
+            "Dagenham East", "Dagenham Heathway", "Becontree", "Upney",
+            "Barking", "East Ham", "Upton Park", "Plaistow",
+            "West Ham", "Bromley-by-Bow", "Bow Road", "Mile End",
+            "Stepney Green", "Whitechapel", "Aldgate East", "Tower Hill",
+            "Monument", "Cannon Street", "Mansion House", "Blackfriars",
+            "Temple", "Embankment", "Westminster", "St. James's Park",
+            "Victoria", "Sloane Square", "South Kensington", "Gloucester Road",
+            "Earl's Court"
+          ]
+        },
+        {
+          "branch": "Wimbledon branch (from Earl's Court)",
+          "stations_in_order": [
+            "Earl's Court", "West Kensington", "Barons Court", "Hammersmith",
+            "Ravenscourt Park", "Stamford Brook", "Turnham Green", "Gunnersbury",
+            "Kew Gardens", "Richmond"
+          ]
+        },
+        {
+          "branch": "Wimbledon branch (via Wimbledon)",
+          "stations_in_order": [
+            "Turnham Green", "Chiswick Park", "Gunnersbury", "Kew Gardens",
+            "Richmond", "East Putney", "Putney Bridge", "Parsons Green",
+            "Fulham Broadway", "West Brompton", "Earl's Court", "Wimbledon"
+          ]
+        },
+        {
+          "branch": "Ealing Broadway branch",
+          "stations_in_order": [
+            "Earl's Court", "Kensington (Olympia)", "Ealing Broadway",
+            "Turnham Green", "Acton Town"
+          ]
+        },
+        {
+          "branch": "Edgware Road branch",
+          "stations_in_order": [
+            "Edgware Road", "Paddington", "Bayswater", "Notting Hill Gate",
+            "High Street Kensington", "Earl's Court"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Elizabeth line",
+      "colour": "purple",
+      "branches": [
+        {
+          "branch": "Western (Reading/Heathrow to Paddington)",
+          "stations_in_order": [
+            "Reading", "Twyford", "Maidenhead", "Taplow", "Burnham",
+            "Slough", "Langley", "Iver", "West Drayton", "Hayes & Harlington",
+            "Southall", "Hanwell", "West Ealing", "Ealing Broadway",
+            "Acton Main Line", "Paddington"
+          ]
+        },
+        {
+          "branch": "Heathrow spur",
+          "stations_in_order": [
+            "Heathrow Terminal 5", "Heathrow Terminals 2 & 3", "Heathrow Terminal 4",
+            "Hayes & Harlington"
+          ]
+        },
+        {
+          "branch": "Central tunnel (Paddington to Abbey Wood)",
+          "stations_in_order": [
+            "Paddington", "Bond Street", "Tottenham Court Road", "Farringdon",
+            "City Thameslink", "Liverpool Street", "Whitechapel", "Canary Wharf",
+            "Custom House", "Woolwich", "Abbey Wood"
+          ]
+        },
+        {
+          "branch": "Eastern (Liverpool Street to Shenfield)",
+          "stations_in_order": [
+            "Liverpool Street", "Stratford", "Maryland", "Forest Gate",
+            "Manor Park", "Ilford", "Seven Kings", "Goodmayes",
+            "Chadwell Heath", "Romford", "Gidea Park", "Harold Wood",
+            "Brentwood", "Shenfield"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Hammersmith & City line",
+      "colour": "pink",
+      "stations_in_order": [
+        "Hammersmith", "Goldhawk Road", "Shepherd's Bush Market", "Wood Lane",
+        "Latimer Road", "Ladbroke Grove", "Westbourne Park", "Royal Oak",
+        "Paddington", "Edgware Road", "Baker Street", "Great Portland Street",
+        "Euston Square", "King's Cross St. Pancras", "Farringdon", "Barbican",
+        "Moorgate", "Liverpool Street", "Aldgate East", "Whitechapel",
+        "Stepney Green", "Mile End", "Bow Road", "Bromley-by-Bow",
+        "West Ham", "Plaistow", "Upton Park", "East Ham", "Barking"
+      ]
+    },
+    {
+      "name": "Jubilee line",
+      "colour": "silver",
+      "stations_in_order": [
+        "Stanmore", "Canons Park", "Queensbury", "Kingsbury",
+        "Wembley Park", "Neasden", "Dollis Hill", "Willesden Green",
+        "Kilburn", "West Hampstead", "Finchley Road", "Swiss Cottage",
+        "St. John's Wood", "Baker Street", "Bond Street", "Green Park",
+        "Westminster", "Waterloo", "Southwark", "London Bridge",
+        "Bermondsey", "Canada Water", "Canary Wharf", "North Greenwich",
+        "Canning Town", "West Ham", "Stratford"
+      ]
+    },
+    {
+      "name": "Metropolitan line",
+      "colour": "magenta",
+      "branches": [
+        {
+          "branch": "Main (Aldgate to Harrow-on-the-Hill)",
+          "stations_in_order": [
+            "Aldgate", "Liverpool Street", "Moorgate", "Barbican",
+            "Farringdon", "King's Cross St. Pancras", "Euston Square",
+            "Great Portland Street", "Baker Street", "Finchley Road",
+            "Wembley Park", "Preston Road", "Northwick Park", "Harrow-on-the-Hill"
+          ]
+        },
+        {
+          "branch": "Uxbridge branch",
+          "stations_in_order": [
+            "Harrow-on-the-Hill", "West Harrow", "Rayners Lane", "Eastcote",
+            "Ruislip Manor", "Ruislip", "Ickenham", "Hillingdon", "Uxbridge"
+          ]
+        },
+        {
+          "branch": "Amersham / Chesham branch",
+          "stations_in_order": [
+            "Harrow-on-the-Hill", "North Harrow", "Pinner", "Northwood Hills",
+            "Northwood", "Moor Park", "Rickmansworth", "Chorleywood",
+            "Chalfont & Latimer", "Amersham"
+          ]
+        },
+        {
+          "branch": "Chesham spur",
+          "stations_in_order": [
+            "Chalfont & Latimer", "Chesham"
+          ]
+        },
+        {
+          "branch": "Watford branch",
+          "stations_in_order": [
+            "Harrow-on-the-Hill", "North Harrow", "Pinner", "Northwood Hills",
+            "Northwood", "Croxley Green", "Watford"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Northern line",
+      "colour": "black",
+      "branches": [
+        {
+          "branch": "High Barnet branch (north)",
+          "stations_in_order": [
+            "High Barnet", "Totteridge & Whetstone", "Woodside Park",
+            "West Finchley", "Finchley Central", "East Finchley",
+            "Highgate", "Archway", "Tufnell Park", "Kentish Town",
+            "Camden Town", "Mornington Crescent", "Euston"
+          ]
+        },
+        {
+          "branch": "Edgware branch (north)",
+          "stations_in_order": [
+            "Edgware", "Burnt Oak", "Colindale", "Hendon Central",
+            "Brent Cross", "Golders Green", "Hampstead", "Belsize Park",
+            "Chalk Farm", "Camden Town"
+          ]
+        },
+        {
+          "branch": "Mill Hill East spur",
+          "stations_in_order": [
+            "Finchley Central", "Mill Hill East"
+          ]
+        },
+        {
+          "branch": "Charing Cross branch (central-south)",
+          "stations_in_order": [
+            "Euston", "Warren Street", "Goodge Street", "Tottenham Court Road",
+            "Leicester Square", "Charing Cross", "Embankment", "Waterloo",
+            "Kennington"
+          ]
+        },
+        {
+          "branch": "Bank branch (central-south)",
+          "stations_in_order": [
+            "Euston", "King's Cross St. Pancras", "Angel", "Old Street",
+            "Moorgate", "Bank", "London Bridge", "Borough",
+            "Elephant & Castle", "Kennington"
+          ]
+        },
+        {
+          "branch": "Morden branch (south)",
+          "stations_in_order": [
+            "Kennington", "Oval", "Stockwell", "Clapham North",
+            "Clapham Common", "Clapham South", "Balham", "Tooting Bec",
+            "Tooting Broadway", "Colliers Wood", "South Wimbledon", "Morden"
+          ]
+        },
+        {
+          "branch": "Battersea branch (south)",
+          "stations_in_order": [
+            "Kennington", "Nine Elms", "Battersea Power Station"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Piccadilly line",
+      "colour": "dark blue",
+      "branches": [
+        {
+          "branch": "Main (Cockfosters to Heathrow)",
+          "stations_in_order": [
+            "Cockfosters", "Oakwood", "Southgate", "Arnos Grove",
+            "Bounds Green", "Wood Green", "Turnpike Lane", "Manor House",
+            "Finsbury Park", "Arsenal", "Holloway Road", "Caledonian Road",
+            "King's Cross St. Pancras", "Russell Square", "Holborn",
+            "Covent Garden", "Leicester Square", "Piccadilly Circus",
+            "Green Park", "Hyde Park Corner", "Knightsbridge", "South Kensington",
+            "Gloucester Road", "Earl's Court", "Barons Court", "Hammersmith",
+            "Turnham Green", "Gunnersbury", "Kew Gardens", "Richmond",
+            "Acton Town", "South Ealing", "Northfields", "Boston Manor",
+            "Osterley", "Hounslow East", "Hounslow Central", "Hounslow West",
+            "Hatton Cross", "Heathrow Terminals 2 & 3"
+          ]
+        },
+        {
+          "branch": "Heathrow Terminal 4 loop",
+          "stations_in_order": [
+            "Heathrow Terminals 2 & 3", "Heathrow Terminal 4",
+            "Hatton Cross", "Heathrow Terminal 5"
+          ]
+        },
+        {
+          "branch": "Uxbridge branch",
+          "stations_in_order": [
+            "Acton Town", "Ealing Common", "North Ealing", "Park Royal",
+            "Alperton", "Sudbury Town", "Sudbury Hill", "South Harrow",
+            "Rayners Lane", "Eastcote", "Ruislip Manor", "Ruislip",
+            "Ickenham", "Hillingdon", "Uxbridge"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Victoria line",
+      "colour": "light blue",
+      "stations_in_order": [
+        "Walthamstow Central", "Blackhorse Road", "Tottenham Hale",
+        "Seven Sisters", "Finsbury Park", "Highbury & Islington",
+        "King's Cross St. Pancras", "Euston", "Warren Street",
+        "Oxford Circus", "Green Park", "Victoria", "Pimlico",
+        "Vauxhall", "Stockwell", "Brixton"
+      ]
+    },
+    {
+      "name": "Waterloo & City line",
+      "colour": "teal",
+      "stations_in_order": [
+        "Waterloo", "Bank"
+      ],
+      "note": "Shuttle line with no intermediate stops"
+    }
+  ],
+  "interchange_stations": [
+    {"station": "Baker Street", "lines": ["Bakerloo", "Circle", "Hammersmith & City", "Jubilee", "Metropolitan"]},
+    {"station": "Bank", "lines": ["Central", "Northern", "Waterloo & City", "DLR"]},
+    {"station": "Bond Street", "lines": ["Central", "Jubilee", "Elizabeth"]},
+    {"station": "Canary Wharf", "lines": ["Jubilee", "Elizabeth", "DLR"]},
+    {"station": "Earl's Court", "lines": ["District", "Piccadilly"]},
+    {"station": "Farringdon", "lines": ["Circle", "Hammersmith & City", "Metropolitan", "Elizabeth"]},
+    {"station": "Green Park", "lines": ["Jubilee", "Piccadilly", "Victoria"]},
+    {"station": "King's Cross St. Pancras", "lines": ["Circle", "Hammersmith & City", "Metropolitan", "Northern", "Piccadilly", "Victoria"]},
+    {"station": "Liverpool Street", "lines": ["Central", "Circle", "Hammersmith & City", "Metropolitan", "Elizabeth"]},
+    {"station": "Moorgate", "lines": ["Circle", "Hammersmith & City", "Metropolitan", "Northern"]},
+    {"station": "Oxford Circus", "lines": ["Bakerloo", "Central", "Victoria"]},
+    {"station": "Paddington", "lines": ["Bakerloo", "Circle", "District", "Hammersmith & City", "Elizabeth"]},
+    {"station": "Stratford", "lines": ["Central", "Jubilee", "Elizabeth", "DLR", "Overground"]},
+    {"station": "Victoria", "lines": ["Circle", "District", "Victoria"]},
+    {"station": "Waterloo", "lines": ["Bakerloo", "Jubilee", "Northern", "Waterloo & City"]}
+  ]
+}

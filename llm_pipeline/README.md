@@ -1,80 +1,67 @@
-# LLM Pipeline Agent
+# llm_pipeline
 
-This module exposes a graph-based agent that takes raw text plus metadata and returns a validated ontology-style graph output.
+LangGraph state machine that turns unstructured `.txt` files into an OWL/Turtle knowledge graph.
 
-## What You Provide (Input)
+See the root [README.md](../README.md) for full architecture, configuration, and run instructions.
 
-The entrypoint is `run_pipeline(raw_text, metadata)` in `agent.py`.
+---
 
-- `raw_text` (string): the source text to process.
-- `metadata` (dictionary of strings, optional): source context such as source/date/domain.
+## Stage Reference
 
-Minimal input example:
+### `extraction`
+Three triplet sources merged and deduplicated:
+1. **REBEL** (`Babelscape/rebel-large`) — batched GPU inference (`REBEL_BATCH_SIZE=4`). Before loading, both Ollama models are evicted from VRAM; after, GPU memory is freed via `gc.collect()` → `empty_cache()` → `ipc_collect()`.
+2. **spaCy NER** (`en_core_web_lg`) — emits `(entity, type, ClassName)` triplets for ORG/GPE/LOC/FAC/LAW/PRODUCT/EVENT spans.
+3. **LLM extraction** — chunked text sent to Ollama; output merged with REBEL triplets.
 
-```python
-raw_text = "Tom Cruise starred in Top Gun. He became a global icon in 1986."
-metadata = {"source": "demo", "date": "2026-03-20", "domain": "film"}
-```
+### `entity_classification`
+- Classifies each unique entity/predicate as `class`, `individual`, `object_property`, or `datatype_property`
+- Descriptions generated in batches of `CLASSIFY_BATCH_SIZE` per LLM call
+- Embeddings fetched in parallel via `ThreadPoolExecutor(EMBED_WORKERS)` with retry on Docker DNS failure
+- KNN (`CLASSIFY_KNN_K` neighbours) against Redis-cached embeddings assists classification
 
-## What It Produces (Output)
+### `entity_linking`
+- DSU (union-find) clusters candidates whose cosine similarity ≥ `ENTITY_SAME_THRESHOLD`
+- Each cluster gets **one** LLM call (O(N), not O(N²)) to confirm or disband
+- LLM prompt is type-aware: merger rules differ for `class` vs `individual` vs properties
+- Canonical names written to Redis (`{kind}:canonical:{name}`)
+- Original ontology names are protected — `ingest_owl.py` pre-writes canonical keys that linking never overwrites
 
-The agent returns a pipeline state dictionary that aims to produce:
+### `schema_mapping`
+- Fuzzy-matches entities/predicates to `rag_catalog.json` + hardcoded transport defaults
+- `ALLOW_NEW_ENTITIES=false` (default): new classes not in the catalog are demoted to individuals, preserving their literal-valued datatype assertions
+- Literals (`xsd:integer`, `xsd:decimal`) bypass entity lookup and attach directly to their subject individual
 
-- extracted entities (and canonicalized entities)
-- extracted relations and attributes
-- mapped graph representation
-- ontology draft and inferred ontology
-- validated ontology and validation errors
+### `ontology_construction`
+Emits flat triple dicts; declares `owl:Class`, `owl:NamedIndividual`, `owl:ObjectProperty`, `owl:DatatypeProperty` with `rdfs:label` + `rdfs:comment`.
 
-Main practical outputs to read first:
+### `reasoning`
+Pure Python. Adds inverse triples (`pt:operates` ↔ `pt:operatedBy`), symmetric triples (`pt:relatedTo`), and `rdf:type pt:ConnectedEntity` for nodes appearing in non-type relations.
 
-- `validated_ontology`
-- `validation_errors`
+### `validation`
+Checks IRI validity, triple presence, relation presence. Sets `reroute_target` for the LangGraph feedback router; max 2 loop-back iterations.
 
-## Agent Connection Flow (Graph)
+### `turtle_serialization`
+rdflib builds a Graph from validated triples and serialises to Turtle + OWL/XML.
 
-The graph in `agent.py` connects states in this order:
+---
 
-1. input_ingestion
-2. text_normalization
-3. coreference_resolution
-4. entity_extraction
-5. entity_linking
-6. relation_extraction
-7. attribute_extraction
-8. schema_mapping
-9. ontology_construction
-10. reasoning
-11. validation
+## LLM Service (`service/llm.py`)
 
-After validation, a conditional router decides whether to:
+- `call_llm(state_name, params, model, extra_options, timeout)`
+- Auto-selects highest prompt version from `prompts/{state_name}-v*.txt`
+- `stream=True` — partial response parsed on timeout (no data loss)
+- Retries on bad JSON only, up to `OLLAMA_MAX_RETRIES`; seed increments per attempt (`OLLAMA_SEED + attempt - 1`)
 
-- end the run, or
-- loop back to one of:
-  - coreference_resolution
-  - entity_extraction
-  - relation_extraction
+## Prompts (`prompts/`)
 
-This feedback loop supports iterative refinement when confidence is low, relations are missing, or validation fails.
+| File | Used by |
+|---|---|
+| `extraction-v*.txt` | LLM extraction in extraction state |
+| `entity_describe_batch-v*.txt` | Batch describe in entity_classification + entity_linking |
+| `entity_linking-v*.txt` | O(N) cluster judge in entity_linking |
+| `entity_classification-v*.txt` | Kind classification |
+| `coreference_resolution-v*.txt` | Coreference state |
+| `entity_linking_describe-v*.txt` | Single-entity describe in ingest_owl |
 
-## State Intent (Plain English)
-
-1. `input_ingestion`: start with a document and run counter.
-2. `text_normalization`: clean text and split it for downstream processing.
-3. `coreference_resolution`: replace pronouns with known entities while keeping original spans.
-4. `entity_extraction`: detect entities and assign confidence.
-5. `entity_linking`: merge duplicate mentions into canonical entities.
-6. `relation_extraction`: create links between entities and flag weak/missing links.
-7. `attribute_extraction`: pull datatype-like facts (for example years).
-8. `schema_mapping`: place extracted data into ontology-aligned buckets. Embeddings or RAG to find current relative schema and change or create new one.
-9. `ontology_construction`: convert mapped data into triple-like statements.
-10. `reasoning`: add inferred facts from existing triples.
-11. `validation`: check quality constraints and collect errors.
-12. `feedback_router`: decide whether to finish or rerun selected states.
-
-## Scope Note
-
-Internal schemas, extraction logic, and confidence/validation rules are implementation details and may evolve. The stable contract is:
-
-- Input: raw text + optional metadata
-- Output goal: validated, ontology-oriented structured result
+All prompts: highest version number wins.
