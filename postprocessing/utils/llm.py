@@ -12,6 +12,7 @@ import requests
 from utils.config import (
     OLLAMA_MAX_RETRIES,
     OLLAMA_SEED,
+    OLLAMA_STREAM_READ_TIMEOUT_SEC,
     OLLAMA_TEMPERATURE,
     OLLAMA_TIMEOUT_SEC,
     OLLAMA_URL,
@@ -82,9 +83,13 @@ def call_llm(prompt_name: str, params: str) -> dict:
     for attempt in range(1, OLLAMA_MAX_RETRIES + 1):
         payload["options"]["seed"] = OLLAMA_SEED + attempt - 1
         accumulated = ""
+        stream_read_timeout = max(1.0, min(OLLAMA_STREAM_READ_TIMEOUT_SEC, OLLAMA_TIMEOUT_SEC))
         try:
             with requests.post(
-                OLLAMA_URL, json=payload, stream=True, timeout=OLLAMA_TIMEOUT_SEC
+                OLLAMA_URL,
+                json=payload,
+                stream=True,
+                timeout=(10, stream_read_timeout),
             ) as resp:
                 resp.raise_for_status()
                 deadline = time.monotonic() + OLLAMA_TIMEOUT_SEC
