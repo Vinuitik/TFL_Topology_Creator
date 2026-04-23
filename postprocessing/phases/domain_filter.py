@@ -7,9 +7,9 @@ from typing import Set
 
 from rdflib import OWL, RDF, Graph, URIRef
 
-from ..utils.config import POST_DOMAIN_FILTER_BATCH
-from ..utils.graph import get_label
-from ..utils.llm import call_llm
+from utils.config import POST_DOMAIN_FILTER_BATCH
+from utils.graph import get_label
+from utils.llm import call_llm
 
 log = logging.getLogger(__name__)
 
